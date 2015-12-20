@@ -1,6 +1,8 @@
 (ns offcourse.main
   (:require [offcourse.core :refer [render]]))
 
+(set! cljs.core/*print-fn* identity)
+
 (defn init []
   (render)
-  (.log js/console "initialized from prod"))
+  (println "now you don't"))

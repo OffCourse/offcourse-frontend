@@ -1,15 +1,18 @@
 (set-env!
- :source-paths    #{"sass" "src/cljs"}
+ :source-paths    #{"sass" "src/cljs" "src/js"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs           "1.7.48-6"   :scope "test"]
                  [adzerk/boot-cljs-repl      "0.2.0"      :scope "test"]
                  [adzerk/boot-reload         "0.4.1"      :scope "test"]
                  [pandeiro/boot-http         "0.6.3"      :scope "test"]
                  [mathias/boot-sassc         "0.1.1"      :scope "test"]
-                 [org.clojure/clojurescript  "1.7.122"]
+                 [org.clojure/clojurescript  "1.7.170"]
+                 [com.stuartsierra/component "0.3.1"]
                  [cljsjs/react               "0.14.3-0"]
                  [cljsjs/react-dom           "0.14.3-1"]
                  [cljsjs/react-dom-server    "0.14.3-0"]
+                 [org.clojure/core.async     "0.2.374"]
+                 [cljsjs/pouchdb             "3.5.0-1"]
                  [sablono                    "0.5.3"]])
 
 (require
@@ -38,7 +41,7 @@
 
 (deftask development []
   (set-env! :source-paths #(conj % "src-dev/cljs"))
-  (task-options! cljs   {:optimizations :none :sorce-map true}
+  (task-options! cljs   {:optimizations :none :source-map true}
                  reload {:on-jsload 'offcourse.main/reload}
                  sass   {:line-numbers true
                          :source-maps  true})

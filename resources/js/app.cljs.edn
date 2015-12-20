@@ -1,3 +1,4 @@
 {:require  [offcourse.main]
  :init-fns [offcourse.main/init]
- :compiler-options {:asset-path "js/app.out"}}
+ :compiler-options {:asset-path "js/app.out"
+                    :libs ["src/js/designdocs.js"]}}
