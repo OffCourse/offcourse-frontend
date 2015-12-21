@@ -1,13 +1,13 @@
 (ns offcourse.core
-  (:require [sablono.core :as html :refer-macros [html]]))
+  (:require [cljs.core.async :refer [<!]]
+            [OffcourseDesignDocs]
+            [offcourse.adapters.pouchdb.index :as pouchdb]
+            [offcourse.views.debug :as debug])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defonce counter (atom 0))
 
-(defn hello [counter]
-  [:p counter])
-
-(defn render []
-  (do
-    (swap! counter inc)
-    (.render js/ReactDOM (html (hello @counter))
-             (. js/document (getElementById "container")))))
+(defn render [db]
+  (let [design-doc (.-course js/OffcourseDesignDocs)]
+    (go
+      (let [response (<! (pouchdb/bootstrap-db db design-doc))]
+        (debug/render response)))))

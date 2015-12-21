@@ -4,18 +4,23 @@
             [com.stuartsierra.component :as component]
             [offcourse.core :refer [render]]))
 
-(defonce db (pouchdb/new-pouch "Offcourse-Sample"))
+(defonce dbc (pouchdb/new-pouch "Offcourse-Sample"))
+(defonce counter (atom 0))
 
 (defn init []
   (do
     (enable-console-print!)
     (println "1...2...3... lift off!")
-    (component/start db)))
+    (def db (component/start dbc))
+    (render db)))
 
 (defn reload []
-  (enable-console-print!)
-  (println "Entering hyperspace")
-  (render))
+  (do
+    (enable-console-print!)
+    (swap! counter inc)
+    (println "Entering hyperspace")
+    (println @counter)
+    (render db)))
 
 (defn stop []
   (component/stop db))

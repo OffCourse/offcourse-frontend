@@ -13,6 +13,7 @@
                  [cljsjs/react-dom-server    "0.14.3-0"]
                  [org.clojure/core.async     "0.2.374"]
                  [cljsjs/pouchdb             "3.5.0-1"]
+                 [rum                        "0.6.0"]
                  [sablono                    "0.5.3"]])
 
 (require
