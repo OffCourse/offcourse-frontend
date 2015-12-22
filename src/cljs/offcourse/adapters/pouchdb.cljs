@@ -1,14 +1,20 @@
 (ns offcourse.adapters.pouchdb
   (:require [cljs.core.async :refer [<! >! timeout pipe chan]]
+            [com.stuartsierra.component :as component]
             [cljsjs.pouchdb]
             [offcourse.helpers.interop :refer [jsx->clj handle-json-response]])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
-(defn init-db [name design-doc]
-  {:name name
-   :connection (js/PouchDB. name)
-   :design-doc design-doc
-   :design-doc-id (:_id (jsx->clj design-doc))})
+(defrecord PouchDB [name design-doc connection]
+  component/Lifecycle
+  (start [db]
+    (assoc db :connection (js/PouchDB. (:name db))))
+  (stop [db]
+    (dissoc db :connection)))
+
+(defn new-db [name design-doc]
+  (map->PouchDB {:name name
+                 :design-doc design-doc}))
 
 (defn info [pouch]
   (handle-json-response (.info pouch)))
@@ -19,8 +25,9 @@
 (defn refresh [pouch doc]
   (handle-json-response (.put pouch doc)))
 
-(defn bootstrap [{:keys [connection design-doc design-doc-id]}]
-  (let [channel (chan)]
+(defn bootstrap [{:keys [connection design-doc]}]
+  (let [channel (chan)
+        design-doc-id (:_id (jsx->clj design-doc))]
     (go
       (if-let [error (:error (<! (fetch connection design-doc-id)))]
         (pipe (refresh connection design-doc) channel)

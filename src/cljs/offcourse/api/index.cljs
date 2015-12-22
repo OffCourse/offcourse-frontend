@@ -23,10 +23,7 @@
     (assoc api :listener (bootstrap api)))
   (stop [api]
     (close! input-channel)
-    (dissoc api :listener
-                :connection)))
+    (dissoc api :listener)))
 
-(defn new-api [service output-channel input-channel]
-  (map->API {:service service
-             :input-channel input-channel
-             :output-channel output-channel}))
+(defn new-api []
+  (map->API {}))
