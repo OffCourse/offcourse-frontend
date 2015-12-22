@@ -4,10 +4,10 @@
 (defn channels []
   (let [api-input (chan)
         api-output (chan)
-        view-input (chan)]
+        renderer-input (chan)]
 
-    (pipe api-output view-input)
+    (pipe api-output renderer-input)
 
     {:api-input api-input
      :api-output api-output
-     :view-input view-input}))
+     :renderer-input renderer-input}))
