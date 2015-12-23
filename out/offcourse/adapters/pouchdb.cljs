@@ -30,9 +30,7 @@
   (let [channel (chan)
         design-doc-id (:_id (jsx->clj design-doc))]
     (go
-      (if-let [error (:error (<! (fetch connection design-doc-id)))]
-        (do
-          (pipe (refresh connection bootstrap-doc) channel)
-          (pipe (refresh connection design-doc) channel))
+      (if-let [error (:error (<! (fetch connection "123abc")))]
+        (pipe (refresh connection bootstrap-doc) channel)
         (>! channel bootstrap-doc)))
     channel))

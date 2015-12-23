@@ -1,0 +1,6 @@
+// Compiled by ClojureScript 1.7.170 {}
+goog.provide('offcourse.fake_data.buzzwords');
+goog.require('cljs.core');
+offcourse.fake_data.buzzwords.buzzwords = cljs.core.PersistentVector.fromArray(["4G","Aggregator","Agile","Ajax","Algorithm","Benchmarking","Back-end","Beta","Big Data","Bleeding edge","Clickthrough","Cloud","Collaboration","Content Management System","Convergence","Cross-platform","Datafication","Data science","Deep dive","Deep web","Design pattern","Dev Ops","Digital divide","Disruptive Technologies","Dot-bomb","E-learning","Engine","Framework","Folksonomy","Fuzzy logic","Immersion","Internet of Things","Innovation","Mashup","Mobile","Modularity","Nanotechnology","Netiquette","Next Generation","Pandering","Parsing","PaaS","Podcasting","Portal","Real-time","Responsive","Sensorization","SaaS","Scalability","Skeuomorphic","Social bookmarking","Social software","Spam","Struts","Sync-up","Tagging","Transmedia","User generated content","Viral","Virtualization","Vlogging","Vortal","Webinar","Web services","Wikiality","Workflow"], true);
+
+//# sourceMappingURL=buzzwords.js.map

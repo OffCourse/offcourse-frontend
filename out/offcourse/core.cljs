@@ -1,13 +1,30 @@
 (ns offcourse.core
-  (:require [sablono.core :as html :refer-macros [html]]))
+  (:require [com.stuartsierra.component :as component]
+            [offcourse.adapters.pouchdb :as pouchdb]
+            [offcourse.api.index :as api-service]
+            [offcourse.views.index :as views-service]
+            [offcourse.fake-data.index :as fake-data]
+            [offcourse.plumbing :as plumbing]))
 
-(defonce counter (atom 0))
+(defn stringify [js-object]
+  (.stringify js/JSON js-object))
 
-(defn hello [counter]
-  [:p counter])
-
-(defn render []
-  (do
-    (swap! counter inc)
-    (.render js/ReactDOM (html (hello @counter))
-             (. js/document (getElementById "container")))))
+(defn app [design-doc]
+  (let [channels (plumbing/channels)
+        bootstrap-doc (-> (fake-data/generate-course "123abbc")
+                          (clj->js)
+                          (stringify))]
+    (println bootstrap-doc)
+    (component/system-map
+     :api-input  (:api-input channels)
+     :api-output (:api-output channels)
+     :renderer-input (:renderer-input channels)
+     :db (-> (pouchdb/new-db "Offcourse-Sample" design-doc bootstrap-doc))
+     :api (component/using
+           (api-service/new-api)
+           {:input-channel :api-input
+            :output-channel :api-output
+            :service :db})
+     :renderer (component/using
+                (views-service/new-renderer)
+                {:input-channel :renderer-input}))))
