@@ -5,7 +5,6 @@
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
 (defn listen [{:keys [output-channel input-channel]}]
-  #_(put! output-channel {:status :api-ready})
   (go-loop []
     (let [action (<! input-channel)]
       (>! output-channel action)
@@ -14,7 +13,8 @@
 (defn bootstrap [{:keys [output-channel input-channel status service] :as api}]
   (go
     (let [{:keys [error] :as response} (<! (pouchdb/bootstrap service))]
-      (println response)
+      (println "HI")
+      (put! output-channel {:status response})
       (if error
         (>! output-channel {:response response})
         (listen api)))))
