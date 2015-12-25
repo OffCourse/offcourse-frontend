@@ -5,6 +5,10 @@
   [x]
   (into {} (for [k (.keys js/Object x)] [(keyword k) (aget x k)])))
 
+
+(defn handle-js [json]
+  (js->clj json :keywordize-keys true))
+
 (defn handle-error [message]
   (let [error (jsx->clj message)]
     {:error (str message)}))
@@ -19,6 +23,6 @@
          (.catch #(put! channel (handle-error %1))))
      channel)))
 
-(defn handle-json-response
-  ([promise] (handle-promise promise js->clj))
-  ([promise cb] (handle-promise promise (comp cb js->clj))))
+(defn handle-js-response
+  ([promise] (handle-promise promise handle-js))
+  ([promise cb] (handle-promise promise (comp cb handle-js))))

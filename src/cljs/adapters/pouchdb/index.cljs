@@ -1,7 +1,7 @@
-(ns offcourse.adapters.pouchdb.index
+(ns adapters.pouchdb.index
   (:require [cljs.core.async :refer [<! >! timeout pipe chan]]
             [com.stuartsierra.component :as component]
-            [offcourse.adapters.pouchdb.wrapper :as wrapper]
+            [adapters.pouchdb.wrapper :as wrapper]
             [offcourse.protocols.validatable :as va :refer [Validatable]])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
@@ -45,7 +45,7 @@
 
 (defn bootstrap [db]
   (go
-    (<! (wrapper/fetch (:connection db) :keys ["_design/query"] :include-docs false))
-
-    #_(let [valid? (<! (va/valid?-async db))]
-      (if-not valid? (<! (bootstrap-data db)) true))))
+    (let [valid? (<! (va/valid?-async db))]
+      (if-not valid?
+        false
+        true))))
