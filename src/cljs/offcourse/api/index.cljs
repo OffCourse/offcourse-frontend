@@ -1,30 +1,22 @@
 (ns offcourse.api.index
   (:require [cljs.core.async :refer [<! >! put! close!]]
             [com.stuartsierra.component :as component]
-            [adapters.pouchdb.index :as pouchdb])
+            [offcourse.protocols.bootstrappable :as ba :refer [Bootstrappable]]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [offcourse.api.implementations.bootstrappable :as ba-impl])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
-
-(defn listen [{:keys [output-channel input-channel]}]
-  (go-loop []
-    (let [action (<! input-channel)]
-      (>! output-channel action)
-      (recur))))
-
-(defn bootstrap [{:keys [output-channel input-channel status service] :as api}]
-  (go
-    (let [{:keys [error] :as response} (<! (pouchdb/bootstrap service))]
-      (put! output-channel {:status response})
-      (if error
-        (>! output-channel {:error response})
-        (listen api)))))
 
 (defrecord API [service output-channel input-channel]
   component/Lifecycle
   (start [api]
-    (assoc api :listener (bootstrap api)))
+    (assoc api :listener (ba/bootstrap api)))
   (stop [api]
     (close! input-channel)
-    (dissoc api :listener)))
+    (dissoc api :listener))
+  Queryable
+  (fetch [api options] (qa/fetch (:service api) options))
+  Bootstrappable
+  (bootstrap [api] (ba-impl/bootstrap api)))
 
 (defn new-api []
   (map->API {}))

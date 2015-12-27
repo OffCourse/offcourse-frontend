@@ -15,6 +15,7 @@
   (bootstrap [db] (ba/bootstrap db))
   Queryable
   (fetch [db query]
+    (println query)
     (wrapper/fetch db query))
 
   Validatable

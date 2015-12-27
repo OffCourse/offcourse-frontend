@@ -1,8 +1,10 @@
 (ns offcourse.main
-  (:require [cljs.core.async :refer [put!]]
+  (:require [cljs.core.async :refer [<! put!]]
             [OffcourseDesignDocs]
+            [offcourse.protocols.queryable :as qa]
             [com.stuartsierra.component :as component]
-            [offcourse.core :as core]))
+            [offcourse.core :as core])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defonce app (atom nil))
 
@@ -16,8 +18,9 @@
     (reset! app (component/start @app))))
 
 (defn reload []
-  (do
+  (go
     (enable-console-print!)
+    (put! (:api-input @app) (<! (qa/fetch (:api @app) {:key "123abbc"})))
     (println "Re-Entering hyperspace...!")
     #_(put! (:api-input @app) {:hello (str "world again")})))
 

@@ -1,6 +1,6 @@
 (ns offcourse.core
   (:require [com.stuartsierra.component :as component]
-            [offcourse.adapters.pouchdb :as pouchdb]
+            [adapters.pouchdb.index :as pouchdb]
             [offcourse.api.index :as api-service]
             [offcourse.views.index :as views-service]
             [offcourse.fake-data.index :as fake-data]
@@ -12,9 +12,7 @@
 (defn app [design-doc]
   (let [channels (plumbing/channels)
         bootstrap-doc (-> (fake-data/generate-course "123abbc")
-                          (clj->js)
-                          (stringify))]
-    (println bootstrap-doc)
+                          (clj->js))]
     (component/system-map
      :api-input  (:api-input channels)
      :api-output (:api-output channels)

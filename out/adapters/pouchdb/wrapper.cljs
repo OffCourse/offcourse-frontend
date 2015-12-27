@@ -30,11 +30,12 @@
 (defn refresh-doc [pouch doc]
   (handle-js-response (.put pouch doc)))
 
-(defn fetch [{:keys [connection]} opts]
+(defn fetch [pouch opts]
+  (println opts)
   (match [opts]
-         [{:key key}] (fetch-doc connection key)
-         [{:keys keys :include-docs incd}] (fetch-docs connection keys incd)
-         [{:keys keys}] (fetch-docs connection keys true)))
+         [{:key key}] (fetch-doc pouch key)
+         [{:keys keys :include-docs incd}] (fetch-docs pouch keys incd)
+         [{:keys keys}] (fetch-docs pouch keys true)))
 
 (defn has-doc? [pouch doc]
   (go

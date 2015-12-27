@@ -1,10 +1,9 @@
 (ns offcourse.helpers.interop
-  (:require [cljs.core.async :refer [<! chan put! take!]]))
+  (:require [cljs.core.async :refer [<! chan put!]]))
 
 (defn jsx->clj
   [x]
   (into {} (for [k (.keys js/Object x)] [(keyword k) (aget x k)])))
-
 
 (defn handle-js [json]
   (js->clj json :keywordize-keys true))
