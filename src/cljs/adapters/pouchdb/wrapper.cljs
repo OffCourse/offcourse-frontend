@@ -30,7 +30,7 @@
 (defn refresh-doc [pouch doc]
   (handle-js-response (.put pouch doc)))
 
-(defn fetch [{:keys [connection]} opts]
+(defn fetch [connection opts]
   (match [opts]
          [{:key key}] (fetch-doc connection key)
          [{:keys keys :include-docs incd}] (fetch-docs connection keys incd)

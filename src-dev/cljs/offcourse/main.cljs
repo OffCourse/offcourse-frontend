@@ -18,9 +18,12 @@
     (reset! app (component/start @app))))
 
 (defn reload []
-  (go
+  (do
     (enable-console-print!)
-    (put! (:api-input @app) (<! (qa/fetch (:api @app) {:key "123abbc"})))
+    (put! (:api-input @app) {:type :not-found-data
+                             :payload {:type :course
+                                       :course {:id "_design/query"}}})
+    #_(put! (:api-input @app) (<! (qa/fetch (:api @app) {:key "123abbc"})))
     (println "Re-Entering hyperspace...!")
     #_(put! (:api-input @app) {:hello (str "world again")})))
 

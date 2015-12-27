@@ -13,6 +13,7 @@
                  [cljsjs/react-dom-server    "0.14.3-0"]
                  [org.clojure/core.async     "0.2.374"]
                  [org.clojure/core.match     "0.3.0-alpha4"]
+                 [cljsjs/react-grid-layout   "0.8.5-0"]
                  [medley                     "0.7.0"]
                  [cljsjs/pouchdb             "3.5.0-1"]
                  [env/faker                  "0.4.0"]

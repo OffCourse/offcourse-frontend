@@ -14,7 +14,8 @@
     (close! input-channel)
     (dissoc api :listener))
   Queryable
-  (fetch [api options] (qa/fetch (:service api) options))
+  (fetch [api query]
+    (qa/fetch (:service api) query))
   Bootstrappable
   (bootstrap [api] (ba-impl/bootstrap api)))
 

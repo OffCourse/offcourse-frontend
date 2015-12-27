@@ -15,7 +15,7 @@
   (bootstrap [db] (ba/bootstrap db))
   Queryable
   (fetch [db query]
-    (wrapper/fetch db query))
+    (wrapper/fetch (:connection db) {:key (get-in query [:course :id])}))
 
   Validatable
   (errors-async [db] (va/errors-async db))
