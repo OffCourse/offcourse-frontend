@@ -17,7 +17,7 @@
      :api-input  (:api-input channels)
      :api-output (:api-output channels)
      :renderer-input (:renderer-input channels)
-     :db (-> (pouchdb/new-db "Offcourse-Sample" design-doc bootstrap-doc))
+     :db (-> (pouchdb/new-db "Offcourse-Sample" [design-doc bootstrap-doc]))
      :api (component/using
            (api-service/new-api)
            {:input-channel :api-input

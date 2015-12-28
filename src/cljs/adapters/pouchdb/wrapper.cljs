@@ -6,19 +6,16 @@
             [offcourse.helpers.interop :refer [jsx->clj handle-js-response]])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
-(defn get-db-doc-id [doc]
-  (:_id (jsx->clj doc)))
-
 (defn init [name]
   (js/PouchDB. name))
 
 (defn info [pouch]
   (handle-js-response (.info pouch)))
 
-(defn fetch-doc [pouch key]
+(defn get-doc [pouch key]
   (handle-js-response (.get pouch key)))
 
-(defn fetch-docs
+(defn all-docs
   ([pouch include-docs]
    (let [options {"include_docs" include-docs}]
      (handle-js-response (.allDocs pouch (clj->js options)) :rows)))
@@ -27,26 +24,8 @@
                   "include_docs" include-docs}]
      (handle-js-response (.allDocs pouch (clj->js options)) :rows))))
 
-(defn refresh-doc [pouch doc]
+(defn put-doc [pouch doc]
   (handle-js-response (.put pouch doc)))
 
-(defn fetch [connection opts]
-  (match [opts]
-         [{:key key}] (fetch-doc connection key)
-         [{:keys keys :include-docs incd}] (fetch-docs connection keys incd)
-         [{:keys keys}] (fetch-docs connection keys true)))
-
-(defn has-doc? [pouch doc]
-  (go
-    (let [doc-id (get-db-doc-id doc)
-          error (:error (<! (fetch-doc pouch doc-id)))]
-      (if error false true))))
-
-(defn missing-docs [pouch docs]
-  (go
-    (let [expected-doc-ids (into #{} (map get-db-doc-id docs))
-          docs (<! (fetch pouch {:keys expected-doc-ids :include-docs false}))
-          actual-doc-ids (->> docs
-                              (remove (fn [doc] (get-in doc [:value :deleted])))
-                              (map :id))]
-      (set/difference expected-doc-ids actual-doc-ids))))
+(defn bulk-docs [pouch docs]
+  (handle-js-response (.bulkDocs pouch (clj->js docs))))

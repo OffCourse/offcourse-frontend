@@ -6,6 +6,9 @@
             [offcourse.core :as core])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
+(def sample-query {:type :not-found-data
+                   :payload {:type :course
+                             :course {:id "123abbc"}}})
 (defonce app (atom nil))
 
 (defonce design-doc (.-course js/OffcourseDesignDocs))
@@ -14,18 +17,14 @@
   (do
     (enable-console-print!)
     (reset! app (core/app design-doc))
-    #_(put! (:api-input @app) {:hello "world"})
-    (reset! app (component/start @app))))
+    (reset! app (component/start @app))
+    (put! (:api-input @app) sample-query)))
 
 (defn reload []
   (do
     (enable-console-print!)
-    (put! (:api-input @app) {:type :not-found-data
-                             :payload {:type :course
-                                       :course {:id "_design/query"}}})
-    #_(put! (:api-input @app) (<! (qa/fetch (:api @app) {:key "123abbc"})))
-    (println "Re-Entering hyperspace...!")
-    #_(put! (:api-input @app) {:hello (str "world again")})))
+    (put! (:api-input @app) sample-query)
+    (println "Re-Entering hyperspace...!!")))
 
 (defn stop []
   (component/stop @app))

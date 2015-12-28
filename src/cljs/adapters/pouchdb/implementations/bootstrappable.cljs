@@ -1,24 +1,21 @@
 (ns adapters.pouchdb.implementations.bootstrappable
   (:require [cljs.core.async :refer [<!]]
-            [adapters.pouchdb.implementations.validatable :as va]
-            [adapters.pouchdb.wrapper :as wrapper])
+            [offcourse.protocols.queryable :as qa]
+            [offcourse.protocols.validatable :as va]
+            [adapters.pouchdb.wrapper :as wrapper]
+            [offcourse.helpers.interop :refer [jsx->clj handle-js-response]])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
-(defn- bootstrap-data [{:keys [bootstrap-doc design-doc connection]}]
+(defn- bootstrap-data [{:keys [bootstrap-docs] :as db}]
   (go
-    (let [bootstrap-data {:bootstrap-doc (<! (wrapper/refresh-doc connection bootstrap-doc))
-                          :design-doc    (<! (wrapper/refresh-doc connection design-doc))}
-          missing        (reduce (fn [acc [k v]] (when-not v (conj acc k)))
-                                 [] bootstrap-data)]
-      (if (empty? missing)
-        {:status :db-bootstrapped}
-        {:status :error
-         :error :missing-data
-         :missing-data missing}))))
+    (<! (qa/refresh db {:docs bootstrap-docs}))
+    (if-let [valid? (<! (va/valid? db))]
+      {:status :db-bootstrapped}
+      {:status :error
+       :error :missing-data})))
 
-(defn bootstrap [db]
-           (go
-             (let [valid? (<! (va/valid?-async db))]
-               (if-not valid?
-                 (<! (bootstrap-data db))
-                 true))))
+(defn bootstrap [{:keys [bootstrap-docs] :as db}]
+  (go
+    (if-let [valid? (<! (va/valid? db))]
+      {:status :db-ready}
+      (<! (bootstrap-data db)))))

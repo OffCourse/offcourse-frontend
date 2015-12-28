@@ -1,19 +1,14 @@
 (ns adapters.pouchdb.implementations.validatable
-  (:require [cljs.core.async :refer [<! >! timeout pipe chan]]
-            [adapters.pouchdb.wrapper :as wrapper])
+  (:require [cljs.core.async :refer [<!]]
+            [offcourse.helpers.interop :refer [jsx->clj handle-js-response]]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn- errors-async [{:keys [connection design-doc bootstrap-doc]}]
-  (go
-    (let [bootstrap-data [design-doc bootstrap-doc]
-          missing (<! (wrapper/missing-docs connection bootstrap-data))]
-      (if (empty? missing)
-        {:status :db-ready}
-        {:status :error
-         :error  :missing-data
-         :missing-data missing}))))
+(defn get-db-doc-id [doc]
+  (:_id (jsx->clj doc)))
 
-(defn valid?-async [db]
+(defn valid? [{:keys [bootstrap-docs] :as db}]
   (go
-    (let [{:keys [status]} (<! (errors-async db))]
-      (if (= status :error) false true))))
+    (let [doc-ids (map get-db-doc-id bootstrap-docs)
+          has-docs? (<! (qa/check db {:keys doc-ids}))]
+      (if has-docs? true false))))
