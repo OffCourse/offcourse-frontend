@@ -10,11 +10,12 @@
 (defn render [response]
   (debug/render response))
 
-(defn respond [{:keys [output-channel input-channel actions] :as this}]
+(defn listen [{:keys [output-channel input-channel actions] :as this}]
   (go-loop []
     (let [{:keys [type payload] :as val} (<! input-channel)]
       (swap! counter inc)
       (println "rerender:" @counter)
+      (println type)
       (render payload)
       (<! (timeout 1000)))
     (recur)))
@@ -22,12 +23,12 @@
 (defrecord Renderer [listener input-channel]
   component/Lifecycle
   (start [api]
-    (assoc api :listener (ri/respond api)))
+    (assoc api :listener (ri/listen api)))
   (stop [api]
     (close! input-channel)
     (dissoc api :listener))
   Responsive
-  (respond [api] (respond api)))
+  (listen [api] (listen api)))
 
 (defn new-renderer []
   (map->Renderer {}))

@@ -1,9 +1,9 @@
 (ns offcourse.api.implementations.queryable
-  (:require [cljs.core.async :refer [<! close!]]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]])
-  (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
+  (:require [cljs.core.async :refer [<! >! put! timeout]]
+            [offcourse.protocols.queryable :as qa]
+            [offcourse.protocols.responsive :as ri])
+(:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn fetch [api query]
+(defn fetch [{:keys [service] :as api} query]
   (go
-    {:type :fetched-data
-     :payload (<! (qa/fetch (:service api) query))}))
+    (ri/respond api :fetched-data (<! (qa/fetch service query)))))

@@ -18,9 +18,7 @@
   Queryable
   (fetch [api query] (qa-impl/fetch api query))
   Bootstrappable
-  (bootstrap [api] (ba-impl/bootstrap api))
-  Responsive
-  (respond [api] (ri-impl/respond api)))
+  (bootstrap [api] (ba-impl/bootstrap api)))
 
 (defn new-api []
-  (map->API {:name "api service"}))
+  (map->API {:name "api-service"}))

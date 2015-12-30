@@ -1,2 +1,0 @@
-;; Analyzed by ClojureScript 1.7.170
-{:name faker.lorem-data, :doc nil, :excludes #{}, :use-macros nil, :require-macros nil, :uses nil, :requires nil, :imports nil, :defs {latin-words {:name faker.lorem-data/latin-words, :file "out/faker/lorem_data.cljc", :line 3, :column 1, :end-line 3, :end-column 17, :meta {:file "/Users/yeehaa/Documents/offcourse/out/faker/lorem_data.cljc", :line 3, :column 6, :end-line 3, :end-column 17}}}}
