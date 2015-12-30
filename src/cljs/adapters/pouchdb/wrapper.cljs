@@ -15,14 +15,22 @@
 (defn get-doc [pouch key]
   (handle-js-response (.get pouch key)))
 
+(defn query
+  ([pouch viewname options] (query pouch viewname options identity))
+  ([pouch viewname options cb]
+  (handle-js-response (.query pouch viewname (clj->js options)) (comp cb :rows))))
+
 (defn all-docs
-  ([pouch include-docs]
-   (let [options {"include_docs" include-docs}]
-     (handle-js-response (.allDocs pouch (clj->js options)) :rows)))
-  ([pouch keys include-docs]
-   (let [options {:keys keys
-                  "include_docs" include-docs}]
-     (handle-js-response (.allDocs pouch (clj->js options)) :rows))))
+  ([pouch {:keys [include-docs] :as options} cb]
+   (println include-docs)
+    (let [options (if include-docs
+                    (assoc options "include_docs" include-docs)
+                    options)
+          cb (comp cb :rows)]
+   (handle-js-response (.allDocs pouch (clj->js options)) cb)))
+  ([pouch options]
+   (println options)
+     (all-docs pouch options identity)))
 
 (defn put-doc [pouch doc]
   (handle-js-response (.put pouch doc)))
