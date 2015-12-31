@@ -14,9 +14,8 @@
   (go-loop []
     (let [{:keys [type payload] :as val} (<! input-channel)]
       (swap! counter inc)
-      (println "rerender:" @counter)
-      (println type)
-      (render payload)
+      #_(println "rerender:" @counter)
+      (render val)
       (<! (timeout 1000)))
     (recur)))
 

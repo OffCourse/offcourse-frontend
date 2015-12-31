@@ -6,9 +6,8 @@
             [offcourse.core :as core])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defonce sample-payload {:type :collection
-                         :collection {:collection-type :tags
-                                      :collection-name :spam}})
+(defonce sample-payload {:type :course
+                         :course {:id "123abbc"}})
 
 (def sample-query {:type :not-found-data
                    :payload sample-payload})

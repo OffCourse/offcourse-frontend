@@ -22,14 +22,12 @@
 
 (defn all-docs
   ([pouch {:keys [include-docs] :as options} cb]
-   (println include-docs)
     (let [options (if include-docs
                     (assoc options "include_docs" include-docs)
                     options)
           cb (comp cb :rows)]
    (handle-js-response (.allDocs pouch (clj->js options)) cb)))
   ([pouch options]
-   (println options)
      (all-docs pouch options identity)))
 
 (defn put-doc [pouch doc]

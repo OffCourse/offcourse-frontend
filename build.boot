@@ -17,6 +17,7 @@
                  [medley                     "0.7.0"]
                  [cljsjs/pouchdb             "3.5.0-1"]
                  [env/faker                  "0.4.0"]
+                 [prismatic/schema           "1.0.4"]
                  [rum                        "0.6.0"]
                  [sablono                    "0.5.3"]])
 
