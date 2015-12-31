@@ -1,6 +1,6 @@
 (ns offcourse.protocols.queryable)
 
 (defprotocol Queryable
-  (check [this query])
+  (check [this] [this query])
   (fetch [this query])
   (refresh [this doc]))
