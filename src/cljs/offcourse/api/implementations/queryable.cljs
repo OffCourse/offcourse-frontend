@@ -11,5 +11,5 @@
   (go
     (let [course-map (<! (qa/fetch service query))
           course     (co/from-map course-map)]
-      (println (co/from-json (ci/to-json course)))
+      (println (co/from-json (ci/to-js course)))
       (ri/respond api :fetched-data course))))

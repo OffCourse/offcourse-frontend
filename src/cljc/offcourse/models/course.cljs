@@ -1,5 +1,8 @@
 (ns offcourse.models.course
   (:require [schema.core :as schema :include-macros true]
+            [schema.coerce :as coerce]
+            [schema.spec.core :as spec]
+            [schema.utils :as s-utils]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.protocols.convertible :as ci :refer [Convertible]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
@@ -8,8 +11,8 @@
     [course-id :- schema/Str
      base-id :- schema/Str
      version :- schema/Num
-     curator :- schema/Str
-     goal :- schema/Str
+     curator :- schema/Keyword
+     goal :- schema/Any
      flags :- #{schema/Keyword}
      checkpoints :- schema/Any]
   Queryable
@@ -46,7 +49,32 @@
       (js->clj :keywordize-keys true)
       from-map))
 
+(defn convert-json-field [schema data]
+  (if-let [coerce (coerce/json-coercion-matcher schema)]
+    (coerce data)
+    data))
+
+(defn course-walker [input-schema]
+  (spec/run-checker
+   (fn [schema params]
+     (let [checker (spec/checker (schema/spec schema) params)]
+       (fn [data]
+         (if (= Course schema)
+           (->> (js->clj data :keywordize-keys true)
+                map->Course
+                checker)
+           (convert-json-field schema data)))))
+   true
+   input-schema))
+
+(defn coerce-and-validate [schema matcher data]
+  (let [coercer (coerce/coercer schema matcher)
+        result  (coercer data)]
+    (if (s-utils/error? result)
+      (println "Value does not match schema: %s"
+                                 (s-utils/error-val result))
+      result)))
+
 (defn from-json [course-json]
-  (-> course-json
-      (js/JSON.parse)
-      from-js))
+  (->> course-json
+      (coerce-and-validate Course course-walker)))
