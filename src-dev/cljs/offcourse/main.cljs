@@ -7,7 +7,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defonce sample-payload {:type :course
-                         :course {:id "123abbc"}})
+                         :course {:id "56886142-cce5-4a40-ba61-d1ff9c34cf9f"}})
 
 (def sample-query {:type :not-found-data
                    :payload sample-payload})

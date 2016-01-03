@@ -11,4 +11,4 @@
   (go
     (let [doc-ids (map get-db-doc-id bootstrap-docs)
           has-docs? (<! (qa/check db {:keys doc-ids}))]
-      (if has-docs? true false))))
+      (if (= true has-docs?) true false))))

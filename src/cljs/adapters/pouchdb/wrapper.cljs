@@ -31,6 +31,7 @@
      (all-docs pouch options identity)))
 
 (defn put-doc [pouch doc]
+  (println doc)
   (handle-js-response (.put pouch doc)))
 
 (defn bulk-docs [pouch docs]

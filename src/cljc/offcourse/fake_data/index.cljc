@@ -1,6 +1,7 @@
 (ns offcourse.fake-data.index
   (:require [clojure.string :as str]
             [faker.lorem :as lorem]
+            #?(:cljs [cljs-uuid-utils.core :as uuid])
             [offcourse.fake-data.buzzwords :refer [buzzwords]]
             [offcourse.fake-data.courses :refer [raw-courses]]))
 
@@ -63,27 +64,35 @@
   (rand-nth users))
 
 (defn- index-checkpoint [index {:keys [task completed]}]
-  [index {:checkpoint-id index
-          :task task
-          :resource-url (rand-nth urls)
-          :completed completed
-          :tags (set-of-buzzwords 0 5)}])
+  {:checkpoint-id index
+   :order index
+   :task task
+   :resource-id (str (uuid/make-random-squuid))
+   :completed? completed
+   :tags (set-of-buzzwords 0 5)})
 
 (defn- index-checkpoints [checkpoints]
   (->> checkpoints
-       (map-indexed #(index-checkpoint %1 %2))
-       (into {})))
+       (map-indexed #(index-checkpoint %1 %2))))
 
-(defn generate-course [id]
+(defn generate-course []
+  (let [base-id (str (uuid/make-random-squuid))
+        version 0
+        course-id (str base-id "-v" version)
+        ff {:curator "marijn"
+            :base-id base-id
+            :version 1}]
   (-> (course)
-      (assoc :_id id)
-      (assoc :base-id id)
-      (assoc :version 0)
+      (assoc :base-id base-id)
+      (assoc :course-id course-id)
+      (assoc :version version)
+      (assoc :forked-from ff)
+      (assoc :forks #{})
       (assoc :curator (rand-nth users))
       (assoc :flags (generate-flags))
-      (update-in [:checkpoints] index-checkpoints)))
+      (update-in [:checkpoints] index-checkpoints))))
 
-(def courses
+#_(def courses
   (->> (take 30 (iterate inc 1))
        (map-indexed (fn [id _] [id (generate-course id)]))
        (into {})))

@@ -1,6 +1,7 @@
 (ns offcourse.api.implementations.queryable
   (:require [cljs.core.async :refer [<! >! put! timeout]]
             [offcourse.models.course :as co]
+            [offcourse.helpers.converters :as cv]
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]
             [offcourse.protocols.convertible :as ci]
@@ -10,6 +11,6 @@
 (defn fetch [{:keys [service] :as api} query]
   (go
     (let [course-map (<! (qa/fetch service query))
-          course     (co/from-map course-map)]
-      (println (co/from-json (ci/to-js course)))
+          course (cv/course-from-js course-map)]
+      (println "COURSE" course)
       (ri/respond api :fetched-data course))))

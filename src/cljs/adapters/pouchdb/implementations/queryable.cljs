@@ -14,8 +14,9 @@
   (go
     (let [docs         (<! (qa/fetch connection query))
           are-missing? (filter :error docs)
-          are-deleted? (filter (comp :deleted :value) docs)]
-      (and (empty? are-missing?) (empty? are-deleted?)))))
+          are-deleted? (filter (comp :deleted :value) docs)
+          missing-docs (map :id (concat are-missing? are-deleted?))]
+      (or (empty? missing-docs) missing-docs))))
 
 (defn- query [connection options cb viewname]
   (let [viewname (str "query/" (name viewname))]
