@@ -1,5 +1,5 @@
 (set-env!
- :source-paths    #{"sass" "src/cljs" "src/cljc"}
+ :source-paths    #{"sass" "src/js" "src/cljs" "src/cljc"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs           "1.7.170-3"   :scope "test"]
                  [adzerk/boot-cljs-repl      "0.2.0"       :scope "test"]
@@ -19,6 +19,7 @@
                  [cljsjs/pouchdb                      "3.5.0-1"]
                  [env/faker                           "0.4.0"]
                  [prismatic/schema                    "1.0.4"]
+                 [danlentz/clj-uuid                   "0.1.6"]
                  [rum                                 "0.6.0"]
                  [sablono                             "0.5.3"]])
 

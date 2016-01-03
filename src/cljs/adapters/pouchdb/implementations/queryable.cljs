@@ -22,16 +22,23 @@
   (let [viewname (str "query/" (name viewname))]
     (wrapper/query connection viewname options cb)))
 
-(defn- fetch-courses [connection {:keys [course-ids]}]
-  (let [options {:keys course-ids
+(defn- fetch-docs [connection {:keys [doc-ids]}]
+  (let [options {:keys doc-ids
                  :include-docs true}
         cb      (partial map :doc)]
     (wrapper/all-docs connection options cb)))
 
+(defn- fetch-courses [connection course-ids cb]
+  (wrapper/query connection "query/courseIds"
+                 {:keys course-ids
+                  :reduce false
+                  :include_docs true}
+                 (comp doall cb (partial map :doc))))
+
 (defn- fetch-collection [connection {:keys [collection-type collection-name] :as collection}]
   (go
     (let [options {:reduce false :key collection-name}
-          cb      (partial into #{} (map :id))
+          cb      (partial into #{} (map :value))
           result  (<! (query connection options cb collection-type))]
       (assoc collection :collection-ids result))))
 
@@ -48,8 +55,10 @@
   (match [query]
          [{:type :collection-names}] (fetch-collection-names connection)
          [{:collection collection}]  (fetch-collection connection collection)
-         [{:courses courses-data}]   (fetch-courses connection courses-data)
-         [{:course course}]          (wrapper/get-doc connection (:id course))
+         [{:courses course-ids}]     (fetch-courses connection course-ids identity)
+         [{:course course}]          (fetch-courses connection
+                                                    [(:course-id course)]
+                                                    first)
          [{:key key}]                (wrapper/get-doc connection key)
          [{:keys _}]                 (wrapper/all-docs connection query)))
 

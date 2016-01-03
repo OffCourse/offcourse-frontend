@@ -7,30 +7,25 @@
             [cljs-uuid-utils.core :as uuid]
             [offcourse.models.checkpoint :as cp :refer [Checkpoint]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.protocols.convertible :as ci :refer [Convertible]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 
-(def CourseMetaSchema
-  {:curator schema/Keyword
-   :base-id schema/Uuid
-   :version schema/Num})
+(defn valid-id? [id]
+  (let [[_ uuid curator version] (re-matches #"(.+)/(.+)/(.+)" id)]
+    (uuid/valid-uuid? uuid)))
 
 (schema/defrecord Course
-    [course-id :- schema/Str
-     base-id :- schema/Uuid
-     version :- schema/Num
-     curator :- schema/Keyword
-     goal :- schema/Any
-     flags :- #{schema/Keyword}
-     forked-from :- (schema/maybe CourseMetaSchema)
-     forks :- #{CourseMetaSchema}
-     checkpoints :- [Checkpoint]]
+    [course-id    :- (schema/pred valid-id?)
+     base-id      :- schema/Uuid
+     version      :- schema/Num
+     curator      :- schema/Keyword
+     goal         :- schema/Any
+     flags        :- #{schema/Keyword}
+     forked-from  :- (schema/maybe (schema/pred valid-id?))
+     forks        :- #{(schema/pred valid-id?)}
+     checkpoints  :- [Checkpoint]]
   Queryable
   (check [course]
     (schema/check Course course))
-  Convertible
-  (to-js [course]
-    (clj->js course))
   Validatable
   (valid? [course]
     (if-not (qa/check course) true false)))

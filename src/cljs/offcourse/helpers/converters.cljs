@@ -7,9 +7,10 @@
             [cljs-uuid-utils.core :as uuid]
             [offcourse.models.course :as co :refer [Course]]
             [offcourse.models.checkpoint :as cp :refer [Checkpoint]]
-            [offcourse.protocols.convertible :as ci]
+            [offcourse.models.collection :as cl :refer [Collection]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
+
 
 (defn remove-db-data [course-map]
   (match [course-map]
@@ -18,42 +19,52 @@
          [{:_rev _ }] (dissoc course-map :_rev)
          :else course-map))
 
-(defn convert-json-field [schema data]
-  (if-let [coerce (coerce/json-coercion-matcher schema)]
-    (coerce data)
-    data))
-
-(defn convert-uuid-field [{:keys [uuid] :as data}]
-  (uuid/make-uuid-from (or uuid data)))
-
-(defn coerce-and-validate [schema matcher data]
+(defn coerce-and-validate [data schema matcher]
   (let [coercer (coerce/coercer schema matcher)
         result  (coercer data)]
     (if (s-utils/error? result)
       (println "Value does not match schema: %s"
-                                 (s-utils/error-val result))
+               (s-utils/error-val result))
       result)))
 
-(defn convert-course-field [schema data]
-  (->> (js->clj data :keywordize-keys true)
-       remove-db-data
-       co/map->Course))
+(defn course-matcher [schema]
+  (when (= Course schema)
+    (coerce/safe
+     (fn [data]
+       (->> data
+            remove-db-data
+            co/map->Course)))))
 
-(defn course-walker [input-schema]
-  (spec/run-checker
-   (fn [schema params]
-     (let [checker (spec/checker (schema/spec schema) params)]
-       (fn [data]
-         (condp = schema
-           Course (->> data
-                       (convert-course-field schema)
-                       checker)
-           Checkpoint (cp/map->Checkpoint data)
-           UUID  (convert-uuid-field data)
-           (convert-json-field schema data)))))
-   true
-   input-schema))
+(defn collection-matcher [schema]
+  (when (= Collection schema)
+    (coerce/safe
+     (fn [data]
+       (->> data
+            cl/map->Collection)))))
 
-(defn course-from-js [course-json]
-  (->> course-json
-       (coerce-and-validate Course course-walker)))
+(defn checkpoint-matcher [schema]
+  (when (= Checkpoint schema)
+    (coerce/safe
+     (fn [data]
+       (cp/map->Checkpoint data)))))
+
+(defn uuid-matcher [schema]
+  (when (= Checkpoint schema)
+    (coerce/safe
+     (fn [{:keys [uuid] :as data}]
+       (uuid/make-uuid-from (or uuid data))))))
+
+(def course-walker
+  (coerce/first-matcher [course-matcher
+                         checkpoint-matcher
+                         uuid-matcher
+                         coerce/json-coercion-matcher]))
+
+(def collection-walker
+  (coerce/first-matcher [collection-matcher coerce/json-coercion-matcher]))
+
+(defn to-course [obj]
+  (coerce-and-validate obj Course course-walker))
+
+(defn to-collection [arr]
+  (coerce-and-validate arr Collection collection-walker))

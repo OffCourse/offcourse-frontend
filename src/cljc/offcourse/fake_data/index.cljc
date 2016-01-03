@@ -77,18 +77,17 @@
 
 (defn generate-course []
   (let [base-id (str (uuid/make-random-squuid))
-        version 0
-        course-id (str base-id "-v" version)
-        ff {:curator "marijn"
-            :base-id base-id
-            :version 1}]
+        version 1
+        curator (rand-nth users)
+        course-id (str base-id "/" curator "/" version)
+        ff-id (str base-id "/" (rand-nth users) "/" 0)]
   (-> (course)
       (assoc :base-id base-id)
       (assoc :course-id course-id)
       (assoc :version version)
-      (assoc :forked-from ff)
+      (assoc :forked-from ff-id)
       (assoc :forks #{})
-      (assoc :curator (rand-nth users))
+      (assoc :curator curator)
       (assoc :flags (generate-flags))
       (update-in [:checkpoints] index-checkpoints))))
 
