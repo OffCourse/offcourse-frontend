@@ -16,7 +16,7 @@
 (defn fetch [{:keys [service] :as api} query]
   (go
     (let [response (<! (qa/fetch service query))
-          result {:type (:type query)
-                  (:type query) (convert query response)}]
-      (ri/respond api :fetched-data result))))
-
+          result (convert query response)
+          payload {:type (:type query)
+                  (:type query) result}]
+      (ri/respond api :fetched-data payload))))

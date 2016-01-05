@@ -1,8 +1,9 @@
 (ns offcourse.models.course
   (:require [schema.core :as schema :include-macros true]
-            [offcourse.models.checkpoint :as cp :refer [Checkpoint]]
+            [cljs-uuid-utils.core :as uuid]
+            [offcourse.models.checkpoint     :as cp :refer [Checkpoint]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]))
+            [offcourse.protocols.queryable   :as qa :refer [Queryable]]))
 
 (defn valid-id? [id]
   (let [[_ uuid curator version] (re-matches #"(.+)/(.+)/(.+)" id)]
