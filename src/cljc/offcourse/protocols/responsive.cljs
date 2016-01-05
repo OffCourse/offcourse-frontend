@@ -9,12 +9,15 @@
 
 (defprotocol Responsive
   (listen [this])
-  (respond [this type payload]))
+  (respond [this type] [this type payload]))
 
 (extend-protocol Responsive
   object
-  (respond [{:keys [output-channel]} type payload]
-    (go (>! output-channel (new-action type payload))))
+  (respond
+    [{:keys [output-channel]} type payload]
+      (if output-channel
+        (go (>! output-channel (new-action type payload)))
+        (new-action type payload)))
   (listen [{:keys [output-channel name input-channel actions] :as this}]
     (let [first-run (atom true)]
       (go-loop []

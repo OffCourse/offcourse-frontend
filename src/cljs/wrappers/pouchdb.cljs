@@ -1,4 +1,4 @@
-(ns adapters.pouchdb.wrapper
+(ns wrappers.pouchdb
   (:require [cljs.core.async :refer [<! >! timeout pipe chan]]
             [cljsjs.pouchdb]
             [cljs.core.match :refer-macros [match]]
@@ -15,10 +15,9 @@
 (defn get-doc [pouch key]
   (handle-js-response (.get pouch key)))
 
-(defn query
-  ([pouch viewname options] (query pouch viewname options identity))
-  ([pouch viewname options cb]
-  (handle-js-response (.query pouch viewname (clj->js options)) (comp cb :rows))))
+(defn- query [pouch options cb viewname]
+  (let [viewname (str "query/" (name viewname))]
+    (handle-js-response (.query pouch viewname (clj->js options)) (comp cb :rows))))
 
 (defn all-docs
   ([pouch {:keys [include-docs] :as options} cb]

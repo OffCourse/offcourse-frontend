@@ -1,6 +1,6 @@
 (ns offcourse.core
   (:require [com.stuartsierra.component :as component]
-            [adapters.pouchdb.index :as pouchdb]
+            [offcourse.adapters.pouchdb.index :as pouchdb]
             [offcourse.api.index :as api-service]
             [offcourse.views.index :as views-service]
             [offcourse.models.course :as co]

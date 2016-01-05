@@ -7,6 +7,7 @@
 
 (defn bootstrap [{:keys [service] :as api}]
   (go
-    (if-let [error (:error (<! (ba/bootstrap service)))]
-      (ri/respond api :api-error error)
-      (ri/listen api))))
+    (let [{:keys [type] :as response} (<! (ba/bootstrap service))]
+      (if (or (= type :db-ready) (= type :db-bootstrapped))
+        (ri/listen api)
+        (ri/respond api :api-error response)))))

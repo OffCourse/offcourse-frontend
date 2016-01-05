@@ -1,10 +1,5 @@
 (ns offcourse.models.course
   (:require [schema.core :as schema :include-macros true]
-            [schema.coerce :as coerce]
-            [schema.spec.core :as spec]
-            [schema.utils :as s-utils]
-            [cljs.core.match :refer-macros [match]]
-            [cljs-uuid-utils.core :as uuid]
             [offcourse.models.checkpoint :as cp :refer [Checkpoint]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
