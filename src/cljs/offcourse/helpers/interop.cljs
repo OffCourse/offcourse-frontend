@@ -9,7 +9,8 @@
   (js->clj json :keywordize-keys true))
 
 (defn handle-error [message]
-  {:error (jsx->clj message)})
+  {:type :error
+   :error (jsx->clj message)})
 
 (defn handle-promise
   ([promise]

@@ -2,9 +2,9 @@
 
 (def payload
   {:course   {:type :course
-              :course-id "56899a8c-ffb9-42f4-b6f6-7bdc2cf98948/r2j2/1"}
+              :course-id "68c1e33-bfaa-4f99-aef9-8774e0f77aee/yeehaa/1"}
    :courses  {:type :courses
-              :course-ids ["56899a8c-ffb9-42f4-b6f6-7bdc2cf98948/r2j2/1"
+              :course-ids ["568c1e33-bfaa-4f99-aef9-8774e0f77aee/yeehaa/1"
                            "5689ab1c-a19b-4fa8-be4d-cac87da9c653/charlotte/1"]}
    :curators {:type :collection
               :collection {:collection-type :curators
@@ -18,4 +18,4 @@
    :names    {:type :collection-names}})
 
 (def sample-query {:type :not-found-data
-                   :payload (:course payload)})
+                   :payload (:courses payload)})

@@ -5,7 +5,6 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.api.implementations.bootstrappable :as ba-impl]
-            [offcourse.api.implementations.responsive :as ri-impl]
             [offcourse.api.implementations.queryable :as qa-impl]))
 
 (defrecord API [name service output-channel input-channel actions]

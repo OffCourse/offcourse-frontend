@@ -27,7 +27,7 @@
                            add-db-id
                            clj->js)]
     (component/system-map
-     :db (-> (pouchdb/new-db "Offcourse-Sample" [design-doc bootstrap-doc]))
+     :courses-db (-> (pouchdb/new-db "CoursesDB" [design-doc bootstrap-doc]))
      :api-input     (:api-input channels)
      :api-output    (:api-output channels)
      :api-actions   {:not-found-data qa/fetch}
@@ -36,7 +36,7 @@
            {:input-channel :api-input
             :output-channel :api-output
             :actions :api-actions
-            :service :db})
+            :service :courses-db})
      :renderer-input (:renderer-input channels)
      :renderer (component/using
                 (views-service/new-renderer)
