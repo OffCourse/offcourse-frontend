@@ -36,5 +36,5 @@
             (<! (timeout 1000))))
         (let [{:keys [type payload]} (<! input-channel)
               action (type actions)]
-              (action this payload))
-          (recur)))))
+          (action this payload))
+        (recur)))))

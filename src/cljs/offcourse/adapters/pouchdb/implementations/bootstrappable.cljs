@@ -12,7 +12,7 @@
     (<! (qa/refresh db {:type :docs
                         :docs bootstrap-docs}))
     (if-let [valid? (<! (va/valid? db))]
-      (ri/respond db :db-bootstrapped)
+      (ri/respond db :db-ready)
       (ri/respond db :db-not-bootstrapped))))
 
 (defn bootstrap [{:keys [bootstrap-docs] :as db}]

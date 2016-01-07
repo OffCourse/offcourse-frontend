@@ -7,17 +7,17 @@
             [offcourse.api.implementations.bootstrappable :as ba-impl]
             [offcourse.api.implementations.queryable :as qa-impl]))
 
-(defrecord API [name service output-channel input-channel actions]
+(defrecord API [name courses-service output-channel input-channel actions]
   component/Lifecycle
-  (start [api]
-    (assoc api :listener (ba/bootstrap api)))
+  (start [api] (assoc api :listener (ba/bootstrap api)))
   (stop [api]
-    (close! input-channel)
-    (dissoc api :listener))
+    (do
+      (close! input-channel)
+      (dissoc api :listener)))
   Queryable
   (fetch [api query] (qa-impl/fetch api query))
   Bootstrappable
-  (bootstrap [api] (ba-impl/bootstrap api)))
+  (bootstrap [api] (ba-impl/-bootstrap api)))
 
 (defn new-api []
   (map->API {:name "api-service"}))

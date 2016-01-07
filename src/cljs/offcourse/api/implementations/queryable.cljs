@@ -22,34 +22,36 @@
 (defn missing [requested result field query]
   (let [field-singular (singular field)
         requested (into #{} (field query))
-        found (into #{} (map field-singular result))
+        found (into #{} (map (comp str field-singular) result))
         missing (set/difference requested found)]
     (if (empty? missing) false (into [] missing))))
 
-(defmulti fetch
-  (fn [_ {:keys [type]} & args]
-      (case (count args)
-        1 :single
-        2 :multiple
-        type)))
-
-(defmethod fetch :courses    [api query] (fetch api query ci/to-course :course-ids))
-(defmethod fetch :course     [api query] (fetch api query ci/to-course))
-(defmethod fetch :collection [api query] (fetch api query ci/to-collection))
-(defmethod fetch :default    [api query] (fetch api query identity))
-
-(defmethod fetch :single [{:keys [service] :as api} {:keys [type] :as query} converter]
+(defn fetch-1 [service api {:keys [type] :as query} converter]
   (go
-    (let [result (<! (qa/fetch service query))]
+    (let [result (<! (qa/fetch (service api) query))]
       (if (:error result)
         (ri/respond api :not-found-data query)
         (ri/respond api :fetched-data type (converter result))))))
 
-(defmethod fetch :multiple [{:keys [service] :as api} {:keys [type] :as query} converter field]
+(defn fetch-m [service api {:keys [type] :as query} converter field]
   (go
-    (let [result (<! (qa/fetch service query))
+    (let [result (<! (qa/fetch (service api) query))
           converted (map converter result)
           missing? (missing query converted field query)]
       (if missing?
         (ri/respond api :not-found-data (assoc query field missing?))
         (ri/respond api :fetched-data type converted)))))
+
+(def fetch-cs-1 (partial fetch-1 :courses-service))
+(def fetch-cs-m (partial fetch-m :courses-service))
+(def fetch-rs-1 (partial fetch-1 :resources-service))
+(def fetch-rs-m (partial fetch-m :resources-service))
+
+(defmulti fetch (fn [_ {:keys [type]}] type))
+
+(defmethod fetch :courses          [api query] (fetch-cs-m api query ci/to-course :course-ids))
+(defmethod fetch :course           [api query] (fetch-cs-1 api query ci/to-course))
+(defmethod fetch :collection       [api query] (fetch-cs-1 api query ci/to-collection))
+(defmethod fetch :collection-names [api query] (fetch-cs-1 api query identity))
+(defmethod fetch :resource         [api query] (fetch-rs-1 api query ci/to-resource))
+(defmethod fetch :resources        [api query] (fetch-rs-m api query ci/to-resource :resource-ids))

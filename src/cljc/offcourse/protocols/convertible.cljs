@@ -6,11 +6,13 @@
   (to-js [this])
   (to-json [this])
   (to-collection [this])
+  (to-resource [this])
   (to-course [this]))
 
 (extend-protocol Convertible
   PersistentArrayMap
   (to-collection [this] (cv/to-collection this))
+  (to-resource [this] (cv/to-resource this))
   PersistentHashMap
   (to-course [this] (cv/to-course this))
   Course
