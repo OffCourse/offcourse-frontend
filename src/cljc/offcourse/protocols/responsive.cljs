@@ -20,21 +20,23 @@
   (respond
     ([api status]
      (respond api status nil))
-    ([{:keys [output-channel]} status payload]
+    ([{:keys [output-channel component-name]} status payload]
      (if output-channel
        (go (>! output-channel (new-action status payload)))
        (new-action status payload)))
     ([api status type result]
      (respond api status (payload type result))))
-  (listen [{:keys [output-channel name input-channel actions] :as this}]
+  (listen [{:keys [output-channel component-name input-channel actions] :as this}]
     (let [first-run (atom true)]
       (go-loop []
         (when @first-run
-          (let [initial-response-type (keyword (str name "-initialized"))]
+          (let [initial-response-type (keyword (str (name component-name) "-initialized"))]
             (respond this initial-response-type this)
             (swap! first-run not)
             (<! (timeout 1000))))
         (let [{:keys [type payload]} (<! input-channel)
-              action (type actions)]
-          (action this payload))
+              action                 (type actions)]
+          (println type)
+          (when action
+            (action this payload)))
         (recur)))))

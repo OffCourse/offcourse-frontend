@@ -13,12 +13,12 @@
     (enable-console-print!)
     (reset! app (core/app design-doc))
     (reset! app (component/start @app))
-    (put! (:api-input @app) sample-query)))
+    (put! (:user-output @app) sample-query)))
 
 (defn reload []
   (do
     (enable-console-print!)
-    (put! (:api-input @app) sample-query)))
+    (put! (:user-output @app) sample-query)))
 
 (defn stop []
   (component/stop @app))

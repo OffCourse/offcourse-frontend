@@ -30,7 +30,7 @@
   (go
     (let [result (<! (qa/fetch (service api) query))]
       (if (:error result)
-        (ri/respond api :not-found-data query)
+        (ri/respond api :failed-fetch query)
         (ri/respond api :fetched-data type (converter result))))))
 
 (defn fetch-m [service api {:keys [type] :as query} converter field]
@@ -39,7 +39,7 @@
           converted (map converter result)
           missing? (missing query converted field query)]
       (if missing?
-        (ri/respond api :not-found-data (assoc query field missing?))
+        (ri/respond api :failed-fetch (assoc query field missing?))
         (ri/respond api :fetched-data type converted)))))
 
 (def fetch-cs-1 (partial fetch-1 :courses-service))

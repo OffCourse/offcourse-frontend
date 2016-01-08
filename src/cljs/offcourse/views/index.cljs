@@ -10,7 +10,7 @@
 (defn render [response]
   (debug/render response))
 
-(defn listen [{:keys [output-channel input-channel actions] :as this}]
+(defn listen [{:keys [component-name output-channel input-channel actions] :as this}]
   (go-loop []
     (let [{:keys [type payload] :as val} (<! input-channel)]
       (swap! counter inc)
@@ -30,4 +30,4 @@
   (listen [api] (listen api)))
 
 (defn new-renderer []
-  (map->Renderer {}))
+  (map->Renderer {:component-name :renderer}))

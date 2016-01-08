@@ -1,0 +1,20 @@
+* Todos
+** TODO  Add Error Handling to Fake DB      <2016-01-07 Thu 18:25>
+for instance for invalid resource ids 
+Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementations/queryable.cljs::(defmethod%20fetch%20:resource%20%5B_%20{:keys%20%5Bresource-id%5D}%5D
+** TODO  Make first run a component prop      <2016-01-08 Fri 01:33>
+ Link: file:~/Documents/offcourse/src/cljc/offcourse/protocols/responsive.cljs
+* Checklists
+** Browsing [40%]
+- [X] adapters
+  + [X] fakedb
+  + [X] pouchdb
+- [X] api
+- [ ] datastore
+  + [ ] add component library
+- [ ] appstate
+- [ ] view components
+** Curation [0%]
+- [ ] add checkpoint done
+- [ ] add new checkpoint
+- [ ] add new course
