@@ -5,6 +5,9 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 
 (schema/defrecord Collection
-    [collection-name :- schema/Keyword
-     collection-type :- schema/Keyword
-     collection-ids  :- #{(schema/pred co/valid-id?)}])
+    [collection-type  :- schema/Keyword
+     collection-name  :- schema/Keyword
+     course-ids       :- #{(schema/pred co/valid-id?)}])
+
+(defn new-collection [collection-type collection-name]
+  (->Collection collection-type collection-name #{}))

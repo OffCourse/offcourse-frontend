@@ -1,14 +1,14 @@
-(ns offcourse.datastore.index
+(ns offcourse.data-service.index
   (:require [clojure.set :as set]
             [com.stuartsierra.component :as component]
-            [offcourse.datastore.models.store :as model]
+            [offcourse.models.datastore.index :as ds]
             [offcourse.protocols.queryable :refer [check refresh Queryable]]
             [offcourse.protocols.responsive :as ri]))
 
 (defrecord Datastore [component-name input-channel output-channel actions]
   component/Lifecycle
   (start [ds]
-    (let [ds (assoc ds :store (atom (model/new-store)))]
+    (let [ds (assoc ds :store (atom (ds/new-store)))]
       (assoc ds :listener (ri/listen ds))))
   (stop  [ds] (dissoc ds :store))
   Queryable
@@ -20,5 +20,5 @@
     (swap! store #(refresh % query))
     (ri/respond ds :refreshed-datastore {:store @store})))
 
-(defn new-datastore []
+(defn new-ds []
   (map->Datastore {:component-name :datastore}))

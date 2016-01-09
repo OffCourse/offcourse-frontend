@@ -11,9 +11,9 @@
       fake-data/create-resource
       (assoc :resource-id resource-id)))
 
-(defmethod fetch :resource [_ {:keys [resource-id]}]
+(defmethod fetch :resource [_ {:keys [resource]}]
   (go
-    (create-fake-resource resource-id)))
+    (create-fake-resource (:resource-id resource))))
 
 (defmethod fetch :resources [_ {:keys [resource-ids]}]
   (go

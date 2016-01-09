@@ -10,23 +10,23 @@
 
 (def payload
   {:resource   {:type :resource
-                :resource-id (first valid-resource-ids)}
+                :resource {:resource-id (first valid-resource-ids)}}
    :resources  {:type :resources
                 :resource-ids valid-resource-ids}
    :course     {:type :course
-                :course-id (first invalid-course-ids)}
+                :course {:course-id (first valid-course-ids)}}
    :courses    {:type :courses
-                :course-ids course-ids}
+                :course-ids valid-course-ids}
    :curators   {:type :collection
                 :collection {:collection-type :curators
                              :collection-name :charlotte}}
    :flags      {:type :collection
                 :collection {:collection-type :flags
-                             :collection-name :new}}
+                             :collection-name :featured}}
    :tags       {:type :collection
                 :collection {:collection-type :tags
-                             :collection-name :scalability}}
+                             :collection-name :saas}}
    :names      {:type :collection-names}})
 
 (def sample-query {:type :not-found-data
-                   :payload (:course payload)})
+                   :payload (:resource payload)})

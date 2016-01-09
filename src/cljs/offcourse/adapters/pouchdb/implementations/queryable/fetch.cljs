@@ -12,8 +12,8 @@
 (defmethod fetch :docs [connection query]
   (wrapper/all-docs connection query))
 
-(defmethod fetch :course [connection {:keys [course-id]}]
-  (let [options {:key course-id
+(defmethod fetch :course [connection {:keys [course]}]
+  (let [options {:key (:course-id course)
                  :reduce false
                  :include_docs true}
         cb       (comp doall first (partial map :doc))]
@@ -29,7 +29,7 @@
 (defmethod fetch :collection [connection {:keys [collection]}]
   (let [options  {:reduce false
                   :key (:collection-name collection)}
-        cb       (comp (partial assoc collection :collection-ids)
+        cb       (comp (partial assoc collection :course-ids)
                        (partial into #{} (map :value)))]
     (wrapper/query connection options cb (:collection-type collection))))
 

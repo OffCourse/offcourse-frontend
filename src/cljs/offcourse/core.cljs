@@ -4,7 +4,7 @@
             [offcourse.adapters.fakedb.index :as fakedb]
             [offcourse.adapters.pouchdb.index :as pouchdb]
             [offcourse.api.index :as api-service]
-            [offcourse.datastore.index :as datastore-service]
+            [offcourse.data-service.index :as data-service]
             [offcourse.fake-data.index :as fake-data]
             [offcourse.models.course :as co]
             [offcourse.plumbing :as plumbing]
@@ -34,12 +34,12 @@
     :courses-service   :courses-service
     :resources-service :resources-service}))
 
-(def datastore-component
+(def data-service-component
   (component/using
-   (datastore-service/new-datastore)
-   {:input-channel  :datastore-input
-    :output-channel :datastore-output
-    :actions        :datastore-actions}))
+   (data-service/new-ds)
+   {:input-channel  :data-service-input
+    :output-channel :data-service-output
+    :actions        :data-service-actions}))
 
 (def debug-component
   (component/using
@@ -53,18 +53,18 @@
         courses-service (pouchdb/new-db :courses-db [design-doc bootstrap-doc])
         fakedb          (fakedb/new-db  :resources-db)]
     (component/system-map
-     :user-output       (:user-output channels)
-     :courses-service   courses-service
-     :resources-service fakedb
-     :api-input         (:api-input channels)
-     :api-output        (:api-output channels)
-     :api-actions       {:datastore-initialized nil
-                         :not-found-data qa/fetch}
-     :api               api-component
-     :datastore-input   (:datastore-input channels)
-     :datastore-output  (:datastore-output channels)
-     :datastore-actions {:not-found-data qa/check
-                         :fetched-data qa/refresh}
-     :datastore         datastore-component
-     :renderer-input    (:renderer-input channels)
-     :renderer          debug-component)))
+     :user-output          (:user-output channels)
+     :courses-service      courses-service
+     :resources-service    fakedb
+     :api-input            (:api-input channels)
+     :api-output           (:api-output channels)
+     :api-actions          {:data-service-initialized nil
+                            :not-found-data qa/fetch}
+     :api                  api-component
+     :data-service-input   (:data-service-input channels)
+     :data-service-output  (:data-service-output channels)
+     :data-service-actions {:not-found-data qa/check
+                            :fetched-data qa/refresh}
+     :data-service         data-service-component
+     :renderer-input       (:renderer-input channels)
+     :renderer             debug-component)))
