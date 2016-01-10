@@ -15,28 +15,30 @@
   {:type type
    type result})
 
-(extend-protocol Responsive
-  object
-  (respond
-    ([api status]
-     (respond api status nil))
-    ([{:keys [output-channel component-name]} status payload]
-     (if output-channel
-       (go (>! output-channel (new-action status payload)))
-       (new-action status payload)))
-    ([api status type result]
-     (respond api status (payload type result))))
-  (listen [{:keys [output-channel component-name input-channel actions] :as this}]
-    (let [first-run (atom true)]
-      (go-loop []
-        (when @first-run
-          (let [initial-response-type (keyword (str (name component-name) "-initialized"))]
-            (respond this initial-response-type this)
-            (swap! first-run not)
-            (<! (timeout 1000))))
-        (let [{:keys [type payload]} (<! input-channel)
-              action                 (type actions)]
-          (println type)
-          (when action
-            (action this payload)))
-        (recur)))))
+(defn first-run? [{:keys [component-name actions reactions initialized?] :as component}]
+  (when-not @initialized?
+    (let [initial-response-type (keyword (str "initialized-" (name component-name)))]
+      (println "----------")
+      (println "initialized:      " (name component-name))
+      (println "can respond to:   " (keys reactions))
+      (println "will respond with:" actions)
+      (println "----------")
+      (respond component initial-response-type component)
+      (swap! initialized? not))))
+
+(defn -respond
+  ([{:keys [output-channel component-name]} status payload]
+   (if output-channel
+     (go (>! output-channel (new-action status payload)))
+     (new-action status payload)))
+  ([this status type result](-respond this status (payload type result))))
+
+(defn -listen [{:keys [output-channel component-name input-channel reactions initialized?]
+                :as this}]
+  (go-loop []
+    (first-run? this)
+    (let [{:keys [type payload]} (<! input-channel)
+          reaction                 (type reactions)]
+      (when reaction
+        (reaction this payload)))
+    (recur)))

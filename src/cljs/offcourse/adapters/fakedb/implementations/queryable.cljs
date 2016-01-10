@@ -12,9 +12,7 @@
       (assoc :resource-id resource-id)))
 
 (defmethod fetch :resource [_ {:keys [resource]}]
-  (go
-    (create-fake-resource (:resource-id resource))))
+  (go (create-fake-resource (:resource-id resource))))
 
 (defmethod fetch :resources [_ {:keys [resource-ids]}]
-  (go
-    (map create-fake-resource resource-ids)))
+  (go (map create-fake-resource resource-ids)))

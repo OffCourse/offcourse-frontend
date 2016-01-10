@@ -1,24 +1,35 @@
 (ns offcourse.data-service.index
   (:require [clojure.set :as set]
-            [com.stuartsierra.component :as component]
-            [offcourse.models.datastore.index :as ds]
-            [offcourse.protocols.queryable :refer [check refresh Queryable]]
-            [offcourse.protocols.responsive :as ri]))
+            [com.stuartsierra.component :refer [Lifecycle]]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [offcourse.protocols.validatable :as va :refer [Validatable]]
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
+            [offcourse.data-service.queryable :as qa-impl]
+            [offcourse.data-service.validatable :as va-impl]
+            [offcourse.data-service.lifecycle :as lc-impl]))
 
-(defrecord Datastore [component-name input-channel output-channel actions]
-  component/Lifecycle
-  (start [ds]
-    (let [ds (assoc ds :store (atom (ds/new-store)))]
-      (assoc ds :listener (ri/listen ds))))
-  (stop  [ds] (dissoc ds :store))
+(def actions   [:checked-store
+                :not-found-data
+                :refreshed-datastore])
+
+(def reactions {:not-found-data qa/check
+                :fetched-data   qa/refresh})
+
+(defrecord Datastore [component-name input-channel output-channel actions reactions initialized?]
+  Lifecycle
+  (start   [ds] (lc-impl/start ds))
+  (stop    [ds] (lc-impl/stop ds))
   Queryable
-  (check [{:keys [store] :as ds} query]
-    (if-let [course-present? (check @store query)]
-      (ri/respond ds :checked-store {:store @store})
-      (ri/respond ds :not-found-data query)))
-  (refresh [{:keys [store] :as ds} query]
-    (swap! store #(refresh % query))
-    (ri/respond ds :refreshed-datastore {:store @store})))
+  (check   [ds query] (qa-impl/check ds query))
+  (refresh [ds query] (qa-impl/refresh ds query))
+  Validatable
+  (valid?  [ds] (va-impl/valid? ds))
+  Responsive
+  (respond [ds status payload] (ri/-respond ds status payload))
+  (listen [ds] (ri/-listen ds)))
 
 (defn new-ds []
-  (map->Datastore {:component-name :datastore}))
+  (map->Datastore {:component-name :data-service
+                   :actions        actions
+                   :reactions      reactions
+                   :initialized?   (atom false)}))

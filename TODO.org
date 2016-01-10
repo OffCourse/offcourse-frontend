@@ -4,9 +4,10 @@ for instance for invalid resource ids
 Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementations/queryable.cljs
 ** TODO  Make first run a component prop      <2016-01-08 Fri 01:33>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/protocols/responsive.cljs
+
 * Checklists
-** General [0%]
-- [ ] refactor responder in a generic and overridable part
+** General [20%]
+- [X] refactor responder in a generic and overridable part
 - [ ] rewrite styles is garden (?)
 - [ ] transition components to RUM
 - [ ] add routing service
@@ -15,16 +16,21 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [X] adapters
   + [X] fakedb
   + [X] pouchdb
-- [X] api
-- [X] datastore
+- [X] api service
+- [X] datastore service
   + [X] add component library
   + [X] make api consistent
-  + [ ] add validity check to responder
+  + [X] add validity check to responder
+- [ ] appstate service
+  + [ ] add component library
+  + [ ] move viewmodels out of service
+  + [ ] make api consistent
+- [ ] viewmodels
 - [ ] view components
-** Curation [33%]
+** Curation [28%]
 - [X] implement refresh on data service
-- [ ] add refresh to pouch wrapper
-- [X] add refresh to api service
+- [X] add refresh to pouch wrapper
+- [ ] add refresh to api service
 - [ ] add checkpoint done
 - [ ] add new checkpoint
 - [ ] add new course

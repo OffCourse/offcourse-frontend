@@ -30,7 +30,6 @@
    (api-service/new-api)
    {:input-channel     :api-input
     :output-channel    :api-output
-    :actions           :api-actions
     :courses-service   :courses-service
     :resources-service :resources-service}))
 
@@ -38,8 +37,7 @@
   (component/using
    (data-service/new-ds)
    {:input-channel  :data-service-input
-    :output-channel :data-service-output
-    :actions        :data-service-actions}))
+    :output-channel :data-service-output}))
 
 (def debug-component
   (component/using
@@ -58,13 +56,9 @@
      :resources-service    fakedb
      :api-input            (:api-input channels)
      :api-output           (:api-output channels)
-     :api-actions          {:data-service-initialized nil
-                            :not-found-data qa/fetch}
      :api                  api-component
      :data-service-input   (:data-service-input channels)
      :data-service-output  (:data-service-output channels)
-     :data-service-actions {:not-found-data qa/check
-                            :fetched-data qa/refresh}
      :data-service         data-service-component
      :renderer-input       (:renderer-input channels)
      :renderer             debug-component)))

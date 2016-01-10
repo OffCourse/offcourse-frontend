@@ -1,6 +1,7 @@
 (ns offcourse.adapters.fakedb.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.bootstrappable :refer [Bootstrappable]]
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.validatable :refer [Validatable]]
             [offcourse.protocols.queryable :refer [Queryable]]
             [offcourse.adapters.fakedb.implementations.bootstrappable :refer [bootstrap]]
@@ -17,7 +18,9 @@
   (fetch   [db query] (fetch (:connection db) query))
   (refresh [db query] #_(refresh db query))
   Validatable
-  (valid? [db] #_(valid? db)))
+  (valid? [db] #_(valid? db))
+  Responsive
+  (respond [db status] (ri/-respond db status nil)))
 
 (defn new-db [name]
   (map->FakeDB {:name name}))

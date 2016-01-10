@@ -2,6 +2,7 @@
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.bootstrappable :refer [Bootstrappable]]
             [offcourse.protocols.validatable :refer [Validatable]]
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.queryable :refer [Queryable]]
             [offcourse.adapters.pouchdb.implementations.bootstrappable :refer [bootstrap]]
             [offcourse.adapters.pouchdb.implementations.queryable.fetch :refer [fetch]]
@@ -21,7 +22,9 @@
   (fetch   [db query] (fetch (:connection db) query))
   (refresh [db query] (refresh db query))
   Validatable
-  (valid? [db] (valid? db)))
+  (valid? [db] (valid? db))
+  Responsive
+  (respond [db status] (ri/-respond db status nil)))
 
 (defn new-db [name bootstrap-docs]
   (map->PouchDB {:name name
