@@ -34,7 +34,7 @@
 
 (defn app [bootstrap-docs]
   (let [channels        (plumbing/channels)
-        courses-service (pouchdb/new-db :courses-db [bootstrap-docs])
+        courses-service (pouchdb/new-db :courses-db bootstrap-docs)
         fakedb          (fakedb/new-db  :resources-db)]
     (component/system-map
      :user-output          (:user-output channels)

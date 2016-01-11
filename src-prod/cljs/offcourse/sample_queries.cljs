@@ -29,4 +29,4 @@
    :names      {:type :collection-names}})
 
 (def sample-query {:type :not-found-data
-                   :payload (:courses payload)})
+                   :payload (:names payload)})

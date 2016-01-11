@@ -3,4 +3,5 @@
  :compiler-options {:asset-path "js/app.out"
                     :language-in  :ecmascript5
                     :language-out :ecmascript5
-                    :libs ["src/js/designdocs.js"]}}
+                    :libs ["src/js/designdocs.js"]
+                    :externs ["src/js/designdocs-externs.js"]}}

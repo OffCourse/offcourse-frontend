@@ -44,7 +44,8 @@
         (watch)
         (cljs-repl)
         (reload)
-        (build)))
+        (build)
+        (target :dir #{"target/dev"})))
 
 (deftask production []
   (set-env! :source-paths #(conj % "src-prod/cljs"))
@@ -79,4 +80,5 @@
                           :bucket "offcourse-staging"
                           :access-key "AKIAIDC7TAMSVCATKHEQ"
                           :secret-key "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"})
-  (comp (s3-sync)))
+  (comp (prod)
+        (s3-sync)))
