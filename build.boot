@@ -9,6 +9,7 @@
                  [adzerk/boot-reload         "0.4.2"       :scope "test"]
                  [pandeiro/boot-http         "0.7.0"       :scope "test"]
                  [mathias/boot-sassc         "0.1.5"      :scope "test"]
+                 [hashobject/boot-s3 "0.1.2-SNAPSHOT"]
                  [org.clojure/clojurescript           "1.7.189"]
                  [com.stuartsierra/component          "0.3.1"]
                  [cljsjs/react                        "0.14.3-0"]
@@ -31,6 +32,7 @@
  '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
  '[adzerk.boot-reload    :refer [reload]]
  '[pandeiro.boot-http    :refer [serve]]
+ '[hashobject.boot-s3 :refer :all]
  '[mathias.boot-sassc    :refer [sass]])
 
 (deftask build []
@@ -68,4 +70,13 @@
   "Simple alias to run application in production mode"
   []
   (comp (production)
-        (build)))
+        (build)
+        (target :dir #{"target/prod"})))
+
+(deftask deploy
+  []
+  (task-options! s3-sync {:source "prod"
+                          :bucket "offcourse-staging"
+                          :access-key "AKIAIDC7TAMSVCATKHEQ"
+                          :secret-key "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"})
+  (comp (s3-sync)))

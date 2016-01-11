@@ -4,10 +4,12 @@ for instance for invalid resource ids
 Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementations/queryable.cljs
 ** TODO  Make first run a component prop      <2016-01-08 Fri 01:33>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/protocols/responsive.cljs
-
+** TODO  Fix bootstrapping error      <2016-01-11 Mon 01:49>
+ Link: file:~/Documents/offcourse/src/cljs/offcourse/api/implementations/bootstrappable.cljs::(ri/respond%20api%20:api-error%20%5Brs-response%20cs-response%5D)))))
 * Checklists
 ** General [20%]
 - [X] refactor responder in a generic and overridable part
+  + [ ] add source property to actions
 - [ ] rewrite styles is garden (?)
 - [ ] transition components to RUM
 - [ ] add routing service

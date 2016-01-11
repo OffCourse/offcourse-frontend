@@ -9,8 +9,7 @@
 
 (def actions   [:failed-fetch :fetched-data])
 
-(def reactions {:data-service-initialized nil
-                :not-found-data qa/fetch})
+(def reactions {:not-found-data qa/fetch})
 
 (defrecord API [component-name courses-service output-channel input-channel reactions initialized?]
   Lifecycle
