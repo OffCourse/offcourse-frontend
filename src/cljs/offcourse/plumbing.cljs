@@ -3,19 +3,26 @@
 
 (defn channels []
   (let [user-output         (chan)
-        api-input           (chan)
-        api-output          (chan)
-        data-service-input  (merge [user-output api-output])
+        appstate-output     (chan)
         data-service-output (chan)
+        api-output          (chan)
+        appstate-mult       (mult appstate-output)
+        api-mult            (mult api-output)
         data-service-mult   (mult data-service-output)
+        appstate-input      (merge [user-output
+                                    (tap data-service-mult (chan))])
+        data-service-input  (merge [(tap appstate-mult (chan))
+                                    (tap api-mult (chan))])
+        api-input           (tap data-service-mult (chan))
         renderer-input      (chan)]
 
-    (tap data-service-mult api-input)
-    (tap data-service-mult renderer-input)
+    (tap appstate-mult renderer-input)
 
     {:user-output         user-output
      :api-input           api-input
      :api-output          api-output
      :data-service-input  data-service-input
      :data-service-output data-service-output
+     :appstate-input      appstate-input
+     :appstate-output     appstate-output
      :renderer-input      renderer-input}))

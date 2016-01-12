@@ -20,7 +20,8 @@
       (close! input-channel)
       (dissoc api :listener)))
   Queryable
-  (fetch [api query] (qa-impl/fetch api query))
+  (fetch [api query]
+    (qa-impl/fetch api query))
   Bootstrappable
   (bootstrap [api] (ba-impl/-bootstrap api))
   Responsive
@@ -28,7 +29,7 @@
   (respond [api status type result] (ri/-respond api status type result))
   (listen  [api] (ri/-listen api)))
 
-(defn new-api []
+(defn new []
   (map->API {:component-name :api-service
              :reactions reactions
              :actions actions

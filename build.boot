@@ -32,30 +32,33 @@
  '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
  '[adzerk.boot-reload    :refer [reload]]
  '[pandeiro.boot-http    :refer [serve]]
- '[hashobject.boot-s3 :refer :all]
+ '[hashobject.boot-s3    :refer :all]
  '[mathias.boot-sassc    :refer [sass]])
 
 (deftask build []
   (comp (cljs)
-        (sass :output-dir "css")))
+        (sass :output-dir "css")
+        (target)))
 
 (deftask run []
   (comp (serve)
         (watch)
         (cljs-repl)
         (reload)
-        (build)
-        (target :dir #{"target/dev"})))
+        (build)))
 
 (deftask production []
   (set-env! :source-paths #(conj % "src-prod/cljs"))
-  (task-options! cljs   {:optimizations :advanced}
+  (task-options! target {:dir #{"target/prod"}}
+                 cljs   {:optimizations :advanced}
                  sass   {:output-style "compressed"})
   identity)
 
 (deftask development []
   (set-env! :source-paths #(conj % "src-dev/cljs"))
-  (task-options! cljs   {:optimizations :none :source-map true}
+  (task-options! target {:dir #{"target/dev"}}
+                 cljs   {:optimizations :none
+                         :source-map true}
                  reload {:on-jsload 'offcourse.main/reload}
                  sass   {:line-numbers true
                          :source-maps  true})
@@ -71,14 +74,13 @@
   "Simple alias to run application in production mode"
   []
   (comp (production)
-        (build)
-        (target :dir #{"target/prod"})))
+        (build)))
 
 (deftask deploy
   []
   (task-options! s3-sync {:source "prod"
                           :bucket "offcourse-staging"
-                          :access-key "AKIAIDC7TAMSVCATKHEQ"
-                          :secret-key "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"})
+                          :access-key (get-sys-env "AWS_ACCESS_KEY" :required)
+                          :secret-key (get-sys-env "AWS_SECRET_KEY" :required)})
   (comp (prod)
         (s3-sync)))

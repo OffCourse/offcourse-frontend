@@ -28,7 +28,7 @@
   (respond [ds status payload] (ri/-respond ds status payload))
   (listen [ds] (ri/-listen ds)))
 
-(defn new-ds []
+(defn new []
   (map->Datastore {:component-name :data-service
                    :actions        actions
                    :reactions      reactions

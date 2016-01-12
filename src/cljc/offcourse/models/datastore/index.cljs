@@ -18,5 +18,5 @@
   (check [this query] (check-impl/check this query))
   (refresh [this query] (refresh-impl/refresh this query)))
 
-(defn new-store []
+(defn new []
   (map->Datastore {}))

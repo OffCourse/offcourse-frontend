@@ -15,6 +15,11 @@
   #_(assoc doc :_id (str (:base-id doc)))
   (assoc doc :_id  "56886142-cce5-4a40-ba61-d1ff9c34cf9f"))
 
+(def sample-route-request
+  {:type    :requested-route
+   :payload {:type       :collection
+             :collection {:collection-type :flags
+                          :collection-name :new}}})
 (defn init []
   (let [bd              (fake-data/generate-course)
         bootstrap-doc   (clj->js (add-db-id bd))]
@@ -22,4 +27,4 @@
       (enable-console-print!)
       (reset! app (core/app [design-doc bootstrap-doc]))
       (reset! app (component/start @app))
-      (put! (:user-output @app) sample-query))))
+      (put! (:user-output @app) sample-route-request))))

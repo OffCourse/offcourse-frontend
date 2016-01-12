@@ -16,10 +16,10 @@
     (let [initial-response-type (keyword (str "initialized-" (name component-name)))
           responses actions
           actions (keys reactions)]
-      (println "--------")
-      (println initial-response-type)
-      (println "actions:  " actions)
-      (println "responses:" responses)
+      #_(println "--------")
+      #_(println initial-response-type)
+      #_(println "actions:  " actions)
+      #_(println "responses:" responses)
       (respond component initial-response-type [{:responses responses
                                                  :actions actions}])
       (swap! initialized? not))))
@@ -39,9 +39,10 @@
     (first-run this)
     (let [{:keys [type source payload] :as action} (<! input-channel)
           reaction (type reactions)]
+      (when (= component-name :appstate) (println type))
       (if reaction
         (reaction this payload)
-        (do
+        #_(do
           (println "--------")
           (println "component:    " component-name)
           (println "responseless: " source type)

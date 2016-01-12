@@ -13,7 +13,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [ ] transition components to RUM or Sablono
 - [ ] add routing service
 - [ ] add history service
-** Browsing [60%]
+** Browsing [50%]
 - [X] adapters
   + [X] fakedb
   + [X] pouchdb
@@ -22,11 +22,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   + [X] add component library
   + [X] make api consistent
   + [X] add validity check to responder
-- [ ] appstate service
-  + [ ] add component library
+- [-] appstate service
+  + [X] add component library
   + [ ] move viewmodels out of service
   + [ ] make api consistent
 - [ ] viewmodels
+  + [ ] add collection viewmodel
+  + [ ] add course viewmodel
+  + [ ] add checkpoint viewmodel
 - [ ] view components
 ** Curation [28%]
 - [X] implement refresh on data service

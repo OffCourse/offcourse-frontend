@@ -4,7 +4,7 @@
             [offcourse.protocols.responsive :as ri]))
 
 (defn start [ds]
-  (let [ds (assoc ds :store (atom (ds/new-store)))]
+  (let [ds (assoc ds :store (atom (ds/new)))]
     (assoc ds :listener (ri/listen ds))))
 
 (defn stop  [ds]

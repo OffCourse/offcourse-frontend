@@ -3,8 +3,9 @@
             [com.stuartsierra.component :as component]
             [offcourse.adapters.fakedb.index :as fakedb]
             [offcourse.adapters.pouchdb.index :as pouchdb]
-            [offcourse.api.index :as api-service]
+            [offcourse.api.index :as api]
             [offcourse.data-service.index :as data-service]
+            [offcourse.appstate.index :as appstate]
             [offcourse.models.course :as co]
             [offcourse.plumbing :as plumbing]
             [offcourse.protocols.convertible :as ci :refer [Convertible]]
@@ -15,7 +16,7 @@
 
 (def api-component
   (component/using
-   (api-service/new-api)
+   (api/new)
    {:input-channel     :api-input
     :output-channel    :api-output
     :courses-service   :courses-service
@@ -23,9 +24,15 @@
 
 (def data-service-component
   (component/using
-   (data-service/new-ds)
+   (data-service/new)
    {:input-channel  :data-service-input
     :output-channel :data-service-output}))
+
+(def appstate-component
+  (component/using
+   (appstate/new)
+   {:input-channel  :appstate-input
+    :output-channel :appstate-output}))
 
 (def debug-component
   (component/using
@@ -46,5 +53,8 @@
      :data-service-input   (:data-service-input channels)
      :data-service-output  (:data-service-output channels)
      :data-service         data-service-component
+     :appstate-input       (:appstate-input channels)
+     :appstate-output      (:appstate-output channels)
+     :appstate             appstate-component
      :renderer-input       (:renderer-input channels)
      :renderer             debug-component)))
