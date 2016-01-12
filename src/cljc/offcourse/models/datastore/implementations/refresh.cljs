@@ -22,8 +22,11 @@
 (defmulti refresh
   (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :collection-names [store {:keys [collection-names] :as query}]
-  (let [collections (map-collections collection-names)]
+(defmethod refresh :collection-names [{:keys [collections] :as store}
+                                      {:keys [collection-names] :as query}]
+  (let [collections (-> collection-names
+                        map-collections
+                        (merge collections))]
     (assoc store :collections collections
                  :has-collection-names? true)))
 
