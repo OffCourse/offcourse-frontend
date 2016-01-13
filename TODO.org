@@ -6,6 +6,10 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljc/offcourse/protocols/responsive.cljs
 ** DONE  Fix pouchdb bootstrapping error      <2016-01-11 Mon 01:49>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/api/implementations/bootstrappable.cljs::(ri/respond%20api%20:api-error%20%5Brs-response%20cs-response%5D)))))
+** TODO  Move viewmodels to own submodule      <2016-01-13 Wed 01:44>
+ Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(schema/defrecord%20CollectionViewmodel
+** TODO  Change name from collection-viewmodel to collection-view      <2016-01-13 Wed 01:45>
+ Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(ns%20offcourse.models.collection-viewmodel
 * Checklists
 ** General [20%]
 - [X] refactor responder in a generic and overridable part
@@ -17,7 +21,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [X] adapters
   + [X] fakedb
   + [X] pouchdb
-- [X] api service
+- [ ] api service
+  + [ ] separate central and user courses db
 - [X] datastore service
   + [X] add component library
   + [X] make api consistent
@@ -28,6 +33,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   + [ ] make api consistent
 - [ ] viewmodels
   + [ ] add collection viewmodel
+  + [ ] move protocol implementations to separate files
   + [ ] add course viewmodel
   + [ ] add checkpoint viewmodel
 - [ ] view components

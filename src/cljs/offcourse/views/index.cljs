@@ -16,7 +16,7 @@
       (swap! counter inc)
       #_(println "rerender:" @counter)
       (render val)
-      (<! (timeout 1000)))
+      (<! (timeout 500)))
     (recur)))
 
 (defrecord Renderer [listener input-channel]

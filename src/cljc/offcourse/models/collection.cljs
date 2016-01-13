@@ -10,4 +10,4 @@
      course-ids       :- #{(schema/pred co/valid-id?)}])
 
 (defn new-collection [collection-type collection-name]
-  (->Collection collection-type collection-name #{}))
+  (->Collection collection-type collection-name nil))
