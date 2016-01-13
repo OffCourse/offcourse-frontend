@@ -11,13 +11,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 ** TODO  Change name from collection-viewmodel to collection-view      <2016-01-13 Wed 01:45>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(ns%20offcourse.models.collection-viewmodel
 * Checklists
-** General [20%]
-- [X] refactor responder in a generic and overridable part
+** General [0%]
+- [-] refactor responder in a generic and overridable part
   + [X] add source property to actions
+  + [ ] flatten payload
 - [ ] transition components to RUM or Sablono
 - [ ] add routing service
 - [ ] add history service
-** Browsing [50%]
+** QUOTE Browsing [33%]
 - [X] adapters
   + [X] fakedb
   + [X] pouchdb
@@ -29,10 +30,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   + [X] add validity check to responder
 - [-] appstate service
   + [X] add component library
+  + [ ] differentiate clearer between appstate and viewmodel
   + [ ] move viewmodels out of service
   + [ ] make api consistent
-- [ ] viewmodels
-  + [ ] add collection viewmodel
+- [-] viewmodels
+  + [X] Add Collection viewmodel
   + [ ] move protocol implementations to separate files
   + [ ] add course viewmodel
   + [ ] add checkpoint viewmodel

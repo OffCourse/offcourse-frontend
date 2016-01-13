@@ -30,7 +30,7 @@
 
 (defrecord Appstate [component-name input-channel output-channel actions reactions initialized?]
   Lifecycle
-  (start [as] (lc/start as))
+  (start [as] #_(lc/start as))
   (stop [as] (lc/stop as))
   Queryable
   (check [{:keys [proposed] :as as} {:keys [type] :as query}]
@@ -38,7 +38,6 @@
     (respond-not-found as))
   (refresh [{:keys [proposed] :as as} {:keys [store]}]
     (swap! proposed #(qa/refresh % store))
-    (println (qa/check @proposed))
     (if (va/valid? @proposed)
       (ri/respond as :updated-viewmodel {:proposed-viewmodel @proposed})
       (respond-not-found as)))

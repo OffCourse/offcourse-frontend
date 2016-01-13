@@ -27,8 +27,7 @@
 (defn -respond
   ([{:keys [output-channel component-name component-name]} status payload]
    (if output-channel
-     (go
-       (>! output-channel
+     (go (>! output-channel
            (action/new status component-name payload)))
      (action/new status component-name payload)))
   ([this status type result](-respond this status (payload type result))))
