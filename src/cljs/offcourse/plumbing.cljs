@@ -9,15 +9,14 @@
         appstate-mult       (mult appstate-output)
         api-mult            (mult api-output)
         data-service-mult   (mult data-service-output)
-        appstate-input      (merge [#_user-output
-                                    #_(tap data-service-mult (chan))])
-        data-service-input  (merge [user-output
-                                    (tap appstate-mult (chan))
+        appstate-input      (merge [user-output
+                                    (tap data-service-mult (chan))])
+        data-service-input  (merge [(tap appstate-mult (chan))
                                     (tap api-mult (chan))])
         api-input           (tap data-service-mult (chan))
         renderer-input      (chan)]
 
-    (tap data-service-mult renderer-input)
+    (tap appstate-mult renderer-input)
 
     {:user-output         user-output
      :api-input           api-input

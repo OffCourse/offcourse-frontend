@@ -12,6 +12,16 @@
      collection :- Collection
      courses :- (schema/conditional #(not (nil? %)) [Course])]
   Validatable
+  (missing-data [{:keys [collection] :as vm}]
+    (let [{:keys [collection-name collection-type course-ids]} collection
+          next-field (first (keys (qa/check vm)))
+          payload {:type next-field}]
+      (when next-field
+        (case next-field
+          :labels     (assoc payload :type :collection-names)
+          :collection (assoc payload :collection-name collection-name
+                             :collection-type collection-type)
+          :courses    (assoc payload :course-ids course-ids)))))
   (valid? [vm] (if (qa/check vm) false true))
   Queryable
   (check [{:keys [courses collection] :as vm}]
@@ -26,6 +36,8 @@
                 :labels labels
                 :courses courses))))
 
-(defn new [{:keys [collection] :as query}]
-  (map->CollectionViewmodel {:view-name :collection-view
-                             :collection collection}))
+(defn new [{:keys [type collection-name collection-type] :as q}]
+  (let [collection {:collection-name collection-name
+                    :collection-type collection-type}]
+  (map->CollectionViewmodel {:view-name type
+                             :collection collection})))

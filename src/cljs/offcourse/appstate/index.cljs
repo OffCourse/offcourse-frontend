@@ -1,49 +1,35 @@
 (ns offcourse.appstate.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.appstate.lifecycle :as lc]
+            [medley.core :as medley]
             [offcourse.models.collection-viewmodel :as clvm]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [medley.core :as medley]
-            [offcourse.protocols.validatable :as va :refer [Validatable]]))
+            [offcourse.protocols.composable :as ca :refer [Composable]]
+            [offcourse.protocols.validatable :as va :refer [Validatable]]
+            [offcourse.appstate.lifecycle :as lc-impl]
+            [offcourse.appstate.composable :as ca-impl]
+            [offcourse.appstate.queryable :as qa-impl]))
 
 (def actions [:updated-viewmodel])
 
-(def reactions {:requested-route qa/check
-                :checked-store qa/refresh
-                :refreshed-datastore qa/refresh})
+(def viewmodels {:collection-view clvm/new})
 
-(def viewmodels {:collection clvm/new})
-
-
-(defn payload [type collection]
-  (let [payload {:type type}]
-    (case type
-      :labels     (assoc payload :type :collection-names)
-      :collection (assoc payload :collection (dissoc collection :course-ids))
-      :courses    (assoc payload :course-ids (:course-ids collection)))))
-
-(defn respond-not-found [{:keys [proposed] :as as}]
-  (let [{:keys [collection]} @proposed
-        next-field   (first (keys (qa/check @proposed)))]
-    (ri/respond as :not-found-data (payload next-field collection))))
+(def reactions {:requested-route qa/refresh
+                :checked-store ca/compose
+                :refreshed-datastore ca/compose})
 
 (defrecord Appstate [component-name input-channel output-channel actions reactions initialized?]
   Lifecycle
-  (start [as] #_(lc/start as))
-  (stop [as] (lc/stop as))
+  (start [as] (lc-impl/start as viewmodels))
+  (stop [as] (lc-impl/stop as))
   Queryable
-  (check [{:keys [proposed] :as as} {:keys [type] :as query}]
-    (reset! proposed ((type viewmodels) query))
-    (respond-not-found as))
-  (refresh [{:keys [proposed] :as as} {:keys [store]}]
-    (swap! proposed #(qa/refresh % store))
-    (if (va/valid? @proposed)
-      (ri/respond as :updated-viewmodel {:proposed-viewmodel @proposed})
-      (respond-not-found as)))
+  (refresh [as query] (qa-impl/refresh as query))
   Responsive
   (respond [as status payload] (ri/-respond as status payload))
-  (listen [as] (ri/-listen as)))
+  (listen [as] (ri/-listen as))
+  Composable
+  (compose [as] (ca-impl/compose as))
+  (compose [as query] (ca-impl/compose as query)))
 
 (defn new []
   (map->Appstate {:component-name :appstate
