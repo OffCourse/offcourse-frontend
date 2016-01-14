@@ -4,7 +4,7 @@
             [offcourse.protocols.queryable   :as qa :refer [Queryable]]))
 
 (schema/defrecord Resource
-    [resource-id   :- schema/Uuid
+    [resource-id   :- schema/Str
      resource-type :- schema/Keyword
      url           :- schema/Str
      title         :- schema/Str

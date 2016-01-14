@@ -7,9 +7,12 @@
             [offcourse.data-service.index :as data-service]
             [offcourse.plumbing :as plumbing]
             [offcourse.views.index :as views-service]
-            [offcourse.models.collection-viewmodel :as clvm]))
+            [offcourse.models.collection-view.index :as clv]
+            [offcourse.models.course-view.index :as cov]))
 
-(def viewmodels {:collection-view clvm/new})
+(def viewmodels {:collection-view clv/new
+                 :course-view cov/new})
+
 
 (def api-component
   (component/using

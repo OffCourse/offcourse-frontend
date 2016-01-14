@@ -1,6 +1,6 @@
 (ns offcourse.sample-queries)
 
-(def valid-course-ids ["569416f0-2e7d-497b-b8f7-48481b270e76/charlotte/1"])
+(def valid-course-ids ["569828dc-18cf-4584-9339-c266e2813987/yeehaa/1"])
 (def invalid-course-ids ["5689ab1c-a19b-4fa8-be4d-cac87da9c653/charlotte/1"])
 (def course-ids (concat valid-course-ids invalid-course-ids))
 

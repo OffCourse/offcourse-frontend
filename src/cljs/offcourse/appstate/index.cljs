@@ -1,14 +1,13 @@
 (ns offcourse.appstate.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [medley.core :as medley]
-            [offcourse.models.collection-viewmodel :as clvm]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [offcourse.protocols.composable :as ca :refer [Composable]]
+            [offcourse.protocols.queryable   :as qa :refer [Queryable]]
+            [offcourse.protocols.responsive  :as ri :refer [Responsive]]
+            [offcourse.protocols.composable  :as ca :refer [Composable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.appstate.lifecycle :as lc-impl]
-            [offcourse.appstate.composable :as ca-impl]
-            [offcourse.appstate.queryable :as qa-impl]))
+            [offcourse.appstate.lifecycle    :as lc-impl]
+            [offcourse.appstate.composable   :as ca-impl]
+            [offcourse.appstate.queryable    :as qa-impl]))
 
 (def actions [:updated-viewmodel])
 
@@ -16,8 +15,8 @@
                 :checked-store ca/compose
                 :refreshed-datastore ca/compose})
 
-(defrecord Appstate [component-name viewmodels input-channel
-                     output-channel actions reactions initialized?]
+(defrecord Appstate [component-name input-channel output-channel
+                     viewmodels actions reactions initialized?]
   Lifecycle
   (start [as] (lc-impl/start as))
   (stop [as] (lc-impl/stop as))
