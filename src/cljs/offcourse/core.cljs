@@ -1,18 +1,15 @@
 (ns offcourse.core
-  (:require [cljs-uuid-utils.core :as uuid]
-            [com.stuartsierra.component :as component]
+  (:require [com.stuartsierra.component :as component]
             [offcourse.adapters.fakedb.index :as fakedb]
             [offcourse.adapters.pouchdb.index :as pouchdb]
             [offcourse.api.index :as api]
-            [offcourse.data-service.index :as data-service]
             [offcourse.appstate.index :as appstate]
-            [offcourse.models.course :as co]
+            [offcourse.data-service.index :as data-service]
             [offcourse.plumbing :as plumbing]
-            [offcourse.protocols.convertible :as ci :refer [Convertible]]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri]
-            [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.views.index :as views-service]))
+            [offcourse.views.index :as views-service]
+            [offcourse.models.collection-viewmodel :as clvm]))
+
+(def viewmodels {:collection-view clvm/new})
 
 (def api-component
   (component/using
@@ -32,7 +29,8 @@
   (component/using
    (appstate/new)
    {:input-channel  :appstate-input
-    :output-channel :appstate-output}))
+    :output-channel :appstate-output
+    :viewmodels     :viewmodels}))
 
 (def debug-component
   (component/using
@@ -44,6 +42,7 @@
         courses-service (pouchdb/new-db :courses-db bootstrap-docs)
         fakedb          (fakedb/new-db  :resources-db)]
     (component/system-map
+     :viewmodels           viewmodels
      :user-output          (:user-output channels)
      :courses-service      courses-service
      :resources-service    fakedb

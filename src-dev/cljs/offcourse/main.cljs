@@ -15,7 +15,7 @@
 
 (def sample-route-request
   {:type    :requested-route
-   :payload {:type       :collection-view
+   :payload {:type            :collection-view
              :collection-type :flags
              :collection-name :new}})
 

@@ -12,15 +12,14 @@
 
 (def actions [:updated-viewmodel])
 
-(def viewmodels {:collection-view clvm/new})
-
 (def reactions {:requested-route qa/refresh
                 :checked-store ca/compose
                 :refreshed-datastore ca/compose})
 
-(defrecord Appstate [component-name input-channel output-channel actions reactions initialized?]
+(defrecord Appstate [component-name viewmodels input-channel
+                     output-channel actions reactions initialized?]
   Lifecycle
-  (start [as] (lc-impl/start as viewmodels))
+  (start [as] (lc-impl/start as))
   (stop [as] (lc-impl/stop as))
   Queryable
   (refresh [as query] (qa-impl/refresh as query))

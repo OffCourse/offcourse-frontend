@@ -17,9 +17,10 @@
 
 (def sample-route-request
   {:type    :requested-route
-   :payload {:type       :collection
-             :collection {:collection-type :flags
-                          :collection-name :new}}})
+   :payload {:type            :collection-view
+             :collection-type :flags
+             :collection-name :new}})
+
 (defn init []
   (let [bd              (fake-data/generate-course)
         bootstrap-doc   (clj->js (add-db-id bd))]

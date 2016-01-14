@@ -1,6 +1,6 @@
 (ns offcourse.sample-queries)
 
-(def valid-course-ids ["568da288-28b3-4bde-b4d8-38b3edcf5b4d/charlotte/1"])
+(def valid-course-ids ["569416f0-2e7d-497b-b8f7-48481b270e76/charlotte/1"])
 (def invalid-course-ids ["5689ab1c-a19b-4fa8-be4d-cac87da9c653/charlotte/1"])
 (def course-ids (concat valid-course-ids invalid-course-ids))
 
@@ -14,9 +14,9 @@
    :resources  {:type :resources
                 :resource-ids valid-resource-ids}
    :course     {:type :course
-                ::course-id (first valid-course-ids)}
+                :course-id (first valid-course-ids)}
    :courses    {:type :courses
-                :course-ids course-ids}
+                :course-ids valid-course-ids}
    :curators   {:type :collection
                 :collection-type :curators
                 :collection-name :charlotte}
@@ -29,4 +29,4 @@
    :names      {:type :collection-names}})
 
 (def sample-query {:type :not-found-data
-                   :payload (:course payload)})
+                   :payload (:tags payload)})
