@@ -4,8 +4,9 @@
 (defn refresh [{:keys [collection] :as vm}
                {:keys [collections courses] :as store}]
   (let [labels     (medley/map-vals keys collections)
-        collection (get-in collections [(:collection-type collection)
-                                        (:collection-name collection)])
+        collection (or (get-in collections [(:collection-type collection)
+                                            (:collection-name collection)])
+                       collection)
         course-ids (:course-ids collection)
         courses    (map #(get courses %) course-ids)]
     (assoc vm :collection collection
