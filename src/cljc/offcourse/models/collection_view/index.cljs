@@ -1,12 +1,11 @@
 (ns offcourse.models.collection-view.index
-  (:require [schema.core :as schema :include-macros true]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [medley.core :as medley]
-            [offcourse.models.course :refer [Course]]
-            [offcourse.models.collection :refer [Collection]]
-            [offcourse.protocols.validatable :as va :refer [Validatable]]
+  (:require [offcourse.models.collection :refer [Collection]]
             [offcourse.models.collection-view.queryable :as qa-impl]
-            [offcourse.models.collection-view.validatable :as va-impl]))
+            [offcourse.models.collection-view.validatable :as va-impl]
+            [offcourse.models.course :refer [Course]]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [offcourse.protocols.validatable :as va :refer [Validatable]]
+            [schema.core :as schema :include-macros true]))
 
 (schema/defrecord CollectionView
     [view-name :- Keyword
@@ -23,5 +22,5 @@
 (defn new [{:keys [type collection-name collection-type]}]
   (let [collection {:collection-name collection-name
                     :collection-type collection-type}]
-  (map->CollectionView {:view-name type
-                             :collection collection})))
+  (map->CollectionView {:view-name  type
+                        :collection collection})))

@@ -1,13 +1,11 @@
 (ns offcourse.models.course-view.index
-  (:require [schema.core :as schema :include-macros true]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [medley.core :as medley]
-            [offcourse.models.course :refer [Course]]
-            [offcourse.models.resource :refer [Resource]]
-            [offcourse.models.collection :refer [Collection]]
-            [offcourse.protocols.validatable :as va :refer [Validatable]]
+  (:require [offcourse.models.course :refer [Course]]
             [offcourse.models.course-view.queryable :as qa-impl]
-            [offcourse.models.course-view.validatable :as va-impl]))
+            [offcourse.models.course-view.validatable :as va-impl]
+            [offcourse.models.resource :refer [Resource]]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [offcourse.protocols.validatable :as va :refer [Validatable]]
+            [schema.core :as schema :include-macros true]))
 
 (schema/defrecord CourseView
     [view-name :- Keyword

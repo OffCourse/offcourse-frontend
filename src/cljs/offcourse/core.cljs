@@ -8,11 +8,12 @@
             [offcourse.plumbing :as plumbing]
             [offcourse.views.index :as views-service]
             [offcourse.models.collection-view.index :as clv]
-            [offcourse.models.course-view.index :as cov]))
+            [offcourse.models.course-view.index :as cov]
+            [offcourse.models.checkpoint-view.index :as cpv]))
 
 (def viewmodels {:collection-view clv/new
-                 :course-view cov/new})
-
+                 :course-view cov/new
+                 :checkpoint-view cpv/new})
 
 (def api-component
   (component/using
