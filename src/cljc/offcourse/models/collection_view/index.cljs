@@ -3,13 +3,14 @@
             [offcourse.models.collection-view.queryable :as qa-impl]
             [offcourse.models.collection-view.validatable :as va-impl]
             [offcourse.models.course :refer [Course]]
+            [offcourse.models.label :refer [Label]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [schema.core :as schema :include-macros true]))
 
 (schema/defrecord CollectionView
     [view-name :- Keyword
-     labels :- {Keyword schema/Any}
+     labels :- {Keyword #{Label}}
      collection :- Collection
      courses :- (schema/conditional #(not (nil? %)) [Course])]
   Validatable

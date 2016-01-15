@@ -1,16 +1,11 @@
 (ns offcourse.models.checkpoint-view.queryable
-  (:require [medley.core :as medley]))
+  (:require [offcourse.models.course :as co]
+            [offcourse.models.label :as lb]))
 
-(defn refresh [{:keys [course checkpoint-id] :as vm}
-               {:keys [collections resources courses] :as store}]
-  (let [labels     (medley/map-vals keys collections)
-        course-id (:course-id course)
-        course    (or (get courses course-id) course)
-        resource (->> (:checkpoints course)
-                      (some #(if (= (:checkpoint-id %) checkpoint-id) %))
-                      :resource-id
-                      (get resources))]
-    (assoc vm :course course
-           :checkpoint-id checkpoint-id
-           :labels labels
-           :resource resource)))
+(defn refresh [{:keys [course checkpoint-id] :as vm} {:keys [resources courses]}]
+  (let [course     (or (get courses (:course-id course)) course)
+        checkpoint (co/get-checkpoint course checkpoint-id)]
+    (merge vm {:course        course
+               :checkpoint-id checkpoint-id
+               :labels        {:tags (lb/collection->labels (co/get-tags course))}
+               :resource      (get resources (:resource-id checkpoint))})))

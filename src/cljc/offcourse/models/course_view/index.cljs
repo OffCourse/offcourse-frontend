@@ -5,11 +5,12 @@
             [offcourse.models.resource :refer [Resource]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [schema.core :as schema :include-macros true]))
+            [schema.core :as schema :include-macros true]
+            [offcourse.models.label :refer [Label]]))
 
 (schema/defrecord CourseView
     [view-name :- Keyword
-     labels :- {Keyword schema/Any}
+     labels :- {Keyword #{Label}}
      course :- Course
      resources :- (schema/conditional #(not (nil? %)) [Resource])]
   Validatable

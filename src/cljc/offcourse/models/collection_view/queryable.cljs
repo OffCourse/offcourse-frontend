@@ -1,14 +1,10 @@
 (ns offcourse.models.collection-view.queryable
-  (:require [medley.core :as medley]))
+  (:require [medley.core :as medley]
+            [offcourse.models.label :as lb]))
 
-(defn refresh [{:keys [collection] :as vm}
-               {:keys [collections courses] :as store}]
-  (let [labels     (medley/map-vals keys collections)
-        collection (or (get-in collections [(:collection-type collection)
-                                            (:collection-name collection)])
-                       collection)
-        course-ids (:course-ids collection)
-        courses    (map #(get courses %) course-ids)]
-    (assoc vm :collection collection
-           :labels labels
-           :courses courses)))
+(defn refresh [{:keys [collection] :as vm} {:keys [collections courses]}]
+  (let [{:keys [collection-type collection-name]} collection
+        collection (get-in collections [collection-type collection-name])]
+    (merge vm {:collection collection
+               :labels     (medley/map-vals (comp lb/collection->labels keys) collections)
+               :courses    (map #(get courses %) (:course-ids collection))})))

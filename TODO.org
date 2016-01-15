@@ -20,7 +20,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [ ] add history service
 - [ ] add authentication service
 - [ ] add render service
-** Browsing [50%]
+** Browsing [66%]
 - [X] adapters
   + [X] fakedb
   + [X] pouchdb
@@ -35,12 +35,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   + [X] differentiate clearer between appstate and viewmodel
   + [X] move viewmodels out of service
   + [X] make api consistent
-- [-] viewmodels
+- [X] viewmodels
   + [X] Add Collection viewmodel
   + [X] move protocol implementations to separate files
   + [X] add course viewmodel
   + [X] add checkpoint viewmodel
-  + [ ] add labels model
+  + [X] add labels model
 - [ ] view components
 ** Curation [28%]
 - [X] implement refresh on data service
