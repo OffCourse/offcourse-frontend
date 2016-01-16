@@ -59,7 +59,6 @@
        (take (rand-int 4))
        (into #{})))
 
-
 (defn generate-user []
   (rand-nth users))
 

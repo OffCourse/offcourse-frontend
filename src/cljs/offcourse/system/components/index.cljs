@@ -17,6 +17,7 @@
     (component/system-map
      :viewmodels           viewmodels
      :user-output          (:user-output channels)
+     :user-courses-service (:user-courses databases)
      :courses-service      (:courses databases)
      :resources-service    (:resources databases)
      :api-input            (:api-input channels)

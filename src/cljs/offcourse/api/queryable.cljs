@@ -1,4 +1,4 @@
-(ns offcourse.api.implementations.queryable
+(ns offcourse.api.queryable
   (:require [cljs.core.async :refer [<!]]
             [clojure.set :as set]
             [offcourse.protocols.queryable :as qa]

@@ -1,11 +1,9 @@
 (ns offcourse.api.index
-  (:require [cljs.core.async :refer [close!]]
-            [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.protocols.bootstrappable :as ba :refer [Bootstrappable]]
+  (:require [com.stuartsierra.component :refer [Lifecycle]]
+            [offcourse.api.lifecycle :as lc-impl]
+            [offcourse.api.queryable :as qa-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [offcourse.api.implementations.bootstrappable :as ba-impl]
-            [offcourse.api.implementations.queryable :as qa-impl]))
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]))
 
 (def actions   [:failed-fetch :fetched-data])
 
@@ -13,17 +11,10 @@
 
 (defrecord API [component-name courses-service output-channel input-channel reactions initialized?]
   Lifecycle
-  (start [api]
-    (assoc api :listener (ba/bootstrap api)))
-  (stop [api]
-    (do
-      (close! input-channel)
-      (dissoc api :listener)))
+  (start [api] (lc-impl/start api))
+  (stop [api] (lc-impl/stop api))
   Queryable
-  (fetch [api query]
-    (qa-impl/fetch api query))
-  Bootstrappable
-  (bootstrap [api] (ba-impl/-bootstrap api))
+  (fetch [api query] (qa-impl/fetch api query))
   Responsive
   (respond [api status payload] (ri/-respond api status payload))
   (respond [api status type result] (ri/-respond api status type result))
