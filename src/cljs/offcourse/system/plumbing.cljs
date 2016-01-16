@@ -1,4 +1,4 @@
-(ns offcourse.plumbing
+(ns offcourse.system.plumbing
   (:require [cljs.core.async :refer [pipe pipeline merge mult tap chan]]))
 
 (defn channels []
