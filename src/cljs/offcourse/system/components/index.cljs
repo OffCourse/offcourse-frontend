@@ -13,7 +13,7 @@
    {:input-channel :renderer-input}))
 
 (defn system [bootstrap-docs databases]
-  (let [channels        (plumbing/channels)]
+  (let [channels (plumbing/channels)]
     (component/system-map
      :viewmodels           viewmodels
      :user-output          (:user-output channels)

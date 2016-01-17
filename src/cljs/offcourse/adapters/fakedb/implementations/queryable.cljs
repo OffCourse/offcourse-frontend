@@ -16,12 +16,19 @@
 
 (defmethod fetch :collection-names [_]
   (go
-    {:tags (apply set/union (map :tags (flatten (map :checkpoints courses))))
-     :curators (apply set/union (flatten (map :flags courses)))
-     :flags (flatten (map :curator courses))}))
+    {:tags (map keyword (apply set/union (map :tags (flatten (map :checkpoints courses)))))
+     :flags (apply set/union (flatten (map :flags courses)))
+     :curators (map keyword (flatten (map :curator courses)))}))
 
 (defmethod fetch :course [_ {:keys [course-id]}]
-  (go (some #(if (= (:course-id %) course-id) %) courses)))
+  (let [course (some #(if (= (:course-id %) course-id) %) courses)]
+    (go (if course {:error :not-found-data}))))
+
+(defmethod fetch :courses [_ {:keys [course-ids]}]
+  (let [courses (map (fn [course-id]
+                       (some #(if (= (:course-id %) course-id) %) courses))
+                     course-ids)]
+    (go (if courses {:error :not-found-data}))))
 
 (defmethod fetch :resource [_ {:keys [resource-id]}]
   (go (create-fake-resource resource-id)))

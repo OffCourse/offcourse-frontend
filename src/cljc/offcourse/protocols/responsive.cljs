@@ -38,7 +38,7 @@
     (first-run this)
     (let [{:keys [type source payload] :as action} (<! input-channel)
           reaction (type reactions)]
-      (when (= component-name :appstate) (println type))
+      (println source type)
       (if reaction
         (reaction this payload)
         #_(do

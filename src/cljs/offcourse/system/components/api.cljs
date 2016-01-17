@@ -5,7 +5,8 @@
 (def component
   (component/using
    (api/new)
-   {:input-channel     :api-input
-    :output-channel    :api-output
-    :courses-service   :courses-service
-    :resources-service :resources-service}))
+   {:input-channel  :api-input
+    :output-channel :api-output
+    :courses        :courses-service
+    :user-courses   :user-courses-service
+    :resources      :resources-service}))

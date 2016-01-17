@@ -9,7 +9,8 @@
 
 (def reactions {:not-found-data qa/fetch})
 
-(defrecord API [component-name courses-service output-channel input-channel reactions initialized?]
+(defrecord API [component-name courses resources user-courses
+                output-channel input-channel reactions initialized?]
   Lifecycle
   (start [api] (lc-impl/start api))
   (stop [api] (lc-impl/stop api))

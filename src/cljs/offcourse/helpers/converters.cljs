@@ -12,7 +12,6 @@
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 
-
 (defn remove-db-data [course-map]
   (match [course-map]
          [{:_id _ :_rev _}] (dissoc course-map :_id :_rev)

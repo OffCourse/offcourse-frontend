@@ -18,7 +18,6 @@
     (> (count course-ids) 0)))
 
 (defmethod check :courses [{:keys [courses]} {:keys [course-ids]}]
-
   (has-items? courses course-ids))
 
 (defmethod check :course [{:keys [courses]} {:keys [course-id]}]
