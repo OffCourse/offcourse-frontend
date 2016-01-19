@@ -16,18 +16,24 @@
   (let [channels (plumbing/channels)]
     (component/system-map
      :viewmodels           viewmodels
-     :user-output          (:user-output channels)
-     :user-courses-service (:user-courses databases)
-     :courses-service      (:courses databases)
-     :resources-service    (:resources databases)
-     :api-input            (:api-input channels)
-     :api-output           (:api-output channels)
-     :api                  api/component
-     :data-service-input   (:data-service-input channels)
-     :data-service-output  (:data-service-output channels)
-     :data-service         data-service/component
-     :appstate-input       (:appstate-input channels)
-     :appstate-output      (:appstate-output channels)
-     :appstate             appstate/component
-     :renderer-input       (:renderer-input channels)
-     :renderer             debug-component)))
+     :user-output            (:user-output channels)
+     :courses-service        (:courses databases)
+     :user-courses-service   (:user-courses databases)
+     :resources-service      (:resources databases)
+     :courses-input          (:courses-input channels)
+     :user-courses-input     (:user-courses-input channels)
+     :resources-input        (:resources-input channels)
+     :api-output             (:api-output channels)
+     :courses-fetchables     api/courses-fetchables
+     :resources-fetchables   api/resources-fetchables
+     :user-courses           api/user-courses-component
+     :courses                api/courses-component
+     :resources              api/resources-component
+     :data-service-input     (:data-service-input channels)
+     :data-service-output    (:data-service-output channels)
+     :data-service           data-service/component
+     :appstate-input         (:appstate-input channels)
+     :appstate-output        (:appstate-output channels)
+     :appstate               appstate/component
+     :renderer-input         (:renderer-input channels)
+     :renderer               debug-component)))

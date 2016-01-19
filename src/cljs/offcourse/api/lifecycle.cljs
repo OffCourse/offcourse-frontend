@@ -4,17 +4,13 @@
             [offcourse.protocols.responsive :as ri])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn start [{:keys [courses user-courses resources] :as api}]
+(defn start [{:keys [service] :as api}]
   (go
-    (let [cs-response  (<! (ba/bootstrap courses))
-          cs-ready?    (= (:type cs-response) :db-ready)
-          us-response  (<! (ba/bootstrap user-courses))
-          us-ready?    (= (:type us-response) :db-ready)
-          rs-response  (<! (ba/bootstrap resources))
-          rs-ready?    (= (:type rs-response) :db-ready)]
-      (if (and cs-ready? rs-ready? us-ready?)
+    (let [response  (<! (ba/bootstrap service))
+          ready?    (= (:type response) :db-ready)]
+      (if ready?
         (assoc api :listener (ri/listen api))
-        (ri/respond api :api-error [rs-response cs-response])))))
+        (ri/respond api :api-error response)))))
 
 (defn stop [{:keys [input-channel] :as api}]
   (do

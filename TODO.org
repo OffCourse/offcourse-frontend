@@ -21,16 +21,18 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [ ] add history service
 - [ ] add authentication service
 - [ ] add render service
-** Browsing [66%]
-- [X] adapters
+** Browsing [83%]
+- [-] adapters
   + [X] fakedb
-  + [X] pouchdb
-- [ ] api service
-  + [ ] separate courses-db from user-courses-db
+  + [ ] pouchdb
+    + [ ] refactor to use core/async better
+- [X] api service
+  + [X] separate courses-db from user-courses-db
 - [X] datastore service
   + [X] add component library
   + [X] make api consistent
   + [X] add validity check to responder
+  + [ ] merge instead of override collections / collection names
 - [X] appstate service
   + [X] add component library
   + [X] differentiate clearer between appstate and viewmodel

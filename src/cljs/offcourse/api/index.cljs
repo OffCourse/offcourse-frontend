@@ -9,8 +9,8 @@
 
 (def reactions {:not-found-data qa/fetch})
 
-(defrecord API [component-name courses resources user-courses
-                output-channel input-channel reactions initialized?]
+(defrecord API [component-name service
+                output-channel fetchables input-channel reactions initialized?]
   Lifecycle
   (start [api] (lc-impl/start api))
   (stop [api] (lc-impl/stop api))
@@ -21,8 +21,8 @@
   (respond [api status type result] (ri/-respond api status type result))
   (listen  [api] (ri/-listen api)))
 
-(defn new []
-  (map->API {:component-name :api-service
+(defn new [component-name]
+  (map->API {:component-name component-name
              :reactions reactions
              :actions actions
              :initialized? (atom false)}))
