@@ -10,6 +10,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(schema/defrecord%20CollectionViewmodel
 ** TODO  Change name from collection-viewmodel to collection-view      <2016-01-13 Wed 01:45>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(ns%20offcourse.models.collection-viewmodel
+** TODO  move course-ids to queryable/check      <2016-01-20 Wed 01:43>
+ Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_view/validatable.cljs::(defn%20missing-data%20%5B{:keys%20%5Bcollection%20courses%5D%20:as%20vm}%5D
 * Checklists
 ** General [28%]
 - [X] move system to separate module
@@ -21,7 +23,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [ ] add history service
 - [ ] add authentication service
 - [ ] add render service
-** Browsing [83%]
+** Browsing [66%]
 - [-] adapters
   + [X] fakedb
   + [ ] pouchdb
@@ -32,7 +34,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   + [X] add component library
   + [X] make api consistent
   + [X] add validity check to responder
-  + [ ] merge instead of override collections / collection names
+  + [X] merge instead of override collections / collection names
 - [X] appstate service
   + [X] add component library
   + [X] differentiate clearer between appstate and viewmodel

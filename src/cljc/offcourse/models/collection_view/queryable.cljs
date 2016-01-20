@@ -7,4 +7,4 @@
         collection (get-in collections [collection-type collection-name])]
     (merge vm {:collection collection
                :labels     (medley/map-vals (comp lb/collection->labels keys) collections)
-               :courses    (map #(get courses %) (:course-ids collection))})))
+               :courses    (keep #(get courses %) (:course-ids collection))})))

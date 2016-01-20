@@ -1,6 +1,13 @@
 (ns offcourse.models.datastore.implementations.refresh
   (:require [offcourse.models.collection :as cl]
-            [medley.core :as medley]))
+            [medley.core :as medley]
+            [clojure.set :as set]))
+
+(defn deep-merge
+  [& vs]
+  (if (every? map? vs)
+    (apply merge-with deep-merge vs)
+    (last vs)))
 
 (defn initialize-collection [collection-type collection-name]
   [collection-name (cl/new-collection collection-type collection-name)])
@@ -26,13 +33,16 @@
                                       {:keys [collection-names] :as query}]
   (let [collections (-> collection-names
                         map-collections
-                        (merge collections))]
+                        (deep-merge (or collections {})))]
     (assoc store :collections collections
-                 :has-collection-names? true)))
+           :has-collection-names? true)))
 
 (defmethod refresh :collection [store {:keys [collection]}]
-  (let [{:keys [collection-name collection-type course-ids]} collection]
-    (assoc-in store [:collections collection-type collection-name] collection)))
+  (let [{:keys [collection-type collection-name course-ids]} collection]
+    (if-let [store-ids (get-in store [:collections collection-type collection-name :course-ids])]
+      (update-in store [:collections collection-type collection-name :course-ids]
+                 #(set/union store-ids course-ids))
+      (assoc-in store [:collections collection-type collection-name] collection))))
 
 (defmethod refresh :courses [store {:keys [courses]}]
   (reduce add-course store courses))

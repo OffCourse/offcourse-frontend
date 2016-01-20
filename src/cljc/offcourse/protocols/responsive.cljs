@@ -24,9 +24,13 @@
                                                  :actions actions}])
       (swap! initialized? not))))
 
+(def counter (atom 1))
+
 (defn -respond
-  ([{:keys [output-channel component-name component-name]} status payload]
-   (if output-channel
+  ([{:keys [output-channel component-name]} status payload]
+   (swap! counter inc)
+   #_(println component-name status)
+   (if (and output-channel (> 100 @counter))
      (go (>! output-channel
            (action/new status component-name payload)))
      (action/new status component-name payload)))
@@ -38,7 +42,6 @@
     (first-run this)
     (let [{:keys [type source payload] :as action} (<! input-channel)
           reaction (type reactions)]
-      (println source type)
       (if reaction
         (reaction this payload)
         #_(do

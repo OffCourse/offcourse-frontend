@@ -1,9 +1,13 @@
 (ns offcourse.models.collection-view.validatable
-  (:require [offcourse.protocols.queryable :as qa]))
+  (:require [offcourse.protocols.queryable :as qa]
+            [clojure.set :as set]))
 
-(defn missing-data [{:keys [collection] :as vm}]
+(defn missing-data [{:keys [collection courses] :as vm}]
   (let [{:keys [collection-name collection-type course-ids]} collection
-        next-missing-field (first (keys (qa/check vm)))
+        course-ids (when course-ids
+                     (set/difference course-ids (into #{} (map :course-id courses))))
+        next-missing-field (or (first (keys (qa/check vm)))
+                               (when-not (empty? course-ids) :courses))
         payload {:type next-missing-field}]
     (case next-missing-field
       :labels     (assoc payload :type :collection-names)

@@ -15,8 +15,7 @@
     (let [{:keys [type payload] :as val} (<! input-channel)]
       (swap! counter inc)
       #_(println "rerender:" @counter)
-      (render val)
-      (<! (timeout 500)))
+      (render val))
     (recur)))
 
 (defrecord Renderer [listener input-channel]

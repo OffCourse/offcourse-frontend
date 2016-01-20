@@ -5,7 +5,7 @@
   (let [user-output         (chan)
         appstate-output     (chan)
         data-service-output (chan)
-        api-output          (chan)
+        api-output          (chan 10)
         appstate-mult       (mult appstate-output)
         api-mult            (mult api-output)
         data-service-mult   (mult data-service-output)

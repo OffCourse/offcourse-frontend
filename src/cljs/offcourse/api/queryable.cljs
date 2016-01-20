@@ -26,11 +26,8 @@
     (let [result (remove nil? (<! (qa/fetch service query)))]
       (if (or (:error result) (empty? result))
         (ri/respond api :failed-fetch query)
-        (let [converted (map converter result)
-              missing? (missing query converted field query)]
-          (if missing?
-            (ri/respond api :failed-fetch (assoc query field missing?))
-            (ri/respond api :fetched-data type converted)))))))
+        (let [converted (map converter result)]
+          (ri/respond api :fetched-data type converted))))))
 
 (defn fetch [{:keys [fetchables] :as api} {:keys [type] :as query}]
   (if-let [[converter field] (type fetchables)]
