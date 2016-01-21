@@ -21,12 +21,12 @@
       (enable-console-print!)
       (reset! app (core/app [design-doc bootstrap-doc]))
       (reset! app (component/start @app))
-      (put! (:user-output @app) sample-request)))
+      #_(put! (:router-output @app) sample-request))))
 
-  (defn reload []
-    (do
-      (enable-console-print!)
-      (put! (:user-output @app) sample-request))))
+(defn reload []
+  (do
+    (enable-console-print!)
+    #_(put! (:router-output @app) sample-request)))
 
 (defn stop []
   (component/stop @app))

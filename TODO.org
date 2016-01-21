@@ -8,10 +8,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/api/implementations/bootstrappable.cljs::(ri/respond%20api%20:api-error%20%5Brs-response%20cs-response%5D)))))
 ** TODO  Move viewmodels to own submodule      <2016-01-13 Wed 01:44>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(schema/defrecord%20CollectionViewmodel
-** TODO  Change name from collection-viewmodel to collection-view      <2016-01-13 Wed 01:45>
+** DONE  Change name from collection-viewmodel to collection-view      <2016-01-13 Wed 01:45>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(ns%20offcourse.models.collection-viewmodel
 ** TODO  move course-ids to queryable/check      <2016-01-20 Wed 01:43>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_view/validatable.cljs::(defn%20missing-data%20%5B{:keys%20%5Bcollection%20courses%5D%20:as%20vm}%5D
+** TODO  Handle Failed Fetch      <2016-01-20 Wed 23:42>
+ Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
+** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
+ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
 * Checklists
 ** General [28%]
 - [X] move system to separate module
@@ -19,22 +23,18 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   + [X] add source property to actions
   + [X] flatten payload
 - [ ] transition components to RUM or Sablono
-- [ ] add routing service
-- [ ] add history service
 - [ ] add authentication service
-- [ ] add render service
-** Browsing [66%]
-- [-] adapters
+** Browsing [62%]
+- [X] adapters
   + [X] fakedb
-  + [ ] pouchdb
-    + [ ] refactor to use core/async better
+  + [X] pouchdb
 - [X] api service
   + [X] separate courses-db from user-courses-db
 - [X] datastore service
   + [X] add component library
   + [X] make api consistent
   + [X] add validity check to responder
-  + [X] merge instead of override collections / collection names
+  + [X] Merge instead of override collections / collection names
 - [X] appstate service
   + [X] add component library
   + [X] differentiate clearer between appstate and viewmodel
@@ -46,6 +46,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   + [X] add course viewmodel
   + [X] add checkpoint viewmodel
   + [X] add labels model
+- [-] add routing service
+  + [X] add component library
+  + [X] add bidi
+  + [X] add pushy 
+  + [ ] implement routes
+- [ ] add render service
 - [ ] view components
 ** Curation [28%]
 - [X] implement refresh on data service
@@ -58,3 +64,4 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 ** Optional [0%]
 - [ ] debug panel
 - [ ] rewrite styles to garden
+  
