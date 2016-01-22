@@ -13,3 +13,7 @@
 
 (def sample-request {:type :requested-route
                            :payload (:checkpoint-view payload)})
+
+(defn request [handler]
+  {:type :requested-route
+   :payload (handler payload)})
