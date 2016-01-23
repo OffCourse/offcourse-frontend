@@ -1,19 +1,11 @@
 (ns offcourse.data-service.index
-  (:require [clojure.set :as set]
-            [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
+  (:require [com.stuartsierra.component :refer [Lifecycle]]
+            [offcourse.data-service.lifecycle :as lc-impl]
             [offcourse.data-service.queryable :as qa-impl]
             [offcourse.data-service.validatable :as va-impl]
-            [offcourse.data-service.lifecycle :as lc-impl]))
-
-(def actions   [:checked-store
-                :not-found-data
-                :refreshed-datastore])
-
-(def reactions {:not-found-data qa/check
-                :fetched-data   qa/refresh})
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
+            [offcourse.protocols.validatable :as va :refer [Validatable]]))
 
 (defrecord Datastore [component-name input-channel output-channel actions reactions initialized?]
   Lifecycle
@@ -28,7 +20,7 @@
   (respond [ds status payload] (ri/-respond ds status payload))
   (listen [ds] (ri/-listen ds)))
 
-(defn new []
+(defn new [actions reactions]
   (map->Datastore {:component-name :data-service
                    :actions        actions
                    :reactions      reactions

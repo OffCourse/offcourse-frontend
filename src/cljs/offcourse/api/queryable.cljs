@@ -7,13 +7,6 @@
             [offcourse.protocols.responsive :as ri])
 (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn missing [requested result field query]
-  (let [field-singular (sh/singular field)
-        requested (into #{} (field query))
-        found (into #{} (map (comp str field-singular) result))
-        missing (set/difference requested found)]
-    (if (empty? missing) false (into [] missing))))
-
 (defn fetch-1 [{:keys [service] :as api} {:keys [type] :as query} converter]
   (go
     (let [result (<! (qa/fetch service query))]

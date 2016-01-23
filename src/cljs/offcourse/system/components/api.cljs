@@ -1,7 +1,12 @@
 (ns offcourse.system.components.api
   (:require [offcourse.api.index :as api]
             [offcourse.protocols.convertible :as ci]
-            [com.stuartsierra.component :as component]))
+            [com.stuartsierra.component :as component]
+            [offcourse.protocols.queryable :as qa]))
+
+(def actions   [:failed-fetch :fetched-data])
+
+(def reactions {:not-found-data qa/fetch})
 
 (def courses-fetchables
   {:courses          [ci/to-course :course-ids]
@@ -15,24 +20,21 @@
 
 (def courses-component
   (component/using
-   (api/new :courses-api)
+   (api/new :courses-api actions reactions courses-fetchables)
    {:input-channel  :courses-input
     :output-channel :api-output
-    :fetchables     :courses-fetchables
     :service        :courses-service}))
 
 (def user-courses-component
   (component/using
-   (api/new :user-courses-api)
+   (api/new :user-courses-api actions reactions courses-fetchables)
    {:input-channel  :user-courses-input
     :output-channel :api-output
-    :fetchables     :courses-fetchables
     :service        :user-courses-service}))
 
 (def resources-component
   (component/using
-   (api/new :resources-api)
+   (api/new :resources-api actions reactions resources-fetchables)
     {:input-channel  :resources-input
      :output-channel :api-output
-     :fetchables     :resources-fetchables
      :service        :resources-service}))

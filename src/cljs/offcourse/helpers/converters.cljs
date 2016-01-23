@@ -82,5 +82,6 @@
 (defn to-resource [obj]
   (coerce-and-validate obj Resource resource-walker))
 
-(defn to-collection [arr]
-  (coerce-and-validate arr Collection collection-walker))
+(defn to-collection [{:keys [course-ids] :as obj}]
+  (let [obj (if course-ids obj (assoc obj :course-ids #{}))]
+    (coerce-and-validate obj Collection collection-walker)))

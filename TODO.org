@@ -2,14 +2,8 @@
 ** TODO  Add Error Handling to Fake DB      <2016-01-07 Thu 18:25>
 for instance for invalid resource ids 
 Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementations/queryable.cljs
-** DONE  Make first run a component prop      <2016-01-08 Fri 01:33>
- Link: file:~/Documents/offcourse/src/cljc/offcourse/protocols/responsive.cljs
-** DONE  Fix pouchdb bootstrapping error      <2016-01-11 Mon 01:49>
- Link: file:~/Documents/offcourse/src/cljs/offcourse/api/implementations/bootstrappable.cljs::(ri/respond%20api%20:api-error%20%5Brs-response%20cs-response%5D)))))
 ** TODO  Move viewmodels to own submodule      <2016-01-13 Wed 01:44>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(schema/defrecord%20CollectionViewmodel
-** DONE  Change name from collection-viewmodel to collection-view      <2016-01-13 Wed 01:45>
- Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(ns%20offcourse.models.collection-viewmodel
 ** TODO  move course-ids to queryable/check      <2016-01-20 Wed 01:43>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_view/validatable.cljs::(defn%20missing-data%20%5B{:keys%20%5Bcollection%20courses%5D%20:as%20vm}%5D
 ** TODO  Handle Failed Fetch      <2016-01-20 Wed 23:42>
@@ -22,8 +16,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [X] refactor responder in a generic and overridable part
   + [X] add source property to actions
   + [X] flatten payload
-- [ ] transition components to RUM or Sablono
-- [ ] add authentication service
+- [ ] refactor components to add :listener in listen (not start)
 ** Browsing [62%]
 - [X] adapters
   + [X] fakedb
@@ -49,10 +42,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [-] add routing service
   + [X] add component library
   + [X] add bidi
-  + [X] add pushy 
-  + [ ] implement routes
+  + [X] add pushy
+  + [X] move protocol implementations to separate files
+  + [-] implement routes
+    + [X] collections
+    + [ ] course
+    + [ ] checkpoint
 - [ ] add render service
 - [ ] view components
+  + [ ] transition components to RUM or Sablono
 ** Curation [28%]
 - [X] implement refresh on data service
 - [X] add refresh to pouch wrapper
@@ -61,6 +59,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [ ] add new checkpoint
 - [ ] add new course
 - [ ] update UI for curation
+- [ ] add authentication service
 ** Optional [0%]
 - [ ] debug panel
 - [ ] rewrite styles to garden

@@ -5,7 +5,6 @@
             [offcourse.system.components.data-service :as data-service]
             [offcourse.system.components.router :as router]
             [offcourse.system.plumbing :as plumbing]
-            [offcourse.system.viewmodels :refer [viewmodels]]
             [offcourse.views.index :as views-service]))
 
 (def debug-component
@@ -16,7 +15,6 @@
 (defn system [bootstrap-docs databases]
   (let [channels (plumbing/channels)]
     (component/system-map
-     :viewmodels             viewmodels
      :router-output          (:router-output channels)
      :router                 router/component
      :courses-service        (:courses databases)
@@ -26,8 +24,6 @@
      :user-courses-input     (:user-courses-input channels)
      :resources-input        (:resources-input channels)
      :api-output             (:api-output channels)
-     :courses-fetchables     api/courses-fetchables
-     :resources-fetchables   api/resources-fetchables
      :user-courses           api/user-courses-component
      :courses                api/courses-component
      :resources              api/resources-component

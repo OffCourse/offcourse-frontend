@@ -5,11 +5,7 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]))
 
-(def actions   [:failed-fetch :fetched-data])
-
-(def reactions {:not-found-data qa/fetch})
-
-(defrecord API [component-name service
+(defrecord API [component-name service actions
                 output-channel fetchables input-channel reactions initialized?]
   Lifecycle
   (start [api] (lc-impl/start api))
@@ -21,8 +17,9 @@
   (respond [api status type result] (ri/-respond api status type result))
   (listen  [api] (ri/-listen api)))
 
-(defn new [component-name]
+(defn new [component-name actions reactions fetchables]
   (map->API {:component-name component-name
              :reactions reactions
              :actions actions
+             :fetchables fetchables
              :initialized? (atom false)}))

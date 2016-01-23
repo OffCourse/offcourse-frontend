@@ -5,6 +5,7 @@
 
 (defprotocol Responsive
   (listen [this])
+  (mute [this])
   (respond [this status] [this status payload] [this status type result]))
 
 (defn payload [type result]
@@ -29,7 +30,6 @@
 (defn -respond
   ([{:keys [output-channel component-name]} status payload]
    (swap! counter inc)
-   #_(println component-name status)
    (if (and output-channel (> 100 @counter))
      (go (>! output-channel
            (action/new status component-name payload)))

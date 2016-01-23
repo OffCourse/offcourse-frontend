@@ -1,49 +1,19 @@
 (ns offcourse.router.index
-  (:require [cljs.core.async :refer [put!]]
-            [com.stuartsierra.component :refer [Lifecycle]]
+  (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [bidi.bidi :as bidi]
-            [pushy.core :as pushy]))
-
-(def actions [:requested-route])
-
-(def routes ["/" {"foo" :home-view
-                  "bar" :collection-view
-                  true  :home-view}])
-
-(defn payload [handler collection-type collection-name]
-  (handler {:home-view       {:type            :collection-view
-                              :collection-type :flags
-                              :collection-name :featured}
-            :collection-view {:type            :collection-view
-                              :collection-type :tags
-                              :collection-name :yeehaa}}))
-
-(defn request [handler params]
-  {:type :requested-route
-   :payload (apply payload handler params)})
-
-(defn handle-request [rt {:keys [handler route-params] :as req}]
-  (let [reaction (apply request handler (vec route-params))]
-    (println reaction)
-    (when reaction
-      (ri/respond rt (:type reaction) (:payload reaction)))))
-
-(defn listen [rt]
-  (assoc rt :listener (ri/listen rt)))
+            [offcourse.router.responsive :as ri-impl]))
 
 (defrecord Router [component-name output-channel actions]
   Lifecycle
-  (start [{:keys [routes] :as rt}] (listen rt))
-  (stop [{:keys [listener] :as rt}]
-    (pushy/stop! listener)
-    (dissoc rt :listener))
+  (start [rt] (ri/listen rt))
+  (stop [rt] (ri/mute rt))
   Responsive
-  (listen [rt] (pushy/start! (pushy/pushy (partial handle-request rt)
-                                          (partial bidi/match-route routes))))
-  (respond [rt status payload] (ri/-respond rt status payload)))
+  (listen [rt] (ri-impl/listen rt))
+  (mute [rt] (ri-impl/mute rt))
+  (respond [rt status payload] (ri-impl/respond rt status payload)))
 
-(defn new []
+(defn new [routes actions reactions]
   (map->Router {:component-name :router
                 :routes routes
-                :actions actions}))
+                :actions actions
+                :reactions reactions}))
