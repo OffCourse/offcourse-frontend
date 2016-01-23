@@ -1,11 +1,13 @@
 (set-env!
- :source-paths    #{"sass" "src/js" "src/cljs" "src/cljc"}
+ :source-paths    #{"sass" "src/js" "src/clj" "src/cljs" "src/cljc"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs           "1.7.170-3"   :scope "test"]
                  [adzerk/boot-cljs-repl      "0.3.0"       :scope "test"]
                  [adzerk/boot-reload         "0.4.2"       :scope "test"]
                  [ring/ring-devel           "1.3.2"        :scope "test"]
                  [cljsjs/pouchdb                      "5.1.0-1"]
+                 [hiccup "1.0.5"]
+                 [metosin/ring-http-response "0.6.5"]
                  [cljsjs/react                        "0.14.3-0"]
                  [cljsjs/react-dom                    "0.14.3-1"]
                  [cljsjs/react-dom-server             "0.14.3-0"]
@@ -18,11 +20,12 @@
                  [hashobject/boot-s3 "0.1.2-SNAPSHOT"]
                  [mathias/boot-sassc         "0.1.5"      :scope "test"]
                  [medley                              "0.7.0"]
+                 [compojure "1.4.0"]
                  [org.clojure/clojurescript           "1.7.189"]
                  [org.clojure/core.async              "0.2.374"]
                  [org.clojure/core.match              "0.3.0-alpha4"]
                  [org.clojure/tools.nrepl    "0.2.12"      :scope "test"]
-                 [pandeiro/boot-http         "0.7.0"       :scope "test"]
+                 [pandeiro/boot-http "0.7.1-SNAPSHOT" :scope "test"]
                  [prismatic/schema                    "1.0.4"]
                  [rum                                 "0.6.0"]
                  [sablono                             "0.5.3"]
@@ -44,7 +47,8 @@
          (target)))
 
  (deftask run []
-   (comp (serve :handler 'history-handler/app)
+   (comp (serve :handler 'history-handler/app
+                :reload true)
          (watch)
          (cljs-repl)
          (reload)

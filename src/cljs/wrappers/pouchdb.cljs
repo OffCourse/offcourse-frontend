@@ -16,6 +16,7 @@
   (handle-js-response (.get pouch key)))
 
 (defn- query [pouch options cb viewname]
+  (println viewname)
   (let [viewname (str "query/" (name viewname))]
     (handle-js-response (.query pouch viewname (clj->js options)) (comp cb :rows))))
 

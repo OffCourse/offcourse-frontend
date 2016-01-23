@@ -18,4 +18,4 @@
 
 (defn render [object]
   (rum/mount (debugger object)
-             (. js/document (getElementById "container"))))
+             (. js/document (getElementById "app"))))

@@ -1,19 +1,27 @@
 (ns history-handler
-  (:require [pandeiro.boot-http.impl :refer [wrap-index]]
-            [ring.util.response :refer [file-response]]
-            [ring.middleware
-             [file                   :refer [wrap-file]]
-             [resource               :refer [wrap-resource]]]))
+  (:require [compojure.core :refer [GET defroutes]]
+            [ring.util.http-response :refer :all]
+            [compojure.route :as route]
+            [hiccup.core :refer [html]]
+            [hiccup.page :refer [html5 include-js include-css]]))
 
-(defonce dir "target/dev/")
+(def index-page
+  (html
+   (html5
+    [:head
+     [:title "Offcourse"]
+     [:meta {:charset "utf-8"}]
+     [:meta {:http-equiv "X-UA-Compatible" :content "IE=edge"}]
+     [:meta {:name "viewport" :content "width=device-width, initial-scale=1.0"}]
+     (include-css "/css/sass.css")]
+    [:body
+     [:div.container [:div#app.app-wrapper
+       [:h1 "Waiting for ClojureScript to Compile"]]]
+     (include-js "/js/app.js")])))
 
-(defn- handler [request]
-  (assoc-in
-   (file-response (str dir "index.html"))
-   [:headers "Content-Type"]
-   "text/html;charset=ISO-8859-1"))
-
-(def app (-> handler
-             (wrap-resource "")
-             (wrap-file dir {:index-files? false})
-             (wrap-index dir)))
+(defroutes app
+  (route/resources "/js" {:root "js"})
+  (route/resources "/css" {:root "css"})
+  (GET "/" []
+    (-> (ok index-page) (content-type "text/html")))
+  (route/not-found (-> (ok index-page) (content-type "text/html"))))

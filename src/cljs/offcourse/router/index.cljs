@@ -2,21 +2,22 @@
   (:require [cljs.core.async :refer [put!]]
             [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [offcourse.sample-route-requests :refer [sample-request]]
             [bidi.bidi :as bidi]
             [pushy.core :as pushy]))
 
 (def actions [:requested-route])
 
-(def routes ["/tags/agile" :home-view])
+(def routes ["/" {"foo" :home-view
+                  "bar" :collection-view
+                  true  :home-view}])
 
 (defn payload [handler collection-type collection-name]
   (handler {:home-view       {:type            :collection-view
                               :collection-type :flags
                               :collection-name :featured}
             :collection-view {:type            :collection-view
-                              :collection-type collection-type
-                              :collection-name  collection-name}}))
+                              :collection-type :tags
+                              :collection-name :yeehaa}}))
 
 (defn request [handler params]
   {:type :requested-route
@@ -24,6 +25,7 @@
 
 (defn handle-request [rt {:keys [handler route-params] :as req}]
   (let [reaction (apply request handler (vec route-params))]
+    (println reaction)
     (when reaction
       (ri/respond rt (:type reaction) (:payload reaction)))))
 

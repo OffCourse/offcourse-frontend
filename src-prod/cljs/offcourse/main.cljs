@@ -27,5 +27,4 @@
     (do
       (enable-console-print!)
       (reset! app (core/app [design-doc bootstrap-doc]))
-      (reset! app (component/start @app))
-      (put! (:user-output @app) sample-route-request))))
+      (reset! app (component/start @app)))))
