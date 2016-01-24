@@ -10,62 +10,111 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Checklists
-** General [40%]
-- [X] move system to separate module
-- [X] refactor responder in a generic and overridable part
-  + [X] add source property to actions
-  + [X] flatten payload
-- [ ] refactor components to add :listener in listen (not start)
-- [ ] close! input-channel or lifecycle/stop!
-- [ ] change course-id from uuid to a string that user provided
-** Browsing [75%]
-- [X] adapters
-  + [X] fakedb
-  + [X] pouchdb
-- [X] api service
-  + [X] separate courses-db from user-courses-db
-- [X] datastore service
+* Now                             [8%]
++ [-] General        [66%]
+  - [X] move system to separate module
+  - [X] refactor responder in a generic and overridable part
+  - [X] add source property to actions
+  - [X] flatten payload
+  - [ ] move everything back from cljc to cljs dir
+  - [ ] refactor components to add :listener in listen (not start)
+  - [ ] close! input-channel or lifecycle/stop!
++ [-] Models         [83%]
+  - [X] action
+  - [X] collection
+  - [ ] course
+    + [ ] add hashtag
+    + [ ] add timestamp
+  - [X] datastore
+  - [X] label
+  - [X] resource
++ [-] Protocols      [85%]
+  - [X] Queryable
+  - [X] Responsive
+  - [ ] Renderable
+  - [X] Validatable
+  - [X] Convertible
+  - [X] Composable
++ [X] Wrappers       [100%]
+  - [X] pouchdb
+    + [X] completed
++ [-] Adapters       [0%]
+  - [-] fakedb
+    + [X] fetch
+    + [ ] improve error handling
++ [ ] Repositories   [0%]
+  - [ ] central repository
+    + [ ] implement multiple endpoin
++ [-] Datastore      [62%]
   + [X] add component library
   + [X] make api consistent
   + [X] add validity check to responder
   + [X] Merge instead of override collections / collection names
-- [X] appstate service
-  + [X] add component library
-  + [X] differentiate clearer between appstate and viewmodel
-  + [X] move viewmodels out of service
-  + [X] make api consistent
-- [X] viewmodels
-  + [X] Add Collection viewmodel
-  + [X] move protocol implementations to separate files
-  + [X] add course viewmodel
-  + [X] add checkpoint viewmodel
-  + [X] add labels model
-- [-] add routing service
-  + [X] add component library
-  + [X] add bidi
-  + [X] add pushy
-  + [X] move protocol implementations to separate files
-  + [-] implement routes
+  + [X] implement refresh on data service
+  + [ ] remove initialized?
+  + [ ] add support for not found courses
+  + [ ] rename back to Datastore
++ [-] Appstate       [80%]
+  - [ ] remove initialized?
+  - [X] add component library
+  - [X] differentiate clearer between appstate and viewmodel
+  - [X] move viewmodels out of service
+  - [X] make api consistent [0%]
++ [-] Viewmodels     [83%]
+  - [X] Add Collection viewmodel
+  - [X] move protocol implementations to separate files
+  - [X] add course viewmodel
+  - [X] add checkpoint viewmodel
+  - [X] add labels model
+  - [ ] move to separate module [0%]
++ [-] Routers        [80%]
+  - [X] add component library
+  - [X] add bidi
+  - [X] add pushy
+  - [X] move protocol implementations to separate files
+  - [-] implement routes
     + [X] collections
     + [ ] course
     + [ ] checkpoint
-- [X] add render service
-- [-] view-components
-  + [ ] transition view-components to RUM or Sablono
-  + [X] debug component
-  + [ ] sidebar
-  + [ ] topbar
-  + [ ] card
-** Curation [28%]
-- [X] implement refresh on data service
-- [X] add refresh to pouch wrapper
-- [ ] add refresh to api service
-- [ ] add checkpoint done
-- [ ] add new checkpoint
-- [ ] add new course
-- [ ] update UI for curation
-- [ ] add authentication service
-** Optional [33%]
-- [ ] rewrite styles to garden
-- [ ] add specter
++ [-] Renderer       [50%]
+  - [X] add component library
+  - [ ] remove rendering protocol [0%]
++ [-] Debugger       [33%]
+  - [X] basic implementation
+  - [ ] make simple UI
+  - [ ] add renderable protocol 
+* Next                             [0%]
++ [ ] General        [0%]
++ [ ] Protocols      [0%]
+  - [ ] Bootstrappable
++ [ ] Wrappers       [0%]
+  - [ ] pouchdb
+    + [ ] refactor
++ [-] Adapters       [33%]
+  - [X] pouchdb
+    + [X] fetch
+  - [ ] HTTP
+  - [ ] Websockets
++ [ ] Repositories   [0%]
+  - [ ] central repo
+    + [ ] add publish
+  - [ ] user repo
+    + [ ] implement better bootstrapping
+    + [ ] add save
++ [ ] Datastore      [0%]
+  + [ ] add specter
++ [ ] Views          [0%]
+  - [ ] add renderable protocol 
+  - [ ] transition view-components to RUM or Sablono
+  - [ ] add renderable protocol (renders com
+  - [ ] sidebar
+  - [ ] topbar
+  - [ ] card
++ [-] Appstate       [0%]
++ [ ] Authentication [0%]
+* Future                          [0%]
++ [ ] General        [0%]
+  - [ ] refactor to cljc where possible
+* Optional                       [0%]
++ [ ] Styles [0%]
+  - [ ] rewrite styles to garden
