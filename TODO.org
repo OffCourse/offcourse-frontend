@@ -11,13 +11,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
 * Checklists
-** General [28%]
+** General [40%]
 - [X] move system to separate module
 - [X] refactor responder in a generic and overridable part
   + [X] add source property to actions
   + [X] flatten payload
 - [ ] refactor components to add :listener in listen (not start)
-** Browsing [62%]
+- [ ] close! input-channel or lifecycle/stop!
+- [ ] change course-id from uuid to a string that user provided
+** Browsing [75%]
 - [X] adapters
   + [X] fakedb
   + [X] pouchdb
@@ -48,9 +50,13 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] collections
     + [ ] course
     + [ ] checkpoint
-- [ ] add render service
-- [ ] view components
-  + [ ] transition components to RUM or Sablono
+- [X] add render service
+- [-] view-components
+  + [ ] transition view-components to RUM or Sablono
+  + [X] debug component
+  + [ ] sidebar
+  + [ ] topbar
+  + [ ] card
 ** Curation [28%]
 - [X] implement refresh on data service
 - [X] add refresh to pouch wrapper
@@ -60,7 +66,6 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 - [ ] add new course
 - [ ] update UI for curation
 - [ ] add authentication service
-** Optional [0%]
-- [ ] debug panel
+** Optional [33%]
 - [ ] rewrite styles to garden
-  
+- [ ] add specter

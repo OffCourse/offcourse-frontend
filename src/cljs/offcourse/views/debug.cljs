@@ -10,12 +10,8 @@
              (rum/with-key pair)))
        object))
 
-(rum/defc debugger [{:keys [local-name local-connection] :as object}]
+(rum/defc debugger [object]
   [:table
    [:thead
     [:tr [:th "KEY"] [:th "BODY"]]]
    [:tbody (rows object)]])
-
-(defn render [object]
-  (rum/mount (debugger object)
-             (. js/document (getElementById "app"))))

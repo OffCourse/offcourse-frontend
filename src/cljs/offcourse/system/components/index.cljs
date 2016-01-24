@@ -4,13 +4,8 @@
             [offcourse.system.components.appstate :as appstate]
             [offcourse.system.components.data-service :as data-service]
             [offcourse.system.components.router :as router]
-            [offcourse.system.plumbing :as plumbing]
-            [offcourse.views.index :as views-service]))
-
-(def debug-component
-  (component/using
-   (views-service/new-renderer)
-   {:input-channel :renderer-input}))
+            [offcourse.system.components.renderer :as renderer]
+            [offcourse.system.plumbing :as plumbing]))
 
 (defn system [bootstrap-docs databases]
   (let [channels (plumbing/channels)]
@@ -34,4 +29,4 @@
      :appstate-output        (:appstate-output channels)
      :appstate               appstate/component
      :renderer-input         (:renderer-input channels)
-     :renderer               debug-component)))
+     :renderer               renderer/component)))

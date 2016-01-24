@@ -5,8 +5,6 @@
             [offcourse.views.debug :as debug])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-(defonce counter (atom 0))
-
 (defn render [response]
   (debug/render response))
 
