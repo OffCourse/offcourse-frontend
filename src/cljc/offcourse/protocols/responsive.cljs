@@ -17,36 +17,27 @@
     (let [initial-response-type (keyword (str "initialized-" (name component-name)))
           responses actions
           actions (keys reactions)]
-      #_(println "--------")
-      #_(println initial-response-type)
-      #_(println "actions:  " actions)
-      #_(println "responses:" responses)
-      (respond component initial-response-type [{:responses responses
-                                                 :actions actions}])
+      (respond component initial-response-type {:responses responses
+                                                :actions actions})
       (swap! initialized? not))))
 
 (def counter (atom 1))
 
 (defn -respond
-  ([{:keys [output-channel component-name]} status payload]
+  ([{:keys [output-channel log-channel component-name]} status payload]
    (swap! counter inc)
    (if (and output-channel (> 100 @counter))
-     (go (>! output-channel
-           (action/new status component-name payload)))
+     (go
+       (>! output-channel (action/new status component-name payload))
+       (when log-channel (>! log-channel (action/new status component-name payload))))
      (action/new status component-name payload)))
   ([this status type result](-respond this status (payload type result))))
 
-(defn -listen [{:keys [output-channel component-name input-channel reactions initialized?]
-                :as this}]
+(defn -listen [{:keys [input-channel reactions initialized?] :as this}]
   (go-loop []
     (first-run this)
     (let [{:keys [type source payload] :as action} (<! input-channel)
           reaction (type reactions)]
-      (if reaction
-        (reaction this payload)
-        #_(do
-          (println "--------")
-          (println "component:    " component-name)
-          (println "responseless: " source type)
-          (println "valid actions:" (keys reactions))))
+      (when reaction
+        (reaction this payload))
       (recur))))

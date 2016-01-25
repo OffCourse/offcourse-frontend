@@ -12,4 +12,5 @@
   (component/using
    (data-service/new actions reactions)
    {:input-channel  :data-service-input
-    :output-channel :data-service-output}))
+    :output-channel :data-service-output
+    :log-channel    :logger-input}))

@@ -10,7 +10,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                             [8%]
+* Now                             [33%]
 + [-] General        [57%]
   - [X] move system to separate module
   - [X] refactor responder in a generic and overridable part
@@ -28,16 +28,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] datastore
   - [X] label
   - [X] resource
-+ [-] Protocols      [83%]
++ [X] Protocols      [100%]
   - [X] Queryable
   - [X] Responsive
-  - [ ] Renderable
   - [X] Validatable
   - [X] Convertible
   - [X] Composable
-+ [X] Wrappers       [100%]
-  - [X] pouchdb
-    + [X] completed
 + [-] Adapters       [0%]
   - [-] fakedb
     + [X] fetch
@@ -67,7 +63,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add checkpoint viewmodel
   - [X] add labels model
   - [ ] move to separate module [0%]
-+ [-] Routers        [80%]
++ [-] Router         [80%]
   - [X] add component library
   - [X] add bidi
   - [X] add pushy
@@ -76,18 +72,23 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] collections
     + [ ] course
     + [ ] checkpoint
-+ [-] Renderer       [50%]
++ [X] Renderer       [100%]
   - [X] add component library
-  - [ ] remove rendering protocol [0%]
-+ [-] Debugger       [66%]
++ [X] Logger         [100%]
+  - [X] connect to Responsive
+  - [X] connect to Debugger
+  - [X] add Route for Logs
++ [X] Debugger       [100%]
   - [X] basic implementation
   - [X] make simple UI
-  - [ ] add states for different viewmodels
-  - [ ] add renderable protocol 
 * Next                             [0%]
 + [ ] General        [0%]
++ [X] Wrappers       [100%]
+  - [X] pouchdb
+    + [X] completed
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
+  - [ ] Renderable
 + [ ] Wrappers       [0%]
   - [ ] pouchdb
     + [ ] refactor
@@ -105,13 +106,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] Datastore      [0%]
   + [ ] add specter
 + [ ] Views          [0%]
-  - [ ] add renderable protocol 
+  - [ ] add renderable protocol
   - [ ] transition view-components to RUM or Sablono
   - [ ] add renderable protocol (renders com
   - [ ] sidebar
   - [ ] topbar
   - [ ] card
 + [-] Appstate       [0%]
++ [ ] Renderer       [0%]
+  - [ ] remove Rendering protocol
 + [ ] Authentication [0%]
 * Future                          [0%]
 + [ ] General        [0%]

@@ -12,7 +12,7 @@
                      :checkpoint-id   1}})
 
 (def sample-request {:type :requested-route
-                           :payload (:checkpoint-view payload)})
+                           :payload (:collection-view payload)})
 
 (defn request [handler]
   {:type :requested-route

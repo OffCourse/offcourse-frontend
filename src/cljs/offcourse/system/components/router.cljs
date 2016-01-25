@@ -16,4 +16,5 @@
 (def component
   (component/using
    (router/new routes actions reactions)
-   {:output-channel :router-output}))
+   {:output-channel :router-output
+    :log-channel :logger-input}))

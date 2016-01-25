@@ -3,6 +3,8 @@
 
 (defn channels []
   (let [router-output       (chan)
+        logger-input        (chan)
+        logger-output       (chan)
         appstate-output     (chan)
         data-service-output (chan)
         api-output          (chan)
@@ -18,9 +20,11 @@
         resources-input     (tap data-service-mult (chan))
         renderer-input      (chan)]
 
-    (tap appstate-mult renderer-input)
+    (pipe logger-output renderer-input)
 
-    {:router-output         router-output
+    {:router-output       router-output
+     :logger-input        logger-input
+     :logger-output       logger-output
      :user-courses-input  user-courses-input
      :resources-input     resources-input
      :courses-input       courses-input

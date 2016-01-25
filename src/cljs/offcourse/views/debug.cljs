@@ -1,6 +1,7 @@
 (ns offcourse.views.debug
   (:require [cljsjs.fixed-data-table]
             [offcourse.models.course :as co]
+            [medley.core :as medley]
             [rum.core :as rum]))
 
 (def Table (js/React.createFactory js/FixedDataTable.Table))
@@ -8,48 +9,53 @@
 (def Cell (js/React.createFactory js/FixedDataTable.Cell))
 
 (defn getter [k row]
-  (println (keys row))
-  (get row (keyword k)))
+  (get row k))
 
-(rum/defc debugger [{:keys [courses]}]
-  (println courses)
-  (let [get-tasks   (partial mapv :task)
-        courses (mapv (fn [course] (assoc course :tags (co/get-tags course)
-                                          :tasks (get-tasks (:checkpoints course)))) courses)
-        row-height 120
+(defn store-stats [{:keys [collections courses resources]}]
+  {:collections (medley/map-vals count collections)
+   :courses     (count courses)
+   :resources   (count resources)})
+
+(defn vm-stats [{:keys [collection labels courses resources]}]
+  {:collection (into {} (assoc collection :course-ids (count (:course-ids collection))))
+   :labels     (medley/map-vals count labels)
+   :courses    (count courses)
+   :resources  (count resources)})
+
+(defn shorten-payload [{:keys [store course-ids viewmodel] :as payload}]
+  (cond
+    (contains? payload :store)      (assoc payload :store (store-stats store))
+    (contains? payload :viewmodel)  (assoc payload :viewmodel (vm-stats viewmodel))
+    (contains? payload :course-ids) (assoc payload :course-ids (count course-ids))
+    :default                        payload))
+
+(rum/defc debugger [{:keys [log] :as pl}]
+  (let [log (mapv #(conj % (shorten-payload (get % 3))) log)
+        row-height 80
         cell-width 60
-        width      2000
-        rows-count (count courses)]
+        width      1380
+        rows-count (count log)]
     [:div {} (Table #js {:width        width
-                         :height       1000
+                         :height       900
                          :rowHeight    row-height
-                         :rowGetter    #(get courses %)
+                         :rowGetter    #(get log %)
                          :rowsCount    rows-count
-                         :headerHeight (/ row-height 2)}
-                    (Column #js {:label "course-id"
-                                 :dataKey "course-id"
-                                 :width (* 7 cell-width)
+                         :headerHeight row-height}
+                    (Column #js {:label "timestamp"
+                                 :dataKey 0
+                                 :width (* 3 cell-width)
                                  :cellDataGetter getter})
-                    (Column #js {:label "goal"
-                                 :dataKey "goal"
+                    (Column #js {:label "type"
+                                 :dataKey 1
                                  :width (* 4 cell-width)
                                  :cellDataGetter getter})
-                    (Column #js {:label "curator"
-                                 :dataKey "curator"
-                                 :width (* 2 cell-width)
+                    (Column #js {:label "source"
+                                 :dataKey 2
+                                 :width (* 3 cell-width)
                                  :cellDataGetter getter})
-                    (Column #js {:label "flags"
-                                 :dataKey "flags"
-                                 :width (* 4 cell-width)
-                                 :cellDataGetter getter})
-                    (Column #js {:label "tags"
-                                 :dataKey "tags"
-                                 :width (* 6 cell-width)
-                                 :cellDataGetter getter})
-                    (Column #js {:label "tasks"
-                                 :dataKey "tasks"
-                                 :width (* 6 cell-width)
-                                 :cellDataGetter getter})
-                    )]))
+                    (Column #js {:label "payload"
+                                 :dataKey 4
+                                 :width (* 13 cell-width)
+                                 :cellDataGetter getter}))]))
 
 

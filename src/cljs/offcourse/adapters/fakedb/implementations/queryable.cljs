@@ -13,7 +13,7 @@
       fake-data/create-resource
       (assoc :resource-id resource-id)))
 
-(defonce courses (take 100 (repeatedly fake-data/generate-course)))
+(defonce courses (take 10 (repeatedly fake-data/generate-course)))
 
 (defonce tag-collections
   (->> courses

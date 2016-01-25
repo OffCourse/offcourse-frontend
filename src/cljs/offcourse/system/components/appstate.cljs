@@ -15,4 +15,5 @@
   (component/using
    (appstate/new actions reactions viewmodels)
    {:input-channel  :appstate-input
-    :output-channel :appstate-output}))
+    :output-channel :appstate-output
+    :log-channel    :logger-input}))

@@ -6,7 +6,8 @@
 
 (def actions [:rendered-view])
 
-(def reactions {:composed-viewmodel rr/render})
+(def reactions {:composed-viewmodel rr/render
+                :updated-logs       rr/render})
 
 (def component
   (component/using
