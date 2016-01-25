@@ -31,6 +31,7 @@
                  [sablono                             "0.5.3"]
                  [bidi "1.25.0"]
                  [kibu/pushy "0.3.6"]
+                 [cljsjs/fixed-data-table "0.4.6-0"]
                  [weasel                     "0.7.0"       :scope "test"]])
 
  (require

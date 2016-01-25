@@ -11,7 +11,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
 * Now                             [8%]
-+ [-] General        [66%]
++ [-] General        [57%]
   - [X] move system to separate module
   - [X] refactor responder in a generic and overridable part
   - [X] add source property to actions
@@ -28,7 +28,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] datastore
   - [X] label
   - [X] resource
-+ [-] Protocols      [85%]
++ [-] Protocols      [83%]
   - [X] Queryable
   - [X] Responsive
   - [ ] Renderable
@@ -79,9 +79,10 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [-] Renderer       [50%]
   - [X] add component library
   - [ ] remove rendering protocol [0%]
-+ [-] Debugger       [33%]
++ [-] Debugger       [66%]
   - [X] basic implementation
-  - [ ] make simple UI
+  - [X] make simple UI
+  - [ ] add states for different viewmodels
   - [ ] add renderable protocol 
 * Next                             [0%]
 + [ ] General        [0%]

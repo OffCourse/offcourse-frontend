@@ -13,10 +13,10 @@
      [:meta {:charset "utf-8"}]
      [:meta {:http-equiv "X-UA-Compatible" :content "IE=edge"}]
      [:meta {:name "viewport" :content "width=device-width, initial-scale=1.0"}]
-     (include-css "/css/sass.css")]
+     (include-css "/css/table.css")]
     [:body
-     [:div.container [:div#app.app-wrapper
-       [:h1 "Waiting for ClojureScript to Compile"]]]
+     [:div#app.app-wrapper
+       [:h1 "Waiting for ClojureScript to Compile"]]
      (include-js "/js/app.js")])))
 
 (defroutes app
