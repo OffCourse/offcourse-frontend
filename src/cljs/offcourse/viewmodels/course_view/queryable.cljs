@@ -1,4 +1,4 @@
-(ns offcourse.models.course-view.queryable
+(ns offcourse.viewmodels.course-view.queryable
   (:require [offcourse.models.course :as co]
             [offcourse.models.label :as lb]))
 

@@ -7,7 +7,7 @@
 (schema/defrecord Collection
     [collection-type  :- schema/Keyword
      collection-name  :- schema/Keyword
-     course-ids       :- #{(schema/pred co/valid-id?)}])
+     course-ids       :- #{schema/Num}])
 
 (defn new-collection [collection-type collection-name]
   (->Collection collection-type collection-name nil))

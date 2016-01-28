@@ -1,4 +1,4 @@
-(ns offcourse.data-service.queryable
+(ns offcourse.datastore.queryable
   (:require [offcourse.protocols.responsive :refer [respond]]
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]))

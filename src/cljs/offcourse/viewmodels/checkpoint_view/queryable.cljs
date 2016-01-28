@@ -1,4 +1,4 @@
-(ns offcourse.models.checkpoint-view.queryable
+(ns offcourse.viewmodels.checkpoint-view.queryable
   (:require [offcourse.models.course :as co]
             [offcourse.models.label :as lb]))
 

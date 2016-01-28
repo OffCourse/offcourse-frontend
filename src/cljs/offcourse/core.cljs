@@ -1,5 +1,5 @@
 (ns offcourse.core
-  (:require [offcourse.system.components.index :refer [system]]
+  (:require [offcourse.system.index :refer [system]]
             [offcourse.adapters.pouchdb.index :as pouchdb]
             [offcourse.adapters.fakedb.index :as fakedb]))
 

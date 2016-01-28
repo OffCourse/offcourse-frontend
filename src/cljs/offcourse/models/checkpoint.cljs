@@ -4,7 +4,6 @@
 (schema/defrecord Checkpoint
     [checkpoint-id :- schema/Num
      resource-id   :- schema/Str
-     completed?    :- schema/Bool
      order         :- schema/Num
      task          :- schema/Str
      tags          :- #{schema/Keyword}])

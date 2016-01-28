@@ -15,9 +15,5 @@
   (respond [rd status] (ri/-respond rd status nil))
   (respond [rd status payload] (ri/-respond rd status payload)))
 
-(defn new [actions reactions view-component]
-  (map->Renderer {:component-name :renderer
-                  :actions actions
-                  :reactions reactions
-                  :view-component view-component
-                  :initialized? (atom false)}))
+(defn new []
+  (map->Renderer {:component-name :renderer}))

@@ -2,7 +2,7 @@
   (:require [clojure.string :as str]
             [faker.lorem :as lorem]
             #?(:cljs [cljs-uuid-utils.core :as uuid])
-            [offcourse.fake-data.buzzwords :refer [buzzwords]]
+            [offcourse.fake-data.buzzwords :as bw]
             [offcourse.fake-data.courses :refer [raw-courses]]))
 
 (def checkpoint {:checkpoint-id :new
@@ -41,15 +41,21 @@
     {:title title
      :text text}))
 
+
+(defn to-snake-case [str]
+  (as-> str %
+    (str/lower-case %)
+    (str/split % #" ")
+    (str/join "-" %)))
+
+(def buzzwords (map to-snake-case bw/buzzwords))
+(def hashtags (atom (shuffle buzzwords)))
+
 (defn set-of-buzzwords [min max]
   (->> buzzwords
        shuffle
        (take (rand-int-between min max))
-       (map #(str/lower-case %1))
        (into #{})))
-
-(defn course []
-  (rand-nth raw-courses))
 
 (def flags [:featured :new :popular])
 
@@ -67,49 +73,35 @@
    :order index
    :task task
    :resource-id (str (uuid/make-random-squuid))
-   :completed? completed
    :tags (set-of-buzzwords 0 5)})
 
 (defn- index-checkpoints [checkpoints]
   (->> checkpoints
        (map-indexed #(index-checkpoint %1 %2))))
 
+(defn add-ids [course]
+  (let [base-id (hash course)]
+    (merge course {:base-id base-id
+                   :course-id base-id})))
+
+(def hashtag
+  (let [hashtag (peek @hashtags)]
+    (swap! hashtags pop)
+    hashtag))
+
 (defn generate-course []
-  (let [base-id (str (uuid/make-random-squuid))
-        version 1
-        curator (rand-nth users)
-        course-id (str base-id "/" curator "/" version)
-        ff-id (str base-id "/" (rand-nth users) "/" 0)]
-  (-> (course)
-      (assoc :base-id base-id)
-      (assoc :course-id course-id)
-      (assoc :version version)
-      (assoc :forked-from ff-id)
+  (-> raw-courses
+      rand-nth
+      (assoc :version [0 0 0])
+      (assoc :revision 0)
+      (assoc :hashtag hashtag)
+      (assoc :timestamp (.now js/Date))
+      (assoc :forked-from nil)
       (assoc :forks #{})
-      (assoc :curator curator)
+      (assoc :curator (rand-nth users))
       (assoc :flags (generate-flags))
-      (update-in [:checkpoints] index-checkpoints))))
-
-#_(def courses
-  (->> (take 30 (iterate inc 1))
-       (map-indexed (fn [id _] [id (generate-course id)]))
-       (into {})))
-
-(def raw-collections
-  [[:featured (into #{} (take 10 (iterate inc 1)))]
-   [:popular (into #{} (take 5 (iterate inc 2)))]
-   [:new (into #{} (take 4 (iterate inc 4)))]])
-
-(def named-collections
-  (->> raw-collections
-       (map (fn [[collection-name collection-ids]]
-              [collection-name {:collection-name collection-name
-                                :collection-type :flag-collection
-                                :collection-ids collection-ids}]))
-       (into {})))
-
-(defn named-collection [collection-name]
-  (collection-name named-collections))
+      (update-in [:checkpoints] index-checkpoints)
+      add-ids))
 
 (defn create-resource [url]
   (let [{:keys [title text]} (generate-content)]

@@ -5,10 +5,15 @@
             [offcourse.appstate.queryable :as qa-impl]
             [offcourse.protocols.composable :as ca :refer [Composable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]))
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
+            [schema.core :as schema]))
 
-(defrecord Appstate [component-name input-channel output-channel
-                     viewmodels actions reactions initialized?]
+(schema/defrecord Appstate
+    [component-name :- schema/Keyword
+     channels       :- {}
+     viewmodels     :- {}
+     actions        :- []
+     reactions      :- {}]
   Lifecycle
   (start [as] (lc-impl/start as))
   (stop [as] (lc-impl/stop as))
@@ -21,9 +26,5 @@
   (compose [as] (ca-impl/compose as))
   (compose [as query] (ca-impl/compose as query)))
 
-(defn new [actions reactions viewmodels]
-  (map->Appstate {:component-name :appstate
-                  :actions actions
-                  :reactions reactions
-                  :viewmodels viewmodels
-                  :initialized? (atom false)}))
+(defn new []
+  (map->Appstate {:component-name :appstate}))

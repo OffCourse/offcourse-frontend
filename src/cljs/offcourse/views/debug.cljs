@@ -22,12 +22,20 @@
    :courses    (count courses)
    :resources  (count resources)})
 
+(defn collection-stats [{:keys [collection]}]
+  (assoc collection :course-ids (count (:course-ids collection))))
+
+(defn cln-stats [{:keys [collection-names]}]
+  (medley/map-vals count collection-names))
+
 (defn shorten-payload [{:keys [store course-ids viewmodel] :as payload}]
   (cond
-    (contains? payload :store)      (assoc payload :store (store-stats store))
-    (contains? payload :viewmodel)  (assoc payload :viewmodel (vm-stats viewmodel))
-    (contains? payload :course-ids) (assoc payload :course-ids (count course-ids))
-    :default                        payload))
+    (contains? payload :store)            (assoc payload :store (store-stats store))
+    (contains? payload :viewmodel)        (assoc payload :viewmodel (vm-stats viewmodel))
+    (contains? payload :collection)       (assoc payload :collection (collection-stats payload))
+    (contains? payload :collection-names) (assoc payload :collection-names (cln-stats payload))
+    (contains? payload :course-ids)       (assoc payload :course-ids (count course-ids))
+    :default                              payload))
 
 (rum/defc debugger [{:keys [log] :as pl}]
   (let [log (mapv #(conj % (shorten-payload (get % 3))) log)

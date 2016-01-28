@@ -1,7 +1,7 @@
-(ns offcourse.models.collection-view.index
+(ns offcourse.viewmodels.collection-view.index
   (:require [offcourse.models.collection :refer [Collection]]
-            [offcourse.models.collection-view.queryable :as qa-impl]
-            [offcourse.models.collection-view.validatable :as va-impl]
+            [offcourse.viewmodels.collection-view.queryable :as qa-impl]
+            [offcourse.viewmodels.collection-view.validatable :as va-impl]
             [offcourse.models.course :refer [Course]]
             [offcourse.models.label :refer [Label]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]

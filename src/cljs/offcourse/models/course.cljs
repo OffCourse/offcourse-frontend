@@ -6,23 +6,21 @@
             [offcourse.protocols.queryable   :as qa :refer [Queryable]]
             [clojure.set :as set]))
 
-(defn valid-id? [id]
-  (let [[_ uuid curator version] (re-matches #"(.+)/(.+)/(.+)" id)]
-    (uuid/valid-uuid? uuid)))
-
 (schema/defrecord Course
-    [course-id    :- (schema/pred valid-id?)
-     base-id      :- schema/Uuid
-     version      :- schema/Num
+    [course-id    :- schema/Num
+     base-id      :- schema/Num
+     hashtag      :- schema/Keyword
+     timestamp    :- schema/Num
+     version      :- [schema/Num]
+     revision     :- schema/Num
      curator      :- schema/Keyword
      goal         :- schema/Any
      flags        :- #{schema/Keyword}
-     forked-from  :- (schema/maybe (schema/pred valid-id?))
-     forks        :- #{(schema/pred valid-id?)}
+     forked-from  :- (schema/maybe schema/Num)
+     forks        :- #{schema/Num}
      checkpoints  :- [Checkpoint]]
   Queryable
-  (check [course]
-    (schema/check Course course))
+  (check [course] (schema/check Course course))
   Validatable
   (valid? [course]
     (if-not (qa/check course) true false)))

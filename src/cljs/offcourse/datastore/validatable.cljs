@@ -1,4 +1,4 @@
-(ns offcourse.data-service.validatable
+(ns offcourse.datastore.validatable
   (:require [offcourse.protocols.validatable :as va]))
 
 (defn valid? [{:keys [store]}]

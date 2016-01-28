@@ -1,7 +1,8 @@
 (ns offcourse.adapters.fakedb.implementations.queryable
   (:require  [offcourse.fake-data.index :as fake-data]
              [clojure.set :as set]
-             [medley.core :as medley])
+             [medley.core :as medley]
+             [cljs.pprint :as pprint])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defmulti fetch
@@ -13,7 +14,7 @@
       fake-data/create-resource
       (assoc :resource-id resource-id)))
 
-(defonce courses (take 10 (repeatedly fake-data/generate-course)))
+(defonce courses (take 50 (repeatedly fake-data/generate-course)))
 
 (defonce tag-collections
   (->> courses
@@ -55,6 +56,7 @@
 
 (defmethod fetch :course [_ {:keys [course-id]}]
   (let [course (some #(if (= (:course-id %) course-id) %) courses)]
+    (pprint/pprint course)
     (go (if course course {:error :not-found-data}))))
 
 (defmethod fetch :courses [_ {:keys [course-ids]}]

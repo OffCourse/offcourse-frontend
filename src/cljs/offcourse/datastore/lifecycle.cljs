@@ -1,4 +1,4 @@
-(ns offcourse.data-service.lifecycle
+(ns offcourse.datastore.lifecycle
   (:require [offcourse.models.datastore.index :as ds]
             [offcourse.protocols.queryable :refer [check]]
             [offcourse.protocols.responsive :as ri]))

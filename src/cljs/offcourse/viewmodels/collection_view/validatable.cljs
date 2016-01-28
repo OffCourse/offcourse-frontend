@@ -1,4 +1,4 @@
-(ns offcourse.models.collection-view.validatable
+(ns offcourse.viewmodels.collection-view.validatable
   (:require [offcourse.protocols.queryable :as qa]
             [clojure.set :as set]))
 
