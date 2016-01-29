@@ -27,6 +27,8 @@
                  [org.clojure/tools.nrepl    "0.2.12"      :scope "test"]
                  [pandeiro/boot-http "0.7.1-SNAPSHOT" :scope "test"]
                  [prismatic/schema                    "1.0.4"]
+                 [prismatic/plumbing "0.5.2"]
+                 [com.rpl/specter "0.9.2"]
                  [rum                                 "0.6.0"]
                  [sablono                             "0.5.3"]
                  [bidi "1.25.0"]

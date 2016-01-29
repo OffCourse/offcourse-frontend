@@ -8,7 +8,7 @@
 
 (schema/defrecord API
     [component-name :- schema/Keyword
-     service        :- schema/Any
+     repositories   :- [schema/Any]
      channels       :- {}
      actions        :- []
      reactions      :- {}

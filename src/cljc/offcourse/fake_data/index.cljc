@@ -89,19 +89,20 @@
     (swap! hashtags pop)
     hashtag))
 
-(defn generate-course []
-  (-> raw-courses
-      rand-nth
-      (assoc :version [0 0 0])
-      (assoc :revision 0)
-      (assoc :hashtag hashtag)
-      (assoc :timestamp (.now js/Date))
-      (assoc :forked-from nil)
-      (assoc :forks #{})
-      (assoc :curator (rand-nth users))
-      (assoc :flags (generate-flags))
-      (update-in [:checkpoints] index-checkpoints)
-      add-ids))
+(defn generate-course
+  ([] (generate-course (rand-nth users) hashtag))
+  ([curator hashtag] (-> raw-courses
+                         rand-nth
+                         (assoc :version [0 0 0]
+                                :revision 0
+                                :hashtag hashtag
+                                :timestamp (.now js/Date)
+                                :forked-from nil
+                                :forks #{}
+                                :curator curator
+                                :flags (generate-flags))
+                         (update-in [:checkpoints] index-checkpoints)
+                         add-ids)))
 
 (defn create-resource [url]
   (let [{:keys [title text]} (generate-content)]

@@ -4,6 +4,5 @@
             [offcourse.adapters.fakedb.index :as fakedb]))
 
 (defn app [bootstrap-docs]
-  (system bootstrap-docs {:user-courses (pouchdb/new-db :courses-db bootstrap-docs)
-                          :courses  (fakedb/new-db :courses-db)
-                          :resources (fakedb/new-db :resources-db)}))
+  (system bootstrap-docs [{:adapter fakedb/new-db
+                           :name    :courses-db}]))

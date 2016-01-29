@@ -1,18 +1,14 @@
 (ns offcourse.adapters.fakedb.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.protocols.bootstrappable :refer [Bootstrappable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.validatable :refer [Validatable]]
             [offcourse.protocols.queryable :refer [Queryable]]
-            [offcourse.adapters.fakedb.implementations.bootstrappable :refer [bootstrap]]
             [offcourse.adapters.fakedb.implementations.queryable :refer [fetch]]))
 
 (defrecord FakeDB [name connection]
   Lifecycle
-  (start [db] (assoc db :connection {}))
+  (start [db] (assoc db :connection "test/test.com"))
   (stop  [db] (dissoc db :connection))
-  Bootstrappable
-  (bootstrap [db] (bootstrap db))
   Queryable
   (check   [db query] #_(check db query))
   (fetch   [db query] (fetch (:connection db) query))

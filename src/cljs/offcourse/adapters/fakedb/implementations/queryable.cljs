@@ -2,7 +2,8 @@
   (:require  [offcourse.fake-data.index :as fake-data]
              [clojure.set :as set]
              [medley.core :as medley]
-             [cljs.pprint :as pprint])
+             [cljs.pprint :as pprint]
+             [com.rpl.specter :refer [select select-first filterer ALL]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defmulti fetch
@@ -14,7 +15,8 @@
       fake-data/create-resource
       (assoc :resource-id resource-id)))
 
-(defonce courses (take 50 (repeatedly fake-data/generate-course)))
+(defonce courses (conj (take 49 (repeatedly fake-data/generate-course))
+                       (fake-data/generate-course "yeehaa" "netiquette")))
 
 (defonce tag-collections
   (->> courses
@@ -54,15 +56,21 @@
        :collection-type collection-type
        :course-ids (get-in collections [collection-type collection-name])}))
 
-(defmethod fetch :course [_ {:keys [course-id]}]
-  (let [course (some #(if (= (:course-id %) course-id) %) courses)]
-    (pprint/pprint course)
+(defn course-by-id [{:keys [course-id]}]
+  [ALL #(= (:course-id %) course-id)])
+
+(defn course-by-curator-and-hashtag [{:keys [curator hashtag]}]
+  [ALL #(and (= (:hashtag %) (name hashtag))
+             (= (:curator %) (name curator)))])
+
+(defmethod fetch :course [_ {:keys [course]}]
+  (let [{:keys [course-id curator hashtag]} course
+        course (or (select-first (course-by-id course) courses)
+                   (select-first (course-by-curator-and-hashtag course) courses))]
     (go (if course course {:error :not-found-data}))))
 
 (defmethod fetch :courses [_ {:keys [course-ids]}]
-  (let [courses (map (fn [course-id]
-                       (some #(if (= (:course-id %) course-id) %) courses))
-                     course-ids)]
+  (let [courses (select [ALL #(contains? course-ids (:course-id %))] courses)]
     (go (if courses courses {:error :not-found-data}))))
 
 (defmethod fetch :resource [_ {:keys [resource-id]}]

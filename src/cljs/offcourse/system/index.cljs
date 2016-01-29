@@ -4,7 +4,7 @@
             [offcourse.datastore.index :as datastore]
             [offcourse.logger.index :as logger]
             [offcourse.router.index :as router]
-            [offcourse.api.index :as repo]
+            [offcourse.api.index :as api]
             [offcourse.renderer.index :as renderer]
             [offcourse.system.interactions :refer [actions reactions]]
             [offcourse.system.routes :refer [routes]]
@@ -23,32 +23,23 @@
   {:resources          [ci/to-resource :resource-ids]
    :resource           [ci/to-resource]})
 
-(defn system [bootstrap-docs databases]
+(defn system [bootstrap-docs repositories]
   (let [channels plumbing/channels]
     (component/system-map
-     :courses-service        (:courses databases)
-     :resources-service      (:resources databases)
      :routes                 routes
+     :repositories           repositories
      :viewmodels             viewmodels
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
      :courses-fetchables     courses-fetchables
-     :courses-channels       (:courses channels)
+     :api-channels           (:api channels)
      :courses-fetchables     courses-fetchables
-     :courses                (component/using (repo/new :courses)
-                                             {:channels   :courses-channels
-                                              :actions    :api-actions
-                                              :reactions  :api-reactions
-                                              :fetchables :courses-fetchables
-                                              :service    :courses-service})
-     :resources-channels     (:resources channels)
-     :resources-fetchables   resources-fetchables
-     :resources              (component/using (repo/new :resources)
-                                              {:channels   :resources-channels
+     :api                    (component/using (api/new :courses)
+                                              {:channels   :api-channels
                                                :actions    :api-actions
                                                :reactions  :api-reactions
-                                               :fetchables :resources-fetchables
-                                               :service    :resources-service})
+                                               :fetchables :courses-fetchables
+                                               :repositories :repositories})
      :renderable             debug/debugger
      :router-actions         (:router actions)
      :router-reactions       (:router reactions)

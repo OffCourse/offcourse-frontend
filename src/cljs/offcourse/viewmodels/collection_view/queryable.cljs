@@ -1,6 +1,5 @@
 (ns offcourse.viewmodels.collection-view.queryable
   (:require [medley.core :as medley]
-            [cljs.pprint :as pprint]
             [offcourse.models.label :as lb]))
 
 (defn refresh [{:keys [collection] :as vm} {:keys [collections courses]}]

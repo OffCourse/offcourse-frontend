@@ -7,24 +7,25 @@
             [offcourse.protocols.responsive :as ri])
 (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn fetch-1 [{:keys [service] :as api} {:keys [type] :as query} converter]
+(defn fetch-1 [api repository {:keys [type] :as query} converter]
   (go
-    (let [result (<! (qa/fetch service query))]
+    (let [result (<! (qa/fetch repository query))]
       (if (:error result)
         (ri/respond api :failed-fetch query)
         (ri/respond api :fetched-data type (converter result))))))
 
-(defn fetch-m [{:keys [service] :as api} {:keys [type] :as query} converter field]
+(defn fetch-m [api repository {:keys [type] :as query} converter field]
   (go
-    (let [result (remove nil? (<! (qa/fetch service query)))]
+    (let [result (remove nil? (<! (qa/fetch repository query)))]
       (if (or (:error result) (empty? result))
         (ri/respond api :failed-fetch query)
         (let [converted (map converter result)]
           (ri/respond api :fetched-data type converted))))))
 
-(defn fetch [{:keys [fetchables] :as api} {:keys [type] :as query}]
+(defn fetch [{:keys [repositories fetchables] :as api} {:keys [type] :as query}]
   (if-let [[converter field] (type fetchables)]
-    (if field
-      (fetch-m api query converter field)
-      (fetch-1 api query converter))
+    (doseq [repository repositories]
+      (if field
+        (fetch-m api repository query converter field)
+        (fetch-1 api repository query converter)))
     (ri/respond api :query-not-supported query)))

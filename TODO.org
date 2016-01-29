@@ -10,23 +10,24 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                             [53%]
-+ [-] General        [83%]
+* Now                             [76%]
++ [-] General        [85%]
   - [X] move system to separate module
   - [X] refactor responder in a generic and overridable part
   - [X] add source property to actions
   - [X] flatten payload
   - [X] move everything back from cljc to cljs dir
+  - [X] add specter
   - [ ] close! input-channel or lifecycle/stop!
 + [X] System         [100%]
   - [X] refactor map
   - [X] move index file to correct dir
-+ [-] Models         [83%]
++ [X] Models         [100%]
   - [X] action
     + [X] implement loggable protocol
   - [X] collection
-  - [-] course
-    + [ ] change base-id to hash
+  - [X] course
+    + [X] change base-id to hash
     + [X] add hashtag
     + [X] add timestamp
   - [X] datastore
@@ -39,24 +40,26 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] Convertible
   - [X] Composable
   - [X] Loggable
-+ [-] Adapters       [0%]
-  - [-] fakedb
++ [X] Adapters       [100%]
+  - [X] fakedb
     + [X] fetch
-    + [ ] improve error handling
-+ [ ] API            [0%]
-  - [ ] add repositories field
+    + [X] add curator / hashtag query
+    + [X] improve error handling
++ [X] API            [100%]
+  - [X] add repositories field
+  - [X] implement adapters
 + [-] Datastore      [72%]
-  + [X] add component library
-  + [X] make api consistent
-  + [X] add validity check to responder
-  + [X] Merge instead of override collections / collection names
-  + [X] implement refresh on data service
-  + [X] find bug that causes false rerender in appstate
-  + [X] remove initialized?
-  + [ ] add check for curator / hashtag
-  + [ ] add specter
-  + [ ] add support for not found courses
-  + [X] rename back to Datastore
+  - [X] add component library
+  - [X] make api consistent
+  - [X] add validity check to responder
+  - [X] Merge instead of override collections / collection names
+  - [X] implement refresh on data service
+  - [X] find bug that causes false rerender in appstate
+  - [X] remove initialized?
+  - [ ] add check and refresh for curator + hashtag
+  - [ ] implement specter
+  - [ ] add support for not found courses
+  - [X] rename back to Datastore
 + [X] Appstate       [100%]
   - [X] remove initialized?
   - [X] add component library
@@ -78,7 +81,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] move protocol implementations to separate files
   - [-] implement routes
     + [X] collections
-    + [ ] course
+    + [X] course
     + [ ] checkpoint
 + [X] Renderer       [100%]
   - [X] add component library
@@ -88,8 +91,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] Debugger       [100%]
   - [X] basic implementation
   - [X] make simple UI
-* Next                             [8%]
-+ [ ] General        [0%]
+* Next                             [16%]
++ [X] General        [100%]
+  - [X] add graph
 + [X] Wrappers       [100%]
   - [X] pouchdb
     + [X] completed
@@ -115,13 +119,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] add renderable protocol
   - [ ] transition view-components to RUM or Sablono
   - [ ] add renderable protocol (renders com
+  - [ ] implement graph
   - [ ] sidebar
   - [ ] topbar
   - [ ] card
 + [-] Appstate       [0%]
 + [ ] Renderer       [0%]
   - [ ] remove Rendering protocol
-+ [-] Logger         [66%]
++ [ ] Logger         [0%]
   - [ ] add Route for Logs
 + [ ] Authentication [0%]
 * Future                          [0%]

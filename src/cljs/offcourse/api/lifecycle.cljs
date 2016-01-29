@@ -1,16 +1,16 @@
 (ns offcourse.api.lifecycle
   (:require [cljs.core.async :refer [<! >! close!]]
             [offcourse.protocols.bootstrappable :as ba]
+            [com.stuartsierra.component :as lc]
             [offcourse.protocols.responsive :as ri])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn start [{:keys [service] :as api}]
-  (go
-    (let [response  (<! (ba/bootstrap service))
-          ready?    (= (:type response) :db-ready)]
-      (if ready?
-        (assoc api :listener (ri/listen api))
-        (ri/respond api :api-error response)))))
+(defn connect-to-repository [{:keys [adapter name]}]
+  (lc/start (adapter name)))
+
+(defn start [api]
+  (let [api (update-in api [:repositories] #(map connect-to-repository %))]
+    (assoc api :listener (ri/listen api))))
 
 (defn stop [{:keys [input-channel] :as api}]
   (do
