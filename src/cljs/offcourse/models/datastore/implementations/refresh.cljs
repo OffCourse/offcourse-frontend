@@ -18,7 +18,7 @@
                         (into {}))])
 
 (defn add-course [store {:keys [course-id] :as course}]
-  (assoc-in store [:courses course-id] course))
+  (update-in store [:courses] #(conj % course)))
 
 (defn add-resource [store {:keys [resource-id] :as resource}]
   (assoc-in store [:resources resource-id] resource))

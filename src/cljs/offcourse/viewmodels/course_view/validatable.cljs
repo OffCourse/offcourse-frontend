@@ -1,5 +1,6 @@
 (ns offcourse.viewmodels.course-view.validatable
-  (:require [offcourse.protocols.queryable :as qa]))
+  (:require [offcourse.protocols.queryable :as qa]
+            [cljs.pprint :as pprint]))
 
 (defn missing-data [{:keys [course] :as vm}]
   (let [next-missing-field (first (keys (qa/check vm)))

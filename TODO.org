@@ -45,6 +45,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] fetch
     + [X] add curator / hashtag query
     + [X] improve error handling
+    + [ ] split into 2 (course and resources)
 + [X] API            [100%]
   - [X] add repositories field
   - [X] implement adapters

@@ -2,7 +2,7 @@
   (:require [clojure.set :as set]))
 
 (defn member-ids [collection]
-  (->> (keys collection)
+  (->> (map :course-id collection)
        (map str)
        (into #{})))
 
@@ -17,7 +17,7 @@
   (let [course-ids (get-in collections [collection-type collection-name :course-ids])]
     (> (count course-ids) 0)))
 
-(defmethod check :courses [{:keys [courses]} {:keys [course-ids]}]
+(defmethod check :courses [{:keys [courses] :as s} {:keys [course-ids]}]
   (has-items? courses course-ids))
 
 (defmethod check :course [{:keys [courses]} {:keys [course-id]}]

@@ -9,18 +9,16 @@
             [offcourse.system.interactions :refer [actions reactions]]
             [offcourse.system.routes :refer [routes]]
             [offcourse.system.plumbing :as plumbing]
+            [offcourse.protocols.convertible :as ci]
             [offcourse.system.viewmodels :refer [viewmodels]]
-            [offcourse.views.debug :as debug]
-            [offcourse.protocols.convertible :as ci]))
+            [offcourse.views.debug :as debug]))
 
-(def courses-fetchables
-  {:courses          [ci/to-course :course-ids]
-   :course           [ci/to-course]
-   :collection       [ci/to-collection]
-   :collection-names [identity]})
-
-(def resources-fetchables
-  {:resources          [ci/to-resource :resource-ids]
+(def fetchables
+  {:courses            [ci/to-course :course-ids]
+   :course             [ci/to-course]
+   :collection         [ci/to-collection]
+   :collection-names   [identity]
+   :resources          [ci/to-resource :resource-ids]
    :resource           [ci/to-resource]})
 
 (defn system [bootstrap-docs repositories]
@@ -29,16 +27,15 @@
      :routes                 routes
      :repositories           repositories
      :viewmodels             viewmodels
+     :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
-     :courses-fetchables     courses-fetchables
      :api-channels           (:api channels)
-     :courses-fetchables     courses-fetchables
      :api                    (component/using (api/new :courses)
                                               {:channels   :api-channels
                                                :actions    :api-actions
+                                               :fetchables :fetchables
                                                :reactions  :api-reactions
-                                               :fetchables :courses-fetchables
                                                :repositories :repositories})
      :renderable             debug/debugger
      :router-actions         (:router actions)
