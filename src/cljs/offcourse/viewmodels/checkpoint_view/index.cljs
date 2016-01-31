@@ -21,8 +21,10 @@
   (check [vm] (schema/check CheckpointView vm))
   (refresh [vm store] (qa-impl/refresh vm store)))
 
-(defn new [{:keys [type course-id checkpoint-id]}]
-  (let [course {:course-id course-id}]
+(defn new [{:keys [type course-id checkpoint-id curator hashtag]}]
+  (let [course (if course-id {:course-id course-id}
+                   {:curator curator
+                    :hashtag hashtag})]
     (map->CheckpointView {:view-name type
-                          :course course
-                          :checkpoint-id checkpoint-id})))
+                          :checkpoint-id (js/parseInt checkpoint-id)
+                          :course course})))

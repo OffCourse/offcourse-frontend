@@ -10,7 +10,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                             [76%]
+* Now                             [84%]
 + [-] General        [85%]
   - [X] move system to separate module
   - [X] refactor responder in a generic and overridable part
@@ -75,15 +75,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add checkpoint viewmodel
   - [X] add labels model
   - [X] move to separate module
-+ [-] Router         [80%]
++ [X] Router         [100%]
   - [X] add component library
   - [X] add bidi
   - [X] add pushy
   - [X] move protocol implementations to separate files
-  - [-] implement routes
+  - [X] implement routes
     + [X] collections
     + [X] course
-    + [ ] checkpoint
+    + [X] checkpoint
 + [X] Renderer       [100%]
   - [X] add component library
 + [X] Logger         [100%]

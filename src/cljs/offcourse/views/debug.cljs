@@ -16,11 +16,14 @@
    :courses     (count courses)
    :resources   (count resources)})
 
-(defn vm-stats [{:keys [collection labels courses resources]}]
-  {:collection (into {} (assoc collection :course-ids (count (:course-ids collection))))
-   :labels     (medley/map-vals count labels)
-   :courses    (count courses)
-   :resources  (count resources)})
+(defn vm-stats [{:keys [collection labels course resource checkpoint-id courses resources]}]
+  {:collection    (into {} (assoc collection :course-ids (count (:course-ids collection))))
+   :labels        (medley/map-vals count labels)
+   :checkpoint-id (when checkpoint-id checkpoint-id)
+   :course        (when course course)
+   :resource      (when resource (keys resource))
+   :courses       (when courses (count courses))
+   :resources     (when resources (count resources))})
 
 (defn collection-stats [{:keys [collection]}]
   (assoc collection :course-ids (count (:course-ids collection))))

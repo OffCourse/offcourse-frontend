@@ -21,7 +21,8 @@
                                                    :collection-type :flags
                                                    :collection-name :new})
                :collection-view     (partial merge {:type :collection-view})
-               :course-view         (partial merge {:type :course-view})}
+               :course-view         (partial merge {:type :course-view})
+               :checkpoint-view     (partial merge {:type :checkpoint-view})}
    :appstate  {:requested-route     qa/refresh
                :checked-store       ca/compose
                :refreshed-datastore ca/compose}
