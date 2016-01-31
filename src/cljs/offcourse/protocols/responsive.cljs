@@ -1,5 +1,5 @@
 (ns offcourse.protocols.responsive
-  (:require [cljs.core.async :refer [<! >!]]
+  (:require [cljs.core.async :refer [<! close! >!]]
             [offcourse.models.action :as action])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
@@ -26,11 +26,17 @@
        (action/new status component-name payload))))
   ([this status type result](-respond this status (payload type result))))
 
-(defn -listen [{:keys [input-channel channels reactions] :as this}]
-  (let [input-channel (or input-channel (:input channels))]
-    (go-loop []
-      (let [{:keys [type source payload] :as action} (<! input-channel)
-            reaction (type reactions)]
-        (when reaction
-          (reaction this payload))
-        (recur)))))
+(defn -listen [{:keys [channels reactions] :as this}]
+  (assoc this :listener
+         (go-loop []
+           (let [{:keys [type source payload] :as action} (<! (:input channels))
+                 reaction (type reactions)]
+             (when reaction
+               (reaction this payload))
+             (recur)))))
+
+
+(defn -mute [{:keys [channels] :as this}]
+  (close! (:input channels))
+  (-> this
+      (dissoc :listener)))
