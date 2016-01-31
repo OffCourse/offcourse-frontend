@@ -10,29 +10,10 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [0%]
+* Now                       [0%]
 + [ ] General        [0%]
-+ [-] Wrappers       [0%]
-  - [-] pouchdb
-    + [X] completed
-    + [ ] refactor
 + [ ] Protocols      [0%]
-  - [ ] Bootstrappable
   - [ ] Renderable
-+ [ ] Wrappers       [0%]
-  - [ ] pouchdb
-    + [ ] refactor
-+ [-] Adapters       [33%]
-  - [X] pouchdb
-    + [X] fetch
-  - [ ] HTTP
-  - [ ] Websockets
-+ [ ] Repositories   [0%]
-  - [ ] central repo
-    + [ ] add publish
-  - [ ] user repo
-    + [ ] implement better bootstrapping
-    + [ ] add save
 + [ ] Datastore      [0%]
   - [ ] write some tests
   - [ ] add support for not found courses
@@ -44,7 +25,6 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] sidebar
   - [ ] topbar
   - [ ] card
-+ [-] Appstate       [0%]
 + [ ] Viewmodels     [0%]
   - [ ] improve schema validations
   - [ ] add graph
@@ -54,22 +34,16 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] refactor routes
 + [ ] Logger         [0%]
   - [ ] add Route for Logs
-+ [ ] Authentication [0%]
-* Next                        [0%]
-+ [ ] General        [0%]
+* Next                       [0%]
++ [ ] Protocols      [0%]
+  - [ ] Bootstrappable
++ [-] Appstate       [0%]
 + [-] Wrappers       [0%]
   - [-] pouchdb
     + [X] completed
     + [ ] refactor
-+ [ ] Protocols      [0%]
-  - [ ] Bootstrappable
-  - [ ] Renderable
-+ [ ] Wrappers       [0%]
++ [ ] Adapters       [0%]
   - [ ] pouchdb
-    + [ ] refactor
-+ [-] Adapters       [33%]
-  - [X] pouchdb
-    + [X] fetch
   - [ ] HTTP
   - [ ] Websockets
 + [ ] Repositories   [0%]
@@ -78,35 +52,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] user repo
     + [ ] implement better bootstrapping
     + [ ] add save
-+ [ ] Datastore      [0%]
-  - [ ] write some tests
-  - [ ] add support for not found courses
-+ [ ] Views          [0%]
-  - [ ] add renderable protocol
-  - [ ] transition view-components to RUM or Sablono
-  - [ ] add renderable protocol (renders com
-  - [ ] implement graph
-  - [ ] sidebar
-  - [ ] topbar
-  - [ ] card
-+ [-] Appstate       [0%]
-+ [ ] Viewmodels     [0%]
-  - [ ] improve schema validations
-  - [ ] add graph
-+ [ ] Renderer       [0%]
-  - [ ] remove Rendering protocol
-+ [ ] Router         [0%]
-  - [ ] refactor routes
-+ [ ] Logger         [0%]
-  - [ ] add Route for Logs
 + [ ] Authentication [0%]
-* Future                     [0%]
 + [ ] General        [0%]
   - [ ] refactor to cljc where possible
-* Optional                  [0%]
+* Future                    [%]
+* Optional                 [0%]
 + [ ] Styles [0%]
   - [ ] rewrite styles to garden
-* Archive                    [100%]
+* Archive                   [100%]
 + [X] General        [100%]
   - [X] move system to separate module
   - [X] refactor responder in a generic and overridable part
