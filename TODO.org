@@ -45,11 +45,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] fetch
     + [X] add curator / hashtag query
     + [X] improve error handling
-    + [ ] split into 2 (course and resources)
+    + [X] split into 2 (course and resources)
 + [X] API            [100%]
   - [X] add repositories field
   - [X] implement adapters
-+ [-] Datastore      [72%]
++ [-] Datastore      [90%]
   - [X] add component library
   - [X] make api consistent
   - [X] add validity check to responder
@@ -57,8 +57,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] implement refresh on data service
   - [X] find bug that causes false rerender in appstate
   - [X] remove initialized?
-  - [ ] add check and refresh for curator + hashtag
-  - [ ] implement specter
+  - [X] add check and refresh for curator + hashtag
+  - [X] implement specter
   - [ ] add support for not found courses
   - [X] rename back to Datastore
 + [X] Appstate       [100%]

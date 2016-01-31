@@ -11,4 +11,7 @@
                           {:adapter         fakedb/new-db
                            :supported-types [:collection-names :collection
                                              :course :courses]
-                           :name            :courses-repo2}]))
+                           :name            :courses2-repo}
+                          {:adapter         fakedb/new-db
+                           :supported-types [:resource :resources]
+                           :name            :resources-repo}]))
