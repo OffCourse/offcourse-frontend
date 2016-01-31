@@ -6,9 +6,6 @@
              [com.rpl.specter :refer [select select-first filterer ALL]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defmulti fetch
-  (fn [_ {:keys [type]}] type))
-
 (defn create-fake-resource [resource-id]
   (-> fake-data/urls
       rand-nth
@@ -47,6 +44,9 @@
   {:tags tag-collections
    :flags flag-collections
    :curators curator-collections})
+
+(defmulti fetch
+  (fn [_ {:keys [type]}] type))
 
 (defmethod fetch :collection-names [_]
   (go (medley/map-vals #(into #{} (keys %)) collections)))

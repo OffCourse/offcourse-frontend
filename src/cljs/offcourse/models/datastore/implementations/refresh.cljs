@@ -1,6 +1,7 @@
 (ns offcourse.models.datastore.implementations.refresh
   (:require [offcourse.models.collection :as cl]
             [medley.core :as medley]
+            [com.rpl.specter :refer [select select-first filterer ALL]]
             [clojure.set :as set]))
 
 (defn deep-merge
@@ -44,11 +45,22 @@
                  #(set/union store-ids course-ids))
       (assoc-in store [:collections collection-type collection-name] collection))))
 
-(defmethod refresh :courses [store {:keys [courses]}]
-  (reduce add-course store courses))
+(defmethod refresh :courses [store query]
+  (let [store-ids (into #{} (map :course-id (:courses store)))
+        query-ids (into #{} (map :course-id (:courses query)))
+        missing-ids (set/difference query-ids store-ids)
+        missing-courses (keep (fn [{:keys [course-id] :as course}]
+                                (when (contains? missing-ids course-id) course))
+                              (:courses query))]
+    (if-not (empty? missing-ids)
+      (reduce add-course store (:courses query))
+      store)))
 
 (defmethod refresh :course [store {:keys [course]}]
-  (add-course store course))
+  (let [store-ids (into #{} (map :course-id (:courses store)))]
+    (if-not (contains? store-ids (:course-id course))
+      (add-course store course)
+      store)))
 
 (defmethod refresh :resources [store {:keys [resources]}]
   (reduce add-resource store resources))

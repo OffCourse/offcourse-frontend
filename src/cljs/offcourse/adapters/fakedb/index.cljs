@@ -5,7 +5,7 @@
             [offcourse.protocols.queryable :refer [Queryable]]
             [offcourse.adapters.fakedb.implementations.queryable :refer [fetch]]))
 
-(defrecord FakeDB [name fetchables connection]
+(defrecord FakeDB [name supported-types connection]
   Lifecycle
   (start [db] (assoc db :connection "test/test.com"))
   (stop  [db] (dissoc db :connection))
@@ -18,6 +18,6 @@
   Responsive
   (respond [db status] (ri/-respond db status nil)))
 
-(defn new-db [name fetchables]
+(defn new-db [name supported-types]
   (map->FakeDB {:name name
-                :fetchables fetchables}))
+                :supported-types supported-types}))

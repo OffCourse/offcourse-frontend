@@ -11,9 +11,10 @@
     (respond ds :not-found-data query)))
 
 (defn refresh [{:keys [store] :as ds} query]
-  (do
-    (swap! store #(qa/refresh % query))
-    (println (:courses @store))
-    (if (va/valid? @store)
-      (respond ds :refreshed-datastore {:store @store})
-      (respond ds :not-found-data {:type :collection-names}))))
+  (let [old-store @store]
+    (do
+      (swap! store #(qa/refresh % query))
+      (when-not (= old-store @store)
+        (if (va/valid? @store)
+          (respond ds :refreshed-datastore {:store @store})
+          (respond ds :not-found-data {:type :collection-names}))))))

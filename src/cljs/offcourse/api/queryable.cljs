@@ -24,8 +24,9 @@
 
 (defn fetch [{:keys [repositories fetchables] :as api} {:keys [type] :as query}]
   (if-let [[converter field] (type fetchables)]
-    (doseq [repository repositories]
-      (if field
-        (fetch-m api repository query converter field)
-        (fetch-1 api repository query converter)))
+    (doseq [{:keys [supported-types] :as repository} repositories]
+      (when (some #{type} supported-types)
+        (if field
+          (fetch-m api repository query converter field)
+          (fetch-1 api repository query converter))))
     (ri/respond api :query-not-supported query)))

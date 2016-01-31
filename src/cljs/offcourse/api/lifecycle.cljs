@@ -5,8 +5,8 @@
             [offcourse.protocols.responsive :as ri])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn connect-to-repository [{:keys [adapter name fetchables]}]
-  (lc/start (adapter name fetchables)))
+(defn connect-to-repository [{:keys [adapter name fetchables supported-types]}]
+  (lc/start (adapter name supported-types)))
 
 (defn start [api]
   (let [api (update-in api [:repositories] #(map connect-to-repository %))]
