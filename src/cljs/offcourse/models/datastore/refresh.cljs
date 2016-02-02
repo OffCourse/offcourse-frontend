@@ -1,4 +1,4 @@
-(ns offcourse.models.datastore.implementations.refresh
+(ns offcourse.models.datastore.refresh
   (:require [offcourse.models.collection :as cl]
             [medley.core :as medley]
             [com.rpl.specter :refer [select select-first filterer ALL]]

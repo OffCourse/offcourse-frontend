@@ -7,17 +7,17 @@
             [clojure.set :as set]))
 
 (schema/defrecord Course
-    [course-id    :- schema/Num
-     base-id      :- schema/Num
+    [course-id    :- schema/Int
+     base-id      :- schema/Int
      hashtag      :- schema/Keyword
-     timestamp    :- schema/Num
-     version      :- [schema/Num]
-     revision     :- schema/Num
+     timestamp    :- schema/Int
+     version      :- [schema/Int]
+     revision     :- schema/Int
      curator      :- schema/Keyword
      goal         :- schema/Any
      flags        :- #{schema/Keyword}
      forked-from  :- (schema/maybe schema/Num)
-     forks        :- #{schema/Num}
+     forks        :- #{schema/Int}
      checkpoints  :- [Checkpoint]]
   Queryable
   (check [course] (schema/check Course course))

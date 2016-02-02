@@ -2,8 +2,8 @@
   (:require [offcourse.models.course :refer [Course]]
             [offcourse.protocols.queryable :refer [Queryable]]
             [offcourse.protocols.validatable :refer [Validatable]]
-            [offcourse.models.datastore.implementations.check :as check-impl]
-            [offcourse.models.datastore.implementations.refresh :as refresh-impl]
+            [offcourse.models.datastore.check :as check-impl]
+            [offcourse.models.datastore.refresh :as refresh-impl]
             [offcourse.models.resource :refer [Resource]]
             [schema.core :as schema]))
 

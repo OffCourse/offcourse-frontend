@@ -10,12 +10,18 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                       [0%]
-+ [ ] General        [0%]
+* Now                       [11%]
++ [X] General        [100%]
+  - [X] add test runner
 + [ ] Protocols      [0%]
   - [ ] Renderable
++ [ ] Models         [0%]
+  - [ ] Datastore      [0%]
+    + [ ] add tests
+      - [ ] check
+      - [ ] refresh
+    + [ ] add support for not found courses
 + [ ] Datastore      [0%]
-  - [ ] write some tests
   - [ ] add support for not found courses
 + [ ] Views          [0%]
   - [ ] add renderable protocol
@@ -55,7 +61,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] Authentication [0%]
 + [ ] General        [0%]
   - [ ] refactor to cljc where possible
-* Future                    [%]
+* Future                    [0%]
++ [ ] General        [0%]
+  - [ ] add test-check
 * Optional                 [0%]
 + [ ] Styles [0%]
   - [ ] rewrite styles to garden

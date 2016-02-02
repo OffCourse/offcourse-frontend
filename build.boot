@@ -1,45 +1,47 @@
 (set-env!
  :source-paths    #{"sass" "src/js" "src/clj" "src/cljs" "src/cljc"}
  :resource-paths  #{"resources"}
- :dependencies '[[adzerk/boot-cljs           "1.7.170-3"   :scope "test"]
-                 [adzerk/boot-cljs-repl      "0.3.0"       :scope "test"]
-                 [adzerk/boot-reload         "0.4.2"       :scope "test"]
-                 [ring/ring-devel           "1.3.2"        :scope "test"]
-                 [com.cemerick/piggieback    "0.2.1"       :scope "test"]
-                 [mathias/boot-sassc     "0.1.5"      :scope "test"]
-                 [org.clojure/tools.nrepl "0.2.12"      :scope "test"]
-                 [pandeiro/boot-http "0.7.1-SNAPSHOT" :scope "test"]
-                 [weasel                     "0.7.0"       :scope "test"]
-                 [cljsjs/pouchdb                      "5.1.0-1"]
-                 [hiccup "1.0.5"]
-                 [metosin/ring-http-response "0.6.5"]
-                 [cljsjs/react                        "0.14.3-0"]
-                 [cljsjs/react-dom                    "0.14.3-1"]
-                 [cljsjs/react-dom-server             "0.14.3-0"]
-                 [cljsjs/react-grid-layout            "0.8.5-0"]
+ :dependencies '[[adzerk/boot-cljs            "1.7.170-3"      :scope "test"]
+                 [adzerk/boot-cljs-repl       "0.3.0"          :scope "test"]
+                 [adzerk/boot-reload          "0.4.2"          :scope "test"]
+                 [ring/ring-devel             "1.3.2"          :scope "test"]
+                 [com.cemerick/piggieback     "0.2.1"          :scope "test"]
+                 [mathias/boot-sassc          "0.1.5"          :scope "test"]
+                 [org.clojure/tools.nrepl     "0.2.12"         :scope "test"]
+                 [pandeiro/boot-http          "0.7.1-SNAPSHOT" :scope "test"]
+                 [weasel                      "0.7.0"          :scope "test"]
+                 [hashobject/boot-s3          "0.1.2-SNAPSHOT" :scope "test"]
+                 [crisptrutski/boot-cljs-test "0.2.2-SNAPSHOT" :scope "test"]
+                 [metosin/ring-http-response  "0.6.5"]
+                 [com.stuartsierra/component  "0.3.1"]
+                 [org.clojure/clojurescript   "1.7.189"]
+                 [org.clojure/core.async      "0.2.374"]
+                 [org.clojure/core.match      "0.3.0-alpha4"]
+                 [prismatic/schema            "1.0.4"]
+                 [prismatic/plumbing          "0.5.2"]
+                 [com.rpl/specter             "0.9.2"]
+                 [danlentz/clj-uuid           "0.1.6"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
-                 [com.stuartsierra/component          "0.3.1"]
-                 [danlentz/clj-uuid                   "0.1.6"]
-                 [env/faker                           "0.4.0"]
-                 [hashobject/boot-s3 "0.1.2-SNAPSHOT"]
-                 [medley                              "0.7.0"]
-                 [compojure "1.4.0"]
-                 [org.clojure/clojurescript           "1.7.189"]
-                 [org.clojure/core.async              "0.2.374"]
-                 [org.clojure/core.match              "0.3.0-alpha4"]
-                 [prismatic/schema                    "1.0.4"]
-                 [prismatic/plumbing "0.5.2"]
-                 [com.rpl/specter "0.9.2"]
-                 [rum                                 "0.6.0"]
-                 [sablono                             "0.5.3"]
-                 [bidi "1.25.0"]
-                 [kibu/pushy "0.3.6"]
-                 [cljsjs/fixed-data-table "0.4.6-0"]])
+                 [medley                      "0.7.0"]
+                 [env/faker                   "0.4.0"]
+                 [compojure                   "1.4.0"]
+                 [hiccup                      "1.0.5"]
+                 [rum                         "0.6.0"]
+                 [sablono                     "0.5.3"]
+                 [bidi                        "1.25.0"]
+                 [kibu/pushy                  "0.3.6"]
+                 [cljsjs/pouchdb              "5.1.0-1"]
+                 [cljsjs/react                "0.14.3-0"]
+                 [cljsjs/react-dom            "0.14.3-1"]
+                 [cljsjs/react-dom-server     "0.14.3-0"]
+                 [cljsjs/react-grid-layout    "0.8.5-0"]
+                 [cljsjs/fixed-data-table     "0.4.6-0"]])
 
  (require
   '[adzerk.boot-cljs      :refer [cljs]]
   '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
   '[adzerk.boot-reload    :refer [reload]]
+  '[crisptrutski.boot-cljs-test :refer [test-cljs]]
   '[pandeiro.boot-http    :refer [serve]]
   '[hashobject.boot-s3    :refer :all]
   '[mathias.boot-sassc    :refer [sass]])
@@ -56,6 +58,16 @@
          (cljs-repl)
          (reload)
          (build)))
+
+(deftask testing []
+  (set-env! :source-paths #(conj % "test/cljs"))
+  (task-options! test-cljs {:js-env :node})
+  identity)
+
+(deftask test-dev []
+  (comp (testing)
+        (watch)
+        (test-cljs)))
 
  (deftask production []
    (set-env! :source-paths #(conj % "src-prod/cljs"))
