@@ -13,6 +13,6 @@
         payload            {:type next-missing-field}]
     (case next-missing-field
       :labels     (assoc payload :type :collection-names)
-      :collection (merge payload collection)
+      :collection (assoc payload :collection collection)
       :courses    (assoc payload :course-ids missing-ids)
       nil)))

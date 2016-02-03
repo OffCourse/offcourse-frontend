@@ -51,10 +51,11 @@
 (defmethod fetch :collection-names [_]
   (go (medley/map-vals #(into #{} (keys %)) collections)))
 
-(defmethod fetch :collection [_ {:keys [collection-name collection-type]}]
-  (go {:collection-name collection-name
-       :collection-type collection-type
-       :course-ids (get-in collections [collection-type collection-name])}))
+(defmethod fetch :collection [_ {:keys [collection]}]
+  (when-let [{:keys [collection-name collection-type]} collection]
+    (go {:collection-name collection-name
+         :collection-type collection-type
+         :course-ids (get-in collections [collection-type collection-name])})))
 
 (defn course-by-id [{:keys [course-id]}]
   [ALL #(= (:course-id %) course-id)])

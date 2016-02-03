@@ -39,7 +39,7 @@
            :has-collection-names? true)))
 
 (defmethod refresh :collection [store {:keys [collection]}]
-  (let [{:keys [collection-type collection-name course-ids]} collection]
+  (when-let [{:keys [collection-type collection-name course-ids]} collection]
     (if-let [store-ids (get-in store [:collections collection-type collection-name :course-ids])]
       (update-in store [:collections collection-type collection-name :course-ids]
                  #(set/union store-ids course-ids))

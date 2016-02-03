@@ -26,14 +26,15 @@
         cb       (partial map :doc)]
   (wrapper/query connection options cb :courseIds)))
 
-(defmethod fetch :collection [connection {:keys [collection-name collection-type]}]
-  (let [options  {:reduce false
-                  :key collection-name}
-        collection {:collection-name collection-name
-                    :collection-type collection-type}
-        cb       (comp (partial assoc collection :course-ids)
-                       (partial into #{} (map :value)))]
-    (wrapper/query connection options cb collection-type)))
+(defmethod fetch :collection [connection {:keys [collection]}]
+  (when-let [{:keys [collection-name collection-type]} collection]
+    (let [options  {:reduce false
+                    :key collection-name}
+          collection {:collection-name collection-name
+                      :collection-type collection-type}
+          cb       (comp (partial assoc collection :course-ids)
+                         (partial into #{} (map :value)))]
+      (wrapper/query connection options cb collection-type))))
 
 (defmethod fetch :collection-names [connection _]
   (let [options       {:group true}

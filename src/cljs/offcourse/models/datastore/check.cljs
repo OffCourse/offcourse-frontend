@@ -3,7 +3,7 @@
             [com.rpl.specter :refer [select select-first filterer ALL]]))
 
 (defn member-ids [collection]
-  (->> (map :course-id collection)
+  (->> (keys collection)
        (into #{})))
 
 (defn has-items? [collection ids]
@@ -28,21 +28,30 @@
 (defmethod check :collection-names [{:keys [has-collection-names?]} query]
   (if has-collection-names? true false))
 
-(defmethod check :collection [{:keys [collections]} {:keys [collection-type collection-name]}]
-  (let [course-ids (get-in collections [collection-type collection-name :course-ids])]
-    (> (count course-ids) 0)))
+(defmethod check :collection [{:keys [collections]} {:keys [collection]}]
+  (let [{:keys [collection-type collection-name]} collection
+        course-ids (get-in collections [collection-type collection-name :course-ids])]
+    (if course-ids
+      (> (count course-ids) 0)
+      false)))
 
 (defmethod check :courses [{:keys [courses]} {:keys [course-ids]}]
-  (has-courses? courses course-ids))
+  (if course-ids
+    (has-courses? courses course-ids)
+    false))
 
 (defmethod check :course [{:keys [courses] :as store} {:keys [course]}]
   (has-course? courses course))
 
 (defmethod check :resources [{:keys [resources]} {:keys [resource-ids]}]
-  (has-items? resources resource-ids))
+  (if resource-ids
+    (has-items? resources resource-ids)
+    false))
 
-(defmethod check :resource [{:keys [resources]} {:keys [resource-id]}]
-  (has-items? resources #{resource-id}))
+(defmethod check :resource [{:keys [resources]} {:keys [resource]}]
+  (if-let [{:keys [resource-id]} resource]
+    (has-items? resources #{resource-id})
+    false))
 
 (defmethod check :default [{:keys [resources]} {:keys [resource-id]}]
   {:type :error
