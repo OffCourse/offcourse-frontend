@@ -1,66 +1,117 @@
 (ns offcourse.models.datastore.check-test
-  (:require [offcourse.models.datastore.check :refer [check]]
-            [offcourse.models.datastore.fixtures :as fx]
+  (:require [offcourse.models.datastore.check :as ds :refer [check]]
             [offcourse.models.datastore.helpers :as h]
-            [cljs.test :refer-macros [deftest is are]]))
+            [cljs.test :refer-macros [deftest testing is are]]))
 
-(deftest returns-a-falsy-value-by-default
-  (let [types [:course :courses :resources :collection :collection-names]
-        responses (map #(check fx/store {:type %}) types)]
-    (is (every? #(h/falsy? %) responses))))
+(deftest models-datastore-check
 
-(deftest returns-error-with-non-existing-type
-  (is (= (check fx/store (h/query :bla))
-         {:type :error :error :query-not-supported})))
+  (let [id              123
+        missing-id      223
+        buzzword        :agile
+        user-id         :yeehaa
+        course          {:course-id id
+                         :curator   user-id
+                         :hashtag   buzzword}
+        collection-type :flags
+        collection      {:collection-type collection-type
+                         :collection-name buzzword
+                         :course-ids      #{}}]
 
-(deftest knows-if-collection-names-are-present
-  (let [query (partial h/query :collection-names)]
-    (is (= (check fx/store (query nil)) false))))
+    (testing "it returns an error if given an non-exisiting query type"
+      (is (= (check {} (h/query :bla))
+             {:type :error :error :query-not-supported})))
 
-(deftest knows-if-collection-is-present
-  (letfn [(query [collection-type collection-name]
-            (h/query :collection
-                     :collection-type collection-type
-                     :collection-name collection-name))]
-    (are [collection-type collection-name actual]
-        (= (check fx/store (query collection-type collection-name)) actual)
-      :flags :taurus     true
-      :flags :netiquette false
-      :flags :bla        nil
-      :bla   :netiquette nil
-      :bla   :bla        nil)))
+    (testing "it returns an falsey value by default"
+      (let [types     [:course :courses :resources :collection :collection-names]
+            responses (map #(check {} {:type %}) types)]
+        (is (every? #(h/falsy? %) responses))))
 
-(deftest knows-if-course-is-present-by-id
-  (letfn [(query [course-id]
-            (h/query :course
-                     :course-id course-id))]
-    (are [course-id expectation] (= (check fx/store (query course-id)) expectation)
-      123 true
-      124 false)))
 
-(deftest knows-if-course-is-present-by-curator-and-hashtag
-  (letfn [(query [curator hashtag]
-            (h/query :course
-                     :curator curator
-                     :hashtag hashtag))]
-    (are [curator hashtag expectation] (= (check fx/store (query curator hashtag)) expectation)
-      :yeehaa :netiquette true
-      :yeehaa :bla        false)))
+    (testing "when query type is collection-names"
 
-(deftest knows-if-courses-are-present
-  (letfn [(query [course-ids] (h/query :courses :course-ids course-ids))]
-    (are [course-ids expectation] (= (check fx/store (query course-ids)) expectation)
-      [123] true
-      [444] false)))
+      (testing "it reports if collection-names are present"
+        (let [store {:has-collection-names? true}
+              query (h/query :collection-names)]
+          (is (check store query))))
 
-(deftest knows-if-resource-is-present
-  (let [query (partial h/query :resource)]
-    (are [expectation actual] (= expectation actual)
-      (check fx/store (query :resource-id fx/resource-id)) true
-      (check fx/store (query :resource-id 345))            false)))
+      (testing "it reports if collection-names are missing"
+        (let [store {:has-collection-names? false}
+              query (h/query :collection-names)]
+          (is (not (check store query))))))
 
-(deftest knows-if-resources-are-present
-  (let [query (partial h/query :resources)]
-    (are [expectation actual] (= expectation actual)
-      (check fx/store (query :resource-ids [fx/resource-id])) true
-      (check fx/store (query :resource-ids [223]))            false)))
+
+    (testing "when query type is collection"
+      (let [collections {:agile      (assoc collection :course-ids #{123})
+                         :netiquette (assoc collection :collection-name :nettiquette)}
+            store       {:collections {collection-type collections}}]
+
+        (testing "it reports if a collection is present"
+          (letfn [(query [type name] (h/query :collection
+                                              :collection-type type
+                                              :collection-name name))
+                  (check [type name] (ds/check store (query type name)))]
+            (are [type name expectation] (= (check type name) expectation)
+              collection-type buzzword        true
+              collection-type :netiquette     false
+              collection-type :bla            nil
+              :bla            collection-name nil
+              :bla            :bla            nil)))))
+
+
+    (testing "when query type is courses"
+      (let [store {:courses [course]}]
+
+        (testing "it reports if courses are present"
+          (letfn [(query [course-ids] (h/query :courses
+                                               :course-ids course-ids))
+                  (check [course-ids] (ds/check  store (query course-ids)))]
+            (are [course-ids expectation] (= (check course-ids) expectation)
+              [id]         true
+              [missing-id] false)))))
+
+
+    (testing "when query type is course"
+      (let [store {:courses [course]}]
+
+        (testing "it reports if course is present by checking its id"
+          (letfn [(query [course-id] (h/query :course
+                                              :course-id course-id))
+                  (check [course-id] (ds/check store (query course-id)))]
+            (are [course-id expectation] (= (check course-id) expectation)
+              id         true
+              missing-id false)))
+
+        (testing "it reports if course is present by checking its curator and hashtag"
+          (letfn [(query [curator hashtag] (h/query :course
+                                                    :curator curator
+                                                    :hashtag hashtag))
+                  (check [curator hashtag] (ds/check store (query curator hashtag)))]
+            (are [curator hashtag expectation] (= (check curator hashtag) expectation)
+              user-id buzzword true
+              user-id :bla     false
+              :bla    buzzword false
+              :bla    :bla     false)))))
+
+
+    (testing "when query type is resources"
+      (let [store {:resources {123 {:resource-id 123}}}]
+
+        (testing "it reports if resources are present"
+          (letfn [(query [resource-ids] (h/query :resources
+                                                 :resource-ids resource-ids))
+                  (check [resource-ids] (ds/check store (query resource-ids)))]
+            (are [resource-ids expectation] (= (check resource-ids) expectation)
+              [id]         true
+              [missing-id] false)))))
+
+
+    (testing "when query type is resource"
+      (let [store {:resources {123 {:resource-id 123}}}]
+
+        (testing "it reports if resource is present"
+          (letfn [(query [resource-id] (h/query :resource
+                                                :resource-id resource-id))
+                  (check [resource-id] (ds/check store (query resource-id)))]
+            (are [resource-id expectation] (= (check resource-id) expectation)
+              id         true
+              missing-id false)))))))

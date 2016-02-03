@@ -25,4 +25,3 @@
                        :curator :marijn
                        :hashtag :agile}]
             :resources {resource-id resource}})
-
