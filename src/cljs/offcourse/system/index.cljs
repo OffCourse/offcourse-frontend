@@ -31,7 +31,7 @@
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
      :api-channels           (:api channels)
-     :api                    (component/using (api/new :courses)
+     :api                    (component/using (api/new :api)
                                               {:channels   :api-channels
                                                :actions    :api-actions
                                                :fetchables :fetchables

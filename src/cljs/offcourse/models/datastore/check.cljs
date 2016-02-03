@@ -26,32 +26,27 @@
 (defmulti check (fn [_ {:keys [type]}] type))
 
 (defmethod check :collection-names [{:keys [has-collection-names?]} query]
-  (if has-collection-names? true false))
+  has-collection-names?)
 
 (defmethod check :collection [{:keys [collections]} {:keys [collection]}]
-  (let [{:keys [collection-type collection-name]} collection
-        course-ids (get-in collections [collection-type collection-name :course-ids])]
-    (if course-ids
-      (> (count course-ids) 0)
-      false)))
+  (let [{:keys [collection-type collection-name]} collection]
+    (if-let [course-ids (get-in collections [collection-type collection-name :course-ids])]
+      (> (count course-ids) 0))))
 
 (defmethod check :courses [{:keys [courses]} {:keys [course-ids]}]
-  (if course-ids
-    (has-courses? courses course-ids)
-    false))
+  (when course-ids
+    (has-courses? courses course-ids)))
 
 (defmethod check :course [{:keys [courses] :as store} {:keys [course]}]
   (has-course? courses course))
 
 (defmethod check :resources [{:keys [resources]} {:keys [resource-ids]}]
-  (if resource-ids
-    (has-items? resources resource-ids)
-    false))
+  (when resource-ids
+    (has-items? resources resource-ids)))
 
 (defmethod check :resource [{:keys [resources]} {:keys [resource]}]
-  (if-let [{:keys [resource-id]} resource]
-    (has-items? resources #{resource-id})
-    false))
+  (when-let [{:keys [resource-id]} resource]
+    (has-items? resources #{resource-id})))
 
 (defmethod check :default [{:keys [resources]} {:keys [resource-id]}]
   {:type :error

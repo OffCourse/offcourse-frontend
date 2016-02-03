@@ -7,5 +7,8 @@
                   {type (apply hash-map args)})]
     (assoc payload :type type)))
 
-(defn true-or-false? [response]
-  (false? response))
+(defn falsy? [response]
+  (or (nil? response) (false? response)))
+
+(defn contains-val? [collection val]
+  (boolean (some #{val} collection)))
