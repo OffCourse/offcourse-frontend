@@ -38,7 +38,7 @@
     (assoc store :collections collections
            :has-collection-names? true)))
 
-(defmethod refresh :collection [store {:keys [collection]}]
+(defmethod refresh :collection [store {:keys [collection] :as query}]
   (when-let [{:keys [collection-type collection-name course-ids]} collection]
     (if-let [store-ids (get-in store [:collections collection-type collection-name :course-ids])]
       (update-in store [:collections collection-type collection-name :course-ids]
@@ -53,7 +53,7 @@
                                 (when (contains? missing-ids course-id) course))
                               (:courses query))]
     (if-not (empty? missing-ids)
-      (reduce add-course store (:courses query))
+      (reduce add-course store missing-courses)
       store)))
 
 (defmethod refresh :course [store {:keys [course]}]
