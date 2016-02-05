@@ -8,9 +8,9 @@
   ([{:keys [proposed viewmodels] :as as}]
    (let [{:keys [type] :as view} (:view @proposed)]
      ((type viewmodels) view)))
-  ([{:keys [proposed] :as as} {:keys [store]}]
-   (let [viewmodel    (-> (ca/compose as)
-                          (qa/refresh store))
+  ([{:keys [proposed viewmodels] :as as} {:keys [store]}]
+   (let [{:keys [type] :as view} (:view @proposed)
+         viewmodel ((type viewmodels) view store)
          missing-data (va/missing-data viewmodel)]
      (if missing-data
        (ri/respond as :not-found-data missing-data)
