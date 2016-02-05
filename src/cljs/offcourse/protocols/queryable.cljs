@@ -1,6 +1,8 @@
-(ns offcourse.protocols.queryable)
+(ns offcourse.protocols.queryable
+  (:refer-clojure :exclude [get]))
 
 (defprotocol Queryable
-  (check [this] [this query])
-  (fetch [this query])
+  (get     [this query])
+  (check   [this] [this query])
+  (fetch   [this query])
   (refresh [this doc]))

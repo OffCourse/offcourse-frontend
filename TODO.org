@@ -10,26 +10,25 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                       [12%]
+* Now                       [25%]
 + [X] General        [100%]
   - [X] add test runner
-+ [-] Models         [0%]
-  - [-] Datastore    [50%]
++ [X] Models         [100%]
+  - [X] Datastore    [100%]
     + [X] add tests
       - [X] check
       - [X] refresh
-    + [ ] add easy way to retrieve docs
-+ [-] Viewmodels     [33%]
+      - [X] get
+    + [X] add easy way to retrieve docs
++ [-] Viewmodels     [50%]
   - [X] move viewmodel composition from refresh to new
-  - [ ] add tests
   - [ ] add graph
-+ [ ] Protocols      [0%]
++ [-] Protocols      [50%]
+  - [X] Queryable
+    + [X] add get
   - [ ] Renderable
 + [ ] Renderer       [0%]
   - [ ] remove Rendering protocol
-+ [ ] Router         [0%]
-+ [ ] Logger         [0%]
-  - [ ] add Route for Logs
 + [ ] Views          [0%]
   - [ ] add renderable protocol
   - [ ] transition view-components to RUM or Sablono
@@ -41,9 +40,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Next                       [0%]
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
++ [-] Viewmodels     [33%]
+  - [ ] add tests
 + [-] Appstate       [0%]
-+ [-] Models         [0%]
-  - [-] Datastore      [50%]
++ [ ] Models         [0%]
+  - [ ] Datastore      [50%]
     + [ ] add support for not found courses
 + [-] Wrappers       [0%]
   - [-] pouchdb

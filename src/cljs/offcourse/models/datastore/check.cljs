@@ -1,52 +1,32 @@
 (ns offcourse.models.datastore.check
   (:require [clojure.set :as set]
-            [com.rpl.specter :refer [select select-first filterer ALL]]))
+            [com.rpl.specter :refer [select select-first filterer ALL]]
+            [offcourse.protocols.queryable :as qa]))
 
-(defn member-ids [collection]
-  (->> (keys collection)
-       (into #{})))
-
-(defn has-items? [collection ids]
-  (set/superset? (member-ids collection) ids))
-
-(defn has-course? [courses {:keys [course-id curator hashtag] :as course}]
-  (if courses
-    (let [course (or (select-first [ALL #(= (:course-id %) course-id)] courses)
-                     (select-first [ALL #(and (= (:hashtag %) hashtag)
-                                              (= (:curator %) curator))] courses))]
-      (if course true false))
-    false))
-
-(defn has-courses? [courses course-ids]
-  (->> course-ids
-       (map (fn [id] {:course-id id}))
-       (map #(has-course? courses %))
-       (every? true?)))
+(defn has-items? [collection-ids query-ids]
+  (set/superset? (into #{} collection-ids) (into #{} query-ids)))
 
 (defmulti check (fn [_ {:keys [type]}] type))
 
 (defmethod check :collection-names [{:keys [has-collection-names?]} query]
   has-collection-names?)
 
-(defmethod check :collection [{:keys [collections]} {:keys [collection]}]
-  (let [{:keys [collection-type collection-name]} collection]
-    (if-let [course-ids (get-in collections [collection-type collection-name :course-ids])]
-      (> (count course-ids) 0))))
+(defmethod check :collection [ds query]
+  (when-let [course-ids (:course-ids (qa/get ds query))]
+    (> (count course-ids) 0)))
 
-(defmethod check :courses [{:keys [courses]} {:keys [course-ids]}]
-  (when course-ids
-    (has-courses? courses course-ids)))
+(defmethod check :courses [{:keys [courses] :as ds} {:keys [course-ids] :as query}]
+  (when courses (has-items? (map :course-id (qa/get ds query)) course-ids)))
 
-(defmethod check :course [{:keys [courses] :as store} {:keys [course]}]
-  (has-course? courses course))
+(defmethod check :course [store query]
+  (if (qa/get store query) true false))
 
 (defmethod check :resources [{:keys [resources]} {:keys [resource-ids]}]
-  (when resource-ids
-    (has-items? resources resource-ids)))
+  (when resource-ids (has-items? (keys resources) resource-ids)))
 
 (defmethod check :resource [{:keys [resources]} {:keys [resource]}]
   (when-let [{:keys [resource-id]} resource]
-    (has-items? resources #{resource-id})))
+    (has-items? (keys resources) [resource-id])))
 
 (defmethod check :default [{:keys [resources]} {:keys [resource-id]}]
   {:type :error

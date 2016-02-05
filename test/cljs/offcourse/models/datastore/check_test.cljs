@@ -1,5 +1,6 @@
 (ns offcourse.models.datastore.check-test
-  (:require [offcourse.models.datastore.check :as ds :refer [check]]
+  (:require [offcourse.models.datastore.check :as ds]
+            [offcourse.models.datastore.index :as sut]
             [offcourse.models.datastore.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]))
 
@@ -18,32 +19,32 @@
                          :course-ids      #{}}]
 
     (testing "it returns an error if given an non-exisiting query type"
-      (is (= (check {} (h/query :bla))
+      (is (= (ds/check (sut/new) (h/query :bla))
              {:type :error :error :query-not-supported})))
 
     (testing "it returns an falsey value by default"
       (let [types     [:course :courses :resources :collection :collection-names]
-            responses (map #(check {} {:type %}) types)]
+            responses (map #(ds/check (sut/new) {:type %}) types)]
         (is (every? #(h/falsy? %) responses))))
 
 
     (testing "when query type is collection-names"
 
       (testing "it reports if collection-names are present"
-        (let [store {:has-collection-names? true}
+        (let [store (sut/new {:has-collection-names? true})
               query (h/query :collection-names)]
-          (is (check store query))))
+          (is (ds/check store query))))
 
       (testing "it reports if collection-names are missing"
-        (let [store {:has-collection-names? false}
+        (let [store (sut/new {:has-collection-names? false})
               query (h/query :collection-names)]
-          (is (not (check store query))))))
+          (is (not (ds/check store query))))))
 
 
     (testing "when query type is collection"
       (let [collections {:agile      (assoc collection :course-ids #{123})
                          :netiquette (assoc collection :collection-name :nettiquette)}
-            store       {:collections {collection-type collections}}]
+            store       (sut/new {:collections {collection-type collections}})]
 
         (testing "it reports if a collection is present"
           (letfn [(query [type name] (h/query :collection
@@ -54,12 +55,12 @@
               collection-type buzzword        true
               collection-type :netiquette     false
               collection-type :bla            nil
-              :bla            collection-name nil
+              :bla            buzzword        nil
               :bla            :bla            nil)))))
 
 
     (testing "when query type is courses"
-      (let [store {:courses [course]}]
+      (let [store (sut/new {:courses [course]})]
 
         (testing "it reports if courses are present"
           (letfn [(query [course-ids] (h/query :courses
@@ -71,7 +72,7 @@
 
 
     (testing "when query type is course"
-      (let [store {:courses [course]}]
+      (let [store (sut/new {:courses [course]})]
 
         (testing "it reports if course is present by checking its id"
           (letfn [(query [course-id] (h/query :course
@@ -94,7 +95,7 @@
 
 
     (testing "when query type is resources"
-      (let [store {:resources {123 {:resource-id 123}}}]
+      (let [store (sut/new {:resources {123 {:resource-id 123}}})]
 
         (testing "it reports if resources are present"
           (letfn [(query [resource-ids] (h/query :resources
@@ -106,7 +107,7 @@
 
 
     (testing "when query type is resource"
-      (let [store {:resources {123 {:resource-id 123}}}]
+      (let [store (sut/new {:resources {123 {:resource-id 123}}})]
 
         (testing "it reports if resource is present"
           (letfn [(query [resource-id] (h/query :resource
