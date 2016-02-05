@@ -1,6 +1,5 @@
 (ns offcourse.appstate.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.appstate.composable :as ca-impl]
             [offcourse.appstate.queryable :as qa-impl]
             [offcourse.protocols.composable :as ca :refer [Composable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
@@ -22,10 +21,7 @@
   Responsive
   (respond [as status payload] (ri/-respond as status payload))
   (listen [as] (ri/-listen as))
-  (mute [as] (ri/-mute as))
-  Composable
-  (compose [as] (ca-impl/compose as))
-  (compose [as query] (ca-impl/compose as query)))
+  (mute [as] (ri/-mute as)))
 
 (defn new []
   (map->Appstate {:component-name :appstate}))

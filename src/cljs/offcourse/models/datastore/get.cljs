@@ -20,9 +20,10 @@
     (if (empty? courses) nil courses)))
 
 (defmethod get :course [{:keys [courses]} {:keys [course]}]
-  (when-let [{:keys [course-id curator hashtag]} course]
-    (or (course-by-id courses course-id)
-        (course-by-curator-and-hashtag courses curator hashtag))))
+  (when courses
+    (let [{:keys [course-id curator hashtag]} course]
+      (or (course-by-id courses course-id)
+          (course-by-curator-and-hashtag courses curator hashtag)))))
 
 (defmethod get :resources [ds query])
 (defmethod get :resource [ds query])

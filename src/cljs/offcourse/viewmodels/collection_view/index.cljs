@@ -26,15 +26,11 @@
   (select-first [ALL #(= (:course-id %) id)] courses))
 
 (defn new
-  ([{:keys [type collection-name collection-type] :as view-data}]
-   (let [collection {:collection-name collection-name
-                     :collection-type collection-type}]
-     (map->CollectionView {:view-name  type
-                           :collection collection})))
-  ([{:keys [type collection-type collection-name] :as view-data}
+  ([{:keys [type collection] :as view-data}
     {:keys [collections courses] :as store}]
-   (let [{:keys [course-ids] :as collection} (select-first [collection-type collection-name] collections)]
-         (map->CollectionView {:view-name  type
-                               :collection collection
-                               :labels     (medley/map-vals (comp lb/collection->labels keys) collections)
-                               :courses    (when courses (keep #(course-by-id courses %) course-ids))}))))
+   (let [{:keys [collection-type collection-name]} collection
+         collection-query {:type :collection :collection collection}
+         {:keys [course-ids] :as collection} (qa/get store collection-query)
+         labels (medley/map-vals (comp lb/collection->labels keys) collections)
+         courses (when courses (keep #(course-by-id courses %) course-ids))]
+

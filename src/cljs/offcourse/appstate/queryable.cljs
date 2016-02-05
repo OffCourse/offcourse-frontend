@@ -1,11 +1,22 @@
 (ns offcourse.appstate.queryable
-  (:require [offcourse.protocols.composable :as ca]
-            [offcourse.appstate.appstore :as store]
+  (:require [offcourse.appstate.appstore :as appstore]
+            [offcourse.models.datastore.index :as ds]
             [offcourse.protocols.validatable :as va]
             [offcourse.protocols.responsive :as ri]))
 
-(defn refresh [{:keys [proposed] :as as} {:keys [type] :as query}]
-  (reset! proposed (store/new query))
-  (let [missing-data  (-> (ca/compose as)
-                          (va/missing-data))]
-    (ri/respond as :not-found-data missing-data)))
+(defmulti refresh (fn [{:keys [type]} {:keys [type]}] (if type :query :store)))
+
+(defmethod refresh :query [{:keys [proposed] :as as} query]
+  (let [proposal (appstore/new query)]
+    (reset! proposed proposal)
+    (refresh as)))
+
+(defmethod refresh :store
+  ([as] (refresh as {:store (ds/new)}))
+  ([{:keys [proposed viewmodels] :as as} {:keys [store]}]
+   (let [{:keys [type] :as view} (:view @proposed)
+         viewmodel ((type viewmodels) view store)
+         missing-data (va/missing-data viewmodel)]
+     (if missing-data
+       (ri/respond as :not-found-data missing-data)
+       (ri/respond as :composed-viewmodel {:viewmodel viewmodel})))))
