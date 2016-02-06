@@ -4,6 +4,7 @@
             [offcourse.models.checkpoint     :as cp :refer [Checkpoint]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.protocols.queryable   :as qa :refer [Queryable]]
+            [com.rpl.specter :refer [select select-first filterer ALL]]
             [clojure.set :as set]))
 
 (schema/defrecord Course
@@ -35,6 +36,10 @@
   (->> course
        :checkpoints
        (map :resource-id)))
+
+(defn get-resource-id [course checkpoint-id]
+  (when (:checkpoints course)
+    (select-first [:checkpoints ALL #(= (:checkpoint-id %) checkpoint-id) :resource-id] course)))
 
 (defn get-checkpoint [course checkpoint-id]
   (->> (:checkpoints course)

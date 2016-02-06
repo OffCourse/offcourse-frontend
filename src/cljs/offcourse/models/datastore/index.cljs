@@ -10,16 +10,16 @@
 
 (schema/defrecord Datastore
     [collections           :- {(schema/enum :flags :tags :curators) schema/Any}
-     courses               :- {schema/Str Course}
+     courses               :- [Course]
      resources             :- {schema/Str Resource}
      has-collection-names? :- schema/Bool]
   Validatable
   (valid? [ds] (:has-collection-names? ds))
   Queryable
-  (get     [ds query] (get-impl/get ds query))
+  (-get    [ds query] (get-impl/get ds query))
   (check   [ds query] (check-impl/check ds query))
   (refresh [ds query] (refresh-impl/refresh ds query)))
 
 (defn new
-  ([] (map->Datastore {}))
+  ([] (->Datastore {} [] {} nil))
   ([ds-data] (map->Datastore ds-data)))

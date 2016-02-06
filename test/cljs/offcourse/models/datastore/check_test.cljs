@@ -23,7 +23,7 @@
              {:type :error :error :query-not-supported})))
 
     (testing "it returns an falsey value by default"
-      (let [types     [:course :courses :resources :collection :collection-names]
+      (let [types     [:course :resources :collection :collection-names]
             responses (map #(ds/check (sut/new) {:type %}) types)]
         (is (every? #(h/falsy? %) responses))))
 

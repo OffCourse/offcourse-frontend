@@ -9,18 +9,6 @@
             [schema.core :as schema :include-macros true]
             [offcourse.models.label :as lb :refer [Label]]))
 
-(defn course-by-id [courses id]
-  (select-first [ALL #(= (:course-id %) id)] courses))
-
-(defn course-by-curator-and-hashtag [courses curator hashtag]
-  (select-first [ALL #(and (= (:hashtag %) hashtag)
-                           (= (:curator %) curator))] courses))
-
-(defn dummy-course [course-id curator hashtag]
-  (if course-id {:course-id course-id}
-      {:curator curator
-       :hashtag hashtag}))
-
 (schema/defrecord CourseView
     [view-name :- Keyword
      labels :- {Keyword #{Label}}
@@ -33,18 +21,10 @@
   (check [vm] (schema/check CourseView vm))
   (refresh [vm store] #_(qa-impl/refresh vm store)))
 
-(defn new
-  ([{:keys [type course-id curator hashtag] :as view-data}]
-     (map->CourseView {:view-name type
-                       :course    (dummy-course course-id curator hashtag)}))
-  ([{:keys [type course-id curator hashtag] :as view-data}
-    {:keys [courses resources] :as store}]
-   (let [course       (if courses (or (course-by-id courses course-id)
-                                      (course-by-curator-and-hashtag courses curator hashtag))
-                          (dummy-course course-id curator hashtag))
-         tags         (co/get-tags course)
-         resource-ids (co/get-resource-ids course)]
-     (map->CourseView {:view-name type
-                       :course    course
-                       :labels    {:tags (lb/collection->labels tags)}
-                       :resources (map #(get resources %) resource-ids)}))))
+(defn new [{:keys [type course] :as as} {:keys [courses resources] :as ds}]
+  (let [course       (or (qa/get ds :course course) course)
+        tags         (co/get-tags course)
+        labels       {:tags (lb/collection->labels tags)}
+        resource-ids (co/get-resource-ids course)
+        resources    (qa/get ds :resources resource-ids)]
+     (->CourseView type labels course resources)))

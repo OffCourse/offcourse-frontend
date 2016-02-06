@@ -1,5 +1,5 @@
 (ns offcourse.models.datastore.get-test
-  (:require [offcourse.models.datastore.get :as ds]
+  (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.datastore.index :as sut]
             [offcourse.models.datastore.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]))
@@ -9,73 +9,95 @@
         missing-id      223
         buzzword        :agile
         user-id         :yeehaa
+        checkpoint      {:checkpoint-id 1
+                         :resource-id id}
         course          {:course-id id
                          :curator   user-id
-                         :hashtag   buzzword}
+                         :hashtag   buzzword
+                         :checkpoints [checkpoint]}
         collection-type :flags
         collection      {:collection-type collection-type
                          :collection-name buzzword
-                         :course-ids      #{id}}]
+                         :course-ids      #{id}}
+        resource        {:resource-id id}]
+
 
     (testing "it returns an error if given an non-exisiting query type"
-      (is (= (ds/get (sut/new) (h/query :bla))
-             {:type :error :error :query-not-supported})))
+      (is (= (qa/get (sut/new) :bla {}) {:type :error :error :query-not-supported})))
 
     (testing "it returns nil by default"
-      (let [types     [:course :courses :resources :collection]
-            responses (map #(ds/get (sut/new) {:type %}) types)]
+      (let [types     [:collection-names :course :courses :resources :collection]
+            responses (map #(qa/get (sut/new) % nil) types)]
         (is (every? #(nil? %) responses))))
 
 
-    (testing "when query type is collection"
-      (let [collections {:agile      (assoc collection :course-ids #{123})}
-            store       (sut/new {:collections {collection-type collections}})]
+    (testing "when query type is collection-names"
+      (let [collections {:agile (assoc collection :course-ids #{123})}
+            store       (sut/new {:collections {collection-type collections
+                                                :tags           collections}})
+            get         (partial qa/get store :collection-names)]
 
-        (testing "it reports if a collection is present"
-          (letfn [(query [type name] (h/query :collection
-                                              :collection-type type
-                                              :collection-name name))
-                  (get [type name] (ds/get store (query type name)))]
-            (are [type name expectation] (= (get type name) expectation)
-              collection-type buzzword        collection
-              collection-type :netiquette     nil
-              collection-type :bla            nil
-              :bla            buzzword        nil
-              :bla            :bla            nil)))))
+        (testing "it retrieves the names of the collections"
+          (are [type expectation] (= (get type) expectation)
+            :all               {collection-type #{buzzword} :tags #{buzzword}}
+            collection-type    #{buzzword}))))
+
+
+    (testing "when query type is collection"
+      (let [collections {:agile (assoc collection :course-ids #{123})}
+            store       (sut/new {:collections {collection-type collections}})
+            get         (partial qa/get store :collection)]
+
+        (testing "it retrieves a collection"
+          (are [type name expectation] (= (get (h/collection type name)) expectation)
+            collection-type    buzzword       collection
+            collection-type    :netiquette    nil
+            collection-type    :bla           nil
+            :bla               buzzword       nil
+            :bla               :bla           nil))))
 
 
     (testing "when query type is courses"
-      (let [store (sut/new {:courses [course]})]
+      (let [store (sut/new {:courses [course]})
+            get   (partial qa/get store :courses)]
 
-        (testing "it reports if courses are present"
-          (letfn [(query [course-ids] (h/query :courses
-                                               :course-ids course-ids))
-                  (get [course-ids] (ds/get  store (query course-ids)))]
-            (are [course-ids expectation] (= (get course-ids) expectation)
-              [id]         [course]
-              [missing-id] nil)))))
-
+        (testing "it retrieves the courses"
+          (are [course-ids expectation] (= (get course-ids) expectation)
+            [id]            [course]
+            [missing-id]    nil))))
 
     (testing "when query type is course"
-      (let [store (sut/new {:courses [course]})]
+      (let [store (sut/new {:courses [course]})
+            get   (partial qa/get store :course)]
 
-        (testing "it reports if course is present by checking its id"
-          (letfn [(query [course-id] (h/query :course
-                                              :course-id course-id))
-                  (get [course-id] (ds/get store (query course-id)))]
-            (are [course-id expectation] (= (get course-id) expectation)
-              id         course
-              missing-id nil)))
+        (testing "it retrieves a course by id"
+          (are [course-id expectation] (= (get (h/course course-id)) expectation)
+            id         course
+            missing-id nil))
 
-        (testing "it reports if course is present by checking its curator and hashtag"
-          (letfn [(query [curator hashtag] (h/query :course
-                                                    :curator curator
-                                                    :hashtag hashtag))
-                  (get [curator hashtag] (ds/get store (query curator hashtag)))]
-            (are [curator hashtag expectation] (= (get curator hashtag) expectation)
-              user-id buzzword course
-              user-id :bla     nil
-              :bla    buzzword nil
-              :bla    :bla     nil)))))
+        (testing "it retrieves a course by curator and hashtag"
+          (are [curator hashtag expectation] (= (get (h/course curator hashtag)) expectation)
+            user-id    buzzword    course
+            user-id    :bla        nil
+            :bla       buzzword    nil
+            :bla       :bla        nil))))
 
-))
+
+    (testing "when query type is resources"
+      (let [store (sut/new {:resources {id resource}})
+            get   (partial qa/get store :resources)]
+
+        (testing "it retrieves the resources"
+          (are [resource-ids expectation] (= (get resource-ids) expectation)
+            [id]            [resource]
+            [missing-id]    nil))))
+
+
+    (testing "when query type is resource"
+      (let [store (sut/new {:resources {id resource}})
+            get   (partial qa/get store :resource)]
+
+        (testing "it retrieves a resource"
+          (are [resource-id expectation] (= (get (h/resource resource-id)) expectation)
+            id             resource
+            missing-id     nil))))))

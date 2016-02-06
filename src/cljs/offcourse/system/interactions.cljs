@@ -21,8 +21,12 @@
                                                     :collection-name :new}})
                :collection-view (fn [collection] {:type       :collection-view
                                                   :collection collection})
-               :course-view     (partial merge {:type :course-view})
-               :checkpoint-view (partial merge {:type :checkpoint-view})}
+               :course-view     (fn [course]     {:type :course-view
+                                                  :course course})
+               :checkpoint-view (fn [data] {:type :checkpoint-view
+                                            :course (select-keys data [:checkpoint-id :curator :hashtag])
+                                            :checkpoint-id (:checkpoint-id data)})}
+
    :appstate  {:requested-route     qa/refresh
                :checked-store       qa/refresh
                :refreshed-datastore qa/refresh}
