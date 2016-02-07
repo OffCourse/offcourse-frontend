@@ -7,6 +7,9 @@
             [offcourse.viewmodels.collection-view.validatable :as va-impl]
             [offcourse.models.label :as lb :refer [Label]]
             [medley.core :as medley]
+            [cljs.pprint :as pp]
+            [plumbing.core :refer-macros [fnk]]
+            [plumbing.graph :as graph]
             [com.rpl.specter :refer [select-first ALL]]
             [schema.core :as schema :include-macros true]))
 
@@ -22,9 +25,15 @@
   (check [vm] (schema/check CollectionView vm))
   (refresh [vm store] #_(qa-impl/refresh vm store)))
 
-(defn new [{:keys [type collection] :as as} {:keys [collections] :as ds}]
-  (let [collection (qa/get ds :collection collection)
-        labels     (medley/map-vals lb/collection->labels
-                                    (qa/get ds :collection-names :all))
-        courses    (qa/get ds :courses (:course-ids collection))]
-    (->CollectionView type labels collection courses)))
+(def graph
+  (graph/compile {:view-name  (fnk [[:appstate type]] type)
+                  :collection (fnk [datastore [:appstate collection]]
+                                   (or (qa/get datastore :collection collection) collection))
+                  :labels     (fnk [datastore]
+                                   (medley/map-vals lb/collection->labels
+                                                    (qa/get datastore :collection-names :all)))
+                  :courses    (fnk [datastore collection]
+                                   (qa/get datastore :courses (:course-ids collection)))}))
+
+(defn new [input]
+  (map->CollectionView (graph input)))

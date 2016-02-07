@@ -1,8 +1,7 @@
 (ns offcourse.models.datastore.get
   (:refer-clojure :exclude [get])
-  (:require [medley.core :as medley]
-            [offcourse.protocols.queryable :as qa]
-            [com.rpl.specter :refer [select select-first filterer ALL]]))
+  (:require [com.rpl.specter :refer [ALL select-first]]
+            [medley.core :as medley]))
 
 (defn checkpoint-by-ids [ds course-id checkpoint-id]
   (select-first [:courses ALL #(= (:course-id %) course-id)

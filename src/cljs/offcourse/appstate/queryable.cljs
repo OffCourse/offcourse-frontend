@@ -15,7 +15,8 @@
   ([as] (refresh as {:store (ds/new)}))
   ([{:keys [proposed viewmodels] :as as} {:keys [store]}]
    (let [{:keys [type] :as view} (:view @proposed)
-         viewmodel ((type viewmodels) view store)
+         viewmodel ((type viewmodels) {:appstate view
+                                       :datastore store})
          missing-data (va/missing-data viewmodel)]
      (if missing-data
        (ri/respond as :not-found-data missing-data)

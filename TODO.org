@@ -40,10 +40,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Next                       [0%]
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
-+ [-] Viewmodels     [33%]
++ [ ] Viewmodels     [33%]
   - [ ] add tests
 + [-] Appstate       [0%]
 + [ ] Models         [0%]
+  - [ ] Course
+    - [ ] add qa/get protocol
   - [ ] Datastore      [50%]
     + [ ] add support for not found courses
 + [-] Wrappers       [0%]

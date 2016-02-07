@@ -1,13 +1,11 @@
 (ns offcourse.viewmodels.checkpoint-view.index
-  (:require [offcourse.viewmodels.checkpoint-view.queryable :as qa-impl]
-            [offcourse.viewmodels.checkpoint-view.validatable :as va-impl]
-            [offcourse.models.course :as co :refer [Course]]
+  (:require [offcourse.models.course :as co :refer [Course]]
+            [offcourse.models.label :as lb :refer [Label]]
             [offcourse.models.resource :refer [Resource]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [schema.core :as schema :include-macros true]
-            [com.rpl.specter :refer [select select-first filterer ALL]]
-            [offcourse.models.label :as lb :refer [Label]]))
+            [offcourse.viewmodels.checkpoint-view.validatable :as va-impl]
+            [schema.core :as schema :include-macros true]))
 
 (schema/defrecord CheckpointView
     [view-name :- Keyword
