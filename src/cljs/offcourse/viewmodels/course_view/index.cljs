@@ -1,13 +1,13 @@
 (ns offcourse.viewmodels.course-view.index
   (:require [offcourse.models.course :as co :refer [Course]]
-            [offcourse.viewmodels.course-view.queryable :as qa-impl]
-            [offcourse.viewmodels.course-view.validatable :as va-impl]
+            [offcourse.models.label :as lb :refer [Label]]
             [offcourse.models.resource :refer [Resource]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [com.rpl.specter :refer [select select-first filterer ALL]]
-            [schema.core :as schema :include-macros true]
-            [offcourse.models.label :as lb :refer [Label]]))
+            [offcourse.viewmodels.course-view.validatable :as va-impl]
+            [plumbing.core :refer-macros [fnk]]
+            [plumbing.graph :as graph]
+            [schema.core :as schema :include-macros true]))
 
 (schema/defrecord CourseView
     [view-name :- Keyword
@@ -21,10 +21,21 @@
   (check [vm] (schema/check CourseView vm))
   (refresh [vm store] #_(qa-impl/refresh vm store)))
 
-(defn new [{:keys [type course] :as as} {:keys [courses resources] :as ds}]
-  (let [course       (or (qa/get ds :course course) course)
-        tags         (co/get-tags course)
-        labels       {:tags (lb/collection->labels tags)}
-        resource-ids (co/get-resource-ids course)
-        resources    (qa/get ds :resources resource-ids)]
-     (->CourseView type labels course resources)))
+(def graph
+  {:view-name    (fnk [view-type] view-type)
+   :course       (fnk [datastore course-data]
+                      (or (qa/get datastore :course course-data)
+                          course-data))
+   :tags         (fnk [course] (co/get-tags course))
+   :labels       (fnk [tags] {:tags (lb/collection->labels tags)})
+   :resource-ids (fnk [course] (co/get-resource-ids course))
+   :resources    (fnk [datastore resource-ids]
+                      (qa/get datastore :resources resource-ids))})
+
+(def compose (graph/compile graph))
+
+(defn new [{:keys [type course]} datastore]
+  (let [view-data (compose {:view-type type
+                            :course-data course
+                            :datastore datastore})]
+    (map->CourseView view-data)))

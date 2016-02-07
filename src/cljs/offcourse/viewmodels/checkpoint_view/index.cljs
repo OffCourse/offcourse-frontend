@@ -5,6 +5,8 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.viewmodels.checkpoint-view.validatable :as va-impl]
+            [plumbing.core :refer-macros [fnk]]
+            [plumbing.graph :as graph]
             [schema.core :as schema :include-macros true]))
 
 (schema/defrecord CheckpointView
@@ -20,11 +22,24 @@
   (check [vm] (schema/check CheckpointView vm))
   (refresh [vm store] #_(qa-impl/refresh vm store)))
 
-(defn new
-  ([{:keys [type course checkpoint-id] :as as} {:keys [courses resources] :as ds}]
-   (let [course       (or (qa/get ds :course course) course)
-         tags         (co/get-tags course)
-         labels       {:tags (lb/collection->labels tags)}
-         resource-id  (co/get-resource-id course checkpoint-id)
-         resource     (qa/get ds :resource {:resource-id resource-id})]
-     (->CheckpointView type labels course checkpoint-id resource))))
+(def graph
+  {:view-name     (fnk [view-type] view-type)
+   :checkpoint-id (fnk [checkpoint-data] checkpoint-data)
+   :course        (fnk [datastore course-data]
+                       (or (qa/get datastore :course course-data)
+                           course-data))
+   :tags          (fnk [course] (co/get-tags course))
+   :labels        (fnk [tags] {:tags (lb/collection->labels tags)})
+   :resource-id   (fnk [course checkpoint-id]
+                       (co/get-resource-id course checkpoint-id))
+   :resource      (fnk [datastore resource-id]
+                       (qa/get datastore :resource {:resource-id resource-id}))})
+
+(def compose (graph/compile graph))
+
+(defn new [{:keys [type course checkpoint-id]} datastore]
+  (let [view-data (compose {:view-type type
+                            :course-data course
+                            :checkpoint-data checkpoint-id
+                            :datastore datastore})]
+    (map->CheckpointView view-data)))

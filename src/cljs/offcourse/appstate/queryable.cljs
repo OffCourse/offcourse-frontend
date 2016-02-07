@@ -2,6 +2,7 @@
   (:require [offcourse.appstate.appstore :as appstore]
             [offcourse.models.datastore.index :as ds]
             [offcourse.protocols.validatable :as va]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri]))
 
 (defmulti refresh (fn [{:keys [type]} {:keys [type]}] (if type :query :store)))
@@ -14,9 +15,8 @@
 (defmethod refresh :store
   ([as] (refresh as {:store (ds/new)}))
   ([{:keys [proposed viewmodels] :as as} {:keys [store]}]
-   (let [{:keys [type] :as view} (:view @proposed)
-         viewmodel ((type viewmodels) {:appstate view
-                                       :datastore store})
+   (let [{:keys [type] :as proposed} (:view @proposed)
+         viewmodel ((type viewmodels) proposed store)
          missing-data (va/missing-data viewmodel)]
      (if missing-data
        (ri/respond as :not-found-data missing-data)

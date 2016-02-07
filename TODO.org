@@ -10,7 +10,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                       [25%]
+* Now                       [28%]
 + [X] General        [100%]
   - [X] add test runner
 + [X] Models         [100%]
@@ -20,20 +20,22 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
       - [X] refresh
       - [X] get
     + [X] add easy way to retrieve docs
++ [ ] Appstate       [0%]
+  - [ ] use vm converter instead of constructor
 + [-] Viewmodels     [50%]
   - [X] move viewmodel composition from refresh to new
-  - [ ] add graph
+  - [X] add graph
+  - [ ] add converter from hash-map
 + [-] Protocols      [50%]
   - [X] Queryable
     + [X] add get
   - [ ] Renderable
 + [ ] Renderer       [0%]
   - [ ] remove Rendering protocol
+  - [ ] add mount function
 + [ ] Views          [0%]
-  - [ ] add renderable protocol
   - [ ] transition view-components to RUM or Sablono
-  - [ ] add renderable protocol (renders com
-  - [ ] implement graph
+  - [ ] add renderable protocol
   - [ ] sidebar
   - [ ] topbar
   - [ ] card
