@@ -2,15 +2,13 @@
 ** TODO  Add Error Handling to Fake DB      <2016-01-07 Thu 18:25>
 for instance for invalid resource ids 
 Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementations/queryable.cljs
-** TODO  Move viewmodels to own submodule      <2016-01-13 Wed 01:44>
- Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_viewmodel.cljs::(schema/defrecord%20CollectionViewmodel
 ** TODO  move course-ids to queryable/check      <2016-01-20 Wed 01:43>
  Link: file:~/Documents/offcourse/src/cljc/offcourse/models/collection_view/validatable.cljs::(defn%20missing-data%20%5B{:keys%20%5Bcollection%20courses%5D%20:as%20vm}%5D
 ** TODO  Handle Failed Fetch      <2016-01-20 Wed 23:42>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                       [28%]
+* Now                        [28%]
 + [X] General        [100%]
   - [X] add test runner
 + [X] Models         [100%]
@@ -20,36 +18,45 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
       - [X] refresh
       - [X] get
     + [X] add easy way to retrieve docs
++ [-] Protocols      [50%]
+  - [X] Queryable
+    + [X] add get
+  - [ ] Renderable
 + [ ] Appstate       [0%]
   - [ ] use vm converter instead of constructor
 + [-] Viewmodels     [50%]
   - [X] move viewmodel composition from refresh to new
   - [X] add graph
   - [ ] add converter from hash-map
-+ [-] Protocols      [50%]
-  - [X] Queryable
-    + [X] add get
-  - [ ] Renderable
-+ [ ] Renderer       [0%]
-  - [ ] remove Rendering protocol
-  - [ ] add mount function
 + [ ] Views          [0%]
   - [ ] transition view-components to RUM or Sablono
   - [ ] add renderable protocol
   - [ ] sidebar
   - [ ] topbar
   - [ ] card
++ [ ] Renderer       [0%]
+  - [ ] remove Rendering protocol
+  - [ ] add mount function
 * Next                       [0%]
++ [ ] General        [0%]
+  - [ ] add ci workflow
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
-+ [ ] Viewmodels     [33%]
++ [ ] Viewmodels     [0%]
   - [ ] add tests
 + [-] Appstate       [0%]
 + [ ] Models         [0%]
   - [ ] Course
     - [ ] add qa/get protocol
-  - [ ] Datastore      [50%]
+  - [ ] Datastore      [0%]
     + [ ] add support for not found courses
++ [ ] Adapters       [0%]
+  - [ ] HTTP
++ [ ] Repositories   [0%]
+  - [ ] central repo
+    + [ ] add publish
++ [ ] Authentication [0%]
+* Future                    [0%]
 + [-] Wrappers       [0%]
   - [-] pouchdb
     + [X] completed
@@ -59,16 +66,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] HTTP
   - [ ] Websockets
 + [ ] Repositories   [0%]
-  - [ ] central repo
-    + [ ] add publish
   - [ ] user repo
     + [ ] implement better bootstrapping
     + [ ] add save
-+ [ ] Authentication [0%]
 + [ ] General        [0%]
   - [ ] refactor to cljc where possible
-* Future                    [0%]
-+ [ ] General        [0%]
   - [ ] add test-check
 * Optional                 [0%]
 + [ ] Styles [0%]
