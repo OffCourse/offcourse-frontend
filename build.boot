@@ -1,17 +1,17 @@
 (set-env!
- :source-paths    #{"sass" "src/js" "src/clj" "src/cljs" "src/cljc"}
+ :source-paths    #{"src/js" "src/cljs" "src/cljc"}
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs            "1.7.170-3"      :scope "test"]
                  [adzerk/boot-cljs-repl       "0.3.0"          :scope "test"]
                  [adzerk/boot-reload          "0.4.2"          :scope "test"]
                  [ring/ring-devel             "1.3.2"          :scope "test"]
                  [com.cemerick/piggieback     "0.2.1"          :scope "test"]
-                 [mathias/boot-sassc          "0.1.5"          :scope "test"]
                  [org.clojure/tools.nrepl     "0.2.12"         :scope "test"]
                  [pandeiro/boot-http          "0.7.1-SNAPSHOT" :scope "test"]
                  [weasel                      "0.7.0"          :scope "test"]
                  [hashobject/boot-s3          "0.1.2-SNAPSHOT" :scope "test"]
                  [crisptrutski/boot-cljs-test "0.2.2-SNAPSHOT" :scope "test"]
+                 [org.martinklepsch/boot-garden "1.3.0-0"]
                  [metosin/ring-http-response  "0.6.5"]
                  [com.stuartsierra/component  "0.3.1"]
                  [org.clojure/clojurescript   "1.7.189"]
@@ -37,27 +37,33 @@
                  [cljsjs/react-grid-layout    "0.8.5-0"]
                  [cljsjs/fixed-data-table     "0.4.6-0"]])
 
- (require
-  '[adzerk.boot-cljs      :refer [cljs]]
-  '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
-  '[adzerk.boot-reload    :refer [reload]]
-  '[crisptrutski.boot-cljs-test :refer [test-cljs]]
-  '[pandeiro.boot-http    :refer [serve]]
-  '[hashobject.boot-s3    :refer :all]
-  '[mathias.boot-sassc    :refer [sass]])
+(require
+ '[adzerk.boot-cljs      :refer [cljs]]
+ '[adzerk.boot-cljs-repl :refer [cljs-repl start-repl]]
+ '[adzerk.boot-reload    :refer [reload]]
+ '[crisptrutski.boot-cljs-test :refer [test-cljs]]
+ '[org.martinklepsch.boot-garden :refer [garden]]
+ '[pandeiro.boot-http    :refer [serve]]
+ '[hashobject.boot-s3    :refer :all])
 
- (deftask build []
-   (comp (cljs)
-         (sass :output-dir "css")
-         (target)))
+(deftask css []
+  (set-env! :source-paths #(conj % "src/clj"))
+  (task-options! garden {:styles-var   'offcourse.styles/base
+                         :output-to    "css/main.css"
+                         :pretty-print true})
+  (garden))
 
- (deftask run []
-   (comp (serve :handler 'history-handler/app
-                :reload true)
-         (watch)
-         (cljs-repl)
-         (reload)
-         (build)))
+(deftask build []
+  (comp (cljs)
+        (css)
+        (target)))
+
+(deftask run []
+  (comp (serve :handler 'history-handler/app)
+        (watch)
+        (cljs-repl)
+        (reload)
+        (build)))
 
 (deftask testing []
   (set-env! :source-paths #(conj % "test/cljs"))
@@ -72,8 +78,7 @@
  (deftask production []
    (set-env! :source-paths #(conj % "src-prod/cljs"))
    (task-options! target {:dir #{"target/prod"}}
-                  cljs   {:optimizations :advanced}
-                  sass   {:output-style "compressed"})
+                  cljs   {:optimizations :advanced})
    identity)
 
  (deftask development []
@@ -81,9 +86,7 @@
    (task-options! target {:dir #{"target/dev"}}
                   cljs   {:optimizations :none
                           :source-map true}
-                  reload {:on-jsload 'offcourse.main/reload}
-                  sass   {:line-numbers true
-                          :source-maps  true})
+                  reload {:on-jsload 'offcourse.main/reload})
    identity)
 
  (deftask dev

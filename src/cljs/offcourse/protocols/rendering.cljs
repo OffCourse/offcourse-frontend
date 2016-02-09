@@ -5,6 +5,6 @@
 (defprotocol Rendering
   (render [this component]))
 
-(defn -render [{:keys [view-component] :as component} payload]
-  (rum/mount (view-component payload) (. js/document (getElementById "app")))
+(defn -render [component {:keys [data view-component] :as pl}]
+  (rum/mount (view-component data) (. js/document (getElementById "container")))
   (ri/respond component :rendered-view))

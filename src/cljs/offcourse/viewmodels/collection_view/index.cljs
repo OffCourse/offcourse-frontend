@@ -23,21 +23,21 @@
   (refresh [vm store] #_(qa-impl/refresh vm store)))
 
 (def graph
-  {:view-name  (fnk [view-type] view-type)
-   :collection (fnk [datastore collection-data]
-                    (or (qa/get datastore :collection collection-data)
-                        collection-data))
-   :labels     (fnk [datastore]
-                    (medley/map-vals lb/collection->labels
-                                     (qa/get datastore :collection-names :all)))
-   :course-ids (fnk [collection] (:course-ids collection))
-   :courses    (fnk [datastore course-ids]
-                    (qa/get datastore :courses course-ids))})
+  {:view-name      (fnk [view-type] view-type)
+   :collection     (fnk [datastore collection-data]
+                        (or (qa/get datastore :collection collection-data)
+                            collection-data))
+   :labels         (fnk [datastore]
+                        (medley/map-vals lb/collection->labels
+                                         (qa/get datastore :collection-names :all)))
+   :course-ids     (fnk [collection] (:course-ids collection))
+   :courses        (fnk [datastore course-ids]
+                        (qa/get datastore :courses course-ids))})
 
 (def compose (graph/compile graph))
 
 (defn new [{:keys [collection type]} datastore]
   (let [view-data (compose {:view-type type
-                           :collection-data collection
-                           :datastore datastore})]
+                            :collection-data collection
+                            :datastore datastore})]
     (map->CollectionView view-data)))

@@ -10,8 +10,7 @@
             [offcourse.system.routes :refer [routes]]
             [offcourse.system.plumbing :as plumbing]
             [offcourse.protocols.convertible :as ci]
-            [offcourse.system.viewmodels :refer [viewmodels]]
-            [offcourse.views.debug :as debug]))
+            [offcourse.system.viewmodels :refer [viewmodels]]))
 
 (def fetchables
   {:courses            [ci/to-course :course-ids]
@@ -37,7 +36,6 @@
                                                :fetchables :fetchables
                                                :reactions  :api-reactions
                                                :repositories :repositories})
-     :renderable             debug/debugger
      :router-actions         (:router actions)
      :router-reactions       (:router reactions)
      :router-channels        (:router channels)
@@ -74,6 +72,5 @@
      :renderer-channels      (:renderer channels)
      :renderer               (component/using (renderer/new)
                                               {:channels       :renderer-channels
-                                               :view-component :renderable
                                                :actions        :renderer-actions
                                                :reactions      :renderer-reactions}))))

@@ -1,4 +1,4 @@
-(ns offcourse.views.debug
+(ns offcourse.view-components.log-table
   (:require [cljsjs.fixed-data-table]
             [offcourse.models.course :as co]
             [medley.core :as medley]
@@ -40,7 +40,7 @@
     (contains? payload :course-ids)       (assoc payload :course-ids (count course-ids))
     :default                              payload))
 
-(rum/defc debugger [{:keys [log] :as pl}]
+(rum/defc debugger [log]
   (let [log (mapv #(conj % (shorten-payload (get % 3))) log)
         row-height 80
         cell-width 60

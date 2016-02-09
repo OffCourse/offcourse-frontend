@@ -22,12 +22,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] Queryable
     + [X] add get
   - [ ] Renderable
-+ [ ] Appstate       [0%]
-  - [ ] use vm converter instead of constructor
 + [-] Viewmodels     [50%]
   - [X] move viewmodel composition from refresh to new
   - [X] add graph
-  - [ ] add converter from hash-map
 + [ ] Views          [0%]
   - [ ] transition view-components to RUM or Sablono
   - [ ] add renderable protocol
@@ -37,6 +34,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] Renderer       [0%]
   - [ ] remove Rendering protocol
   - [ ] add mount function
++ [ ] Styles [0%]
+  - [ ] rewrite styles to garden
 * Next                       [0%]
 + [ ] General        [0%]
   - [ ] add ci workflow
@@ -44,7 +43,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] Bootstrappable
 + [ ] Viewmodels     [0%]
   - [ ] add tests
+  - [ ] add converter from hash-map
 + [-] Appstate       [0%]
+  - [ ] use vm converter instead of constructor
 + [ ] Models         [0%]
   - [ ] Course
     - [ ] add qa/get protocol
@@ -73,8 +74,6 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] refactor to cljc where possible
   - [ ] add test-check
 * Optional                 [0%]
-+ [ ] Styles [0%]
-  - [ ] rewrite styles to garden
 * Archive                   [100%]
 + [X] General        [100%]
   - [X] move system to separate module
