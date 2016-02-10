@@ -1,4 +1,4 @@
-(ns offcourse.view-components.log-table
+(ns offcourse.views.log-table
   (:require [cljsjs.fixed-data-table]
             [offcourse.models.course :as co]
             [medley.core :as medley]

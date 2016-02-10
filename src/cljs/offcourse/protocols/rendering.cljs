@@ -1,6 +1,7 @@
 (ns offcourse.protocols.rendering
   (:require [offcourse.protocols.responsive :as ri]
-            [rum.core :as rum]))
+            [rum.core :as rum]
+            [cljs.pprint :as pp]))
 
 (defprotocol Rendering
   (render [this component]))

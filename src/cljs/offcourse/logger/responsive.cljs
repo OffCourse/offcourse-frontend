@@ -3,7 +3,7 @@
             [offcourse.models.action :as action]
             [offcourse.protocols.loggable :as la]
             [offcourse.protocols.responsive :as ri]
-            [offcourse.view-components.log-table :as debug])
+            [offcourse.views.log-table :as debug])
   (:require-macros [cljs.core.async.macros :refer [go-loop go]]))
 
 (defn listen [{:keys [log channels] :as component}]

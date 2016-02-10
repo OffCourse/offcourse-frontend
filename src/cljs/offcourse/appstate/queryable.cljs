@@ -4,7 +4,7 @@
             [offcourse.protocols.validatable :as va]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri]
-            [offcourse.view-components.app :refer [app]]))
+            [offcourse.views.app :refer [app]]))
 
 (defmulti refresh (fn [{:keys [type]} {:keys [type]}] (if type :query :store)))
 
