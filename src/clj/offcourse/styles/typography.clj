@@ -2,6 +2,7 @@
   (:refer-clojure :exclude [+ - * /])
   (:require [garden
              [arithmetic :refer [* /]]
+             [units :as u :refer [px]]
              [stylesheet :refer [at-font-face]]]))
 
 (defn make-at-font-face [[font-name file-name]]
@@ -11,6 +12,18 @@
 
 (defn title [{:keys [title-font]}]
   [:.title {:font-family title-font}])
+
+(defn label [{:keys [base-border base-color-bg]}]
+  [:.label {:display          :inline-flex
+            :height           (px 30)
+            :margin-right     (px 5)
+            :margin-bottom    (px 5)
+            :font-size        (px 13)
+            :align-items      :center
+            :justify-content  :center
+            :padding          [[0 (px 10)]]
+            :border           base-border
+            :background-color base-color-bg}])
 
 (defn textbar [{:keys [base-color-bg base-unit title-font base-color-fg] :as config}]
   [:.textbar {:outline         :none
@@ -23,7 +36,8 @@
               :color            base-color-bg}])
 
 (defn typography [{:keys [fonts] :as config}]
-  [(map make-at-font-face fonts)
-   (title config)
-   (textbar config)])
+  (let [components [title label textbar]]
+    [(map make-at-font-face fonts)
+     (for [component components]
+       (component config))]))
 

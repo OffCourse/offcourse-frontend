@@ -8,4 +8,4 @@
   [[:.layout--app {:display :flex
                    :height  (percent 100)}]
    [:.layout--dashboard  {:height (percent 100)
-                          :width  (* 10 base-unit)}]])
+                          :width  (* 12 base-unit)}]])

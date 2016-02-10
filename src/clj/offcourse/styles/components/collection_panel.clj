@@ -5,6 +5,7 @@
              [units :as u :refer [px]]]))
 
 (defn collection-panel [{:keys [base-component base-font]}]
-  [:.collection-panel__title
-   [:.title {:font-family base-font
-             :font-size (px 16)}]])
+  [[:.collection-panel {:margin-bottom (px 10)}]
+   [:.collection-panel__title {:margin-bottom (px 10)}
+    [:.title {:font-family base-font
+              :font-size   (px 15)}]]])

@@ -4,7 +4,8 @@
   [[:*     {:margin      0
             :padding     0
             :font-family base-font
+            :user-select  :none
             :box-sizing  :border-box}]
    [:html  base-component]
-   [:body base-component]
+   [:body  (merge base-component {:overflow-y :hidden})]
    [:#container base-component]])
