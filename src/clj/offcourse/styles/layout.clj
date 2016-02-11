@@ -2,10 +2,18 @@
   (:refer-clojure :exclude [+ - * /])
   (:require [garden
              [arithmetic :refer [*]]
-             [units :as u :refer [percent]]]))
+             [units :as u :refer [vh vw percent]]]))
 
-(defn layout [{:keys [base-color-fg base-unit base-color-bg]}]
+(defn layout [{:keys [card-width base-color-medium]}]
   [[:.layout--app {:display :flex
-                   :height  (percent 100)}]
+                   :height  (vh 100)
+                   :width   (vw 100)}]
    [:.layout--dashboard  {:height (percent 100)
-                          :width  (* 12 base-unit)}]])
+                          :min-width  card-width
+                          :max-width  card-width}]
+   [:.layout--main {:justify-content :center
+                    :display :flex
+                    :background-color base-color-medium
+                    :flex-direction :row
+                    :width (percent 100)
+                    :overflow-y :scroll}]])

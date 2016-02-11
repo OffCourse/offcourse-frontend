@@ -13,7 +13,7 @@
 (defn title [{:keys [title-font]}]
   [:.title {:font-family title-font}])
 
-(defn label [{:keys [base-border base-color-bg]}]
+(defn label [{:keys [base-border base-color-light]}]
   [:.label {:display          :inline-flex
             :height           (px 30)
             :margin-right     (px 5)
@@ -23,17 +23,17 @@
             :justify-content  :center
             :padding          [[0 (px 10)]]
             :border           base-border
-            :background-color base-color-bg}])
+            :background-color base-color-light}])
 
-(defn textbar [{:keys [base-color-bg base-unit title-font base-color-fg] :as config}]
+(defn textbar [{:keys [base-color-dark base-unit title-font base-color-light] :as config}]
   [:.textbar {:outline         :none
               :display          :inline-block
               :font-size        (* (/ base-unit 30) 22)
               :line-height      base-unit
               :padding          [[0 (/ base-unit 3)]]
               :border           :none
-              :background-color base-color-fg
-              :color            base-color-bg}])
+              :background-color base-color-dark
+              :color            base-color-light}])
 
 (defn typography [{:keys [fonts] :as config}]
   (let [components [title label textbar]]

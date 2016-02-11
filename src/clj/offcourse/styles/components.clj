@@ -1,7 +1,10 @@
 (ns offcourse.styles.components
-  (:require [offcourse.styles.components.dashboard :refer [dashboard]]
-            [offcourse.styles.components.collection-panel :refer [collection-panel]]))
+  (:require [offcourse.styles.components.todo-list :refer [todo-list]]
+            [offcourse.styles.components
+             [collection-panel :refer [collection-panel]]
+             [card :refer [card cards]]
+             [dashboard :refer [dashboard]]]))
 
 (defn components [config]
-  (let [components [dashboard collection-panel]]
+  (let [components [dashboard card cards todo-list collection-panel]]
     (for [component components] (component config))))
