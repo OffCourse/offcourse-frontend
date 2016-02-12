@@ -1,13 +1,13 @@
 (ns offcourse.styles.components.dashboard
-  (:refer-clojure :exclude [+ - * /])
-  (:require [garden
-             [arithmetic :refer [*]]
-             [units :as u :refer [px]]]))
+  (:require [offcourse.styles.helpers :as h]))
 
-(defn dashboard [{:keys [base-font base-component primary-color base-unit]}]
-  [[:.dashboard (merge base-component {:background-color primary-color
-                                       :padding          (px 30)})]
-   [:.dashboard__logo (merge base-component {:padding-bottom (px 30)
-                                             :flex-direction :row
-                                             :height         (* 2 base-unit)})]
-   [:.dashboard__collections base-component ]])
+(defn dashboard [{:keys [templates colors units]}]
+  (let [base-component (:component templates)
+        declarations   [[:.dashboard              {:background-color (:primary colors)
+                                                   :padding          (:full units)}]
+                        [:.dashboard__logo        {:padding-bottom (:full units)
+                                                   :flex-direction :row
+                                                   :height         (:two units)}]
+                        [:.dashboard__collections {}]]]
+    (h/augment-many base-component declarations)))
+

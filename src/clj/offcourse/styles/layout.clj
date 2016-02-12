@@ -4,16 +4,16 @@
              [arithmetic :refer [*]]
              [units :as u :refer [vh vw percent]]]))
 
-(defn layout [{:keys [card-width base-color-medium]}]
+(defn layout [{:keys [units colors]}]
   [[:.layout--app {:display :flex
                    :height  (vh 100)
                    :width   (vw 100)}]
    [:.layout--dashboard  {:height (percent 100)
-                          :min-width  card-width
-                          :max-width  card-width}]
+                          :min-width  (:sidebar units)
+                          :max-width  (:sidebar units)}]
    [:.layout--main {:justify-content :center
                     :display :flex
-                    :background-color base-color-medium
+                    :background-color (:light colors)
                     :flex-direction :row
                     :width (percent 100)
                     :overflow-y :scroll}]])

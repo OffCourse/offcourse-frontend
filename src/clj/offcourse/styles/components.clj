@@ -2,7 +2,8 @@
   (:require [offcourse.styles.components.todo-list :refer [todo-list]]
             [offcourse.styles.components
              [collection-panel :refer [collection-panel]]
-             [card :refer [card cards]]
+             [card :refer [card]]
+             [cards :refer [cards]]
              [dashboard :refer [dashboard]]]))
 
 (defn components [config]

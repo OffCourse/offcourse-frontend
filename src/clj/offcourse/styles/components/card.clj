@@ -1,41 +1,36 @@
 (ns offcourse.styles.components.card
-  (:refer-clojure :exclude [+ - * /])
-  (:require [garden
-             [units :as u :refer [vw vh percent px]]
-             [arithmetic :refer [/ + *]]]))
+  (:require [offcourse.styles.helpers :as h]))
 
-(defn cards [{:keys [base-component card-width base-color-medium base-unit]}]
-  (let [column-gap (* 1.5 base-unit)
-        column-count 7
-        cards-width (+ (* column-count card-width) (* column-count column-gap))]
-    [:.cards (merge base-component {:display :block
-                                    :padding [[base-unit 0 0 0]]
-                                    :min-width cards-width
-                                    :max-width cards-width
-                                    :-webkit-column-gap column-gap
-                                    :-webkit-column-count column-count})]))
+(defn container [{:keys [one-and-half]} {:keys [light]}]
+  [:.container--card {:display          :inline-block
+                      :padding          [[0 0 one-and-half 0]]}])
 
+(defn component [{:keys [component]} {:keys [card full]} {:keys [day]}]
+  [:.card (h/augment component {:width            card
+                                :padding-bottom   full
+                                :background-color day})])
 
-(defn card [{:keys [base-component card-width base-unit base-color-medium base-color-dark base-color-light]}]
-  (let [map-height (* (/ card-width 12) 7)
-        card-section {:padding [[0 base-unit (/ base-unit 2) base-unit]]}]
+(defn card-section [{:keys [full half]}] {:padding [[0 full half full]]})
 
-    [[:.layout--card {:display :inline-block
-                      :padding [[0 0 (* 1.5 base-unit) 0]]
-                      :background-color base-color-medium}]
-     [:.card (merge base-component {:width card-width
-                                    :padding-bottom base-unit
-                                    :background-color base-color-light})]
-     [:.card--map (merge base-component {:height map-height
-                                         :background-color base-color-dark})]
-     [:.card--title (merge card-section {:padding-top base-unit
-                                         :padding-bottom 0})
-      [:.title {:font-size (px 28)
-                :font-weight 500
-                :line-height (px 30)}]]
-     [:.card--meta (merge card-section {:padding [[(/ base-unit 2) base-unit]]})
-      [:.keyword {:margin-right (/ base-unit 10)}]]
-     [:.card--tags (merge card-section {:padding-top (/ base-unit 2)})]
-     [:.card--checkpoints (merge card-section {:padding-top (/ base-unit 2)})]
-     [:.card--description card-section]]))
+(defn card-sections [{:keys [map half full]} {:keys [night]}]
+  [[:.card--map         {:height           map
+                         :background-color night}]
+   [:.card--title       {:padding-top    full
+                         :padding-bottom 0}]
+   [:.card--meta        {:padding [[half full]]}]
+   [:.card--description {}]
+   [:.card--tags        {:padding-top half}]
+   [:.card--checkpoints {:padding-top half}]])
 
+(defn overrides [units colors]
+  [[:.card--title :.title {:font-size   (:title-font units)
+                            :font-weight 500
+                            :line-height (:title-line-height units)}]
+  [:card--meta :.keyword {:margin-right (:tenth units)}]])
+
+(defn card [{:keys [templates units colors]}]
+  (let [base-component (:component templates)]
+    [(container units colors)
+     (component templates units colors)
+     (h/augment-many (card-section units) (card-sections units colors))
+     (overrides units colors)]))

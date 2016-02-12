@@ -22,7 +22,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] Queryable
     + [X] add get
   - [ ] Renderable
-+ [-] Viewmodels     [50%]
++ [X] Viewmodels     [50%]
   - [X] move viewmodel composition from refresh to new
   - [X] add graph
 + [ ] Views          [0%]
@@ -36,6 +36,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] add mount function
 + [ ] Styles [0%]
   - [ ] rewrite styles to garden
+  - [ ] add media queries
 * Next                       [0%]
 + [ ] General        [0%]
   - [ ] add ci workflow

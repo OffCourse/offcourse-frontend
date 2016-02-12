@@ -49,6 +49,8 @@
 (deftask css []
   (set-env! :source-paths #(conj % "src/clj"))
   (task-options! garden {:styles-var   'offcourse.styles.index/base
+                         :vendors ["webkit" "moz"]
+                         :auto-prefix #{:user-select :column-count :column-gap}
                          :output-to    "css/main.css"
                          :pretty-print true})
   (garden))

@@ -22,7 +22,7 @@
     [:.collection-panel
      [:.collection-panel.collection-panel__title {:key :title}
       [:h1.title (name category-name)]]
-     [:.collection-panel.collection-panel__labels {:key :labels}
+     [:.collection-panel.collection-panel__labels.labels {:key :labels}
       (map #(rum/with-key (label %) (:label-name %)) collection)]]))
 
 (rum/defc dashboard [label-collections]
@@ -41,12 +41,15 @@
   [:ul.todo-list
    (map #(rum/with-key (todo-list-item %) (:order %)) checkpoints)])
 
+(rum/defc labels [labels]
+   [:.labels (map #(rum/with-key (label %) %) labels)])
+
 (rum/defc card [{:keys [goal checkpoints curator] :as course}]
-  [:.layout--card
+  [:.container--card
    [:.card
     [:.card--map]
     [:.card--title
-   [:h1.title goal]]
+     [:h1.title goal]]
     [:.card--meta
      [:p {:key :curator}  [:span.keyword "Curator: "] (name curator)]
      [:p {:key :learners} [:span.keyword "Learners: "] (rand-int-between 1 40)]]
@@ -55,8 +58,7 @@
               (take (rand-int-between 10 40))
               (map #(str/capitalize %1))
               (str/join " "))]]
-    [:.card--tags
-     (map #(rum/with-key (label %) %) (co/get-tags course))]
+    [:.card--tags (labels (co/get-tags course))]
     [:.card--checkpoints (todo-list checkpoints)]]])
 
 (rum/defc cards [items]

@@ -3,19 +3,13 @@
   (:require [garden
              [arithmetic :refer [/ + *]]]))
 
-(defn global [{:keys [base-component base-unit base-font]}]
+(defn global [{:keys [base-component units fonts]}]
   [[:*     {:margin      0
             :padding     0
-            :font-family base-font
-            :-webkit-user-select  :none
+            :font-family (:base fonts)
+            :user-select :none
             :box-sizing  :border-box}]
    [:ul {:list-style :none}]
-
-   [:li {:font-size (* (/ base-unit 30) 16)
-        :line-height (* (/ base-unit 30) 20)}]
-   [:p {:font-family base-font
-        :font-size (* (/ base-unit 30) 16)
-        :line-height (* (/ base-unit 30) 20)}]
-   [:html  base-component]
-   [:body  base-component]
-   [:#container base-component]])
+   [:li :p {:font-size   (:base-font units)
+         :line-height (:base-line-height units)}]
+   [:html  :body :#container base-component]])
