@@ -11,31 +11,34 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Now                        [28%]
 + [X] General        [100%]
   - [X] add test runner
-+ [X] Models         [100%]
++ [-] Models         [50%]
   - [X] Datastore    [100%]
     + [X] add tests
       - [X] check
       - [X] refresh
       - [X] get
     + [X] add easy way to retrieve docs
+  - [ ] Course
+    + [ ] add description field
 + [-] Protocols      [50%]
   - [X] Queryable
     + [X] add get
   - [ ] Renderable
-+ [X] Viewmodels     [50%]
++ [X] Viewmodels     [100%]
   - [X] move viewmodel composition from refresh to new
   - [X] add graph
-+ [ ] Views          [0%]
-  - [ ] transition view-components to RUM or Sablono
++ [-] Views          [66%]
+  - [X] transition view-components to RUM or Sablono
   - [ ] add renderable protocol
-  - [ ] sidebar
-  - [ ] topbar
-  - [ ] card
+  - [X] sidebar
+  - [X] topbar
+  - [X] card
+  - [ ] move description field
 + [ ] Renderer       [0%]
   - [ ] remove Rendering protocol
   - [ ] add mount function
-+ [ ] Styles [0%]
-  - [ ] rewrite styles to garden
++ [-] Styles [50%]
+  - [X] rewrite styles to garden
   - [ ] add media queries
 * Next                       [0%]
 + [ ] General        [0%]
