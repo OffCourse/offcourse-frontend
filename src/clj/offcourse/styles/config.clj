@@ -1,7 +1,7 @@
 (ns offcourse.styles.config
   (:refer-clojure :exclude [+ - * /])
   (:require [garden
-             [arithmetic :refer [* /]]
+             [arithmetic :refer [* / +]]
              [units :as u :refer [percent px]]]
             [plumbing
              [core :refer [fnk]]
@@ -11,6 +11,8 @@
 
 (def units-graph
   {:column               (fnk [base-unit] (* base-unit 14))
+   :column-gap           (fnk [one-and-half] one-and-half)
+   :extended-column      (fnk [column column-gap] (+ column-gap column))
    :card                 (fnk [column]    column)
    :sidebar              (fnk [card]      card)
    :map                  (fnk [column]    (/ column 2))
@@ -55,22 +57,23 @@
                     :red         "#E34D2F"})
 
 (def config-graph
-  {:colors    (fnk [raw-colors base-color]
-                   {:night   (:black raw-colors)
-                    :dark    (:dark-gray   raw-colors)
-                    :medium  (:medium-gray raw-colors)
-                    :light   (:light-gray  raw-colors)
-                    :day     (:white raw-colors)
-                    :primary (base-color raw-colors)})
-   :fonts     (fnk [raw-fonts base-font title-font]
-                   {:base  base-font
-                    :title title-font
-                    :raw   (vals raw-fonts)})
-   :units     (fnk [base-unit]
-                   (compose units-graph {:base-unit base-unit}))
-   :templates (fnk [units colors]
-                   (compose templates-graph {:units  units
-                                             :colors colors}))})
+  {:colors      (fnk [raw-colors base-color]
+                     {:night   (:black raw-colors)
+                      :dark    (:dark-gray   raw-colors)
+                      :medium  (:medium-gray raw-colors)
+                      :light   (:light-gray  raw-colors)
+                      :day     (:white raw-colors)
+                      :primary (base-color raw-colors)})
+   :breakpoints (fnk [] [0 (px 1024) (px 1470) (px 1890) (px 2310) (px 2730) (px 100000)])
+   :fonts       (fnk [raw-fonts base-font title-font]
+                     {:base  base-font
+                      :title title-font
+                      :raw   (vals raw-fonts)})
+   :units       (fnk [base-unit]
+                     (compose units-graph {:base-unit base-unit}))
+   :templates   (fnk [units colors]
+                     (compose templates-graph {:units  units
+                                               :colors colors}))})
 
 (def config (compose config-graph {:raw-colors colors
                                    :base-unit  (px 30)
