@@ -10,7 +10,7 @@
     (+ (rand-int dev) min)))
 
 (rum/defc logo []
-  [:button.logo.textbar.title "Offcourse_"])
+  [:button.logo.textbar "Offcourse_"])
 
 (rum/defc label [{:keys [label-name] :as label}]
   (let [label-name (or label-name label)

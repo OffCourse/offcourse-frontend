@@ -3,11 +3,11 @@
 
 (defn dashboard [{:keys [templates colors units]}]
   (let [base-component (:component templates)
-        declarations   [[:.dashboard              {:background-color (:primary colors)
+        subcomponents  [[:.dashboard              {:background-color (:primary colors)
                                                    :padding          (:full units)}]
                         [:.dashboard__logo        {:padding-bottom (:full units)
                                                    :flex-direction :row
                                                    :height         (:two units)}]
                         [:.dashboard__collections {}]]]
-    (h/augment-many base-component declarations)))
+    (h/augment-many base-component subcomponents)))
 

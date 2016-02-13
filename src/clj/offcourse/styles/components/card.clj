@@ -1,13 +1,13 @@
 (ns offcourse.styles.components.card
   (:require [offcourse.styles.helpers :as h]))
 
-(defn container [{:keys [one-and-half]} {:keys [light]}]
+(defn container [{:keys [one-and-half column]} {:keys [light]}]
   [:.container--card {:display          :inline-block
+                      :width            column
                       :padding          [[0 0 one-and-half 0]]}])
 
-(defn component [{:keys [component]} {:keys [card full]} {:keys [day]}]
-  [:.card (h/augment component {:width            card
-                                :padding-bottom   full
+(defn component [{:keys [component]} {:keys [full]} {:keys [day]}]
+  [:.card (h/augment component {:padding-bottom   full
                                 :background-color day})])
 
 (defn card-section [{:keys [full half]}] {:padding [[0 full half full]]})

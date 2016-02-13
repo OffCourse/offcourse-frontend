@@ -1,7 +1,7 @@
 (ns offcourse.styles.global
   (:refer-clojure :exclude [+ - * /])
   (:require [garden
-             [units :as u :refer [percent px rem]]
+             [units :as u :refer [percent px]]
              [stylesheet :refer [at-media]]
              [arithmetic :refer [/ + *]]]))
 
@@ -14,7 +14,7 @@
    [:ul {:list-style :none}]
    [:html  :body :#container (:component templates)]
    (for [{:keys [min-width max-width percent]} breakpoints]
-     (at-media {:min-width (px min-width) :max-width (px max-width)}
-               [:html {:font-size   (u/percent percent)
+     (at-media {:min-width min-width :max-width max-width}
+               [:html {:font-size   percent
                        :line-height (:base-line-height units)}]))])
 

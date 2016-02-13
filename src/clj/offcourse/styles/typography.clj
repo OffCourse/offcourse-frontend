@@ -26,8 +26,9 @@
             :background-color (:day colors)}])
 
 
-(defn textbar [{:keys [colors units] :as config}]
-  [:.textbar {:outline         :none
+(defn textbar [{:keys [colors units fonts] :as config}]
+  [:.textbar {:outline          :none
+              :font-family      (:title fonts)
               :display          :inline-block
               :font-size        (:subtitle-font units)
               :line-height      (:subtitle-line-height units)
