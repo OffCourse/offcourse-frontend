@@ -3,7 +3,7 @@
   (:require [garden
              [arithmetic :refer [/ + *]]]))
 
-(defn global [{:keys [base-component units fonts]}]
+(defn global [{:keys [templates colors units fonts]}]
   [[:*     {:margin      0
             :padding     0
             :font-family (:base fonts)
@@ -12,4 +12,4 @@
    [:ul {:list-style :none}]
    [:li :p {:font-size   (:base-font units)
          :line-height (:base-line-height units)}]
-   [:html  :body :#container base-component]])
+   [:html  :body :#container (:component templates)]])

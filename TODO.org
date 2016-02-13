@@ -37,7 +37,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] Renderer       [0%]
   - [ ] remove Rendering protocol
   - [ ] add mount function
-+ [-] Styles [50%]
++ [-] Styles         [50%]
   - [X] rewrite styles to garden
   - [ ] add media queries
 * Next                       [0%]
