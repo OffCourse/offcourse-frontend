@@ -8,18 +8,18 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [28%]
+* Now                        [57%]
 + [X] General        [100%]
   - [X] add test runner
-+ [-] Models         [50%]
++ [X] Models         [100%]
   - [X] Datastore    [100%]
     + [X] add tests
       - [X] check
       - [X] refresh
       - [X] get
     + [X] add easy way to retrieve docs
-  - [ ] Course
-    + [ ] add description field
+  - [X] Course
+    + [X] add description field
 + [-] Protocols      [50%]
   - [X] Queryable
     + [X] add get
@@ -29,17 +29,22 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add graph
 + [-] Views          [66%]
   - [X] transition view-components to RUM or Sablono
-  - [ ] add renderable protocol
   - [X] sidebar
+  - [X] correct BEM mistake
   - [X] topbar
-  - [X] card
-  - [ ] move description field
+  - [X] move description field
+  - [X] collection view
+    - [X] refactor into subcomponents
+  - [ ] course view
+  - [ ] checkpoint view
+  - [ ] add renderable protocol
 + [ ] Renderer       [0%]
   - [ ] remove Rendering protocol
   - [ ] add mount function
-+ [-] Styles         [50%]
++ [X] Styles         [100%]
   - [X] rewrite styles to garden
-  - [ ] add media queries
+  - [X] correct BEM mistake
+  - [X] add media queries
 * Next                       [0%]
 + [ ] General        [0%]
   - [ ] add ci workflow

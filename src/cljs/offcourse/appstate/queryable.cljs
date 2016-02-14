@@ -4,7 +4,11 @@
             [offcourse.protocols.validatable :as va]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri]
-            [offcourse.views.app :refer [app]]))
+            [offcourse.views.collection :as collection]
+            [offcourse.views.course :as course]))
+
+(def views {:collection-view collection/view
+            :course-view course/view})
 
 (defmulti refresh (fn [{:keys [type]} {:keys [type]}] (if type :query :store)))
 
@@ -22,4 +26,4 @@
      (if missing-data
        (ri/respond as :not-found-data missing-data)
        (ri/respond as :composed-viewmodel {:data viewmodel
-                                           :view-component app})))))
+                                           :view-component (type views)})))))

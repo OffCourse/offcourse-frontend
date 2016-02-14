@@ -12,6 +12,7 @@
   {:column               (fnk [full] (* full 14))
    :column-gap           (fnk [full] (* 1 full))
    :map                  (fnk [column] (/ column 2))
+   :three                (fnk [full] (* full 3))
    :two                  (fnk [full] (* full 2))
    :one-and-half         (fnk [full] (* full 1.5))
    :two-third            (fnk [third] (* third 2))

@@ -7,7 +7,7 @@
 
 (defn make-at-font-face [[font-name file-name]]
   (at-font-face {:font-family font-name
-                 :font-weight 300
+                 :font-weight 500
                  :src         (str "url('/fonts/" file-name ".woff') " "format('woff')")}))
 
 (defn title [{:keys [fonts]}]

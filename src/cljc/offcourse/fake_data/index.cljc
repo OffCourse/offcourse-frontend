@@ -21,6 +21,12 @@
   (let [dev (- max min)]
     (+ (rand-int dev) min)))
 
+(defn make-description []
+  (->> (lorem/words)
+       (take (rand-int-between 10 40))
+       (map #(str/capitalize %1))
+       (str/join " ")))
+
 (defn make-title []
   (->> (lorem/words)
        (take (rand-int-between 3 8))
@@ -84,18 +90,19 @@
     (merge course {:base-id base-id
                    :course-id base-id})))
 
-(def hashtag
+(defn hashtag []
   (let [hashtag (peek @hashtags)]
     (swap! hashtags pop)
     hashtag))
 
 (defn generate-course
-  ([] (generate-course (rand-nth users) hashtag))
+  ([] (generate-course (rand-nth users) (hashtag)))
   ([curator hashtag] (-> raw-courses
                          rand-nth
                          (assoc :version [0 0 0]
                                 :revision 0
                                 :hashtag hashtag
+                                :description (make-description)
                                 :timestamp (.now js/Date)
                                 :forked-from nil
                                 :forks #{}
