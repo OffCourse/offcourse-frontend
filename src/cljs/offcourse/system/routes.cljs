@@ -6,7 +6,7 @@
 (def checkpoint-routes (conj course-routes "/checkpoints/" :checkpoint-id))
 
 (def routes ["/" {home-route        :home-view
-                  course-routes     :course-view
+                  course-routes     :checkpoint-view
                   collection-routes :collection-view
                   checkpoint-routes :checkpoint-view
                   true              :home-view}])

@@ -6,14 +6,14 @@
             [rum.core :as rum]
             [cljs.pprint :as pp]))
 
-(rum/defc card [{:keys [goal description hashtag checkpoints curator] :as course}]
+(rum/defc card [{:keys [goal tags description hashtag checkpoints curator] :as course}]
   [:.container--card
    [:.card
     [:.card--map]
     [:.card--title [:h1.title goal]]
     [:.card--meta (meta-box course)]
     [:.card--description [:p description]]
-    [:.card--tags (labels (co/get-tags course))]
+    [:.card--tags (labels (:tags (meta course)))]
     [:.card--checkpoints (todo-list checkpoints)]]])
 
 (rum/defc cards [items]

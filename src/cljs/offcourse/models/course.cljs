@@ -1,11 +1,10 @@
 (ns offcourse.models.course
-  (:require [schema.core :as schema :include-macros true]
-            [cljs-uuid-utils.core :as uuid]
-            [offcourse.models.checkpoint     :as cp :refer [Checkpoint]]
+  (:require [clojure.set :as set]
+            [com.rpl.specter :refer [ALL select-first]]
+            [offcourse.models.checkpoint :as cp :refer [Checkpoint]]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.protocols.queryable   :as qa :refer [Queryable]]
-            [com.rpl.specter :refer [select select-first filterer ALL]]
-            [clojure.set :as set]))
+            [schema.core :as schema :include-macros true]))
 
 (schema/defrecord Course
     [course-id    :- schema/Int
@@ -21,6 +20,7 @@
      forked-from  :- (schema/maybe schema/Num)
      forks        :- #{schema/Int}
      checkpoints  :- [Checkpoint]]
+  {(schema/optional-key :tags) #{schema/Keyword}}
   Queryable
   (check [course] (schema/check Course course))
   Validatable

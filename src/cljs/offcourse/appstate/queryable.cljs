@@ -5,10 +5,10 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri]
             [offcourse.views.collection :as collection]
-            [offcourse.views.course :as course]))
+            [offcourse.views.checkpoint :as checkpoint]))
 
 (def views {:collection-view collection/view
-            :course-view course/view})
+            :checkpoint-view checkpoint/view})
 
 (defmulti refresh (fn [{:keys [type]} {:keys [type]}] (if type :query :store)))
 
