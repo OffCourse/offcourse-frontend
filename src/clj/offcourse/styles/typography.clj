@@ -3,6 +3,7 @@
   (:require [garden
              [arithmetic :refer [* /]]
              [units :as u :refer [px]]
+             [selectors :as s]
              [stylesheet :refer [at-font-face]]]))
 
 (defn make-at-font-face [[font-name file-name]]
@@ -13,22 +14,10 @@
 (defn title [{:keys [fonts]}]
   [:.title {:font-family (:title fonts)}])
 
-(defn label [{:keys [templates colors units]}]
-  [:.label {:display          :inline-flex
-            :height           (:full units)
-            :margin-right     (:sixth units)
-            :margin-bottom    (:sixth units)
-            :font-size        (* (:atom units) 13)
-            :align-items      :center
-            :justify-content  :center
-            :padding          [[0 (:third units)]]
-            :border           (:border templates)
-            :background-color (:day colors)}])
-
 
 (defn textbar [{:keys [colors units fonts] :as config}]
   [:.textbar {:outline          :none
-              :font-family      (:title fonts)
+              :font-family      (:logo fonts)
               :display          :inline-block
               :font-size        (:subtitle-font units)
               :line-height      (:subtitle-line-height units)
@@ -38,8 +27,7 @@
               :color            (:day colors)}])
 
 (defn typography [{:keys [fonts] :as config}]
-  (let [components [title label textbar]]
+  (let [components [title textbar]]
     [(map make-at-font-face (:raw fonts))
      (for [component components]
        (component config))]))
-

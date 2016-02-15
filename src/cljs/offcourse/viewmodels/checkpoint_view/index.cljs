@@ -30,9 +30,11 @@
       checkpoint)))
 
 (defn augment-course [{:keys [checkpoints] :as course} checkpoint-id]
-  (some-> course
-          (assoc :checkpoints (select-checkpoint checkpoints checkpoint-id))
-          (with-meta {:tags (co/get-tags course)})))
+  (let [tags (-> (co/get-tags course)
+                 (lb/collection->labels checkpoint-id))]
+    (some-> course
+            (assoc :checkpoints (select-checkpoint checkpoints checkpoint-id))
+            (with-meta {:tags tags}))))
 
 (def graph
   {:view-name     (fnk [view-type] view-type)

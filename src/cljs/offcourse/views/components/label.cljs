@@ -2,9 +2,10 @@
   (:require [rum.core :as rum]))
 
 (rum/defc label [{:keys [label-name] :as label}]
-  (let [label-name (or label-name label)
+  (let [{:keys [selected?]} (meta label)
+        label-name label-name
         title (name label-name)]
-    [:span.label (str title " ")]))
+    [:span.label {:data-selected selected?} (str title " ")]))
 
 (rum/defc labels [labels]
-  [:.labels (map #(rum/with-key (label %) %) labels)])
+  [:.labels (map #(rum/with-key (label %) (:label-name %)) labels)])

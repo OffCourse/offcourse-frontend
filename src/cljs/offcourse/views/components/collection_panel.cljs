@@ -4,10 +4,10 @@
 
 (rum/defc collection-panel [[category-name collection]]
   (let [title (name category-name)]
-    [:.collection-panel
+    [:.collection-panel.l
      [:.collection-panel--title {:key :title}
       [:h1.title (name category-name)]]
-     [:collection-panel--labels.labels {:key :labels}
+     [:.collection-panel--labels.labels {:key :labels}
       (map #(rum/with-key (label %) (:label-name %)) collection)]]))
 
 (rum/defc collection-panels [labels]

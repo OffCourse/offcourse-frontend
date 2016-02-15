@@ -21,6 +21,7 @@
                  [prismatic/plumbing          "0.5.2"]
                  [com.rpl/specter             "0.9.2"]
                  [danlentz/clj-uuid           "0.1.6"]
+                 [markdown-clj                "0.9.77"]
                  [com.lucasbradstreet/cljs-uuid-utils "1.0.2"]
                  [medley                      "0.7.0"]
                  [env/faker                   "0.4.0"]

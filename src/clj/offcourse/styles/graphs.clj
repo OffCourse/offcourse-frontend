@@ -31,6 +31,8 @@
 
 (def templates-graph
   {:border    (fnk [units colors] [[(:atom units) :solid (:night colors)]])
+   :selected  (fnk [colors] {:background-color (:night colors)
+                             :color            (:day colors)})
    :component (fnk [] {:display        :flex
                        :flex-direction :column
                        :width          (percent 100)
@@ -53,8 +55,9 @@
                              :percent   (u/percent percent)
                              :column-count column-count})
                           raw-breakpoints))
-   :fonts       (fnk [raw-fonts base-font title-font]
+   :fonts       (fnk [raw-fonts base-font logo-font title-font]
                      {:base  base-font
+                      :logo  logo-font
                       :title title-font
                       :raw   (vals raw-fonts)})
    :units       (fnk [base-unit] (-compose units-graph {:base-unit base-unit}))

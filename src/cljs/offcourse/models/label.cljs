@@ -3,16 +3,20 @@
             [medley.core :as medley]))
 
 (schema/defrecord Label
-    [label-name :- schema/Keyword
-     selected? :- schema/Bool
-     highlighted? :- schema/Bool])
+    [label-name :- schema/Keyword])
+
 
 (defn new [label-name]
-  (map->Label {:label-name label-name
-               :selected? false
-               :highlighted? false}))
+  (map->Label {:label-name label-name}))
 
-(defn collection->labels [collection]
-  (->> collection
-       (map new)
-       (into #{})))
+(defn select [selected {:keys [label-name] :as label}]
+  (if (= label-name selected)
+    (with-meta label {:selected? true})
+    label))
+
+(defn collection->labels
+  ([collection] (collection->labels collection nil))
+  ([collection selected]
+   (->> collection
+        (map (comp (partial select selected) new))
+        (into #{}))))

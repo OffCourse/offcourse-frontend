@@ -35,4 +35,5 @@
                              :base-color      :green
                              :raw-fonts       fonts
                              :base-font       :NittiGrotesk
-                             :title-font      :NittiBold}))
+                             :logo-font       :NittiBold
+                             :title-font      :NittiGroteskBold}))

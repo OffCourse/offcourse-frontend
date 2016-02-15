@@ -5,7 +5,7 @@
              [selectors :as s]
              [arithmetic :refer [/ + *]]]))
 
-(defn todo-list [{:keys [units colors]}]
+(defn todo-list [{:keys [templates units colors]}]
   [[:.todo-list--item {:justify-content  :center
                        :padding          (:sixth units)
                        :height           (:full units)
@@ -23,6 +23,5 @@
                  :height           (:two-third units)
                  :background-color (:day colors)
                  :vertical-align   :center}]]
-   [(s/> :.todo-list (s/attr :data-selected := :true)) {:background-color (:night colors)
-                                                        :color            (:day colors)}]])
+   [(s/> :.todo-list (s/attr :data-selected := :true)) (:selected templates)]])
 
