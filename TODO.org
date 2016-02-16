@@ -8,7 +8,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [88%]
+* Now                        [100%]
 + [X] General        [100%]
   - [X] add test runner
 + [X] Models         [100%]
@@ -40,12 +40,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] checkpoint view
 + [X] Renderer       [100%]
   - [X] rename to UI
-+ [-] UI             [80%]
++ [X] UI             [100%]
   - [X] rename from renderer
   - [X] implement renderable
   - [X] remove Rendering protocol
-  - [X] add views 
-  - [ ] add handlers
+  - [X] add views
+  - [X] add links
 + [X] Styles         [100%]
   - [X] rewrite styles to garden
   - [X] correct BEM mistake

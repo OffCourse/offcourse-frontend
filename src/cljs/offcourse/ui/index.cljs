@@ -9,9 +9,9 @@
   (start [rd] (ri/listen rd))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views] :as rd} {:keys [view-name] :as viewmodel}]
+  (-render [{:keys [views routes] :as rd} {:keys [view-name] :as viewmodel}]
     (let [view (view-name views)]
-      (rum/mount (view viewmodel) (. js/document (getElementById "container")))
+      (rum/mount (view viewmodel routes) (. js/document (getElementById "container")))
       (ri/respond rd :rendered-view)))
   Responsive
   (listen [rd] (assoc rd :listener (ri/-listen rd)))

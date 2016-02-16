@@ -43,7 +43,7 @@
 
 (def compose (graph/compile graph))
 
-(defn new [{:keys [collection type]} datastore]
+(defn new [{:keys [collection routes type]} datastore]
   (let [view-data (compose {:view-type type
                             :collection-data collection
                             :datastore datastore})]

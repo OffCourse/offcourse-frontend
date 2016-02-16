@@ -67,5 +67,6 @@
      :renderer               (component/using (ui/new)
                                               {:channels  :ui-channels
                                                :actions   :ui-actions
+                                               :routes    :routes
                                                :views     :views
                                                :reactions :ui-reactions}))))

@@ -12,6 +12,8 @@
             :user-select :none
             :box-sizing  :border-box}]
    [:ul {:list-style :none}]
+   [:a  {:color :inherit
+         :text-decoration :inherit}]
    [:html  :body :#container (:component templates)]
    (for [{:keys [min-width max-width percent]} breakpoints]
      (at-media {:min-width min-width :max-width max-width}

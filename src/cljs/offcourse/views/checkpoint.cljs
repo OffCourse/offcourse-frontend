@@ -10,7 +10,7 @@
      [:.content {:dangerouslySetInnerHTML {:__html (md->html content)}}]
      [:.loading "Waiting"])])
 
-(rum/defc view [{:keys [view-name resource checkpoint-id labels course] :as vm}]
+(rum/defc view [{:keys [view-name resource checkpoint-id labels course]} routes]
   [:.layout--app.app
-   [:.layout--dashboard (dashboard (card course))]
+   [:.layout--dashboard (dashboard (card course routes) routes)]
    [:.layout--main (viewer resource)]])

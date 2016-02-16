@@ -1,13 +1,15 @@
 (ns offcourse.views.components.todo
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [bidi.bidi :refer [path-for]]))
 
-(rum/defc todo-list-item [{:keys [task] :as checkpoint}]
-  (let [{:keys [selected]} (meta checkpoint)]
+(rum/defc todo-list-item [{:keys [task order] :as checkpoint} create-url]
+  (let [{:keys [selected]} (meta checkpoint)
+        url (create-url order)]
     [:li.todo-list--item {:data-selected selected}
-     [:p
-      [:span.checkbox {:key :checkbox} nil]
-      [:span {:key :title} task]]]))
+     [:a {:href url} [:p
+                      [:span.checkbox {:key :checkbox} nil]
+                      [:span {:key :title} task]]]]))
 
-(rum/defc todo-list [checkpoints]
+(rum/defc todo-list [checkpoints create-url]
   [:ul.todo-list
-   (map #(rum/with-key (todo-list-item %) (:order %)) checkpoints)])
+   (map #(rum/with-key (todo-list-item % create-url) (:order %)) checkpoints)])
