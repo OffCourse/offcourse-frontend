@@ -19,7 +19,7 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel (or log-channel (:log channels))]
      (swap! counter inc)
-     (if (and output-channel (> 1000 @counter))
+     (if output-channel #_(and output-channel (> 1000 @counter))
        (go
          (>! output-channel (action/new status component-name payload))
          (when log-channel (>! log-channel (action/new status component-name payload))))
