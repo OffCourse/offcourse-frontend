@@ -6,23 +6,17 @@
             [rum.core :as rum]
             [bidi.bidi :refer [path-for]]))
 
-(defn create-url [routes curator hashtag checkpoint-id]
-  (path-for routes :checkpoint-view
-            :curator curator
-            :hashtag hashtag
-            :checkpoint-id checkpoint-id))
-
-(rum/defc card [{:keys [goal tags description hashtag checkpoints curator] :as course} routes]
+(rum/defc card [{:keys [goal tags description hashtag checkpoints curator] :as course}
+                {:keys [checkpoint-url] :as helpers}]
   [:.container--card
    [:.card
     [:.card--map]
-    [:.card--title [:a.title {:href (create-url routes curator hashtag 1)} goal]]
+    [:.card--title [:a.title {:href (checkpoint-url curator hashtag 1)} goal]]
     [:.card--meta (meta-box course)]
     [:.card--description [:p description]]
-    [:.card--tags (labels (:tags (meta course)) routes :tags)]
+    [:.card--tags (labels (:tags (meta course)) helpers)]
     [:.card--checkpoints (todo-list checkpoints
-                                    (partial create-url routes curator hashtag))]]])
+                                    {:checkpoint-url (partial checkpoint-url curator hashtag)})]]])
 
-(rum/defc cards [items routes]
-  [:.cards
-   (map #(rum/with-key (card % routes) (:course-id %)) items)])
+(rum/defc cards [items helpers]
+  [:.cards (map #(rum/with-key (card % helpers) (:course-id %)) items)])

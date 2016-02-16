@@ -2,9 +2,9 @@
   (:require [rum.core :as rum]
             [bidi.bidi :refer [path-for]]))
 
-(rum/defc todo-list-item [{:keys [task order] :as checkpoint} create-url]
+(rum/defc todo-list-item [{:keys [task order] :as checkpoint} {:keys [checkpoint-url]}]
   (let [{:keys [selected]} (meta checkpoint)
-        url (create-url order)]
+        url (checkpoint-url order)]
     [:li.todo-list--item {:data-selected selected}
      [:a {:href url} [:p
                       [:span.checkbox {:key :checkbox} nil]

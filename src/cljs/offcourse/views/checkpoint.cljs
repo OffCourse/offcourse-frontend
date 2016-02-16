@@ -1,7 +1,7 @@
 (ns offcourse.views.checkpoint
-  (:require [offcourse.views.components.card :refer [card]]
+  (:require [markdown.core :refer [md->html]]
+            [offcourse.views.components.card :refer [card]]
             [offcourse.views.components.dashboard :refer [dashboard]]
-            [markdown.core :refer [md->html]]
             [rum.core :as rum]))
 
 (rum/defc viewer [{:keys [content] :as resource}]
@@ -10,7 +10,7 @@
      [:.content {:dangerouslySetInnerHTML {:__html (md->html content)}}]
      [:.loading "Waiting"])])
 
-(rum/defc view [{:keys [view-name resource checkpoint-id labels course]} routes]
+(rum/defc view [{:keys [view-name resource labels course]} helpers]
   [:.layout--app.app
-   [:.layout--dashboard (dashboard (card course routes) routes)]
+   [:.layout--dashboard (dashboard (card course helpers) helpers)]
    [:.layout--main (viewer resource)]])

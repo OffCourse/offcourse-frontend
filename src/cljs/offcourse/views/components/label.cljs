@@ -2,15 +2,14 @@
   (:require [rum.core :as rum]
             [bidi.bidi :refer [path-for]]))
 
-(rum/defc label [{:keys [label-name] :as label} routes collection-type]
-  (let [url (path-for routes :collection-view
-                      :collection-type collection-type
-                      :collection-name label-name)
-        {:keys [selected?]} (meta label)
+(rum/defc label [{:keys [label-name] :as label} {:keys [collection-url]}]
+  (let [{:keys [selected?]} (meta label)
         label-name label-name
         title (name label-name)]
     [:span.label {:data-selected selected?}
-     [:a {:href url} (str title " ")]]))
+     [:a {:href (collection-url label-name)} (str title " ")]]))
 
-(rum/defc labels [labels routes collection-type]
-  [:.labels (map #(rum/with-key (label % routes collection-type) (:label-name %)) labels)])
+(rum/defc labels [labels {:keys [collection-url] :as helpers}]
+  (let [helpers (assoc helpers :collection-url (partial collection-url :tags))]
+    [:.labels (map #(rum/with-key (label % helpers)
+                      (:label-name %)) labels)]))

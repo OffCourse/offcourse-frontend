@@ -1,17 +1,19 @@
 (ns offcourse.ui.index
-  (:require [offcourse.protocols.responsive :as ri :refer [Responsive]]
+  (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.renderable :as rr :refer [Renderable]]
-            [rum.core :as rum]
-            [com.stuartsierra.component :refer [Lifecycle]]))
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
+            [rum.core :as rum]))
+
 
 (defrecord UI [listener input-channel]
   Lifecycle
   (start [rd] (ri/listen rd))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views routes] :as rd} {:keys [view-name] :as viewmodel}]
+  (-render [{:keys [views route-helpers] :as rd} {:keys [view-name] :as viewmodel}]
     (let [view (view-name views)]
-      (rum/mount (view viewmodel routes) (. js/document (getElementById "container")))
+      (rum/mount (view viewmodel route-helpers)
+                 (. js/document (getElementById "container")))
       (ri/respond rd :rendered-view)))
   Responsive
   (listen [rd] (assoc rd :listener (ri/-listen rd)))

@@ -7,11 +7,12 @@
             [offcourse.api.index :as api]
             [offcourse.ui.index :as ui]
             [offcourse.system.interactions :refer [actions reactions]]
-            [offcourse.system.routes :refer [routes]]
+            [offcourse.system.routes :refer [routes route-helpers]]
             [offcourse.system.plumbing :as plumbing]
             [offcourse.system.fetchables :refer [fetchables]]
             [offcourse.system.viewmodels :refer [viewmodels]]
             [offcourse.system.views :refer [views]]))
+
 
 (defn system [bootstrap-docs repositories]
   (let [channels plumbing/channels]
@@ -20,6 +21,7 @@
      :repositories           repositories
      :viewmodels             viewmodels
      :views                  views
+     :route-helpers          (route-helpers routes)
      :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
@@ -64,9 +66,9 @@
      :ui-actions             (:ui actions)
      :ui-reactions           (:ui reactions)
      :ui-channels            (:ui channels)
-     :renderer               (component/using (ui/new)
-                                              {:channels  :ui-channels
-                                               :actions   :ui-actions
-                                               :routes    :routes
-                                               :views     :views
-                                               :reactions :ui-reactions}))))
+     :ui                     (component/using (ui/new)
+                                              {:channels      :ui-channels
+                                               :actions       :ui-actions
+                                               :route-helpers :route-helpers
+                                               :views         :views
+                                               :reactions     :ui-reactions}))))

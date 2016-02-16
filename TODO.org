@@ -26,10 +26,10 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] Renderable
 + [X] Appstate       [100%]
   - [X] move views to UI
-+ [-] Viewmodels     [50%]
++ [-] Viewmodels     [75%]
   - [X] move viewmodel composition from refresh to new
   - [X] add graph
-  - [ ] add helpers
+  - [X] add helpers
   - [ ] add handlers
 + [X] Views          [100%]
   - [X] transition view-components to RUM or Sablono
