@@ -3,12 +3,7 @@
             [offcourse.models.datastore.index :as ds]
             [offcourse.protocols.validatable :as va]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri]
-            [offcourse.views.collection :as collection]
-            [offcourse.views.checkpoint :as checkpoint]))
-
-(def views {:collection-view collection/view
-            :checkpoint-view checkpoint/view})
+            [offcourse.protocols.responsive :as ri]))
 
 (defmulti refresh (fn [{:keys [type]} {:keys [type]}] (if type :query :store)))
 
@@ -25,5 +20,4 @@
          missing-data (va/missing-data viewmodel)]
      (if missing-data
        (ri/respond as :not-found-data missing-data)
-       (ri/respond as :composed-viewmodel {:data viewmodel
-                                           :view-component (type views)})))))
+       (ri/respond as :composed-viewmodel viewmodel)))))

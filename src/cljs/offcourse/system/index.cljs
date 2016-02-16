@@ -5,20 +5,13 @@
             [offcourse.logger.index :as logger]
             [offcourse.router.index :as router]
             [offcourse.api.index :as api]
-            [offcourse.renderer.index :as renderer]
+            [offcourse.ui.index :as ui]
             [offcourse.system.interactions :refer [actions reactions]]
             [offcourse.system.routes :refer [routes]]
             [offcourse.system.plumbing :as plumbing]
-            [offcourse.protocols.convertible :as ci]
-            [offcourse.system.viewmodels :refer [viewmodels]]))
-
-(def fetchables
-  {:courses            [ci/to-course :course-ids]
-   :course             [ci/to-course]
-   :collection         [ci/to-collection]
-   :collection-names   [identity]
-   :resources          [ci/to-resource :resource-ids]
-   :resource           [ci/to-resource]})
+            [offcourse.system.fetchables :refer [fetchables]]
+            [offcourse.system.viewmodels :refer [viewmodels]]
+            [offcourse.system.views :refer [views]]))
 
 (defn system [bootstrap-docs repositories]
   (let [channels plumbing/channels]
@@ -26,15 +19,16 @@
      :routes                 routes
      :repositories           repositories
      :viewmodels             viewmodels
+     :views                  views
      :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
      :api-channels           (:api channels)
      :api                    (component/using (api/new :api)
-                                              {:channels   :api-channels
-                                               :actions    :api-actions
-                                               :fetchables :fetchables
-                                               :reactions  :api-reactions
+                                              {:channels     :api-channels
+                                               :actions      :api-actions
+                                               :fetchables   :fetchables
+                                               :reactions    :api-reactions
                                                :repositories :repositories})
      :router-actions         (:router actions)
      :router-reactions       (:router reactions)
@@ -67,10 +61,11 @@
                                                :viewmodels :viewmodels
                                                :actions    :appstate-actions
                                                :reactions  :appstate-reactions})
-     :renderer-actions       (:renderer actions)
-     :renderer-reactions     (:renderer reactions)
-     :renderer-channels      (:renderer channels)
-     :renderer               (component/using (renderer/new)
-                                              {:channels       :renderer-channels
-                                               :actions        :renderer-actions
-                                               :reactions      :renderer-reactions}))))
+     :ui-actions             (:ui actions)
+     :ui-reactions           (:ui reactions)
+     :ui-channels            (:ui channels)
+     :renderer               (component/using (ui/new)
+                                              {:channels  :ui-channels
+                                               :actions   :ui-actions
+                                               :views     :views
+                                               :reactions :ui-reactions}))))

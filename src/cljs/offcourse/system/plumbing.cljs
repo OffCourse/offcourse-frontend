@@ -16,7 +16,7 @@
         data-service-input  (merge [(tap appstate-mult (chan))
                                     (tap api-mult (chan))])
         api-input           (tap data-service-mult (chan))
-        renderer-input      #_logger-output (tap appstate-mult (chan))]
+        ui-input            #_logger-output (tap appstate-mult (chan))]
 
     {:api       {:input  api-input
                  :log    logger-input
@@ -31,5 +31,5 @@
      :appstate  {:input  appstate-input
                  :log    logger-input
                  :output appstate-output}
-     :renderer  {:input renderer-input
+     :ui        {:input ui-input
                  :log   logger-input}}))

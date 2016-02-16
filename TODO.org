@@ -8,7 +8,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [33%]
+* Now                        [88%]
 + [X] General        [100%]
   - [X] add test runner
 + [X] Models         [100%]
@@ -20,18 +20,16 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] add easy way to retrieve docs
   - [X] Course
     + [X] add description field
-+ [-] Protocols      [50%]
++ [X] Protocols      [100%]
   - [X] Queryable
     + [X] add get
-  - [ ] Renderable
-+ [ ] Appstate       [0%]
-  - [ ] move views to UI
-  - [ ] add routes as dep
-+ [-] Viewmodels     [66%]
+  - [X] Renderable
++ [X] Appstate       [100%]
+  - [X] move views to UI
++ [X] Viewmodels     [100%]
   - [X] move viewmodel composition from refresh to new
   - [X] add graph
-  - [ ] add route gen
-+ [-] Views          [87%]
++ [X] Views          [100%]
   - [X] transition view-components to RUM or Sablono
   - [X] sidebar
   - [X] correct BEM mistake
@@ -40,13 +38,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] collection view
     - [X] refactor into subcomponents
   - [X] checkpoint view
-  - [ ] add renderable protocol
-+ [ ] Renderer       [0%]
-  - [ ] rename to UI
-+ [ ] UI
-  - [ ] rename from renderer
-  - [ ] remove Rendering protocol
-  - [ ] add views / handlers
++ [X] Renderer       [100%]
+  - [X] rename to UI
++ [-] UI             [80%]
+  - [X] rename from renderer
+  - [X] implement renderable
+  - [X] remove Rendering protocol
+  - [X] add views 
+  - [ ] add handlers
 + [X] Styles         [100%]
   - [X] rewrite styles to garden
   - [X] correct BEM mistake

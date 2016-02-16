@@ -1,6 +1,6 @@
 (ns offcourse.system.interactions
   (:require [offcourse.protocols.queryable :as qa]
-            [offcourse.protocols.rendering :as rr]))
+            [offcourse.protocols.renderable :as rr]))
 
 (def actions
   {:api       [:failed-fetch
@@ -11,7 +11,7 @@
    :datastore [:checked-store
                :not-found-data
                :refreshed-datastore]
-   :renderer  [:rendered-view]})
+   :ui        [:rendered-view]})
 
 (def reactions
   {:api       {:not-found-data qa/fetch}
@@ -32,5 +32,5 @@
                :refreshed-datastore qa/refresh}
    :datastore {:not-found-data qa/check
                :fetched-data   qa/refresh}
-   :renderer  {:composed-viewmodel rr/render
+   :ui        {:composed-viewmodel rr/render
                :updated-logs       rr/render}})
