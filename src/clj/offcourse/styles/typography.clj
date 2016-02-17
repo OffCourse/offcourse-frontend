@@ -14,6 +14,18 @@
 (defn title [{:keys [fonts]}]
   [:.title {:font-family (:title fonts)}])
 
+(defn btn [{:keys [colors units fonts]}]
+  [[:.container--btn        {:height (* 4 (:full units))
+                             :padding (:full units)
+                             :padding-top 0}]
+   [:.btn {:outline          :none
+          :display          :inline-block
+          :height           (:two units)
+          :padding          [[0 (:third units)]]
+          :width            (:map units)
+          :border           :none
+          :background-color (:night colors)
+          :color            (:day colors)}]])
 
 (defn textbar [{:keys [colors units fonts] :as config}]
   [:.textbar {:outline          :none
@@ -27,7 +39,7 @@
               :color            (:day colors)}])
 
 (defn typography [{:keys [fonts] :as config}]
-  (let [components [title textbar]]
+  (let [components [title btn textbar]]
     [(map make-at-font-face (:raw fonts))
      (for [component components]
        (component config))]))

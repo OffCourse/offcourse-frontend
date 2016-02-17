@@ -4,7 +4,7 @@
 (defn container [{:keys [one-and-half column]} {:keys [light]}]
   [:.container--card {:display          :inline-block
                       :width            column
-                      :padding          [[0 0 one-and-half 0]]}])
+                      :padding          0}])
 
 (defn component [{:keys [component]} {:keys [full]} {:keys [day]}]
   [:.card (h/augment component {:padding-bottom   full

@@ -12,8 +12,10 @@
                                      :curator curator
                                      :hashtag hashtag
                                      :checkpoint-id checkpoint-id))
-        home-url       (collection-url :flags :featured)]
+        home-url       (collection-url :flags :featured)
+        add-checkpoint (fn [] (.alert js/window "hola"))]
     {:create-url     create-url
      :home-url       home-url
      :collection-url collection-url
+     :add-checkpoint add-checkpoint
      :checkpoint-url checkpoint-url}))

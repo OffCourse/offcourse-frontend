@@ -8,6 +8,11 @@
              [viewer :refer [viewer]]
              [dashboard :refer [dashboard]]]))
 
+
+(defn navigation-panel [{:keys [templates units fonts colors]}]
+  [[:.navigation-panel (merge (:component templates) {})]])
+
 (defn components [config]
-  (let [components [dashboard card viewer label cards todo-list collection-panels collection-panel]]
+  (let [components [dashboard navigation-panel card viewer label cards
+                    todo-list collection-panels collection-panel]]
     (for [component components] (component config))))

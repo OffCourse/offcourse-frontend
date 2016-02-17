@@ -2,6 +2,7 @@
   (:require [offcourse.models.view :as view]
             [offcourse.views.components.card :refer [card]]
             [offcourse.views.components.logo :refer [logo]]
+            [offcourse.views.components.navigation-panel :refer [navigation-panel]]
             [offcourse.views.components.viewer :refer [viewer]]
             [offcourse.views.containers.app :refer [app]]
             [offcourse.views.containers.dashboard :refer [dashboard]]))
@@ -10,9 +11,10 @@
   (let [card      (card course helpers)
         logo      (logo (select-keys helpers [:home-url]))
         main      (viewer resource)
-        nav       nil
+        nav       (navigation-panel (select-keys helpers [:add-checkpoint]))
         dashboard (dashboard {:logo logo
                               :main card
-                              :card nav})]
+                              :nav nav
+                              :colorful false})]
     (view/new app {:dashboard dashboard
                    :main main})))

@@ -7,9 +7,10 @@
 (defn cards [{:keys [templates breakpoints units]}]
   (let [{:keys [column-gap full column]} units]
     [[:.cards (merge (:component templates)
-                    {:padding      [[full 0 0 0]]
-                     :overflow-x   :hidden
-                     :column-gap   column-gap})]
+                     {:padding      [[full 0 0 0]]
+                      :overflow-x   :hidden
+                      :column-gap   column-gap})
+      [:.container--card {:padding-bottom (:full units)}]]
     (for [{:keys [min-width max-width column-count]} breakpoints]
       (at-media {:min-width min-width :max-width max-width}
                 (let [gap-count     (dec column-count)
