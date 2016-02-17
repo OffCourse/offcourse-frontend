@@ -18,4 +18,5 @@
      :home-url       home-url
      :collection-url collection-url
      :add-checkpoint add-checkpoint
+     :edit-checkpoint add-checkpoint
      :checkpoint-url checkpoint-url}))

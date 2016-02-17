@@ -11,7 +11,8 @@
   (let [card      (card course helpers)
         logo      (logo (select-keys helpers [:home-url]))
         main      (viewer resource)
-        nav       (navigation-panel (select-keys helpers [:add-checkpoint]))
+        nav       (navigation-panel (select-keys helpers [:add-checkpoint
+                                                          :edit-checkpoint]))
         dashboard (dashboard {:logo logo
                               :main card
                               :nav nav

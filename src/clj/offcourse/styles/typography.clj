@@ -1,7 +1,7 @@
 (ns offcourse.styles.typography
   (:refer-clojure :exclude [+ - * /])
   (:require [garden
-             [arithmetic :refer [* /]]
+             [arithmetic :refer [* + /]]
              [units :as u :refer [px]]
              [selectors :as s]
              [stylesheet :refer [at-font-face]]]))
@@ -15,8 +15,9 @@
   [:.title {:font-family (:title fonts)}])
 
 (defn btn [{:keys [colors units fonts]}]
-  [[:.container--btn        {:height (* 4 (:full units))
+  [[:.container--btn        {:height (* 3 (:full units))
                              :padding (:full units)
+                             :width (+ (:two units) (:map units))
                              :padding-top 0}]
    [:.btn {:outline          :none
           :display          :inline-block
