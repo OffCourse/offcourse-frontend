@@ -7,7 +7,8 @@
             [offcourse.api.index :as api]
             [offcourse.ui.index :as ui]
             [offcourse.system.interactions :refer [actions reactions]]
-            [offcourse.system.routes :refer [routes route-helpers]]
+            [offcourse.system.routes :refer [routes]]
+            [offcourse.system.view-helpers :refer [view-helpers]]
             [offcourse.system.plumbing :as plumbing]
             [offcourse.system.fetchables :refer [fetchables]]
             [offcourse.system.viewmodels :refer [viewmodels]]
@@ -21,7 +22,7 @@
      :repositories           repositories
      :viewmodels             viewmodels
      :views                  views
-     :route-helpers          (route-helpers routes)
+     :view-helpers           (view-helpers routes)
      :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
@@ -69,6 +70,6 @@
      :ui                     (component/using (ui/new)
                                               {:channels      :ui-channels
                                                :actions       :ui-actions
-                                               :route-helpers :route-helpers
+                                               :view-helpers  :view-helpers
                                                :views         :views
                                                :reactions     :ui-reactions}))))

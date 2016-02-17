@@ -1,11 +1,17 @@
 (ns offcourse.views.collection
-  (:require [offcourse.views.components.dashboard :refer [dashboard]]
+  (:require [offcourse.models.view :as view]
             [offcourse.views.components.card :refer [cards]]
             [offcourse.views.components.collection-panel :refer [collection-panels]]
-            [bidi.bidi :refer [path-for]]
-            [rum.core :as rum]))
+            [offcourse.views.components.logo :refer [logo]]
+            [offcourse.views.containers.app :refer [app]]
+            [offcourse.views.containers.dashboard :refer [dashboard]]))
 
-(rum/defc view [{:keys [view-name labels courses]} helpers]
-    [:.layout--app.app
-     [:.layout--dashboard (dashboard (collection-panels labels helpers) helpers)]
-     [:.layout--main (cards courses helpers)]])
+(defn view [{:keys [view-name labels courses]} helpers]
+  (let [panels    (collection-panels labels (select-keys helpers [:collection-url]))
+        main     (cards courses
+                         (select-keys helpers [:collection-url :checkpoint-url]))
+        dashboard (dashboard {:logo (logo (select-keys helpers [:home-url]))
+                              :main panels
+                              :nav  nil})]
+    (view/new app {:dashboard dashboard
+                   :main main})))

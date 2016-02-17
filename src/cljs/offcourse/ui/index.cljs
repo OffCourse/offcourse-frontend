@@ -4,16 +4,14 @@
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [rum.core :as rum]))
 
-
 (defrecord UI [listener input-channel]
   Lifecycle
   (start [rd] (ri/listen rd))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views route-helpers] :as rd} {:keys [view-name] :as viewmodel}]
-    (let [view (view-name views)]
-      (rum/mount (view viewmodel route-helpers)
-                 (. js/document (getElementById "container")))
+  (-render [{:keys [views view-helpers] :as rd} {:keys [view-name] :as viewmodel}]
+    (let [view ((view-name views) viewmodel view-helpers)]
+      (rum/mount (rr/render view) (. js/document (getElementById "container")))
       (ri/respond rd :rendered-view)))
   Responsive
   (listen [rd] (assoc rd :listener (ri/-listen rd)))

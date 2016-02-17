@@ -1,7 +1,9 @@
 (ns offcourse.protocols.renderable)
 
 (defprotocol Renderable
-  (-render [this viewmodel]))
+  (-render [this] [this viewmodel]))
 
-(defn render [component viewmodel]
-  (-render component viewmodel))
+(defn render
+  ([component] (-render component))
+  ([component viewmodel]
+   (-render component viewmodel)))
