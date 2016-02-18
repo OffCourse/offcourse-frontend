@@ -56,6 +56,8 @@
                          :pretty-print true})
   (garden))
 
+(deftask deps [])
+
 (deftask build []
   (comp (cljs)
         (css)
@@ -73,16 +75,27 @@
   (task-options! test-cljs {:js-env :node})
   identity)
 
+(deftask testing-ci []
+  (set-env! :source-paths #(conj % "test/cljs" "src-dev/clj"))
+  (task-options! test-cljs {:js-env :node
+                            :exit? true}
+                 cljs   {:optimizations :advanced})
+  identity)
+
 (deftask test-dev []
   (comp (testing)
         (watch)
         (test-cljs)))
 
- (deftask production []
-   (set-env! :source-paths #(conj % "src-prod/cljs"))
-   (task-options! target {:dir #{"target/prod"}}
-                  cljs   {:optimizations :advanced})
-   identity)
+(deftask test-ci []
+  (comp (testing-ci)
+        (test-cljs)))
+
+(deftask production []
+  (set-env! :source-paths #(conj % "src-prod/cljs"))
+  (task-options! target {:dir #{"target/prod"}}
+                 cljs   {:optimizations :advanced})
+  identity)
 
  (deftask development []
    (set-env! :source-paths #(conj % "src-dev/cljs" "src-dev/clj"))
