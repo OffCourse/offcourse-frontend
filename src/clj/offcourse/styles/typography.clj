@@ -15,18 +15,18 @@
   [:.title {:font-family (:title fonts)}])
 
 (defn btn [{:keys [colors units fonts]}]
-  [[:.container--btn        {:height (* 2.5 (:full units))
-                             :padding (:full units)
-                             :width (+ (:one-and-half units) (:map units))
+  [[:.container--btn        {:height      (* 2.5 (:full units))
+                             :padding     (:full units)
+                             :width       (+ (:one-and-half units) (:map units))
                              :padding-top 0}]
    [:.btn {:outline          :none
-          :display          :inline-block
-          :height           (:two units)
-          :padding          [[0 (:third units)]]
-          :width            (:map units)
-          :border           :none
-          :background-color (:night colors)
-          :color            (:day colors)}]])
+           :display          :inline-block
+           :height           (:two units)
+           :padding          [[0 (:third units)]]
+           :width            (:map units)
+           :border           :none
+           :background-color (:night colors)
+           :color            (:day colors)}]])
 
 (defn textbar [{:keys [colors units fonts] :as config}]
   [:.textbar {:outline          :none

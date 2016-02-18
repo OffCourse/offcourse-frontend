@@ -1,12 +1,8 @@
 (ns offcourse.views.components.navigation-panel
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+            [offcourse.views.components.button :refer [button]]))
 
-(rum/defc button [[key action]]
-  [:div.container--btn {:onClick action}
-   [:button.btn (name key)]])
-
-(rum/defc navigation-panel [actions]
+(rum/defc navigation-panel [handlers]
   [:.navigation-panel
-   (map (fn [[keyword :as action]]
-          (rum/with-key (button action) keyword)) actions)])
-
+   (map (fn [[keyword :as handler]]
+          (rum/with-key (button handler) keyword)) handlers)])

@@ -6,12 +6,8 @@
 (schema/defrecord View
     [container   :- schema/Any
      dashboard   :- schema/Any
-     dashboard-main :- schema/Any
-     logo           :- schema/Any
-     actions        :- schema/Any
-     main           :- schema/Any
-     colorful       :- schema/Any
-     nav            :- schema/Any]
+     actions     :- {schema/Keyword schema/Any}
+     main        :- schema/Any]
   Renderable
   (-render [view] ((:container view) view)))
 

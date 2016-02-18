@@ -17,13 +17,18 @@
 (defn -respond
   ([{:keys [output-channel log-channel channels component-name]} status payload]
    (let [output-channel (or output-channel (:output channels))
-         log-channel (or log-channel (:log channels))]
+         log-channel (or log-channel (:log channels))
+         response (action/new status component-name payload)]
+     (println "-------")
+     (println component-name)
+     (println output-channel)
+     (println (:type response))
+     (when (= component-name :ui)
+       (println (:payload response)))
      (swap! counter inc)
-     (if output-channel #_(and output-channel (> 1000 @counter))
-       (go
-         (>! output-channel (action/new status component-name payload))
-         (when log-channel (>! log-channel (action/new status component-name payload))))
-       (action/new status component-name payload))))
+     (go
+       (>! output-channel response)
+       (when log-channel (>! log-channel response)))))
   ([this status type result](-respond this status (payload type result))))
 
 (defn -listen [{:keys [channels reactions] :as this}]

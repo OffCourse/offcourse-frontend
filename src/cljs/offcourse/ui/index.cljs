@@ -3,11 +3,26 @@
             [offcourse.models.view :as view]
             [offcourse.protocols.renderable :as rr :refer [Renderable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [rum.core :as rum]))
+            [rum.core :as rum]
+            [schema.core :as schema]
+            [medley.core :as medley]))
 
-(defrecord UI [listener input-channel]
+(defn augment-handler [component status handler]
+  (let [base-handler (partial ri/respond component status)]
+    [status (partial handler base-handler)]))
+
+(schema/defrecord UI
+    [component-name :- schema/Keyword
+     channels       :- {}
+     route-helpers  :- {}
+     handlers       :- {}
+     views          :- {}
+     actions        :- []
+     reactions      :- {}]
   Lifecycle
-  (start [rd] (ri/listen rd))
+  (start [rd]
+    (let [rd (assoc rd :handlers (medley/map-kv #(augment-handler rd %1 %2) handlers))]
+      (ri/listen rd)))
   (stop [rd] (ri/mute rd))
   Renderable
   (-render [{:keys [views route-helpers handlers] :as rd} viewmodel]
@@ -21,4 +36,4 @@
   (respond [rd status payload] (ri/-respond rd status payload)))
 
 (defn new []
-  (map->UI {:component-name :renderer}))
+  (map->UI {:component-name :ui}))

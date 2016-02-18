@@ -24,7 +24,7 @@
      :viewmodels             viewmodels
      :views                  views
      :route-helpers          (route-helpers routes)
-     :handlers               (handlers)
+     :handlers               handlers
      :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
