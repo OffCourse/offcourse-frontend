@@ -1,7 +1,7 @@
-(ns offcourse.system.view-helpers
+(ns offcourse.system.route-helpers
   (:require [bidi.bidi :refer [path-for]]))
 
-(defn view-helpers [routes]
+(defn route-helpers [routes]
   (let [create-url     (partial path-for routes)
         collection-url (fn [collection-type collection-name]
                          (create-url :collection-view
@@ -12,11 +12,8 @@
                                      :curator curator
                                      :hashtag hashtag
                                      :checkpoint-id checkpoint-id))
-        home-url       (collection-url :flags :featured)
-        add-checkpoint (fn [] (.alert js/window "hola"))]
+        home-url       (collection-url :flags :featured)]
     {:create-url     create-url
      :home-url       home-url
      :collection-url collection-url
-     :add-checkpoint add-checkpoint
-     :edit-checkpoint add-checkpoint
      :checkpoint-url checkpoint-url}))

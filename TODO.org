@@ -11,7 +11,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Now                        [88%]
 + [X] General        [100%]
   - [X] add test runner
-+ [X] Models         [100%]
++ [-] Models         [66%]
   - [X] Datastore    [100%]
     + [X] add tests
       - [X] check
@@ -20,8 +20,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] add easy way to retrieve docs
   - [X] Course       [100%]
     + [X] add description field
-  - [X] View         [100%]
+  - [-] View         [50%]
     + [X] add model
+    + [ ] refactor
 + [X] Protocols      [100%]
   - [X] Queryable
     + [X] add get
@@ -32,7 +33,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] move viewmodel composition from refresh to new
   - [X] add graph
   - [X] add helpers
-+ [-] Views          [87%]
++ [X] Views          [100%]
   - [X] transition view-components to RUM or Sablono
   - [X] sidebar
   - [X] correct BEM mistake
@@ -41,7 +42,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] collection view
     - [X] refactor into subcomponents
   - [X] checkpoint view
-  - [ ] add graph
+  - [X] add graph
 + [X] Renderer       [100%]
   - [X] rename to UI
 + [X] UI             [100%]
