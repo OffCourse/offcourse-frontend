@@ -18,3 +18,6 @@
         (if (va/valid? @store)
           (respond ds :refreshed-datastore {:store @store})
           (respond ds :not-found-data {:type :collection-names}))))))
+
+(defn modify [ds query]
+  (println query))

@@ -26,7 +26,7 @@
 (defn reload []
   (do
     (enable-console-print!)
-    (put! (:router-output @app) sample-request)))
+    #_(put! (:router-output @app) sample-request)))
 
 (defn stop []
   (component/stop @app))

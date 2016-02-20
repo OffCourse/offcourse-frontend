@@ -1,5 +1,6 @@
 (ns offcourse.system.interactions
   (:require [offcourse.protocols.queryable :as qa]
+            [offcourse.protocols.responsive :as ri]
             [offcourse.protocols.renderable :as rr]))
 
 (def actions
@@ -21,16 +22,18 @@
                                                     :collection-name :new}})
                :collection-view (fn [collection] {:type       :collection-view
                                                   :collection collection})
-               :course-view     (fn [course]     {:type :course-view
+               :course-view     (fn [course]     {:type   :course-view
                                                   :course course})
-               :checkpoint-view (fn [data] {:type :checkpoint-view
-                                            :course (select-keys data [:checkpoint-id :curator :hashtag])
+               :checkpoint-view (fn [data] {:type          :checkpoint-view
+                                            :course        (select-keys data [:checkpoint-id :curator :hashtag])
                                             :checkpoint-id (:checkpoint-id data)})}
 
-   :appstate  {:requested-route     qa/refresh
-               :checked-store       qa/refresh
-               :refreshed-datastore qa/refresh}
-   :datastore {:not-found-data qa/check
-               :fetched-data   qa/refresh}
+   :appstate  {:requested-route          qa/refresh
+               :requested-new-checkpoint :forward
+               :checked-store            qa/refresh
+               :refreshed-datastore      qa/refresh}
+   :datastore {:not-found-data           qa/check
+               :requested-new-checkpoint qa/modify
+               :fetched-data             qa/refresh}
    :ui        {:composed-viewmodel rr/render
                :updated-logs       rr/render}})

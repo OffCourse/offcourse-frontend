@@ -8,7 +8,7 @@
             [medley.core :as medley]))
 
 (defn augment-handler [component status handler]
-  (let [base-handler (partial ri/respond component status)]
+  (let [base-handler (partial ri/respond component)]
     [status (partial handler base-handler)]))
 
 (schema/defrecord UI

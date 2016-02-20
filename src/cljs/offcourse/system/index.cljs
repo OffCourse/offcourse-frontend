@@ -62,10 +62,10 @@
      :appstate-reactions     (:appstate reactions)
      :appstate-channels      (:appstate channels)
      :appstate               (component/using (appstate/new)
-                                              {:channels   :appstate-channels
-                                               :viewmodels :viewmodels
-                                               :actions    :appstate-actions
-                                               :reactions  :appstate-reactions})
+                                              {:channels     :appstate-channels
+                                               :viewmodels   :viewmodels
+                                               :actions      :appstate-actions
+                                               :reactions    :appstate-reactions})
      :ui-actions             (:ui actions)
      :ui-reactions           (:ui reactions)
      :ui-channels            (:ui channels)

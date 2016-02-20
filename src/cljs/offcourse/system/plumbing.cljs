@@ -8,15 +8,15 @@
         appstate-output     (chan)
         data-service-output (chan)
         api-output          (chan)
+        ui-output           (chan)
         appstate-mult       (mult appstate-output)
         api-mult            (mult api-output)
         data-service-mult   (mult data-service-output)
-        appstate-input      (merge [router-output
+        appstate-input      (merge [ui-output router-output
                                     (tap data-service-mult (chan))])
         data-service-input  (merge [(tap appstate-mult (chan))
                                     (tap api-mult (chan))])
         api-input           (tap data-service-mult (chan))
-        ui-output           (chan)
         ui-input            #_logger-output (tap appstate-mult (chan))]
 
     {:api       {:input  api-input

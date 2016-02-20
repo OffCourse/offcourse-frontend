@@ -8,20 +8,27 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [0%]
-+ [-] General        [33%]
+* Now                        [16%]
++ [-] General        [40%]
   - [X] add ci workflow
-  - [ ] add cd workflow
-  - [ ] add 'add checkpoint' functionality
-+ [ ] Datastore      [0%]
+  - [X] add cd workflow
+  - [ ] add 'new checkpoint' functionality
+  - [ ] add 'save course' functionality
   - [ ] add support for not found courses
-+ [ ] Protocols      [0%]
++ [X] Datastore      [100%]
+  - [X] add queryable/modify
++ [ ] Models         [0%]
+  - [ ] Datstore
+    + [ ] implement queryable/modify
++ [-] Protocols      [66%]
   - [ ] refactor to minus-function-name style
+  - [X] Queryable   [100%]
+    + [X] add modify
+  - [X] Responsive  [100%]
+    + [X] add forward to listen
 + [ ] Router         [0%]
-  - [ ] add support for not found courses
-+ [ ] Repositories   [0%]
-  - [ ] central repo
-    + [ ] add publish
++ [ ] Views          [0%]
+  - [ ] add 'new checkpoint' form
 * Next                       [0%]
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
@@ -37,6 +44,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] Adapters       [0%]
   - [ ] HTTP
 + [ ] Authentication [0%]
++ [ ] Repositories   [0%]
+  - [ ] central repo
+    + [ ] add publish
 * Future                    [0%]
 + [ ] Viewmodels     [0%]
   - [ ] add tests
