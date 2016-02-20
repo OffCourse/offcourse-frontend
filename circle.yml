@@ -17,4 +17,8 @@ deployment:
   staging:
     branch: master
     commands:
-      - boot deploy
+      - boot deploy-staging
+  preview:
+    branch: preview
+    commands:
+      - boot deploy-preview

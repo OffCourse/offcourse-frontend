@@ -117,11 +117,19 @@
    (comp (production)
          (build)))
 
- (deftask deploy
-   []
-   (task-options! s3-sync {:source "prod"
-                           :bucket "offcourse-staging"
-                           :access-key (get-sys-env "AWS_ACCESS_KEY" :required)
-                           :secret-key (get-sys-env "AWS_SECRET_KEY" :required)})
-   (comp (prod)
+(deftask deploying []
+  (task-options! s3-sync {:source "prod"
+                          :access-key (get-sys-env "AWS_ACCESS_KEY" :required)
+                          :secret-key (get-sys-env "AWS_SECRET_KEY" :Required)}))
+
+ (deftask deploy-staging []
+   (task-options! s3-sync {:bucket "offcourse-staging"})
+   (comp (deploying)
+         (prod)
          (s3-sync)))
+
+(deftask deploy-preview []
+  (task-options! s3-sync {:bucket "offcourse-preview"})
+  (comp (deploying)
+        (prod)
+        (s3-sync)))
