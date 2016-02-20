@@ -75,20 +75,16 @@
   (task-options! test-cljs {:js-env :node})
   identity)
 
-(deftask testing-ci []
-  (set-env! :source-paths #(conj % "test/cljs" "src-dev/clj"))
-  (task-options! test-cljs {:js-env :node
-                            :exit? true}
-                 cljs   {:optimizations :advanced})
-  identity)
-
 (deftask test-dev []
   (comp (testing)
         (watch)
         (test-cljs)))
 
 (deftask test-ci []
-  (comp (testing-ci)
+  (set-env! :source-paths #(conj % "src-prod/clj"))
+  (task-options! test-cljs #(assoc % :exit? true
+                                   :optimizations :advanced))
+  (comp (testing)
         (test-cljs)))
 
 (deftask production []
@@ -105,15 +101,11 @@
                   reload {:on-jsload 'offcourse.main/reload})
    identity)
 
- (deftask dev
-   "Simple alias to run application in development mode"
-   []
+ (deftask dev []
    (comp (development)
          (run)))
 
- (deftask prod
-   "Simple alias to run application in production mode"
-   []
+ (deftask prod []
    (comp (production)
          (build)))
 
