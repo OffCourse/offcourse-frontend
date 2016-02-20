@@ -11,7 +11,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Now                        [0%]
 + [-] General        [33%]
   - [X] add ci workflow
-  - [ ] add cp workflow
+  - [ ] add cd workflow
   - [ ] add 'add checkpoint' functionality
 + [ ] Datastore      [0%]
   - [ ] add support for not found courses
