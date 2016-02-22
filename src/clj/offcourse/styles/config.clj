@@ -32,7 +32,7 @@
 (def config (graphs/compose {:raw-colors      colors
                              :raw-breakpoints breakpoints
                              :base-unit       30
-                             :base-color      :green
+                             :base-color      :yellow
                              :raw-fonts       fonts
                              :base-font       :NittiGrotesk
                              :logo-font       :NittiBold
