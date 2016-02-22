@@ -32,7 +32,7 @@
 
 (def templates-graph
   {:highlighted (fnk [colors] {:background-color (:primary colors)
-                               :color            (:day colors)})
+                               :color            (:night colors)})
    :selected  (fnk [colors] {:background-color (:night colors)
                              :color            (:day colors)})
    :component (fnk [] {:display        :flex

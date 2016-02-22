@@ -28,5 +28,6 @@
                  :height           (:two-third units)
                  :background-color (:day colors)
                  :vertical-align   :center}]]
-   [(s/> :.todo-list (s/attr :data-selected := :true)) (:selected templates)]])
+   [(s/> :.todo-list (s/attr :data-selected := :true)) (:selected templates)
+    [:&:hover (:highlighted templates)]]])
 
