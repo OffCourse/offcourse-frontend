@@ -3,6 +3,7 @@
             [offcourse.protocols.queryable :refer [Queryable]]
             [offcourse.protocols.validatable :refer [Validatable]]
             [offcourse.models.datastore.check :as check-impl]
+            [offcourse.models.datastore.add :as add-impl]
             [offcourse.models.datastore.refresh :as refresh-impl]
             [offcourse.models.datastore.get :as get-impl]
             [offcourse.models.resource :refer [Resource]]
@@ -16,6 +17,7 @@
   Validatable
   (valid? [ds] (:has-collection-names? ds))
   Queryable
+  (-add    [ds query] (add-impl/add ds query))
   (-get    [ds query] (get-impl/get ds query))
   (check   [ds query] (check-impl/check ds query))
   (refresh [ds query] (refresh-impl/refresh ds query)))

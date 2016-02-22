@@ -23,6 +23,9 @@
 (defmethod check :course [store query]
   (if (qa/get store query) true false))
 
+(defmethod check :checkpoint [store query]
+  (if (qa/get store query) true false))
+
 (defmethod check :resources [{:keys [resources] :as ds} {:keys [resource-ids] :as query}]
   (if (and resources (not (empty? resources)))
     (has-items? (map :resource-id (qa/get ds query)) resource-ids)
@@ -31,6 +34,6 @@
 (defmethod check :resource [ds query]
   (if (qa/get ds query) true false))
 
-(defmethod check :default [{:keys [resources]} {:keys [resource-id]}]
+(defmethod check :default [_ _]
   {:type :error
    :error :query-not-supported})

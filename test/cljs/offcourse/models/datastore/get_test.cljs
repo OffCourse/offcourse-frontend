@@ -82,6 +82,19 @@
             :bla       buzzword    nil
             :bla       :bla        nil))))
 
+    (testing "when query type is checkpoint"
+      (let [new-checkpoint {:checkpoint-id :new}
+            course (update course :checkpoints #(conj % new-checkpoint))
+            store (sut/new {:courses [course]})
+            get   (partial qa/get store :checkpoint)]
+
+        (testing "it retrieves a checkpoint by id"
+          (are [course-id checkpoint-id expectation]
+              (= (get (h/checkpoint course-id checkpoint-id)) expectation)
+            id            :new    new-checkpoint
+            id            1       checkpoint
+            missing-id    :new    nil
+            missing-id    1       nil))))
 
     (testing "when query type is resources"
       (let [store (sut/new {:resources {id resource}})

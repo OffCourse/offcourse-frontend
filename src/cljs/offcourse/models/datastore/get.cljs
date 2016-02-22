@@ -1,18 +1,8 @@
 (ns offcourse.models.datastore.get
   (:refer-clojure :exclude [get])
   (:require [com.rpl.specter :refer [ALL select-first]]
-            [medley.core :as medley]))
-
-(defn checkpoint-by-ids [ds course-id checkpoint-id]
-  (select-first [:courses ALL #(= (:course-id %) course-id)
-                 :checkpoints ALL #(= (:checkpoint-id %) checkpoint-id)] ds))
-
-(defn course-by-id [ds id]
-  (select-first [:courses ALL #(= (:course-id %) id)] ds))
-
-(defn course-by-curator-and-hashtag [ds curator hashtag]
-  (select-first [:courses ALL #(and (= (:hashtag %) hashtag)
-                           (= (:curator %) curator))] ds))
+            [medley.core :as medley]
+            [offcourse.models.datastore.paths :as paths]))
 
 (defmulti get (fn [_ {:keys [type]}] type))
 
@@ -29,14 +19,19 @@
 
 (defmethod get :courses [{:keys [courses] :as ds} {:keys [course-ids]}]
   (when courses
-    (when-let [courses (keep #(course-by-id ds %) course-ids)]
+    (when-let [courses (keep #(select-first (paths/course %) ds) course-ids)]
       (if (empty? courses) nil courses))))
 
 (defmethod get :course [{:keys [courses] :as ds} {:keys [course]}]
   (when courses
     (let [{:keys [course-id curator hashtag]} course]
-      (or (course-by-id ds course-id)
-          (course-by-curator-and-hashtag ds curator hashtag)))))
+      (or (select-first (paths/course course-id) ds)
+          (select-first (paths/course curator hashtag) ds)))))
+
+(defmethod get :checkpoint [{:keys [courses] :as ds} {:keys [checkpoint]}]
+  (when courses
+    (let [{:keys [course-id checkpoint-id]} checkpoint]
+      (select-first (paths/checkpoint course-id checkpoint-id) ds))))
 
 (defmethod get :resources [{:keys [resources]} {:keys [resource-ids]}]
   (when resources

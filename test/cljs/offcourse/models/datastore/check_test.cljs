@@ -10,9 +10,12 @@
         missing-id      223
         buzzword        :agile
         user-id         :yeehaa
+        checkpoint      {:checkpoint-id 1
+                         :resource-id id}
         course          {:course-id id
                          :curator   user-id
-                         :hashtag   buzzword}
+                         :hashtag   buzzword
+                         :checkpoints [checkpoint]}
         collection-type :flags
         collection      {:collection-type collection-type
                          :collection-name buzzword
@@ -93,6 +96,23 @@
               :bla    buzzword false
               :bla    :bla     false)))))
 
+
+    (testing "when query type is checkpoint"
+      (let [new-checkpoint {:checkpoint-id :new}
+            course (update course :checkpoints #(conj % new-checkpoint))
+            store (sut/new {:courses [course]})]
+
+        (testing "it reports if course is present by checking its id"
+          (letfn [(query [course-id checkpoint-id] (h/query :checkpoint
+                                                            :course-id course-id
+                                                            :checkpoint-id checkpoint-id))
+                    (check [course-id checkpoint-id] (ds/check store (query course-id checkpoint-id)))]
+            (are [course-id checkpoint-id expectation]
+                (= (check course-id checkpoint-id) expectation)
+              id         :new     true
+              id         1        true
+              missing-id :new     false
+              missing-id 1        false)))))
 
     (testing "when query type is resources"
       (let [store (sut/new {:resources {123 {:resource-id 123}}})]

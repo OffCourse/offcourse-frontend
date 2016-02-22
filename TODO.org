@@ -15,11 +15,16 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] add 'new checkpoint' functionality
   - [ ] add 'save course' functionality
   - [ ] add support for not found courses
-+ [X] Datastore      [100%]
++ [-] Datastore      [100%]
   - [X] add queryable/modify
+  - [ ] add arity 3 to check
 + [ ] Models         [0%]
   - [ ] Datstore
     + [ ] implement queryable/modify
+    + [ ] switch to specter paths
+    + [ ] implement check arity 3
+  - [ ] Checkpoint
+    + [ ] make :new a valid value for checkpoint-id
 + [-] Protocols      [66%]
   - [ ] refactor to minus-function-name style
   - [X] Queryable   [100%]

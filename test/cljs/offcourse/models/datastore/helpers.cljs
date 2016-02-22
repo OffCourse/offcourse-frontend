@@ -13,6 +13,9 @@
 (defn contains-val? [collection val]
   (boolean (some #{val} collection)))
 
+(defn checkpoint
+  [course-id checkpoint-id] {:course-id course-id
+                             :checkpoint-id checkpoint-id})
 
 (defn course
   ([id] {:course-id id})

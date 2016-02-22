@@ -3,6 +3,7 @@
 
 (defprotocol Queryable
   (-get     [this query])
+  (-add     [this query])
   (-modify  [this query])
   (check   [this] [this query])
   (fetch   [this query])
@@ -14,6 +15,7 @@
    :collection          :collection
    :courses             :course-ids
    :course              :course
+   :checkpoint          :checkpoint
    :resources           :resource-ids
    :resource            :resource})
 
@@ -27,3 +29,9 @@
 
 (defn modify
   ([this query] (-modify this query)))
+
+(defn add
+  ([this query] (-add this query))
+  ([this type data]
+   (-add this {:type           type
+              (type payloads) data})))
