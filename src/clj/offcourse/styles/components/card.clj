@@ -6,26 +6,28 @@
                       :width            column
                       :padding          0}])
 
-(defn component [{:keys [component]} {:keys [full]} {:keys [day]}]
+(defn component [{:keys [component highlighted]} {:keys [full third sixth]} {:keys [day primary night]}]
   [:.card (h/augment component {:padding-bottom   full
-                                :background-color day})])
+                                :border-top       [[:solid third night]]
+                                :background-color day})
+   [:&:hover {:border-color [primary]}]])
 
-(defn card-section [{:keys [full half]}] {:padding [[0 full half full]]})
+(defn card-section [{:keys [full half two-third]}] {:padding [[0 full two-third full]]})
 
-(defn card-sections [{:keys [map half full]} {:keys [night]}]
+(defn card-sections [{:keys [map two-third half full]} {:keys [night]}]
   [[:.card--map         {:height           map
                          :background-color night}]
-   [:.card--title       {:padding-top    full
-                         :padding-bottom 0}]
+   [:.card--title       {:padding-top    two-third
+                         :padding-bottom two-third}]
    [:.card--meta        {:padding [[half full]]}]
    [:.card--description {}]
-   [:.card--tags        {:padding-top half}]
-   [:.card--checkpoints {:padding-top half}]])
+   [:.card--tags        {:padding-bottom 0}]
+   [:.card--checkpoints {:padding-bottom full}]])
 
 (defn overrides [units colors]
   [[:.card--title :.title {:font-size   (:title-font units)
-                            :font-weight 500
-                            :line-height (:title-line-height units)}]
+                           :font-weight 500
+                           :line-height (:title-line-height units)}]
   [:card--meta :.keyword {:margin-right (:tenth units)}]])
 
 (defn card [{:keys [templates units colors]}]

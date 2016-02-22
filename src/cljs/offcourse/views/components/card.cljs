@@ -10,13 +10,13 @@
                 {:keys [checkpoint-url] :as helpers}]
   [:.container--card
    [:.card
-    [:.card--map]
-    [:.card--title [:a.title {:href (checkpoint-url curator hashtag 1)} goal]]
-    [:.card--meta (meta-box course)]
-    [:.card--description [:p description]]
-    [:.card--tags (labels (:tags (meta course)) helpers)]
+    [:.card--title
+     [:a.title {:href (checkpoint-url curator hashtag 1)} goal]]
     [:.card--checkpoints (todo-list checkpoints
-                                    {:checkpoint-url (partial checkpoint-url curator hashtag)})]]])
+                                    {:checkpoint-url (partial checkpoint-url curator hashtag)})]
+    [:.card--tags (labels (:tags (meta course)) helpers)]
+    #_[:.card--description [:p description]]
+    #_[:.card--meta (meta-box course)]]])
 
 (rum/defc cards [items helpers]
   [:.cards (map #(rum/with-key (card % helpers) (:course-id %)) items)])

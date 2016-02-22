@@ -5,7 +5,7 @@
 
 (rum/defc collection-panel [[category-name collection] {:keys [collection-url] :as helpers}]
   (let [helpers (assoc helpers :collection-url (partial collection-url category-name))]
-    [:.collection-panel
+    #_[:.collection-panel
      [:.collection-panel--title {:key :title}
       [:h1.title (name category-name)]]
      [:.collection-panel--labels.labels {:key :labels}

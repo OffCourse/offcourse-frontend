@@ -9,7 +9,7 @@
 (def colors        {:black       "#000000"
                     :white       "#FFFFFF"
                     :dark-gray   "#3d3d3d"
-                    :medium-gray "#c0c4c1"
+                    :medium-gray "#e0e4e1"
                     :light-gray  "#f4f6f4"
                     :yellow      "#E5CF39"
                     :green       "#A5CC45"

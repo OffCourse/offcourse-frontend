@@ -21,7 +21,7 @@
                              :padding-top 0}]
    [:.btn {:outline          :none
            :display          :inline-block
-           :height           (:two units)
+           :height           (:one-and-half units)
            :padding          [[0 (:third units)]]
            :width            (:map units)
            :border           :none

@@ -18,7 +18,9 @@
                         [:.dashboard--main        {:height :auto
                                                    :flex-grow 0}]
                         [:.dashboard--nav         {:height :auto}]]
-        overrides       [[(s/> :.layout--dashboard (s/attr :data-colorful := :true))
+        overrides       [[:.dashboard--main [:.card {:border :none
+                                                     :padding-top (:two-third units)}]]
+                         [(s/> :.layout--dashboard (s/attr :data-colorful := :true))
                           {:background-color (:primary colors)}]]]
     [(h/augment-many base-component subcomponents)
      overrides]))

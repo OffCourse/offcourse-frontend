@@ -12,10 +12,12 @@
              :height           (:full units)
              :margin-right     (:sixth units)
              :margin-bottom    (:sixth units)
-             :font-size        (* (:atom units) 13)
+             :font-size        (* (:atom units) 18)
              :align-items      :center
              :justify-content  :center
-             :padding          [[0 (:third units)]]
-             :border           (:border templates)
-             :background-color (:day colors)}]
-   [(s/> :.labels (s/attr :data-selected := :true)) (:selected templates)]])
+             :padding          [[0 (:half units)]]
+             :color            (:night colors)
+             :background-color (:light colors)}
+    [:&:hover (:highlighted templates)]]
+   [(s/> :.labels (s/attr :data-selected := :true)) (:selected templates)
+    [:&:hover (:highlighted templates)]]])
