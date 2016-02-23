@@ -6,11 +6,9 @@
 
 (defmulti get (fn [_ {:keys [type]}] type))
 
-(defmethod get :collection-names [{:keys [collections]} {:keys [collection-type]}]
-  (when (and collections (not (empty? collections)))
-    (if (or (not collection-type) (= :all collection-type))
-      (medley/map-vals #(into #{} (keys %)) collections)
-      (into #{} (keys (collection-type collections))))))
+(defmethod get :collection-names [{:keys [collection-names]} {:keys [collection-type]}]
+  (when collection-names
+    (or (collection-type collection-names) collection-names)))
 
 (defmethod get :collection [{:keys [collections]} {:keys [collection]}]
   (when collections

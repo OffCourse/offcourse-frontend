@@ -6,7 +6,7 @@
     [label-name :- schema/Keyword])
 
 
-(defn new [label-name]
+(defn new [label-name selected]
   (map->Label {:label-name label-name}))
 
 (defn select [selected {:keys [label-name] :as label}]

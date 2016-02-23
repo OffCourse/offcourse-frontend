@@ -33,10 +33,8 @@
 (defmethod refresh :collection-names [{:keys [collections] :as store}
                                       {:keys [collection-names] :as query}]
   (let [collections (-> collection-names
-                        map-collections
                         (deep-merge (or collections {})))]
-    (assoc store :collections collections
-           :has-collection-names? true)))
+    (assoc store :collection-names collections)))
 
 (defmethod refresh :collection [store {:keys [collection] :as query}]
   (when-let [{:keys [collection-type collection-name course-ids]} collection]

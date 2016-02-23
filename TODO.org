@@ -29,12 +29,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] Labels
     + [X] titleize titles
 + [-] Protocols      [66%]
-  - [ ] refactor to minus-function-name style
   - [X] Queryable   [100%]
     + [X] add modify
     + [X] add arity 3 to check
   - [X] Responsive  [100%]
     + [X] add forward to listen
+    - [ ] refactor to minus-function-name style
 + [ ] Router         [0%]
 + [ ] Views          [0%]
   - [ ] add 'new checkpoint' form

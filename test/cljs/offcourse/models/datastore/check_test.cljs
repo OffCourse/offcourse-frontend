@@ -34,11 +34,11 @@
     (testing "when query type is collection-names"
 
       (testing "it reports if collection-names are present"
-        (let [store (sut/new {:has-collection-names? true})]
+        (let [store (sut/new {:collection-names {:flag [13]}})]
           (is (qa/check store :collection-names {}))))
 
       (testing "it reports if collection-names are missing"
-        (let [store (sut/new {:has-collection-names? false})]
+        (let [store (sut/new)]
           (is (not (qa/check store :collection-names {}))))))
 
 

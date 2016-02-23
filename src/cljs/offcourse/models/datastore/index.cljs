@@ -13,9 +13,9 @@
     [collections           :- {(schema/enum :flags :tags :curators) schema/Any}
      courses               :- [Course]
      resources             :- {schema/Str Resource}
-     has-collection-names? :- schema/Bool]
+     collection            :- {schema/Any schema/Any}]
   Validatable
-  (valid? [ds] (:has-collection-names? ds))
+  (valid? [{:keys [collection-names]}] collection-names)
   Queryable
   (-add    [ds query] (add-impl/add ds query))
   (-get    [ds query] (get-impl/get ds query))

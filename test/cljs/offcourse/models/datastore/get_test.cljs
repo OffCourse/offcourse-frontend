@@ -33,8 +33,9 @@
 
     (testing "when query type is collection-names"
       (let [collections {:agile (assoc collection :course-ids #{123})}
-            store       (sut/new {:collections {collection-type collections
-                                                :tags           collections}})
+            collection-names (into #{} (keys collections))
+            store       (sut/new {:collection-names {collection-type collection-names
+                                                     :tags           collection-names}})
             get         (partial qa/get store :collection-names)]
 
         (testing "it retrieves the names of the collections"

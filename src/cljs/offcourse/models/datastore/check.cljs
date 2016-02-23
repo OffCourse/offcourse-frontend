@@ -8,8 +8,8 @@
 
 (defmulti check (fn [_ {:keys [type]}] type))
 
-(defmethod check :collection-names [{:keys [has-collection-names?]} query]
-  has-collection-names?)
+(defmethod check :collection-names [ds query]
+  (if (qa/get ds query) true false))
 
 (defmethod check :collection [ds query]
   (when-let [course-ids (:course-ids (qa/get ds query))]

@@ -21,7 +21,7 @@
 
       (testing "it sets the has-collection-names? flag"
         (let [store (qa/refresh (sut/new) :collection-names [])]
-          (is (= (:has-collection-names? store) true))))
+          (is (:collection-names store) true)))
 
       (testing "it merges existing and new collection names"
         (let [collections      {:agile      collection
