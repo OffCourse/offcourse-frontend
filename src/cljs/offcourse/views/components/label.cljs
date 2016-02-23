@@ -1,11 +1,17 @@
 (ns offcourse.views.components.label
   (:require [rum.core :as rum]
-            [bidi.bidi :refer [path-for]]))
+            [bidi.bidi :refer [path-for]]
+            [clojure.string :as str]))
+
+(defn titleize [string & {:keys [separator] :or {separator " "}}]
+  (as-> string n
+    (str/split n separator)
+    (map #(str/capitalize %) n)
+    (str/join separator n)))
 
 (rum/defc label [{:keys [label-name] :as label} {:keys [collection-url]}]
   (let [{:keys [selected?]} (meta label)
-        label-name label-name
-        title (name label-name)]
+        title (titleize (name label-name) :separator "-")]
     [:span.label {:data-selected selected?}
      [:a {:href (collection-url label-name)} (str title " ")]]))
 

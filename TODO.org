@@ -8,27 +8,31 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [0%]
+* Now                        [16%]
 + [-] General        [40%]
   - [X] add ci workflow
   - [X] add cd workflow
   - [ ] add 'new checkpoint' functionality
-  - [ ] badd 'save course' functionality
+  - [ ] add 'save course' functionality
   - [ ] add support for not found courses
-+ [-] Datastore      [50%]
++ [X] Datastore      [100%]
   - [X] add queryable/modify
-  - [ ] add arity 3 to check
-+ [ ] Models         [0%]
-  - [ ] Datstore
+  - [X] remove query helper dependency from tests
++ [-] Models         [0%]
+  - [-] Datastore
     + [ ] implement queryable/modify
     + [ ] switch to specter paths
-    + [ ] implement check arity 3
+    + [X] implement check arity 3
   - [ ] Checkpoint
-    + [ ] make :new a valid value for checkpoint-id
+    + [ ] make :new a valid value for checkpoint-id^
++ Views              [100%]
+  - [X] Labels
+    + [X] titleize titles
 + [-] Protocols      [66%]
   - [ ] refactor to minus-function-name style
   - [X] Queryable   [100%]
     + [X] add modify
+    + [X] add arity 3 to check
   - [X] Responsive  [100%]
     + [X] add forward to listen
 + [ ] Router         [0%]

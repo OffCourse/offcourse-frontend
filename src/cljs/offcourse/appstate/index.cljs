@@ -17,7 +17,7 @@
                                 :current (atom nil))))
   (stop [as] (ri/mute as))
   Queryable
-  (refresh [as query] (qa-impl/refresh as query))
+  (-refresh [as query] (qa-impl/refresh as query))
   Responsive
   (respond [as status payload] (ri/-respond as status payload))
   (listen [as] (ri/-listen as))

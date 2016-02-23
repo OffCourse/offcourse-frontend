@@ -19,8 +19,8 @@
   (missing-data [vm] (va-impl/missing-data vm))
   (valid? [vm] (if (qa/check vm) false true))
   Queryable
-  (check [vm] (schema/check CollectionView vm))
-  (refresh [vm store] #_(qa-impl/refresh vm store)))
+  (-check [vm] (schema/check CollectionView vm))
+  (-refresh [vm store] #_(qa-impl/refresh vm store)))
 
 (defn augment-course [selected {:keys [checkpoints] :as course}]
   (let [tags (-> (co/get-tags course)

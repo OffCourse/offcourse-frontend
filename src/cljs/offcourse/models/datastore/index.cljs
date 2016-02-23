@@ -19,8 +19,8 @@
   Queryable
   (-add    [ds query] (add-impl/add ds query))
   (-get    [ds query] (get-impl/get ds query))
-  (check   [ds query] (check-impl/check ds query))
-  (refresh [ds query] (refresh-impl/refresh ds query)))
+  (-check   [ds query] (check-impl/check ds query))
+  (-refresh [ds query] (refresh-impl/refresh ds query)))
 
 (defn new
   ([] (->Datastore {} [] {} nil))

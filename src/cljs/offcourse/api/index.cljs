@@ -20,7 +20,7 @@
   (start [api] (ri/listen (update api :repositories #(map connect-to-repository %))))
   (stop [api] (ri/mute api))
   Queryable
-  (fetch [api query] (qa-impl/fetch api query))
+  (-fetch [api query] (qa-impl/fetch api query))
   Responsive
   (respond [api status payload] (ri/-respond api status payload))
   (respond [api status type result] (ri/-respond api status type result))

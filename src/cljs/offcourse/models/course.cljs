@@ -22,7 +22,7 @@
      checkpoints  :- [Checkpoint]]
   {(schema/optional-key :tags) #{schema/Keyword}}
   Queryable
-  (check [course] (schema/check Course course))
+  (-check [course] (schema/check Course course))
   Validatable
   (valid? [course]
     (if-not (qa/check course) true false)))
