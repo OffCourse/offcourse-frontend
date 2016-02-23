@@ -18,7 +18,7 @@
   Bootstrappable
   (bootstrap [db] (bootstrap db))
   Queryable
-  (check   [db query] (check db query))
+  (-check   [db query] (check db query))
   (fetch   [db query] (fetch (:connection db) query))
   (refresh [db query] (refresh db query))
   Validatable

@@ -5,7 +5,7 @@
   (-get     [this query])
   (-add     [this query])
   (-modify  [this query])
-  (check   [this] [this query])
+  (-check   [this] [this query])
   (fetch   [this query])
   (refresh [this doc]))
 
@@ -35,3 +35,11 @@
   ([this type data]
    (-add this {:type           type
               (type payloads) data})))
+
+(defn check
+  ([this] (-check this))
+  ([this query]
+   (-check this query))
+  ([this type data]
+   (-check this {:type type
+                 (type payloads) data})))

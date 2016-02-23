@@ -22,8 +22,6 @@
                                                     :collection-name :new}})
                :collection-view (fn [collection] {:type       :collection-view
                                                   :collection collection})
-               :course-view     (fn [course]     {:type   :course-view
-                                                  :course course})
                :checkpoint-view (fn [data] {:type          :checkpoint-view
                                             :course        (select-keys data [:checkpoint-id :curator :hashtag])
                                             :checkpoint-id (:checkpoint-id data)})}

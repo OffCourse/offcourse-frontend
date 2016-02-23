@@ -17,7 +17,7 @@
   (start   [ds] (ri/listen (assoc ds :store (atom (ds/new)))))
   (stop    [ds] (ri/mute ds))
   Queryable
-  (check   [ds query] (qa-impl/check ds query))
+  (-check   [ds query] (qa-impl/check ds query))
   (-modify  [ds query] (qa-impl/modify ds query))
   (refresh [ds query] (qa-impl/refresh ds query))
   Validatable

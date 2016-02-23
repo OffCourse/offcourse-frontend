@@ -13,22 +13,23 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add ci workflow
   - [X] add cd workflow
   - [ ] add 'new checkpoint' functionality
-  - [ ] badd 'save course' functionality
+  - [ ] add 'save course' functionality
   - [ ] add support for not found courses
-+ [-] Datastore      [50%]
++ [-] Datastore      [66%]
   - [X] add queryable/modify
-  - [ ] add arity 3 to check
-+ [ ] Models         [0%]
-  - [ ] Datstore
+  - [ ] remove query helper dependency from tests
++ [-] Models         [0%]
+  - [-] Datastore
     + [ ] implement queryable/modify
     + [ ] switch to specter paths
-    + [ ] implement check arity 3
+    + [X] implement check arity 3
   - [ ] Checkpoint
-    + [ ] make :new a valid value for checkpoint-id
+    + [ ] make :new a valid value for checkpoint-id^
 + [-] Protocols      [66%]
   - [ ] refactor to minus-function-name style
   - [X] Queryable   [100%]
     + [X] add modify
+    + [X] add arity 3 to check
   - [X] Responsive  [100%]
     + [X] add forward to listen
 + [ ] Router         [0%]
