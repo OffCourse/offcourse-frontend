@@ -6,8 +6,14 @@
   (-add     [this query])
   (-modify  [this query])
   (-check   [this] [this query])
+<<<<<<< HEAD
   (-fetch   [this query])
   (-refresh [this doc]))
+=======
+  (fetch   [this query])
+  (refresh [this doc]))
+
+>>>>>>> b0f61bca632fb81094e7cfb4a96acd99ee387a6b
 
 (def payloads
   {:collection-names    :collection-type
@@ -36,6 +42,7 @@
 
 (defn add
   ([this query] (-add this query))
+<<<<<<< HEAD
   ([this type data] (-add this {:type           type
                                 (type payloads) data})))
 
@@ -44,3 +51,16 @@
   ([this query] (-check this query))
   ([this type data] (-check this {:type type
                                   (type payloads) data})))
+=======
+  ([this type data]
+   (-add this {:type           type
+              (type payloads) data})))
+
+(defn check
+  ([this] (-check this))
+  ([this query]
+   (-check this query))
+  ([this type data]
+   (-check this {:type type
+                 (type payloads) data})))
+>>>>>>> b0f61bca632fb81094e7cfb4a96acd99ee387a6b

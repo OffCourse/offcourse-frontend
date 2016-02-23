@@ -20,7 +20,11 @@
   (-add    [ds query] (add-impl/add ds query))
   (-get    [ds query] (get-impl/get ds query))
   (-check   [ds query] (check-impl/check ds query))
+<<<<<<< HEAD
   (-refresh [ds query] (refresh-impl/refresh ds query)))
+=======
+  (refresh [ds query] (refresh-impl/refresh ds query)))
+>>>>>>> b0f61bca632fb81094e7cfb4a96acd99ee387a6b
 
 (defn new
   ([] (->Datastore {} [] {} nil))

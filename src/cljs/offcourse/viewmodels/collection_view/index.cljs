@@ -20,7 +20,11 @@
   (valid? [vm] (if (qa/check vm) false true))
   Queryable
   (-check [vm] (schema/check CollectionView vm))
+<<<<<<< HEAD
   (-refresh [vm store] #_(qa-impl/refresh vm store)))
+=======
+  (refresh [vm store] #_(qa-impl/refresh vm store)))
+>>>>>>> b0f61bca632fb81094e7cfb4a96acd99ee387a6b
 
 (defn augment-course [selected {:keys [checkpoints] :as course}]
   (let [tags (-> (co/get-tags course)

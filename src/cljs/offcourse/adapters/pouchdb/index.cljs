@@ -19,8 +19,13 @@
   (bootstrap [db] (bootstrap db))
   Queryable
   (-check   [db query] (check db query))
+<<<<<<< HEAD
   (-fetch   [db query] (fetch (:connection db) query))
   (-refresh [db query] (refresh db query))
+=======
+  (fetch   [db query] (fetch (:connection db) query))
+  (refresh [db query] (refresh db query))
+>>>>>>> b0f61bca632fb81094e7cfb4a96acd99ee387a6b
   Validatable
   (valid? [db] (valid? db))
   Responsive

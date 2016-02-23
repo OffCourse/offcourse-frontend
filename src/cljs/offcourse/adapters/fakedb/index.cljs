@@ -11,8 +11,13 @@
   (stop  [db] (dissoc db :connection))
   Queryable
   (-check   [db query] #_(check db query))
+<<<<<<< HEAD
   (-fetch   [db query] (fetch db query))
   (-refresh [db query] #_(refresh db query))
+=======
+  (fetch   [db query] (fetch db query))
+  (refresh [db query] #_(refresh db query))
+>>>>>>> b0f61bca632fb81094e7cfb4a96acd99ee387a6b
   Validatable
   (valid? [db] #_(valid? db))
   Responsive

@@ -20,7 +20,11 @@
   (valid? [vm] (if (qa/check vm) false true))
   Queryable
   (-check [vm] (schema/check CheckpointView vm))
+<<<<<<< HEAD
   (-refresh [vm store] #_(qa-impl/refresh vm store)))
+=======
+  (refresh [vm store] #_(qa-impl/refresh vm store)))
+>>>>>>> b0f61bca632fb81094e7cfb4a96acd99ee387a6b
 
 
 (defn select-checkpoint [checkpoints selected-id]
