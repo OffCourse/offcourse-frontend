@@ -10,10 +10,10 @@
             [schema.core :as schema]))
 
 (schema/defrecord Datastore
-    [collections           :- {(schema/enum :flags :tags :curators) schema/Any}
+    [collections           :- []
      courses               :- [Course]
      resources             :- {schema/Str Resource}
-     collection            :- {schema/Any schema/Any}]
+     collection-names      :- {schema/Any schema/Any}]
   Validatable
   (valid? [{:keys [collection-names]}] collection-names)
   Queryable
@@ -23,5 +23,5 @@
   (-refresh [ds query] (refresh-impl/refresh ds query)))
 
 (defn new
-  ([] (->Datastore {} [] {} nil))
+  ([] (->Datastore [] [] {} nil))
   ([ds-data] (map->Datastore ds-data)))

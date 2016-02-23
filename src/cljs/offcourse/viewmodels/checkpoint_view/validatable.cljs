@@ -8,7 +8,8 @@
                          :resource-id)
         payload {:type next-missing-field}]
     (case next-missing-field
-      :labels (assoc payload :type :collection-names)
+      :labels (assoc payload :type :collection-names
+                     :collection-names :all)
       :course (assoc payload :course course)
       :resource (assoc payload :resource-id resource-id)
       nil)))

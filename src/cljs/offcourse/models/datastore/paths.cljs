@@ -2,6 +2,13 @@
   (:require [offcourse.protocols.queryable :as qa]
             [com.rpl.specter :refer [ALL transform select-first]]))
 
+(defn collection [collection-type collection-name]
+  [:collections ALL #(and (= (:collection-type %) collection-type)
+                          (= (:collection-name %) collection-name))])
+
+(defn course-ids [collection-type collection-name]
+  [(collection collection-type collection-name) :course-ids])
+
 (defn course
   ([course-id] [:courses ALL #(= (:course-id %) course-id)])
   ([curator hashtag] [:courses ALL #(and (= (:hashtag %) hashtag)

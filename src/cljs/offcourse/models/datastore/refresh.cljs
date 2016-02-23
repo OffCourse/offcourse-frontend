@@ -1,8 +1,9 @@
 (ns offcourse.models.datastore.refresh
   (:require [offcourse.models.collection :as cl]
             [medley.core :as medley]
-            [com.rpl.specter :refer [select select-first filterer ALL]]
-            [clojure.set :as set]))
+            [com.rpl.specter :refer [select select-first transform filterer ALL]]
+            [clojure.set :as set]
+            [offcourse.models.datastore.paths :as paths]))
 
 (defn deep-merge
   [& vs]
@@ -30,18 +31,19 @@
 (defmulti refresh
   (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :collection-names [{:keys [collections] :as store}
+(defmethod refresh :collection-names [{:keys [collections-names :as cn] :as store}
                                       {:keys [collection-names] :as query}]
   (let [collections (-> collection-names
-                        (deep-merge (or collections {})))]
+                        (deep-merge (or cn {})))]
     (assoc store :collection-names collections)))
 
 (defmethod refresh :collection [store {:keys [collection] :as query}]
   (when-let [{:keys [collection-type collection-name course-ids]} collection]
-    (if-let [store-ids (get-in store [:collections collection-type collection-name :course-ids])]
-      (update-in store [:collections collection-type collection-name :course-ids]
-                 #(set/union store-ids course-ids))
-      (assoc-in store [:collections collection-type collection-name] collection))))
+    (let [collection-path (paths/collection collection-type collection-name)
+          courses-path    [collection-path :course-ids]]
+      (if-let [store-ids (select-first courses-path store)]
+        (transform courses-path #(set/union store-ids course-ids) store)
+        (transform [:collections] #(conj % collection) store)))))
 
 (defmethod refresh :courses [store query]
   (let [store-ids (into #{} (map :course-id (:courses store)))

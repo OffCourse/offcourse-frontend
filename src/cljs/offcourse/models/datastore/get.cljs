@@ -8,12 +8,14 @@
 
 (defmethod get :collection-names [{:keys [collection-names]} {:keys [collection-type]}]
   (when collection-names
-    (or (collection-type collection-names) collection-names)))
+    (if (or (not collection-type) (= collection-type :all))
+      collection-names
+      (collection-type collection-names))))
 
-(defmethod get :collection [{:keys [collections]} {:keys [collection]}]
+(defmethod get :collection [{:keys [collections] :as ds} {:keys [collection]}]
   (when collections
     (let [{:keys [collection-type collection-name]} collection]
-      (get-in collections [collection-type collection-name]))))
+      (select-first (paths/collection collection-type collection-name) ds))))
 
 (defmethod get :courses [{:keys [courses] :as ds} {:keys [course-ids]}]
   (when courses

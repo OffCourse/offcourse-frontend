@@ -30,7 +30,6 @@
             responses (map #(qa/get (sut/new) % nil) types)]
         (is (every? #(nil? %) responses))))
 
-
     (testing "when query type is collection-names"
       (let [collections {:agile (assoc collection :course-ids #{123})}
             collection-names (into #{} (keys collections))
@@ -41,12 +40,12 @@
         (testing "it retrieves the names of the collections"
           (are [type expectation] (= (get type) expectation)
             :all               {collection-type #{buzzword} :tags #{buzzword}}
+            nil                {collection-type #{buzzword} :tags #{buzzword}}
             collection-type    #{buzzword}))))
 
 
     (testing "when query type is collection"
-      (let [collections {:agile (assoc collection :course-ids #{123})}
-            store       (sut/new {:collections {collection-type collections}})
+      (let [store       (sut/new {:collections [(assoc collection :course-ids #{123})]})
             get         (partial qa/get store :collection)]
 
         (testing "it retrieves a collection"
@@ -56,7 +55,6 @@
             collection-type    :bla           nil
             :bla               buzzword       nil
             :bla               :bla           nil))))
-
 
     (testing "when query type is courses"
       (let [store (sut/new {:courses [course]})

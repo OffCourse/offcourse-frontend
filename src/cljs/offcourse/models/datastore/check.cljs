@@ -12,8 +12,7 @@
   (if (qa/get ds query) true false))
 
 (defmethod check :collection [ds query]
-  (when-let [course-ids (:course-ids (qa/get ds query))]
-    (> (count course-ids) 0)))
+  (if (qa/get ds query) true false))
 
 (defmethod check :courses [{:keys [courses] :as ds} {:keys [course-ids] :as query}]
   (if (and courses (not (empty? courses)))

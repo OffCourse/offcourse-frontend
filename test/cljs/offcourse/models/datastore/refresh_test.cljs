@@ -2,6 +2,8 @@
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.datastore.index :as sut]
             [offcourse.models.datastore.helpers :as h]
+            [offcourse.models.datastore.paths :as paths]
+            [com.rpl.specter :refer [select select-first transform filterer ALL]]
             [cljs.test :refer-macros [deftest testing is are]]))
 
 (deftest models-datastore-refresh
@@ -17,44 +19,42 @@
                          :collection-name buzzword
                          :course-ids      #{}}]
 
-    (testing "when query type is collection-names"
+    #_(testing "when query type is collection-names"
 
       (testing "it sets the has-collection-names? flag"
         (let [store (qa/refresh (sut/new) :collection-names [])]
           (is (:collection-names store) true)))
 
       (testing "it merges existing and new collection names"
-        (let [collections      {:agile      collection
-                                :netiquette (assoc collection :collection-name :nettiquette)}
-              store            (-> (sut/new {:collections {collection-type collections}})
+        (let [collection2      (assoc collection :collection-name :netiquette)
+              store            (-> (sut/new {:collections [collection collection2]})
                                    (qa/refresh :collection-names {collection-type [:agile]}))
-              collection-names (keys (get-in store [:collections collection-type]))]
+              collection-names (map :collection-name (:collections store))]
           (are [value actual] (= (h/contains-val? collection-names value) actual)
             :agile          true
             :netiquette     true
             :bla            false))))
 
     (testing "when query type is collection"
-      (let [collections {buzzword (assoc collection :course-ids #{123})}
-            store       (sut/new {:collections {collection-type collections}})]
+      (let [store       (sut/new {:collections [(assoc collection :course-ids #{123})]})]
 
         (testing "it adds new collections"
-          (let [collection (assoc collection :collection-name :taurus)
+          (let [collection       (assoc collection :collection-name :taurus)
                 store            (qa/refresh store :collection collection)
-                collection-names (keys (get-in store [:collections collection-type]))]
+                collection-names (map :collection-name (:collections store))]
             (are [value actual] (= (h/contains-val? collection-names value) actual)
               buzzword     true
               :agile       true
               :bla         false)))
 
-      (testing "it merges existing and new course-ids in a collection"
-        (let [collection (assoc collection :course-ids #{129})
-              store (qa/refresh store :collection collection)
-              ids   (get-in store [:collections collection-type buzzword :course-ids])]
-          (are [value actual] (= (contains? ids value) actual)
-            id           true
-            129          true
-            missing-id   false)))))
+        (testing "it merges existing and new course-ids in a collection"
+          (let [collection (assoc collection :course-ids #{129})
+                store (qa/refresh store :collection collection)
+                ids   (select-first [(paths/collection collection-type buzzword) :course-ids] store)]
+            (are [value actual] (= (contains? ids value) actual)
+              id           true
+              129          true
+              missing-id   false)))))
 
     (testing "when query type is courses"
       (letfn [(courses [ids] (map (fn [id] {:course-id id}) ids))]

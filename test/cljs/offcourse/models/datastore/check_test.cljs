@@ -34,27 +34,26 @@
     (testing "when query type is collection-names"
 
       (testing "it reports if collection-names are present"
-        (let [store (sut/new {:collection-names {:flag [13]}})]
-          (is (qa/check store :collection-names {}))))
+        (let [store (sut/new {:collection-names {:flag [id]}})]
+          (is (qa/check store :collection-names nil))))
 
       (testing "it reports if collection-names are missing"
         (let [store (sut/new)]
-          (is (not (qa/check store :collection-names {}))))))
+          (is (not (qa/check store :collection-names nil))))))
 
 
     (testing "when query type is collection"
-      (let [collections {:agile      (assoc collection :course-ids #{123})
-                         :netiquette (assoc collection :collection-name :nettiquette)}
-            store       (sut/new {:collections {collection-type collections}})]
+      (let [collections [(assoc collection :course-ids #{123}) (assoc collection :collection-name :nettiquette)]
+            store       (sut/new {:collections collections})]
 
         (testing "it reports if a collection is present"
           (let [check (fn [type name] (qa/check store :collection (h/collection type name)))]
             (are [type name expectation] (= (check type name) expectation)
               collection-type buzzword        true
               collection-type :netiquette     false
-              collection-type :bla            nil
-              :bla            buzzword        nil
-              :bla            :bla            nil)))))
+              collection-type :bla            false
+              :bla            buzzword        false
+              :bla            :bla            false)))))
 
     (testing "when query type is courses"
       (let [store (sut/new {:courses [course]})]

@@ -21,20 +21,22 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [-] Models         [0%]
   - [-] Datastore
     + [ ] implement queryable/modify
-    + [ ] switch to specter paths
+    + [X] switch to specter paths
     + [X] implement check arity 3
+    + [X] make collections an array instead of a map
+    + [X] make collection names independent of collections
   - [ ] Checkpoint
     + [ ] make :new a valid value for checkpoint-id^
 + Views              [100%]
   - [X] Labels
     + [X] titleize titles
-+ [-] Protocols      [66%]
++ [-] Protocols      [50%]
   - [X] Queryable   [100%]
     + [X] add modify
     + [X] add arity 3 to check
-  - [X] Responsive  [100%]
+  - [-] Responsive  [50%]
     + [X] add forward to listen
-    - [ ] refactor to minus-function-name style
+    + [ ] refactor to minus-function-name style
 + [ ] Router         [0%]
 + [ ] Views          [0%]
   - [ ] add 'new checkpoint' form

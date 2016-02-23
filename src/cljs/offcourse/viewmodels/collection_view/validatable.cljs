@@ -12,7 +12,8 @@
                                (when-not (empty? missing-ids) :courses))
         payload            {:type next-missing-field}]
     (case next-missing-field
-      :labels     (assoc payload :type :collection-names)
+      :labels     (assoc payload :type :collection-names
+                         :collection-names :all)
       :collection (assoc payload :collection collection)
       :courses    (assoc payload :course-ids missing-ids)
       nil)))
