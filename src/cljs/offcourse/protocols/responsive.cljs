@@ -17,6 +17,11 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel (or log-channel (:log channels))
          response (action/new status component-name payload)]
+     #_(do
+       (println "----------")
+       (println component-name)
+       (println source)
+       (println type))
      (go
        (>! output-channel response)
        (when log-channel (>! log-channel response)))))
@@ -26,6 +31,11 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
+      (do
+        (println "----------")
+        (println component-name)
+        (println source)
+        (println type))
       (when reaction
         (if (= reaction :forward)
           (respond this type payload)

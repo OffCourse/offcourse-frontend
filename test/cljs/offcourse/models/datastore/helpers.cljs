@@ -15,9 +15,6 @@
   ([curator hashtag] {:curator curator
                       :hashtag hashtag}))
 
-(defn checkpoint [course-id checkpoint-id] {:course-id course-id
-                                            :checkpoint-id checkpoint-id})
-
 (defn checkpoint ([course-id checkpoint-id] {:course-id course-id
                                              :checkpoint-id checkpoint-id}))
 

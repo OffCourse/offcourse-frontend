@@ -1,6 +1,7 @@
 (ns offcourse.models.datastore.add-test
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.datastore.index :as sut]
+            [offcourse.models.checkpoint :as  cp]
             [offcourse.models.datastore.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]))
 
@@ -52,8 +53,8 @@
                             :checkpoint-id :new})) true)))
 
       (testing "it does not change anything if the course already exists"
-        (let [checkpoint {:checkpoint-id :new}
+        (let [checkpoint cp/placeholder
               course     (assoc course :checkpoints [checkpoint])
               store      (sut/new {:courses [course]})
               add        (partial qa/add store :checkpoint)]
-          (is (= (add (h/checkpoint missing-id :new)) store)))))))
+          (is (= (add (h/checkpoint id :new)) store)))))))

@@ -31,7 +31,7 @@
                :checked-store            qa/refresh
                :refreshed-datastore      qa/refresh}
    :datastore {:not-found-data           qa/check
-               :requested-new-checkpoint qa/modify
+               :requested-new-checkpoint qa/add
                :fetched-data             qa/refresh}
    :ui        {:composed-viewmodel rr/render
                :updated-logs       rr/render}})

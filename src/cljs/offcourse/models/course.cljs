@@ -45,3 +45,6 @@
 (defn get-checkpoint [course checkpoint-id]
   (->> (:checkpoints course)
        (some #(if (= (:checkpoint-id %) checkpoint-id) %))))
+
+(defn add-placeholder-checkpoint [course]
+  (update course :checkpoints #(conj % (cp/placeholder))))

@@ -8,23 +8,24 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [33%]
+* Now             [50%]
 + [-] General        [50%]
   - [X] add ci workflow
   - [X] add cd workflow
   - [ ] add 'new checkpoint'
+  - [ ] refactor messaging flow
   - [ ] add support for not found courses
 + [X] Datastore      [100%]
   - [X] add queryable/modify
   - [X] remove query helper dependency from tests
-+ [-] Models         [50%]
++ [X] Models         [100%]
   - [X] Datastore
     + [X] switch to specter paths
     + [X] implement check arity 3
     + [X] make collections an array instead of a map
     + [X] make collection names independent of collections
-  - [ ] Checkpoint
-    + [ ] make :new a valid value for checkpoint-id^
+  - [X] Checkpoint
+    + [X] make :new a valid value for checkpoint-id^
 + [X] Views          [100%]
   - [X] Labels
     + [X] titleize titles
@@ -39,17 +40,19 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [ ] Build abstraction around component
 + [ ] Router         [0%]
   - [ ] add support for not found courses
-* Next                       [0%]
-+ [-] General        [40%]
+  - [ ] add support for new courses
+* Next             [0%]
++ [ ] General        [40%]
   - [ ] add 'save course' functionality
+  - [ ] refactor schemas
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
 + [ ] Viewmodels     [0%]
   - [ ] add converter from hash-map
-+ [-] Appstate       [0%]
++ [ ] Appstate       [0%]
   - [ ] use vm converter instead of constructor
 + [ ] Models         [0%]
-  - [-] Datastore
+  - [ ] Datastore
     + [ ] implement queryable/modify
   - [ ] Course
     - [ ] add qa/get protocol
@@ -63,7 +66,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [ ] add publish
 + [ ] Views          [0%]
   - [ ] add 'new checkpoint' form
-* Future                    [0%]
+* Future          [0%]
 + [ ] Viewmodels     [0%]
   - [ ] add tests
 + [-] Wrappers       [0%]
@@ -81,8 +84,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] General        [0%]
   - [ ] refactor to cljc where possible
   - [ ] add test-check
-* Optional                 [0%]
-* Archive                   [100%]
+* Optional      [0%]
+* Archive        [100%]
 + [X] General        [100%]
   - [X] add test runner
   - [X] move system to separate module

@@ -15,10 +15,10 @@
      resources             :- {schema/Str Resource}
      collection-names      :- {schema/Any schema/Any}]
   Validatable
-  (valid? [{:keys [collection-names]}] collection-names)
+  (valid?   [{:keys [collection-names]}] (boolean collection-names))
   Queryable
-  (-add    [ds query] (add-impl/add ds query))
-  (-get    [ds query] (get-impl/get ds query))
+  (-add     [ds query] (add-impl/add ds query))
+  (-get     [ds query] (get-impl/get ds query))
   (-check   [ds query] (check-impl/check ds query))
   (-refresh [ds query] (refresh-impl/refresh ds query)))
 

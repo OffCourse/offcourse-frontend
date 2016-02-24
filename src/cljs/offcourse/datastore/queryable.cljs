@@ -19,5 +19,8 @@
           (respond ds :refreshed-datastore {:store @store})
           (respond ds :not-found-data {:type :collection-names}))))))
 
-(defn modify [ds query]
-  (println query))
+(defn add [{:keys [store] :as ds} query]
+  (swap! store #(qa/add % query))
+  (if (va/valid? ds)
+    (respond ds :checked-store {:store @store})
+    (respond ds :not-found-data {:type :collection-names})))
