@@ -1,6 +1,5 @@
 (ns offcourse.models.datastore.check
   (:require [clojure.set :as set]
-            [com.rpl.specter :refer [select select-first filterer ALL]]
             [offcourse.protocols.queryable :as qa]))
 
 (defn has-items? [collection-ids query-ids]

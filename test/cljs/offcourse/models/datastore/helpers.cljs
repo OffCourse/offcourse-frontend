@@ -1,4 +1,5 @@
-(ns offcourse.models.datastore.helpers)
+(ns offcourse.models.datastore.helpers
+  (:require [clojure.set :as set]))
 
 (defn falsy? [response]
   (or (nil? response) (false? response)))

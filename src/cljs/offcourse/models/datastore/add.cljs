@@ -4,9 +4,7 @@
             [com.rpl.specter :refer [ALL transform select-first]]))
 
 (defn add-new-checkpoint [ds course-id]
-  (transform (paths/checkpoints course-id)
-             #(conj % {:checkpoint-id :new})
-             ds))
+  (transform (paths/checkpoints course-id) #(conj % {:checkpoint-id :new}) ds))
 
 (defmulti add (fn [_ {:keys [type]}] type))
 

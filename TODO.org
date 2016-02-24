@@ -8,39 +8,40 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now                        [16%]
-+ [-] General        [40%]
+* Now                        [33%]
++ [-] General        [50%]
   - [X] add ci workflow
   - [X] add cd workflow
-  - [ ] add 'new checkpoint' functionality
-  - [ ] add 'save course' functionality
+  - [ ] add 'new checkpoint'
   - [ ] add support for not found courses
 + [X] Datastore      [100%]
   - [X] add queryable/modify
   - [X] remove query helper dependency from tests
-+ [-] Models         [0%]
-  - [-] Datastore
-    + [ ] implement queryable/modify
++ [-] Models         [50%]
+  - [X] Datastore
     + [X] switch to specter paths
     + [X] implement check arity 3
     + [X] make collections an array instead of a map
     + [X] make collection names independent of collections
   - [ ] Checkpoint
     + [ ] make :new a valid value for checkpoint-id^
-+ Views              [100%]
++ [X] Views          [100%]
   - [X] Labels
     + [X] titleize titles
-+ [-] Protocols      [50%]
-  - [X] Queryable   [100%]
++ [-] Protocols      [33%]
+  - [X] Queryable    [100%]
     + [X] add modify
     + [X] add arity 3 to check
-  - [-] Responsive  [50%]
+  - [-] Responsive   [50%]
     + [X] add forward to listen
     + [ ] refactor to minus-function-name style
+  - [ ] Lifecycle    [0%]
+    + [ ] Build abstraction around component
 + [ ] Router         [0%]
-+ [ ] Views          [0%]
-  - [ ] add 'new checkpoint' form
+  - [ ] add support for not found courses
 * Next                       [0%]
++ [-] General        [40%]
+  - [ ] add 'save course' functionality
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
 + [ ] Viewmodels     [0%]
@@ -48,6 +49,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [-] Appstate       [0%]
   - [ ] use vm converter instead of constructor
 + [ ] Models         [0%]
+  - [-] Datastore
+    + [ ] implement queryable/modify
   - [ ] Course
     - [ ] add qa/get protocol
   - [ ] Checkpoint
@@ -58,6 +61,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] Repositories   [0%]
   - [ ] central repo
     + [ ] add publish
++ [ ] Views          [0%]
+  - [ ] add 'new checkpoint' form
 * Future                    [0%]
 + [ ] Viewmodels     [0%]
   - [ ] add tests
