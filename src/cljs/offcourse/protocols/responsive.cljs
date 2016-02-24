@@ -31,7 +31,7 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      (do
+      #_(do
         (println "----------")
         (println component-name)
         (println source)

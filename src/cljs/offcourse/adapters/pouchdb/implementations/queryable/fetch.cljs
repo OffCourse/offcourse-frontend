@@ -4,7 +4,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defmulti fetch
-  (fn [_ {:keys [type]}] type))
+  (fn [_ {:keys [type store]}] (when-not store type)))
 
 (defmethod fetch :doc [connection {:key key}]
   (wrapper/get-doc connection keys))

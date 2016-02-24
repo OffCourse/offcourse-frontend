@@ -4,11 +4,12 @@
             [offcourse.protocols.renderable :as rr]))
 
 (def actions
-  {:api       [:failed-fetch
-               :fetched-data]
+  {:api       [:not-found-data
+               :found-data]
    :logger    [:updated-logs]
    :router    [:requested-route]
-   :appstate  [:updated-viewmodel]
+   :appstate  [:updated-viewmodel
+               :not-found-data]
    :datastore [:checked-store
                :not-found-data
                :refreshed-datastore]
@@ -28,10 +29,11 @@
 
    :appstate  {:requested-route          qa/refresh
                :requested-new-checkpoint :forward
+               :not-found-data           qa/check
                :checked-store            qa/refresh
                :refreshed-datastore      qa/refresh}
    :datastore {:not-found-data           qa/check
                :requested-new-checkpoint qa/add
-               :fetched-data             qa/refresh}
+               :found-data             qa/refresh}
    :ui        {:composed-viewmodel rr/render
                :updated-logs       rr/render}})

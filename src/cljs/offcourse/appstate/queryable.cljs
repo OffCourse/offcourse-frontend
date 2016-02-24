@@ -21,3 +21,9 @@
      (if missing-data
        (ri/respond as :not-found-data missing-data)
        (ri/respond as :composed-viewmodel viewmodel)))))
+
+(defn check [{:keys [proposed queries] :as as} query]
+  (swap! queries #(conj % query))
+  (when  (= (second @queries) query)
+    (println "redirecting..."))
+  as)
