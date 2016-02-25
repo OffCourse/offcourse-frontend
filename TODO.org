@@ -8,7 +8,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now             [37%]
+* Now             [57%]
 + [-] General        [60%]
   - [X] add ci workflow
   - [X] add cd workflow
@@ -20,21 +20,24 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] Datastore      [100%]
   - [X] add queryable/modify
   - [X] remove query helper dependency from tests
-+ [X] UI             [100%]
++ [-] UI             [66%]
   - [X] add viewmodel composition
   - [X] move viewmodel composition to views
-+ [ ] Viewmodels     [0%]
-  + [ ] turn into graph
-+ [ ] Models         [0%]
-  - [ ] View          [0%]
-    + [ ] add viewmodel composition
-+ [-] Protocols      [50%]
+  - [ ] make renderer a separate component
++ [X] Models         [100%]
+  - [X] View          [100%]
+    + [X] add viewmodel composition
+    + [X] move compose to protocol
+    + [X] Add Composable
+    + [X] Add Validatable
+    + [X] Add Renderable
+    + [X] Add Mountable
++ [X] Protocols      [100%]
   - [X] Queryable    [100%]
     + [X] add modify
     + [X] add arity 3 to check
-  - [-] Responsive   [50%]
+  - [X] Responsive   [100%]
     + [X] add forward to listen
-    + [ ] refactor to minus-function-name style
 + [ ] Router         [0%]
   - [ ] add support for not found courses
   - [ ] add support for new courses
@@ -46,12 +49,19 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] Bootstrappable
   - [ ] Lifecycle    [0%]
     + [ ] Build abstraction around component
+  - [-] Responsive   [50%]
+    + [ ] refactor to minus-function-name style
+  - [ ] Validatable   [0%]
+    + [ ] refactor to minus-function-name style
++ [ ] Datastore       [0%]
+  - [ ] merge with appstate?
 + [ ] Viewmodels     [0%]
   - [ ] add converter from hash-map
   - [ ] add loading view
 + [ ] Appstate       [0%]
   - [ ] use vm converter instead of constructor
   - [ ] add tests
+  - [ ] merge with datastore?
 + [ ] Models         [0%]
   - [ ] Datastore
     + [ ] implement queryable/modify

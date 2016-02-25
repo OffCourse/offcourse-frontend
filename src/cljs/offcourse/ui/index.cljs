@@ -1,14 +1,13 @@
 (ns offcourse.ui.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
+            [medley.core :as medley]
             [offcourse.models.view :as view]
+            [offcourse.protocols.composable :as ca]
+            [offcourse.protocols.mountable :as ma]
             [offcourse.protocols.renderable :as rr :refer [Renderable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [rum.core :as rum]
-            [schema.core :as schema]
-            [medley.core :as medley]
-            [offcourse.models.datastore.index :as ds]
             [offcourse.protocols.validatable :as va]
-            [offcourse.protocols.queryable :as qa]))
+            [schema.core :as schema]))
 
 (defn augment-handler [component status handler]
   (let [base-handler (partial ri/respond component)]
@@ -30,20 +29,14 @@
   (stop [rd] (ri/mute rd))
   Renderable
   (-render [{:keys [views route-helpers handlers viewmodels] :as rd} {:keys [state store] :as q}]
-    (let [constructor ((get-in state [:view :type]) viewmodels)
-          viewmodel   (constructor {:appstate  state
-                                    :datastore (or store (ds/new))})
-          viewmodel   (dissoc viewmodel :collection-data
-                              :tags
-                              :resource-id
-                              :course-ids
-                              :view-data)]
-      (if (va/valid? viewmodel)
-        (let [view (view/new viewmodel route-helpers handlers views)]
-          (rum/mount (rr/render view) (. js/document (getElementById "container")))
+    (let [view (view/new state store route-helpers viewmodels handlers)]
+      (if (va/valid? view)
+        (let [view (-> view
+                       (ca/compose views)
+                       (rr/render)
+                       (ma/mount "#container"))]
           (ri/respond rd :rendered-view))
-        (ri/respond rd :not-found-data (va/missing-data viewmodel)))))
-
+        (ri/respond rd :not-found-data (va/missing-data view)))))
 
   Responsive
   (listen [rd] (assoc rd :listener (ri/-listen rd)))

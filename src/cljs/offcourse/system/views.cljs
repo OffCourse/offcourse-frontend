@@ -13,7 +13,9 @@
   {:container (fnk [] app)})
 
 (def collection-graph
-  {:actions   (fnk [handlers] [])
+  {:labels    (fnk [viewmodel] (:labels viewmodel))
+   :courses   (fnk [viewmodel] (:courses viewmodel))
+   :actions   (fnk [handlers] [])
    :main      (fnk [courses route-helpers] (cards courses route-helpers))
    :dashboard (fnk [route-helpers actions labels]
                    (dashboard {:logo     (logo route-helpers)
@@ -23,14 +25,17 @@
 
 
 (def checkpoint-graph
-  {:main           (fnk [resource] (viewer resource))
-   :actions        (fnk [handlers [:course course-id]]
-                        (medley/map-kv #(vector %1 (partial %2 course-id)) handlers))
-   :dashboard      (fnk [route-helpers course actions]
-                          (dashboard {:logo     (logo route-helpers)
-                                      :main     (card course route-helpers)
-                                      :nav      (navigation-panel actions)
-                                      :colorful false}))})
+  {:course    (fnk [viewmodel] (:course viewmodel))
+   :resource  (fnk [viewmodel] (:resource viewmodel))
+   :course-id (fnk [course] (:course-id course))
+   :main      (fnk [resource] (viewer resource))
+   :actions   (fnk [handlers course-id]
+                   (medley/map-kv #(vector %1 (partial %2 course-id)) handlers))
+   :dashboard (fnk [route-helpers course actions]
+                   (dashboard {:logo     (logo route-helpers)
+                               :main     (card course route-helpers)
+                               :nav      (navigation-panel actions)
+                               :colorful false}))})
 
 (def views
   {:collection-view (merge base-graph collection-graph)

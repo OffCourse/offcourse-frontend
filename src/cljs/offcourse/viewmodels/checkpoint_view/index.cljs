@@ -62,7 +62,8 @@
    :course (select-keys data [:curator :hashtag])
    :checkpoint (or checkpoint-id 0)})
 
-(defn new [{:keys [appstate datastore]}]
-  (let [view-data (compose {:appstate appstate
-                            :datastore (or datastore (ds/new))})]
-    (map->CheckpointView view-data)))
+(defn new [appstate datastore]
+  (-> {:appstate appstate
+       :datastore (or datastore (ds/new))}
+      compose
+      map->CheckpointView))

@@ -2,14 +2,14 @@
   (:require [medley.core :as medley]
             [offcourse.models.collection :refer [Collection]]
             [offcourse.models.course :as co :refer [Course]]
+            [offcourse.models.datastore.index :as ds]
             [offcourse.models.label :as lb :refer [Label]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.viewmodels.collection-view.validatable :as va-impl]
             [plumbing.core :refer-macros [fnk]]
             [plumbing.graph :as graph]
-            [schema.core :as schema :include-macros true]
-            [offcourse.models.datastore.index :as ds]))
+            [schema.core :as schema :include-macros true]))
 
 (schema/defrecord CollectionView
     [view-name  :- Keyword
@@ -50,7 +50,8 @@
 (defn dummy [collection] {:type :collection-view
                           :collection collection})
 
-(defn new [{:keys [appstate datastore] :as q}]
-  (let [view-data (compose {:appstate appstate
-                            :datastore (or datastore (ds/new))})]
-    (map->CollectionView view-data)))
+(defn new [appstate datastore]
+  (-> {:appstate appstate
+       :datastore (or datastore (ds/new))}
+      compose
+      map->CollectionView))
