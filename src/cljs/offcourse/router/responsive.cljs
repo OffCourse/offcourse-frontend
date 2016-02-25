@@ -4,8 +4,9 @@
             [bidi.bidi :as bidi]))
 
 (defn handle-request [{:keys [reactions] :as rt} {:keys [handler route-params]}]
-  (when-let [reaction ((handler reactions) (assoc route-params
-                                                  :checkpoint-id (int (:checkpoint-id route-params))))]
+  (when-let [reaction ((handler reactions)
+                       (assoc route-params
+                              :checkpoint-id (int (:checkpoint-id route-params))))]
     (ri/respond rt :requested-route reaction)))
 
 (defn listen [{:keys [routes] :as rt}]

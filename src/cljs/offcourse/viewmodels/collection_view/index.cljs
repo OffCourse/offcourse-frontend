@@ -29,24 +29,28 @@
     (-> course (with-meta {:tags tags}))))
 
 (def graph
-  {:view-name      (fnk [view-type] view-type)
-   :collection     (fnk [datastore collection-data]
-                        (or (qa/get datastore :collection collection-data)
-                            collection-data))
-   :labels         (fnk [collection datastore]
-                        (->> (qa/get datastore :collection-names :all)
-                             (medley/map-vals
-                              (fn [category] (into #{} (map #(lb/new % (:collection-name collection)) category))))))
-   :course-ids     (fnk [collection] (:course-ids collection))
-   :courses        (fnk [datastore course-ids collection]
-                        (some->> (qa/get datastore :courses course-ids)
-                                 (map (partial augment-course
-                                               (:collection-name collection)))))})
+  {:view-data       (fnk [appstate] (:view appstate))
+   :view-name       (fnk [view-data] (:type view-data))
+   :collection-data (fnk [view-data] (:collection view-data))
+   :collection      (fnk [datastore collection-data]
+                         (or (qa/get datastore :collection collection-data)
+                             collection-data))
+   :labels          (fnk [collection datastore]
+                         (->> (qa/get datastore :collection-names :all)
+                              (medley/map-vals
+                               (fn [category] (into #{} (map #(lb/new % (:collection-name collection)) category))))))
+   :course-ids      (fnk [collection] (:course-ids collection))
+   :courses         (fnk [datastore course-ids collection]
+                         (some->> (qa/get datastore :courses course-ids)
+                                  (map (partial augment-course
+                                                (:collection-name collection)))))})
 
 (def compose (graph/compile graph))
 
-(defn new [{:keys [collection routes type]} datastore]
-  (let [view-data (compose {:view-type type
-                            :collection-data collection
+(defn dummy [collection] {:type :collection-view
+                          :collection collection})
+
+(defn new [{:keys [appstate datastore] :as q}]
+  (let [view-data (compose {:appstate appstate
                             :datastore (or datastore (ds/new))})]
     (map->CollectionView view-data)))

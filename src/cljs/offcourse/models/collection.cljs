@@ -11,3 +11,8 @@
 
 (defn new-collection [collection-type collection-name]
   (->Collection collection-type collection-name nil))
+
+(defn new
+  ([collection-data] (map->Collection collection-data))
+  ([collection-type collection-name]
+  (->Collection collection-type collection-name nil)))

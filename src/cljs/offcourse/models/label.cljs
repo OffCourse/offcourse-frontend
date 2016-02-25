@@ -5,7 +5,6 @@
 (schema/defrecord Label
     [label-name :- schema/Keyword])
 
-
 (defn new [label-name selected]
   (map->Label {:label-name label-name}))
 

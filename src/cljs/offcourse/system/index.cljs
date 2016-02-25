@@ -75,4 +75,5 @@
                                                :route-helpers :route-helpers
                                                :handlers      :handlers
                                                :views         :views
+                                               :viewmodels    :viewmodels
                                                :reactions     :ui-reactions}))))

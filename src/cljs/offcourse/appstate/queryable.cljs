@@ -5,27 +5,21 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri]))
 
-(defn create-viewmodel [{:keys [type] :as proposed} store viewmodels]
-  ((type viewmodels) proposed store))
+(defn check [{:keys [state queries viewmodels] :as as} {:keys [store] :as query}]
+  (if store
+    (ri/respond as :checked-appstate {:state @state
+                                      :store store})
+    (do
+      (swap! queries #(conj % query))
+      (if  (= (second @queries) query)
+        ;; here we should remove the defective state from appstore
+        nil
+        (do
+          nil
+          (ri/respond as :not-found-data query))))))
 
-(defn check [{:keys [state queries viewmodels] :as as} {:keys [datastore] :as query}]
-  (if-not @state
-    (qa/refresh as query)
-    (if datastore
-      (let [viewmodel (create-viewmodel (:view @state) datastore viewmodels)
-            missing-data (va/missing-data viewmodel)]
-        (if missing-data
-          (ri/respond as :not-found-data missing-data)
-          (ri/respond as :composed-viewmodel viewmodel)))
-      (do
-        (swap! queries #(conj % query))
-        (when  (= (second @queries) query)
-          ;; here we should remove the missing data from appstore
-          (println "later error..."))
-        as))))
-
-(defn refresh [{:keys [state] :as as} query]
+(defn refresh [{:keys [state queries] :as as} query]
   (let [proposal (model/new query)]
+    (swap! queries #(conj % query))
     (reset! state proposal)
-    (check as {:datastore (ds/new)})))
-
+    (ri/respond as :refreshed-appstate {:state @state})))

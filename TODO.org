@@ -8,36 +8,33 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now             [50%]
-+ [-] General        [50%]
+* Now             [37%]
++ [-] General        [60%]
   - [X] add ci workflow
   - [X] add cd workflow
   - [ ] add 'new checkpoint'
-  - [ ] refactor messaging flow
+  - [X] refactor messaging flow
   - [ ] add support for not found courses
++ [X] Appstate       [100%]
+  - [X] remove viewmodel composition
 + [X] Datastore      [100%]
   - [X] add queryable/modify
   - [X] remove query helper dependency from tests
-+ [X] Models         [100%]
-  - [X] Datastore
-    + [X] switch to specter paths
-    + [X] implement check arity 3
-    + [X] make collections an array instead of a map
-    + [X] make collection names independent of collections
-  - [X] Checkpoint
-    + [X] make :new a valid value for checkpoint-id^
-+ [X] Views          [100%]
-  - [X] Labels
-    + [X] titleize titles
-+ [-] Protocols      [33%]
++ [X] UI             [100%]
+  - [X] add viewmodel composition
+  - [X] move viewmodel composition to views
++ [ ] Viewmodels     [0%]
+  + [ ] turn into graph
++ [ ] Models         [0%]
+  - [ ] View          [0%]
+    + [ ] add viewmodel composition
++ [-] Protocols      [50%]
   - [X] Queryable    [100%]
     + [X] add modify
     + [X] add arity 3 to check
   - [-] Responsive   [50%]
     + [X] add forward to listen
     + [ ] refactor to minus-function-name style
-  - [ ] Lifecycle    [0%]
-    + [ ] Build abstraction around component
 + [ ] Router         [0%]
   - [ ] add support for not found courses
   - [ ] add support for new courses
@@ -47,6 +44,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] refactor schemas
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
+  - [ ] Lifecycle    [0%]
+    + [ ] Build abstraction around component
 + [ ] Viewmodels     [0%]
   - [ ] add converter from hash-map
   - [ ] add loading view

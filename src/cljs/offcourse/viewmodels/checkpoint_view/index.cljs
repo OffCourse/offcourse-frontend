@@ -7,7 +7,8 @@
             [offcourse.viewmodels.checkpoint-view.validatable :as va-impl]
             [plumbing.core :refer-macros [fnk]]
             [plumbing.graph :as graph]
-            [schema.core :as schema :include-macros true]))
+            [schema.core :as schema :include-macros true]
+            [offcourse.models.datastore.index :as ds]))
 
 (schema/defrecord CheckpointView
     [view-name :- Keyword
@@ -37,14 +38,16 @@
             (with-meta {:tags tags}))))
 
 (def graph
-  {:view-name     (fnk [view-type] view-type)
-   :checkpoint-id (fnk [checkpoint-data] checkpoint-data)
-   :course        (fnk [datastore course-data checkpoint-id]
+  {:view-data     (fnk [appstate] (:view appstate))
+   :view-name     (fnk [view-data] (:type view-data))
+   :checkpoint-id (fnk [view-data]
+                       (:checkpoint view-data))
+   :course        (fnk [datastore view-data checkpoint-id]
                        (if-let [course (-> datastore
-                                           (qa/get :course course-data)
+                                           (qa/get :course (:course view-data))
                                            (augment-course checkpoint-id))]
                          course
-                         course-data))
+                         (:course view-data)))
    :tags          (fnk [course] (co/get-tags course))
    :labels        (fnk [tags] {:tags (lb/collection->labels tags)})
    :resource-id   (fnk [course checkpoint-id]
@@ -54,9 +57,12 @@
 
 (def compose (graph/compile graph))
 
-(defn new [{:keys [type course checkpoint-id]} datastore]
-  (let [view-data (compose {:view-type type
-                            :course-data course
-                            :checkpoint-data checkpoint-id
-                            :datastore datastore})]
+(defn dummy [{:keys [checkpoint-id] :as data}]
+  {:type :checkpoint-view
+   :course (select-keys data [:curator :hashtag])
+   :checkpoint (or checkpoint-id 0)})
+
+(defn new [{:keys [appstate datastore]}]
+  (let [view-data (compose {:appstate appstate
+                            :datastore (or datastore (ds/new))})]
     (map->CheckpointView view-data)))
