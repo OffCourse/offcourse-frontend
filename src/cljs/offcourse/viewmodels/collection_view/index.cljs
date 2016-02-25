@@ -8,7 +8,8 @@
             [offcourse.viewmodels.collection-view.validatable :as va-impl]
             [plumbing.core :refer-macros [fnk]]
             [plumbing.graph :as graph]
-            [schema.core :as schema :include-macros true]))
+            [schema.core :as schema :include-macros true]
+            [offcourse.models.datastore.index :as ds]))
 
 (schema/defrecord CollectionView
     [view-name  :- Keyword
@@ -47,5 +48,5 @@
 (defn new [{:keys [collection routes type]} datastore]
   (let [view-data (compose {:view-type type
                             :collection-data collection
-                            :datastore datastore})]
+                            :datastore (or datastore (ds/new))})]
     (map->CollectionView view-data)))

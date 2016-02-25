@@ -6,7 +6,7 @@
 (defn check [{:keys [store] :as ds} query]
   (if (qa/check @store query)
     (if (va/valid? ds)
-      (respond ds :checked-store {:store @store})
+      (respond ds :checked-datastore {:datastore @store})
       (respond ds :not-found-data {:type :collection-names})))
     (respond ds :not-found-data query))
 
@@ -16,11 +16,11 @@
       (swap! store #(qa/refresh % query))
       (when-not (= old-store @store)
         (if (va/valid? @store)
-          (respond ds :refreshed-datastore {:store @store})
+          (respond ds :refreshed-datastore {:datastore @store})
           (respond ds :not-found-data {:type :collection-names}))))))
 
 (defn add [{:keys [store] :as ds} query]
   (swap! store #(qa/add % query))
   (if (va/valid? ds)
-    (respond ds :checked-store {:store @store})
+    (respond ds :checked-datastore {:datastore @store})
     (respond ds :not-found-data {:type :collection-names})))

@@ -10,7 +10,7 @@
    :router    [:requested-route]
    :appstate  [:updated-viewmodel
                :not-found-data]
-   :datastore [:checked-store
+   :datastore [:checked-datastore
                :not-found-data
                :refreshed-datastore]
    :ui        [:rendered-view]})
@@ -27,13 +27,13 @@
                                             :course        (select-keys data [:checkpoint-id :curator :hashtag])
                                             :checkpoint-id (:checkpoint-id data)})}
 
-   :appstate  {:requested-route          qa/refresh
+   :appstate  {:requested-route          qa/check
                :requested-new-checkpoint :forward
                :not-found-data           qa/check
-               :checked-store            qa/refresh
-               :refreshed-datastore      qa/refresh}
+               :checked-datastore            qa/check
+               :refreshed-datastore          qa/check}
    :datastore {:not-found-data           qa/check
                :requested-new-checkpoint qa/add
-               :found-data             qa/refresh}
+               :found-data               qa/refresh}
    :ui        {:composed-viewmodel rr/render
                :updated-logs       rr/render}})

@@ -13,9 +13,8 @@
      actions        :- []
      reactions      :- {}]
   Lifecycle
-  (start [as] (ri/listen (assoc as :proposed (atom nil)
-                                :queries (atom ())
-                                :current (atom nil))))
+  (start [as] (ri/listen (assoc as :state (atom nil)
+                                :queries (atom ()))))
   (stop [as] (ri/mute as))
   Queryable
   (-check [as query] (qa-impl/check as query))

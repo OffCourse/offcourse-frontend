@@ -42,15 +42,17 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] add support for not found courses
   - [ ] add support for new courses
 * Next             [0%]
-+ [ ] General        [40%]
++ [ ] General        [0%]
   - [ ] add 'save course' functionality
   - [ ] refactor schemas
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
 + [ ] Viewmodels     [0%]
   - [ ] add converter from hash-map
+  - [ ] add loading view
 + [ ] Appstate       [0%]
   - [ ] use vm converter instead of constructor
+  - [ ] add tests
 + [ ] Models         [0%]
   - [ ] Datastore
     + [ ] implement queryable/modify
@@ -66,6 +68,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [ ] add publish
 + [ ] Views          [0%]
   - [ ] add 'new checkpoint' form
+  - [ ] add loading view
 * Future          [0%]
 + [ ] Viewmodels     [0%]
   - [ ] add tests

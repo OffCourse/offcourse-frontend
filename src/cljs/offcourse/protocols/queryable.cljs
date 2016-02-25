@@ -40,7 +40,8 @@
                                 (type payloads) data})))
 
 (defn check
-  ([this] (-check this))
+  ([this]
+   (-check this))
   ([this query] (-check this query))
   ([this type data] (-check this {:type type
                                   (type payloads) data})))
