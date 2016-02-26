@@ -15,5 +15,5 @@
   (-check [resource]
     (schema/check Resource resource))
   Validatable
-  (valid? [resource]
+  (-valid? [resource]
     (if-not (qa/check resource) true false)))

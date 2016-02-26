@@ -18,7 +18,7 @@
      courses    :- (schema/conditional #(not (nil? %)) [Course])]
   Validatable
   (missing-data [vm] (va-impl/missing-data vm))
-  (valid? [vm] (if (qa/check vm) false true))
+  (-valid? [vm] (if (qa/check vm) false true))
   Queryable
   (-check [vm] (schema/check CollectionView vm))
   (-refresh [vm store] #_(qa-impl/refresh vm store)))

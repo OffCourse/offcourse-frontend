@@ -18,7 +18,7 @@
      resource :- Resource]
   Validatable
   (missing-data [vm] (va-impl/missing-data vm))
-  (valid? [vm] (if (qa/check vm) false true))
+  (-valid? [vm] (if (qa/check vm) false true))
   Queryable
   (-check [vm] (schema/check CheckpointView vm))
   (-refresh [vm store] #_(qa-impl/refresh vm store)))

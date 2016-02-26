@@ -21,7 +21,7 @@
   (-add  [ds query] (qa-impl/add ds query))
   (-refresh [ds query] (qa-impl/refresh ds query))
   Validatable
-  (valid?  [ds] (va-impl/valid? ds))
+  (-valid?  [ds] (va-impl/valid? ds))
   Responsive
   (respond [ds status payload] (ri/-respond ds status payload))
   (mute [ds] (ri/-mute ds))

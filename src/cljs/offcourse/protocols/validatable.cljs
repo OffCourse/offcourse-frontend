@@ -3,4 +3,6 @@
 (defprotocol Validatable
   (missing-data [this])
   (errors [this])
-  (valid? [this]))
+  (-valid? [this]))
+
+(defn valid? [this] (-valid? this))

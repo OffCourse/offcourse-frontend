@@ -13,7 +13,7 @@
      route-helpers :- {}
      handlers :- {}]
   Validatable
-  (valid? [{:keys [viewmodel]}] (va/valid? viewmodel))
+  (-valid? [{:keys [viewmodel]}] (va/valid? viewmodel))
   (missing-data [{:keys [viewmodel]}] (va/missing-data viewmodel))
   Composable
   (-compose [view views]
