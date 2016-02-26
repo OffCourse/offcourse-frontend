@@ -1,11 +1,22 @@
 (ns offcourse.models.datastore.check
   (:require [clojure.set :as set]
-            [offcourse.protocols.queryable :as qa]))
+            [offcourse.protocols.queryable :as qa]
+            [schema.core :as schema]))
 
 (defn has-items? [collection-ids query-ids]
   (set/superset? (into #{} collection-ids) (into #{} query-ids)))
 
-(defmulti check (fn [_ {:keys [type]}] type))
+(defmulti check
+  (fn [_ {:keys [type] :as query}]
+    (if query type :store)))
+
+(def view-data-schema {:type schema/Keyword
+                       :view-data {schema/Keyword schema/Any}})
+
+(defmethod check :store [{:keys [view] :as store}]
+  (if-not (schema/check view-data-schema view)
+    (qa/check store (:view-data view))
+    false))
 
 (defmethod check :collection-names [ds query]
   (if (qa/get ds query) true false))

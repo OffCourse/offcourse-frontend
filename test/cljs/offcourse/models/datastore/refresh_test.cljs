@@ -19,7 +19,17 @@
                          :collection-name buzzword
                          :course-ids      #{}}]
 
-    #_(testing "when query type is collection-names"
+    (testing "it returns an error if given an non-exisiting query type"
+      (is (= (qa/refresh (sut/new) :bla)
+             {:type :error :error :query-not-supported})))
+
+    (testing "when query type is view"
+
+      (testing "sets the view"
+        (let [store (qa/refresh (sut/new) :view {})]
+          (is (:view store) true))))
+
+    (testing "when query type is collection-names"
 
       (testing "it sets the has-collection-names? flag"
         (let [store (qa/refresh (sut/new) :collection-names [])]

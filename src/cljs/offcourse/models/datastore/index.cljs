@@ -19,6 +19,7 @@
   Queryable
   (-add     [ds query] (add-impl/add ds query))
   (-get     [ds query] (get-impl/get ds query))
+  (-check   [ds]       (check-impl/check ds))
   (-check   [ds query] (check-impl/check ds query))
   (-refresh [ds query] (refresh-impl/refresh ds query)))
 

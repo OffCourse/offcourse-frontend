@@ -31,6 +31,9 @@
 (defmulti refresh
   (fn [_ {:keys [type]}] type))
 
+(defmethod refresh :view [store {:keys [view]}]
+  (assoc store :view view))
+
 (defmethod refresh :collection-names [{:keys [collections-names :as cn] :as store}
                                       {:keys [collection-names] :as query}]
   (let [collections (-> collection-names
@@ -67,3 +70,7 @@
 
 (defmethod refresh :resource [store {:keys [resource]}]
   (add-resource store resource))
+
+(defmethod refresh :default [_ _]
+  {:type :error
+   :error :query-not-supported})

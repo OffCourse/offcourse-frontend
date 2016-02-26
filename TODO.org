@@ -8,22 +8,23 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now             [57%]
+* Now             [28%]
 + [-] General        [80%]
   - [X] add ci workflow
   - [X] add cd workflow
   - [X] add 'new checkpoint'
   - [X] refactor messaging flow
   - [ ] add support for not found courses
-+ [X] Appstate       [100%]
++ [-] Appstate       [50%]
   - [X] remove viewmodel composition
-+ [X] Datastore      [100%]
+  - [ ] merge with datastore
++ [-] Datastore      [66%]
   - [X] add queryable/modify
   - [X] remove query helper dependency from tests
-+ [-] UI             [66%]
+  - [ ] merge with appstate
++ [X] UI             [100%]
   - [X] add viewmodel composition
   - [X] move viewmodel composition to views
-  - [ ] make renderer a separate component
 + [X] Models         [100%]
   - [X] View          [100%]
     + [X] add viewmodel composition
@@ -32,12 +33,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] Add Validatable
     + [X] Add Renderable
     + [X] Add Mountable
-+ [X] Protocols      [100%]
++ [-] Protocols      [33%]
   - [X] Queryable    [100%]
     + [X] add modify
     + [X] add arity 3 to check
-  - [X] Responsive   [100%]
+  - [-] Responsive   [50%]
     + [X] add forward to listen
+    + [ ] refactor to minus-function-name style
+  - [ ] Validatable   [0%]
+    + [ ] refactor to minus-function-name style
 + [ ] Router         [0%]
   - [ ] add support for not found courses
   - [ ] add support for new courses
@@ -49,10 +53,6 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] Bootstrappable
   - [ ] Lifecycle    [0%]
     + [ ] Build abstraction around component
-  - [-] Responsive   [50%]
-    + [ ] refactor to minus-function-name style
-  - [ ] Validatable   [0%]
-    + [ ] refactor to minus-function-name style
 + [ ] Datastore       [0%]
   - [ ] merge with appstate?
 + [ ] Viewmodels     [0%]
@@ -62,6 +62,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] use vm converter instead of constructor
   - [ ] add tests
   - [ ] merge with datastore?
++ [-] UI             [66%]
+  - [ ] make renderer a separate component
 + [ ] Models         [0%]
   - [ ] Datastore
     + [ ] implement queryable/modify
