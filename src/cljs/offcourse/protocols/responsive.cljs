@@ -20,24 +20,27 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel (or log-channel (:log channels))
          response (action/new status component-name payload)]
-     (when (< @counter 1000)
-       #_(println "--RESPONSE-----")
-       #_(println status)
-       #_(println payload)
-       (go
-         (swap! counter inc)
-         (>! output-channel response)
-         (when log-channel (>! log-channel response))))))
+     #_(when (and (< @counter 1000) (not= component-name :logger))
+       (println "--RESPONSE-----")
+       (println "SENDER" component-name)
+       (println status)
+       (println payload))
+     (go
+       (swap! counter inc)
+       (>! output-channel response)
+       (when log-channel (>! log-channel response)))))
   ([this status type result](-respond this status (payload type result))))
 
 (defn -listener [{:keys [channels component-name reactions] :as this}]
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      (when (= component-name :datastore)
+      (when true _(and (= component-name :appstate) #_(= source :router))
         (println "--MESSAGE----")
-        (println source)
-        (println type))
+        (println "RECIPIENT" component-name)
+        (println "SENDER" source)
+        (println type)
+        (println payload))
       (when reaction
         (if (= reaction :forward)
           (respond this type payload)

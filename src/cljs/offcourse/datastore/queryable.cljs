@@ -3,15 +3,25 @@
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]))
 
-(defn check [{:keys [store] :as ds} query]
-  (println query)
-  (if (qa/check @store query)
-    (if (va/valid? ds)
-      (respond ds :checked-store {:store @store})
-      (respond ds :not-found-data {:type :collection-names})))
-    (respond ds :not-found-data query))
+(defmulti check (fn [_ {:keys [type]}] type))
 
-(defn refresh [{:keys [store] :as ds} query]
+(defmethod check :view [{:keys [store] :as ds} query]
+  (println query))
+
+(defmethod check :default [{:keys [store] :as ds} query]
+  (if (qa/check @store query)
+    (respond ds :checked-store {:store @store})
+    (respond ds :not-found-data query)))
+
+(defmulti refresh (fn [_ {:keys [type]}] type))
+
+(defmethod refresh :view [{:keys [store] :as ds} {:keys [view] :as query}]
+  (println (-> (qa/refresh @store query)
+               (qa/check)))
+  #_(respond ds :not-found-data {:type (:type view)
+                               (:type view) (:view-data view)}))
+
+(defmethod refresh :default [{:keys [store] :as ds} query]
   (let [old-store @store]
     (do
       (swap! store #(qa/refresh % query))

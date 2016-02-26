@@ -7,7 +7,10 @@
             [bidi.bidi :as bidi]))
 (def rr
   {:crashed         (fn [] (clvm/dummy (cl/new :flags :new)))
-   :home-view       (fn [] (clvm/dummy (cl/new :flags :new)))
+   :home-view       (fn [] {:type :view
+                            :view {:type :collection-view
+                                   :view-data {:type :collection
+                                               :collection (cl/new :flags :new)}}})
    :collection-view (fn [data] (clvm/dummy data))
    :checkpoint-view (fn [data] (cpvm/dummy data))})
 
@@ -18,6 +21,7 @@
     (ri/respond rt :requested-route reaction)))
 
 (defn restart [{:keys [history] :as rt}]
+  (println "---restart---")
   (pushy/replace-token! history "/"))
 
 (defn listen [{:keys [routes] :as rt}]

@@ -28,8 +28,9 @@
                :checked-store            qa/check
                :refreshed-store          qa/check}
    :datastore {:not-found-data           qa/check
+               :requested-route          qa/refresh
                :requested-new-checkpoint qa/add
                :found-data               qa/refresh}
-   :ui        {:refreshed-appstate rr/render
-               :checked-appstate   rr/render
-               :updated-logs       rr/render}})
+   :ui        {:refreshed-store          rr/render
+               :checked-store            rr/render
+               :updated-logs             rr/render}})

@@ -30,6 +30,24 @@
             responses (map #(qa/check (sut/new) {:type %}) types)]
         (is (every? #(h/falsy? %) responses))))
 
+    (testing "without a query"
+
+      (testing "it is false without view data"
+        (is (= (qa/check (sut/new)) false)))
+
+      (testing "it is false without valid view data"
+        (is (= (qa/check (sut/new {:view {}})) false)))
+
+      (testing "it is false when view-data is not in datastore"
+        (is (= (qa/check (sut/new {:view {:type :course-view
+                                          :view-data {:type :course
+                                                      :course {:course-id 123}}}})) false)))
+
+      (testing "it is true when view-data is not in datastore"
+        (is (= (qa/check (sut/new {:courses [course]
+                                   :view {:type :course-view
+                                          :view-data {:type :course
+                                                      :course course}}})) true))))
 
     (testing "when query type is collection-names"
 
