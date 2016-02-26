@@ -21,9 +21,7 @@
 (def reactions
   {:api       {:not-found-data qa/fetch}
    :logger    {:logged-action println}
-   :router    {:home-view       (fn [] (clvm/dummy (cl/new :flags :new)))
-               :collection-view (fn [data] (clvm/dummy data))
-               :checkpoint-view (fn [data] (cpvm/dummy data))}
+   :router    {:crashed                  ri/restart}
    :appstate  {:requested-route          qa/refresh
                :requested-new-checkpoint :forward
                :not-found-data           qa/check
@@ -33,5 +31,5 @@
                :requested-new-checkpoint qa/add
                :found-data               qa/refresh}
    :ui        {:refreshed-appstate rr/render
-               :checked-appstate rr/render
+               :checked-appstate   rr/render
                :updated-logs       rr/render}})

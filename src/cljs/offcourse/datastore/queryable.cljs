@@ -4,6 +4,7 @@
             [offcourse.protocols.validatable :as va]))
 
 (defn check [{:keys [store] :as ds} query]
+  (println query)
   (if (qa/check @store query)
     (if (va/valid? ds)
       (respond ds :checked-store {:store @store})

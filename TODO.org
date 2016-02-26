@@ -9,10 +9,10 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
 * Now             [57%]
-+ [-] General        [60%]
++ [-] General        [80%]
   - [X] add ci workflow
   - [X] add cd workflow
-  - [ ] add 'new checkpoint'
+  - [X] add 'new checkpoint'
   - [X] refactor messaging flow
   - [ ] add support for not found courses
 + [X] Appstate       [100%]

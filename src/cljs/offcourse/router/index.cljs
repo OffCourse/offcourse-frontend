@@ -15,6 +15,7 @@
   (stop [rt] (ri/mute rt))
   Responsive
   (listen [rt] (ri-impl/listen rt))
+  (restart [rt] (ri-impl/restart rt))
   (mute [rt] (ri-impl/mute rt))
   (respond [rt status payload] (ri-impl/respond rt status payload)))
 
