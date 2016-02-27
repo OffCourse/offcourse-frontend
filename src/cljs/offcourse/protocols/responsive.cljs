@@ -35,7 +35,7 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      (when true _(and (= component-name :appstate) #_(= source :router))
+      (when true
         (println "--MESSAGE----")
         (println "RECIPIENT" component-name)
         (println "SENDER" source)

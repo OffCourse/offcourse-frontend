@@ -1,7 +1,6 @@
 (ns offcourse.system.index
   (:require [com.stuartsierra.component :as component]
             [offcourse.appstate.index :as appstate]
-            [offcourse.datastore.index :as datastore]
             [offcourse.logger.index :as logger]
             [offcourse.router.index :as router]
             [offcourse.api.index :as api]
@@ -51,13 +50,13 @@
                                                :actions   :logger-actions
                                                :reactions :logger-reactions})
 
-     :datastore-actions      (:datastore actions)
-     :datastore-reactions    (:datastore reactions)
-     :datastore-channels     (:datastore channels)
-     :datastore              (component/using (datastore/new)
-                                              {:channels  :datastore-channels
-                                               :actions   :datastore-actions
-                                               :reactions :datastore-reactions})
+     :appstate-actions       (:appstate actions)
+     :appstate-reactions     (:appstate reactions)
+     :appstate-channels      (:appstate channels)
+     :appstate               (component/using (appstate/new)
+                                             {:channels  :appstate-channels
+                                              :actions   :appstate-actions
+                                              :reactions :appstate-reactions})
      :ui-actions             (:ui actions)
      :ui-reactions           (:ui reactions)
      :ui-channels            (:ui channels)

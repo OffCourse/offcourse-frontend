@@ -6,6 +6,6 @@
   {:type type
    type data})
 
-(defn valid? [{:keys [appstate] :as ds}]
+#_(defn valid? [{:keys [appstate] :as ds}]
   (and (va/valid? appstate)
        (every? #(qa/check ds (query %)) (:data-deps appstate))))

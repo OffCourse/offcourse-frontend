@@ -1,8 +1,8 @@
 (ns offcourse.models.datastore.check
   (:require [clojure.set :as set]
             [offcourse.protocols.queryable :as qa]
-            [schema.core :as schema]
-            [offcourse.models.appstate :refer [Appstate]]))
+            [schema.core :as schema]))
+
 
 (defn has-items? [collection-ids query-ids]
   (set/superset? (into #{} collection-ids) (into #{} query-ids)))

@@ -6,14 +6,9 @@
             [offcourse.models.appstate :as as]))
 
 (deftest models-datastore-check
-  (testing "without a query"
-    (let [course {:course-id 123}]
+  (let [course {:course-id 123}
+        store (sut/new)]
 
-      (testing "it is false when data-deps are not in datastore"
-        (is (= (va/valid? (sut/new {:appstate (as/new :course-view :course course)}))
-               false)))
+    (testing "it is false when store is empty"
+      (is (= (va/valid? store) false)))))
 
-      (testing "it is true when data-deps are in datastore"
-        (is (= (va/valid? (sut/new {:courses  [course]
-                                    :appstate (as/new :course-view :course course)}))
-               true))))))
