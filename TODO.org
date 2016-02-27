@@ -22,6 +22,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add queryable/modify
   - [X] remove query helper dependency from tests
   - [ ] merge with appstate
+  - [ ] implement va/missing-data
 + [X] UI             [100%]
   - [X] add viewmodel composition
   - [X] move viewmodel composition to views
@@ -33,15 +34,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] Add Validatable
     + [X] Add Renderable
     + [X] Add Mountable
-+ [-] Protocols      [33%]
++ [-] Protocols      [66%]
   - [X] Queryable    [100%]
     + [X] add modify
     + [X] add arity 3 to check
   - [-] Responsive   [50%]
     + [X] add forward to listen
     + [ ] refactor to minus-function-name style
-  - [ ] Validatable   [0%]
-    + [ ] refactor to minus-function-name style
+  - [X] Validatable   [100%]
+    + [X] refactor to minus-function-name style
 + [ ] Router         [0%]
   - [ ] add support for not found courses
   - [ ] add support for new courses

@@ -4,7 +4,8 @@
             [offcourse.models.datastore.helpers :as h]
             [offcourse.models.datastore.paths :as paths]
             [com.rpl.specter :refer [select select-first transform filterer ALL]]
-            [cljs.test :refer-macros [deftest testing is are]]))
+            [cljs.test :refer-macros [deftest testing is are]]
+            [offcourse.models.appstate :as as]))
 
 (deftest models-datastore-refresh
   (let [id              123
@@ -26,8 +27,8 @@
     (testing "when query type is view"
 
       (testing "sets the view"
-        (let [store (qa/refresh (sut/new) :view {})]
-          (is (:view store) true))))
+        (let [store (qa/refresh (sut/new) (h/appstate :course-view :course course))]
+          (is (:appstate store) true))))
 
     (testing "when query type is collection-names"
 

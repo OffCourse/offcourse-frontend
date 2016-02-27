@@ -5,9 +5,6 @@
 
 (defmulti check (fn [_ {:keys [type]}] type))
 
-(defmethod check :view [{:keys [store] :as ds} query]
-  (println query))
-
 (defmethod check :default [{:keys [store] :as ds} query]
   (if (qa/check @store query)
     (respond ds :checked-store {:store @store})
@@ -15,11 +12,12 @@
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :view [{:keys [store] :as ds} {:keys [view] :as query}]
-  (println (-> (qa/refresh @store query)
-               (qa/check)))
-  #_(respond ds :not-found-data {:type (:type view)
-                               (:type view) (:view-data view)}))
+(defmethod refresh :appstate [{:keys [store] :as ds} {:keys [view] :as query}]
+  (let [old-store @store]
+    (do
+      (swap! store #(qa/refresh % query))
+      (when-not (= old-store @store)
+        (println (va/valid? ds))))))
 
 (defmethod refresh :default [{:keys [store] :as ds} query]
   (let [old-store @store]

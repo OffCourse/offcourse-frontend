@@ -22,7 +22,7 @@
   (-fetch   [db query] (fetch (:connection db) query))
   (-refresh [db query] (refresh db query))
   Validatable
-  (valid? [db] (valid? db))
+  (-valid? [db] (valid? db))
   Responsive
   (respond [db status] (ri/-respond db status nil)))
 

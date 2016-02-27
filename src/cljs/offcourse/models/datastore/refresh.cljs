@@ -31,8 +31,8 @@
 (defmulti refresh
   (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :view [store {:keys [view]}]
-  (assoc store :view view))
+(defmethod refresh :appstate [store {:keys [appstate]}]
+  (assoc store :appstate appstate))
 
 (defmethod refresh :collection-names [{:keys [collections-names :as cn] :as store}
                                       {:keys [collection-names] :as query}]
