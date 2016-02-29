@@ -7,13 +7,11 @@
 
 (defn menubar [{:keys [templates colors units]}]
   (let [base-component (:component templates)
-        subcomponents  [[:.menubar              {:background-color (:day colors)
+        subcomponents  [[:.menubar              {:background-color (:primary colors)
                                                  :display :flex
                                                  :height :auto
                                                  :flex-direction :column
-                                                 :justify-content :center}]
-                        [:.menubar--logo        {:padding (:full units)
-                                                 :background-color (:primary colors)}]]]
+                                                 :padding (:full units)}]]]
     [(h/augment-many base-component subcomponents)]))
 
 
