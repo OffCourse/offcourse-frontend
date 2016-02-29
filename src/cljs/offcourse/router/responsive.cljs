@@ -1,14 +1,15 @@
 (ns offcourse.router.responsive
   (:require [offcourse.protocols.responsive :as ri]
             [offcourse.models.collection :as cl]
-            [offcourse.models.appstate :as as]
             [offcourse.viewmodels.checkpoint-view.index :as cpvm]
             [offcourse.viewmodels.collection-view.index :as clvm]
             [pushy.core :as pushy]
             [bidi.bidi :as bidi]))
 (def rr
   {:crashed         (fn [] (clvm/dummy (cl/new :flags :new)))
-   :home-view       (fn [] (as/new :collection-view :collection (cl/new :flags :new)))
+   :home-view       (fn [] {:view-type :collection-view
+                            :data-deps {:type :collection
+                                        :collection (cl/new :tags :agile)}})
    :collection-view (fn [data] (clvm/dummy data))
    :checkpoint-view (fn [data] (cpvm/dummy data))})
 

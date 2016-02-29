@@ -1,11 +1,10 @@
 (ns offcourse.models.datastore.refresh-test
-  (:require [offcourse.protocols.queryable :as qa]
-            [offcourse.models.datastore.index :as sut]
+  (:require [cljs.test :refer-macros [are deftest is testing]]
+            [com.rpl.specter :refer [select-first]]
             [offcourse.models.datastore.helpers :as h]
+            [offcourse.models.datastore.index :as sut]
             [offcourse.models.datastore.paths :as paths]
-            [com.rpl.specter :refer [select select-first transform filterer ALL]]
-            [cljs.test :refer-macros [deftest testing is are]]
-            [offcourse.models.appstate :as as]))
+            [offcourse.protocols.queryable :as qa]))
 
 (deftest models-datastore-refresh
   (let [id              123

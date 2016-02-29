@@ -1,14 +1,12 @@
 (ns offcourse.models.datastore.valid-test
-  (:require [offcourse.protocols.validatable :as va]
+  (:require [cljs.test :refer-macros [deftest is testing]]
             [offcourse.models.datastore.index :as sut]
-            [offcourse.models.datastore.helpers :as h]
-            [cljs.test :refer-macros [deftest testing is are]]
-            [offcourse.models.appstate :as as]))
+            [offcourse.protocols.validatable :as va]))
 
-(deftest models-datastore-check
+(deftest models-datastore-valid?
   (let [course {:course-id 123}
         store (sut/new)]
 
-    (testing "it is false when store is empty"
-      (is (= (va/valid? store) false)))))
+    (testing "it is true when store is empty"
+      (is (= (va/valid? store) true)))))
 

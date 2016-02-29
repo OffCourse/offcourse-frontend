@@ -22,7 +22,7 @@
    :router    {:crashed                  ri/restart}
    :appstate  {:requested-route          qa/refresh
                :requested-new-checkpoint :forward
-               #_:not-found-data           #_qa/check
+               :found-data               qa/refresh
                #_:checked-store            #_qa/check
                #_:refreshed-store          #_qa/check}
    :ui        {:refreshed-store          rr/render

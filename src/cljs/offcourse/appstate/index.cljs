@@ -2,7 +2,7 @@
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.appstate.queryable :as qa-impl]
             [offcourse.appstate.validatable :as va-impl]
-            [offcourse.models.appstate :as model]
+            [offcourse.models.appstate.index :as model]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]

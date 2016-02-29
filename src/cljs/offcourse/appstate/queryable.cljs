@@ -5,10 +5,10 @@
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :appstate [{:keys [state] :as as} query]
+(defmethod refresh :default [{:keys [state] :as as} query]
   (let [old-state @state]
-    (do
-      (swap! state #(qa/refresh % query))
-      (println @state)
-      (when-not (= old-state @state)
-        (println (va/valid? as))))))
+    (swap! state #(qa/refresh % query))
+    (when-not (= old-state @state)
+      (if (va/valid? as)
+        (respond as :refreshed-state {:state @state})
+        (respond as :not-found-data (va/missing-data @state))))))

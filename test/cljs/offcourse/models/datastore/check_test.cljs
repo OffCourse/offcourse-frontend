@@ -1,9 +1,8 @@
 (ns offcourse.models.datastore.check-test
-  (:require [offcourse.protocols.queryable :as qa]
-            [offcourse.models.datastore.index :as sut]
+  (:require [cljs.test :refer-macros [are deftest is testing]]
             [offcourse.models.datastore.helpers :as h]
-            [cljs.test :refer-macros [deftest testing is are]]
-            [offcourse.models.appstate :as as]))
+            [offcourse.models.datastore.index :as sut]
+            [offcourse.protocols.queryable :as qa]))
 
 (deftest models-datastore-check
 

@@ -1,6 +1,5 @@
 (ns offcourse.models.datastore.helpers
-  (:require [clojure.set :as set]
-            [offcourse.models.appstate :as as]))
+  (:require [offcourse.models.appstate.index :as as]))
 
 (defn falsy? [response]
   (or (nil? response) (false? response)))

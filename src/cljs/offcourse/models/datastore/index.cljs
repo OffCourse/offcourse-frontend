@@ -1,19 +1,19 @@
 (ns offcourse.models.datastore.index
-  (:require [offcourse.models.course :refer [Course]]
+  (:require [offcourse.models.collection :refer [Collection]]
+            [offcourse.models.course :refer [Course]]
             [offcourse.models.datastore.add :as add-impl]
             [offcourse.models.datastore.check :as check-impl]
             [offcourse.models.datastore.get :as get-impl]
             [offcourse.models.datastore.refresh :as refresh-impl]
             [offcourse.models.resource :refer [Resource]]
             [offcourse.protocols.queryable :refer [Queryable]]
-            [offcourse.protocols.validatable :refer [Validatable]]
+            [offcourse.protocols.validatable :as va :refer [Validatable]]
             [schema.core :as schema]))
 
 (schema/defrecord Datastore
-    [collections           :- []
+    [collections           :- [Collection]
      courses               :- [Course]
-     resources             :- {schema/Str Resource}
-     collection-names      :- #{schema/Keyword}]
+     resources             :- (schema/maybe {schema/Str Resource})]
   Validatable
   (-valid?   [ds] (empty? (schema/check Datastore ds)))
   Queryable
@@ -23,5 +23,5 @@
   (-refresh [ds query] (refresh-impl/refresh ds query)))
 
 (defn new
-  ([] (->Datastore [] [] {} nil))
+  ([] (->Datastore [] [] {}))
   ([ds-data] (map->Datastore ds-data)))
