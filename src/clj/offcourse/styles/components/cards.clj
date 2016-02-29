@@ -7,7 +7,7 @@
 (defn cards [{:keys [templates breakpoints units]}]
   (let [{:keys [column-gap full column]} units]
     [[:.cards (merge (:component templates)
-                     {:padding      [[full 0 0 0]]
+                     {:padding      [[0 0 0 0]]
                       :overflow-x   :hidden
                       :column-gap   column-gap})
       [:.container--card {:padding-bottom (:full units)}]]

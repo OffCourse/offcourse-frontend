@@ -6,13 +6,13 @@
              [card :refer [card]]
              [cards :refer [cards]]
              [viewer :refer [viewer]]
+             [menubar :refer [menubar]]
              [dashboard :refer [dashboard]]]))
-
 
 (defn navigation-panel [{:keys [templates units fonts colors]}]
   [[:.navigation-panel (merge (:component templates) {})]])
 
 (defn components [config]
-  (let [components [dashboard navigation-panel card viewer label cards
+  (let [components [dashboard menubar navigation-panel card viewer label cards
                     todo-list collection-panels collection-panel]]
     (for [component components] (component config))))
