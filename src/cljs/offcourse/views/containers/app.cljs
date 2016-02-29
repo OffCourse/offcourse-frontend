@@ -5,5 +5,5 @@
   [:.layout--app.app
    [:.layout--menubar menubar]
    [:.layout--main
-    [:.layout--dashboard dashboard]
+    (when dashboard [:.layout--dashboard dashboard])
     [:.layout--content main]]])

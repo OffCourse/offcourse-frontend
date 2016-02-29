@@ -8,7 +8,10 @@
 
 
 (defn viewer [{:keys [templates colors fonts units]}]
-  [[:.content {:display      :block
+  [[:.viewer  {:width (percent 100)
+               :height (percent 100)
+               :background-color (:day colors)}]
+   [:.content {:display      :block
                :max-width    (* 33 (:full units))
                :padding      (:full units)
                :padding-left (:full units)}

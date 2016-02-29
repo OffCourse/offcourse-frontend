@@ -19,13 +19,7 @@
    :actions   (fnk [handlers] [])
    :main      (fnk [courses route-helpers] (cards courses route-helpers))
    :menubar   (fnk [route-helpers actions labels]
-                   (menubar {:logo     (logo route-helpers)
-                               :colorful true}))
-   :dashboard (fnk [route-helpers actions labels]
-                   (dashboard {:logo     (logo route-helpers)
-                               :main     (collection-panels labels route-helpers)
-                               :nav      (navigation-panel actions)
-                               :colorful true}))})
+                   (menubar {:logo     (logo route-helpers)}))})
 
 
 (def checkpoint-graph
@@ -41,8 +35,7 @@
    :dashboard (fnk [route-helpers course actions]
                    (dashboard {:logo     (logo route-helpers)
                                :main     (card course route-helpers)
-                               :nav      (navigation-panel actions)
-                               :colorful false}))})
+                               :nav      (navigation-panel actions)}))})
 
 (def views
   {:collection-view (merge base-graph collection-graph)

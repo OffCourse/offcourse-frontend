@@ -20,9 +20,8 @@
    [:.layout--main       {:flex-direction :row
                           :height         (percent 100)
                           :display        :flex
+                          :align-content :stretch
                           :overflow-y     :scroll}
-    [:.layout--content       {:justify-content :flex-start
-                              :display            :flex
-                              :background-color   (:day colors)
-                              :flex-direction     :row
-                              :width              (percent 100)}]]])
+    [:.layout--content       {:display          :flex
+                              :flex-grow        2
+                              :flex-direction   :row}]]])

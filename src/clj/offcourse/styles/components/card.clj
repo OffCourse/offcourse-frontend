@@ -8,7 +8,7 @@
 
 (defn component [{:keys [component highlighted]} {:keys [full atom third sixth]} {:keys [day medium primary night]}]
   [:.card (h/augment component {:padding-bottom   full
-                                :border-bottom       [[:solid sixth medium]]
+                                :border-bottom    [[:solid sixth medium]]
                                 :background-color day})
    [:&:hover {:border-color [primary]}]])
 
