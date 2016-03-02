@@ -8,7 +8,7 @@
 (def rr
   {:crashed         (fn [] (clvm/dummy (cl/new :flags :new)))
    :home-view       (fn [] {:view-type :collection-view
-                            :data-deps {:type :collection
+                            :view-data {:type :collection
                                         :collection (cl/new :tags :agile)}})
    :collection-view (fn [data] (clvm/dummy data))
    :checkpoint-view (fn [data] (cpvm/dummy data))})

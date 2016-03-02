@@ -1,4 +1,4 @@
-(ns offcourse.models.datastore.get
+(ns offcourse.models.appstate.get
   (:refer-clojure :exclude [get])
   (:require [com.rpl.specter :refer [ALL select-first]]
             [medley.core :as medley]
@@ -46,4 +46,3 @@
 (defmethod get :default [_ _]
   {:type :error
    :error :query-not-supported})
-

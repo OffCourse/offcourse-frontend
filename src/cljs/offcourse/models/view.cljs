@@ -14,15 +14,18 @@
      handlers :- {}]
   Validatable
   (-valid? [{:keys [viewmodel]}] (va/valid? viewmodel))
-  (missing-data [{:keys [viewmodel]}] (va/missing-data viewmodel))
+  (-missing-data [{:keys [viewmodel]}] (va/missing-data viewmodel))
   Composable
   (-compose [view views]
-    (assoc view :composition ((graph/compile ((:view-name viewmodel) views)) view)))
+    (assoc view :composition
+           ((graph/compile ((:view-name viewmodel) views)) view)))
   Renderable
   (-render [{:keys [composition] :as view}]
-    (assoc view :rendered ((:container composition) composition)))
+    (assoc view :rendered
+           ((:container composition) composition)))
   Mountable
-  (-mount [{:keys [rendered]} element] (rum/mount rendered (. js/document (querySelector element)))))
+  (-mount [{:keys [rendered]} element]
+    (rum/mount rendered (. js/document (querySelector element)))))
 
 (defn new [appstate datastore route-helpers viewmodels handlers]
   (let [view-type   (get-in appstate [:view :type])

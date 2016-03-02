@@ -11,4 +11,6 @@
     (when-not (= old-state @state)
       (if (va/valid? as)
         (respond as :refreshed-state {:state @state})
-        (respond as :not-found-data (va/missing-data @state))))))
+        (if-let [missing-data (va/missing-data @state)]
+          (respond as :not-found-data missing-data)
+          (respond as :checked-state {:state @state}))))))

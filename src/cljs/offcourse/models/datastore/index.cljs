@@ -11,9 +11,7 @@
             [schema.core :as schema]))
 
 (schema/defrecord Datastore
-    [collections           :- [Collection]
-     courses               :- [Course]
-     resources             :- (schema/maybe {schema/Str Resource})]
+    []
   Validatable
   (-valid?   [ds] (empty? (schema/check Datastore ds)))
   Queryable

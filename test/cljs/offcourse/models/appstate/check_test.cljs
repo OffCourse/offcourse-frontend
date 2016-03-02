@@ -1,10 +1,10 @@
-(ns offcourse.models.datastore.check-test
+(ns offcourse.models.appstate.check-test
   (:require [cljs.test :refer-macros [are deftest is testing]]
             [offcourse.models.datastore.helpers :as h]
-            [offcourse.models.datastore.index :as sut]
+            [offcourse.models.appstate.index :as sut]
             [offcourse.protocols.queryable :as qa]))
 
-(deftest models-datastore-check
+(deftest models-appstate-check
 
   (let [id              123
         missing-id      223

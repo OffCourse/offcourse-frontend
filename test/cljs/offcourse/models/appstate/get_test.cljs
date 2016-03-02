@@ -1,10 +1,10 @@
-(ns offcourse.models.datastore.get-test
+(ns offcourse.models.appstate.get-test
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.datastore.index :as sut]
             [offcourse.models.datastore.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]))
 
-(deftest models-datastore-get
+(deftest models-appstate-get
   (let [id              123
         missing-id      223
         buzzword        :agile
