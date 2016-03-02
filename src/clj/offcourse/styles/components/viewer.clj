@@ -8,12 +8,17 @@
 
 
 (defn viewer [{:keys [templates colors fonts units]}]
-  [[:.content {:width (percent 75)
-               :display :block
-               :max-width (px 1200)
-               :padding (:full units)}
-    [:h1 {:font-size (:title-font units)
-          :margin-bottom (:full units)}]
-    [:p {:font-size (* (/ (:full units) 3) 2)
-         :line-height (:base-line-height units)
+  [[:.viewer  {:width (percent 100)
+               :height (percent 100)
+               :background-color (:day colors)}]
+   [:.content {:display      :block
+               :max-width    (* 33 (:full units))
+               :padding      (:full units)
+               :padding-left (:full units)}
+    [:h1 {:font-size     (* 2 (:title-font units))
+          :line-height   (* 1.8 (:title-line-height units))
+          :margin-bottom (:full units)
+          :font-family   (:title fonts)}]
+    [:p {:font-size     (* 1.5 (:base-font units))
+         :line-height   (* 1.5 (:base-line-height units))
          :margin-bottom (:full units)}]]])
