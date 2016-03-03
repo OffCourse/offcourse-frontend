@@ -20,11 +20,11 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel (or log-channel (:log channels))
          response (action/new status component-name payload)]
-     #_(when-not (= component-name :logger)
+     #_(when (= component-name :router)
        #_(println "--RESPONSE-----")
        #_(println "SENDER" component-name)
-      (println component-name status (:type payload))
-       #_(println payload))
+      (println component-name status)
+       (println payload))
      (go
        (swap! counter inc)
        (>! output-channel response)

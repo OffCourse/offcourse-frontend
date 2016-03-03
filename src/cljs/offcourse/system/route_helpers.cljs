@@ -7,6 +7,9 @@
                          (create-url :collection-view
                                      :collection-type collection-type
                                      :collection-name collection-name))
+        new-course-url (fn [curator]
+                         (create-url :new-course-view
+                                     :curator curator))
         checkpoint-url (fn [curator hashtag checkpoint-id]
                          (create-url :checkpoint-view
                                      :curator curator
@@ -15,5 +18,6 @@
         home-url       (collection-url :flags :featured)]
     {:create-url     create-url
      :home-url       home-url
+     :new-course-url new-course-url
      :collection-url collection-url
      :checkpoint-url checkpoint-url}))

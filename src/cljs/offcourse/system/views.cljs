@@ -22,8 +22,8 @@
    :actions (fnk [handlers] [])
    :main    (fnk [courses route-helpers] (cards courses route-helpers))
    :menubar (fnk [route-helpers]
-                 (menubar {:logo (logo route-helpers)}))})
-
+                 (menubar {:logo (logo route-helpers)
+                           :actions [(:new-course-url route-helpers)]}))})
 
 (def checkpoint-graph
   {:course    (fnk [viewmodel] (:course viewmodel))
@@ -33,8 +33,7 @@
    :actions   (fnk [handlers course-id]
                    (medley/map-kv #(vector %1 (partial %2 course-id)) handlers))
    :menubar   (fnk [route-helpers]
-                   (menubar {:logo     (logo route-helpers)
-                             :colorful true}))
+                   (menubar {:logo     (logo route-helpers)}))
    :dashboard (fnk [route-helpers course actions]
                    (dashboard {:logo (logo route-helpers)
                                :main (card course route-helpers)

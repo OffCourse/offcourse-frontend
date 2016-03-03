@@ -9,6 +9,7 @@
   {:home-view       (fn [] {:view-type :collection-view
                             :view-data {:type :collection
                                         :collection (cl/new :flags :featured)}})
+   :new-course-view (fn [data] data)
    :collection-view (fn [data] (clvm/dummy data))
    :checkpoint-view (fn [data] (cpvm/dummy data))})
 

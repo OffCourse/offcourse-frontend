@@ -8,47 +8,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now             [85%]
-+ [X] General        [100%]
-  - [X] add ci workflow
-  - [X] add cd workflow
-  - [X] add 'new checkpoint'
-  - [X] refactor messaging flow
-  - [X] add support for not found courses
-+ [X] Appstate       [100%]
-  - [X] remove viewmodel composition
-  - [X] merge with datastore
-+ [X] Datastore      [100%]
-  - [X] add queryable/modify
-  - [X] remove query helper dependency from tests
-  - [X] merge with appstate
-  - [X] implement va/missing-data
-+ [X] UI             [100%]
-  - [X] add viewmodel composition
-  - [X] move viewmodel composition to views
-+ [X] Models         [100%]
-  - [X] Appstate     [100%]
-    + [X] incorporate Datastore
-  - [X] Datastore     [100%]
-    + [X] remove
-  - [X] View          [100%]
-    + [X] add viewmodel composition
-    + [X] move compose to protocol
-    + [X] Add Composable
-    + [X] Add Validatable
-    + [X] Add Renderable
-    + [X] Add Mountable
-+ [X] Protocols      [100%]
-  - [X] Queryable    [100%]
-    + [X] add modify
-    + [X] add arity 3 to check
-  - [X] Responsive   [100%]
-    + [X] add forward to listen
-    + [X] refactor to minus-function-name style
-  - [X] Validatable   [100%]
-    + [X] refactor to minus-function-name style
-+ [ ] Router         [0%]
-  - [ ] add support for new courses
+* Now             [0%]
++ General
+  - [ ] curation workflow
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] add 'save course' functionality
@@ -57,16 +19,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] Bootstrappable
   - [ ] Lifecycle    [0%]
     + [ ] Build abstraction around component
-+ [ ] Datastore       [0%]
-  - [ ] merge with appstate?
 + [ ] Viewmodels     [0%]
   - [ ] add converter from hash-map
   - [ ] add loading view
 + [ ] Appstate       [0%]
   - [ ] use vm converter instead of constructor
-  - [ ] add tests
-  - [ ] merge with datastore?
-+ [-] UI             [66%]
++ [ ] UI             [0%]
   - [ ] make renderer a separate component
 + [ ] Models         [0%]
   - [ ] Datastore
@@ -75,15 +33,17 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     - [ ] add qa/get protocol
   - [ ] Checkpoint
     - [ ] add qa/get protocol
++ [ ] Router         [0%]
+  - [ ] add support for new courses
 + [ ] Adapters       [0%]
   - [ ] HTTP
 + [ ] Authentication [0%]
 + [ ] Repositories   [0%]
   - [ ] central repo
     + [ ] add publish
-+ [ ] Views          [0%]
++ [-] Views          [50%]
   - [ ] add 'new checkpoint' form
-  - [ ] add loading view
+  - [X] add loading view
 * Future          [0%]
 + [ ] Viewmodels     [0%]
   - [ ] add tests
@@ -93,7 +53,6 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [ ] refactor
 + [ ] Adapters       [0%]
   - [ ] pouchdb
-  - [ ] HTTP
   - [ ] Websockets
 + [ ] Repositories   [0%]
   - [ ] user repo
@@ -113,6 +72,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] move everything back from cljc to cljs dir
   - [X] add specter
   - [X] close! input-channel or lifecycle/stop!
+  - [X] add ci workflow
+  - [X] add cd workflow
+  - [X] add 'new checkpoint'
+  - [X] refactor messaging flow
+  - [X] add support for not found courses
 + [X] System         [100%]
   - [X] refactor map
   - [X] move index file to correct dir
@@ -125,23 +89,37 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] change base-id to hash
     + [X] add hashtag
     + [X] add timestamp
+  - [X] appstate     [100%]
+    + [X] incorporate datastore model
   - [X] datastore
     + [X] add tests
       - [X] check
       - [X] refresh
       - [X] get
+      - [X] incorporate in appstate model
     + [X] add easy way to retrieve docs
   - [X] label
   - [X] resource
   - [X] view
     + [X] add model
     + [X] refactor
+    + [X] add viewmodel composition
+    + [X] move compose to protocol
+    + [X] Add Composable
+    + [X] Add Validatable
+    + [X] Add Renderable
+    + [X] Add Mountable
 + [X] Protocols      [100%]
   - [X] Queryable
     + [X] add get
+    + [X] add modify
+    + [X] add arity 3 to check
   - [X] Renderable
   - [X] Responsive
+    + [X] add forward to listen
+    + [X] refactor to minus-function-name style
   - [X] Validatable
+    + [X] refactor to minus-function-name style
   - [X] Convertible
   - [X] Composable
   - [X] Loggable
@@ -165,6 +143,10 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add check and refresh for curator + hashtag
   - [X] implement specter
   - [X] rename back to Datastore
+  - [X] add queryable/modify
+  - [X] remove query helper dependency from tests
+  - [X] merge with appstate
+  - [X] implement va/missing-data
 + [X] Appstate       [100%]
   - [X] remove initialized?
   - [X] add component library
@@ -172,6 +154,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] move viewmodels out of service
   - [X] make api consistent [0%]
   - [X] move views to UI
+  - [X] remove viewmodel composition
+  - [X] merge with datastore
 + [X] Viewmodels     [100%]
   - [X] Add Collection viewmodel
   - [X] move protocol implementations to separate files
@@ -208,6 +192,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] remove Rendering protocol
   - [X] add views
   - [X] add links
+  - [X] add viewmodel composition
+  - [X] move viewmodel composition to views
 + [X] Renderer       [100%]
   - [X] rename to UI
   - [X] add component library
@@ -221,3 +207,4 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] rewrite styles to garden
   - [X] correct BEM mistake
   - [X] add media queries
+    
