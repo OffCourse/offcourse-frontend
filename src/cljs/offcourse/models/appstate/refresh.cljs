@@ -3,7 +3,7 @@
             [medley.core :as medley]
             [com.rpl.specter :refer [select select-first transform filterer ALL]]
             [clojure.set :as set]
-            [offcourse.models.datastore.paths :as paths]
+            [offcourse.models.appstate.paths :as paths]
             [offcourse.protocols.queryable :as qa]))
 
 (defn deep-merge

@@ -8,7 +8,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now             [57%]
+* Now             [85%]
 + [X] General        [100%]
   - [X] add ci workflow
   - [X] add cd workflow
@@ -26,11 +26,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] UI             [100%]
   - [X] add viewmodel composition
   - [X] move viewmodel composition to views
-+ [-] Models         [66%]
++ [X] Models         [100%]
   - [X] Appstate     [100%]
     + [X] incorporate Datastore
-  - [ ] Datastore     [0%]
-    + [ ] remove
+  - [X] Datastore     [100%]
+    + [X] remove
   - [X] View          [100%]
     + [X] add viewmodel composition
     + [X] move compose to protocol
@@ -38,13 +38,13 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] Add Validatable
     + [X] Add Renderable
     + [X] Add Mountable
-+ [-] Protocols      [66%]
++ [X] Protocols      [100%]
   - [X] Queryable    [100%]
     + [X] add modify
     + [X] add arity 3 to check
-  - [-] Responsive   [50%]
+  - [X] Responsive   [100%]
     + [X] add forward to listen
-    + [ ] refactor to minus-function-name style
+    + [X] refactor to minus-function-name style
   - [X] Validatable   [100%]
     + [X] refactor to minus-function-name style
 + [ ] Router         [0%]

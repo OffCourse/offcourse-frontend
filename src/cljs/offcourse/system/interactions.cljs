@@ -19,7 +19,7 @@
 (def reactions
   {:api       {:not-found-data qa/fetch}
    :logger    {:logged-action println}
-   :router    {:crashed                  ri/restart}
+   :router    {}
    :appstate  {:requested-route          qa/refresh
                :found-data               qa/refresh
                :not-found-data           qa/check

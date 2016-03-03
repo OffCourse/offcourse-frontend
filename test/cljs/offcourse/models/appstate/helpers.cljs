@@ -1,4 +1,4 @@
-(ns offcourse.models.datastore.helpers
+(ns offcourse.models.appstate.helpers
   (:require [offcourse.models.appstate.index :as as]))
 
 (defn falsy? [response]

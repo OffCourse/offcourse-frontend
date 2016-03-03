@@ -2,7 +2,7 @@
   (:refer-clojure :exclude [get])
   (:require [com.rpl.specter :refer [ALL select-first]]
             [medley.core :as medley]
-            [offcourse.models.datastore.paths :as paths]))
+            [offcourse.models.appstate.paths :as paths]))
 
 (defmulti get (fn [_ {:keys [type]}] type))
 

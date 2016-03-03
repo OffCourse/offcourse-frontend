@@ -23,8 +23,8 @@
   Validatable
   (-valid?  [as] (va-impl/valid? as))
   Responsive
-  (respond [as status payload] (ri/-respond as status payload))
-  (mute [as] (ri/-mute as))
-  (listen [as] (ri/-listen as)))
+  (-respond [as status payload] (ri/respond as status payload))
+  (-mute [as] (ri/mute as))
+  (-listen [as] (ri/listen as)))
 
 (defn new [] (map->Appstate {:component-name :appstate}))

@@ -4,10 +4,9 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
 (defprotocol Responsive
-  (listen [this])
-  (mute [this])
-  (restart [this])
-  (respond [this status] [this status payload] [this status type result]))
+  (-listen [this])
+  (-mute [this])
+  (-respond [this status] [this status payload] [this status type result]))
 
 (defn payload [type result]
   {:type type
@@ -15,15 +14,16 @@
 
 (def counter (atom 0))
 
-(defn -respond
+(defn respond
+  ([this status] (respond this status nil))
   ([{:keys [output-channel log-channel channels component-name]} status payload]
    (let [output-channel (or output-channel (:output channels))
          log-channel (or log-channel (:log channels))
          response (action/new status component-name payload)]
-     (when-not (= component-name :logger)
+     #_(when-not (= component-name :logger)
        #_(println "--RESPONSE-----")
        #_(println "SENDER" component-name)
-       #_(println component-name status (:type payload))
+      (println component-name status (:type payload))
        #_(println payload))
      (go
        (swap! counter inc)
@@ -47,11 +47,10 @@
         (reaction this payload)))
       (recur))))
 
-(defn -listen [{:keys [channels component-name reactions] :as this}]
+(defn listen [{:keys [channels component-name reactions] :as this}]
   (assoc this :listener (-listener this)))
 
-(defn -mute [{:keys [channels] :as this}]
+(defn mute [{:keys [channels] :as this}]
   (close! (:input channels))
   (-> this
       (dissoc :listener)))
-

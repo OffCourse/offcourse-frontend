@@ -1,6 +1,7 @@
 (ns offcourse.models.appstate.index
   (:require [offcourse.models.appstate.check :as check-impl]
             [offcourse.models.appstate.get :as get-impl]
+            [offcourse.models.appstate.add :as add-impl]
             [offcourse.models.appstate.refresh :as refresh-impl]
             [offcourse.models.collection :refer [Collection]]
             [offcourse.models.course :refer [Course]]
@@ -44,6 +45,7 @@
   Queryable
   (-refresh [as query] (refresh-impl/refresh as query))
   (-check [as query] (check-impl/check as query))
+  (-add [as query] (add-impl/add as query))
   (-get [as query] (get-impl/get as query)))
 
 (defn new

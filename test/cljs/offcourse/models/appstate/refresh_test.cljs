@@ -1,9 +1,9 @@
 (ns offcourse.models.appstate.refresh-test
   (:require [cljs.test :refer-macros [are deftest is testing]]
             [com.rpl.specter :refer [select-first]]
-            [offcourse.models.datastore.helpers :as h]
+            [offcourse.models.appstate.helpers :as h]
             [offcourse.models.appstate.index :as sut]
-            [offcourse.models.datastore.paths :as paths]
+            [offcourse.models.appstate.paths :as paths]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 
 (deftest models-appstate-refresh

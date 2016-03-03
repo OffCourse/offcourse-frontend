@@ -39,10 +39,10 @@
         (ri/respond rd :not-found-data (va/missing-data view)))))
 
   Responsive
-  (listen [rd] (assoc rd :listener (ri/-listen rd)))
-  (mute [rd] (dissoc rd :listener))
-  (respond [rd status] (ri/-respond rd status nil))
-  (respond [rd status payload] (ri/-respond rd status payload)))
+  (-listen [rd] (assoc rd :listener (ri/listen rd)))
+  (-mute [rd] (dissoc rd :listener))
+  (-respond [rd status] (ri/respond rd status nil))
+  (-respond [rd status payload] (ri/respond rd status payload)))
 
 (defn new []
   (map->UI {:component-name :ui}))

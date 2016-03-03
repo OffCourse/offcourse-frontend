@@ -11,7 +11,7 @@
   Queryable
   (-fetch   [db query] (fetch db query))
   Responsive
-  (respond [db status] (ri/-respond db status nil)))
+  (-respond [db status] (ri/respond db status nil)))
 
 (defn new-db [name supported-types]
   (map->FakeDB {:name name

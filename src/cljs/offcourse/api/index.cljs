@@ -22,10 +22,10 @@
   Queryable
   (-fetch [api query] (qa-impl/fetch api query))
   Responsive
-  (respond [api status payload] (ri/-respond api status payload))
-  (respond [api status type result] (ri/-respond api status type result))
-  (mute [api] (ri/-mute api))
-  (listen  [api] (ri/-listen api)))
+  (-respond [api status payload] (ri/respond api status payload))
+  (-respond [api status type result] (ri/respond api status type result))
+  (-mute [api] (ri/mute api))
+  (-listen  [api] (ri/listen api)))
 
 (defn new [component-name]
   (map->API {:component-name component-name}))

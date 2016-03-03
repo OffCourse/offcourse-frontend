@@ -6,8 +6,7 @@
             [pushy.core :as pushy]
             [bidi.bidi :as bidi]))
 (def rr
-  {:crashed         (fn [] (clvm/dummy (cl/new :flags :new)))
-   :home-view       (fn [] {:view-type :collection-view
+  {:home-view       (fn [] {:view-type :collection-view
                             :view-data {:type :collection
                                         :collection (cl/new :flags :featured)}})
    :collection-view (fn [data] (clvm/dummy data))
@@ -18,7 +17,6 @@
                                    :appstate ((handler rr) route-params)}))
 
 (defn restart [{:keys [history] :as rt}]
-  (println "")
   (pushy/replace-token! history "/"))
 
 (defn listen [{:keys [routes] :as rt}]
@@ -26,7 +24,7 @@
                              (partial bidi/match-route routes))
         rt (assoc rt :history history)]
     (pushy/start! history)
-    (ri/-listen rt)))
+    (ri/listen rt)))
 
 
 (defn mute [{:keys [history listeners] :as rt}]

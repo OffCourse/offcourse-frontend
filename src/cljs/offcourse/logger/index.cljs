@@ -13,9 +13,9 @@
   (start [component] (ri/listen (assoc component :log (atom ()))))
   (stop [component]  (ri/mute component))
   Responsive
-  (listen [component] (ri-impl/listen component))
-  (mute [component] (ri/-mute component))
-  (respond [component status payload] (ri/-respond component status payload)))
+  (-listen [component] (ri-impl/listen component))
+  (-mute [component] (ri/mute component))
+  (-respond [component status payload] (ri/respond component status payload)))
 
 (defn new []
   (map->Logger {:component-name :logger}))

@@ -18,18 +18,10 @@
           (swap! state (fn [state] (update state :queries #(conj % (hash missing-data)))))
           (respond as :not-found-data missing-data))))))
 
-(def retries (atom 0))
 
 (defn check [{:keys [queries state] :as as} query]
   (if (set/subset? queries #{(hash query)})
     (qa/refresh as {:type :appstate
                     :appstate {:view-type :loading-view
                                :view-data {}}})
-    (do
-      (println "--------")
-      (println  (hash query))
-      (swap! state (fn [state] (update state :queries #(conj % (hash query)))))
-      (println "QS" (:queries @state))
-      (when (< @retries 10)
-        (swap! retries inc)
-        (respond as :not-found-data query)))))
+    (respond as :not-found-data query)))

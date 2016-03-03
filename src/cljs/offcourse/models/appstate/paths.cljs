@@ -1,4 +1,4 @@
-(ns offcourse.models.datastore.paths
+(ns offcourse.models.appstate.paths
   (:require [offcourse.protocols.queryable :as qa]
             [com.rpl.specter :refer [ALL transform select-first]]))
 

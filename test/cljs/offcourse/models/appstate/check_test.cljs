@@ -1,6 +1,6 @@
 (ns offcourse.models.appstate.check-test
   (:require [cljs.test :refer-macros [are deftest is testing]]
-            [offcourse.models.datastore.helpers :as h]
+            [offcourse.models.appstate.helpers :as h]
             [offcourse.models.appstate.index :as sut]
             [offcourse.protocols.queryable :as qa]))
 
