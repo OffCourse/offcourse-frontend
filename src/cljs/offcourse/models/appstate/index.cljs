@@ -7,7 +7,8 @@
             [offcourse.models.resource :refer [Resource]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [schema.core :as schema]))
+            [schema.core :as schema]
+            [offcourse.models.course :as co]))
 
 (defn query [[type data]]
   {:type type
@@ -20,7 +21,8 @@
      courses        :- [Course]
      resources      :- (schema/maybe {schema/Str Resource})]
   Validatable
-  (-valid? [as] (empty? (schema/check Appstate as)))
+  (-valid? [as] (and (empty? (schema/check Appstate as))
+                     (not (va/missing-data as))))
   (-missing-data [{:keys [view-data courses] :as as}]
     (when-let [data-type (:type view-data)]
       (if-let [data-present? (qa/check as data-type (data-type view-data))]
@@ -30,7 +32,11 @@
                             query {:type :courses
                                    :course-ids course-ids}]
                         (when-not (qa/check as query) query))
-          nil)
+          :course (let [course       (qa/get as :course (:course view-data))
+                        resource-ids (co/get-resource-ids course)
+                        query        {:type :resources
+                                      :resource-ids resource-ids}]
+                        (when-not (qa/check as query) query)))
         view-data)))
 
 
@@ -40,5 +46,5 @@
   (-get [as query] (get-impl/get as query)))
 
 (defn new
-  ([] (->Appstate :loading-view {} [] [] []))
+  ([] (->Appstate :loading-view {} [] [] {}))
   ([data] (map->Appstate data)))

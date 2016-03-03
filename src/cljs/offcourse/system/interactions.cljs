@@ -25,6 +25,6 @@
                :found-data               qa/refresh
                #_:checked-store            #_qa/check
                #_:refreshed-store          #_qa/check}
-   :ui        {:refreshed-store          rr/render
-               :checked-store            rr/render
+   :ui        {:refreshed-state          rr/render
+               :checked-state            rr/render
                :updated-logs             rr/render}})

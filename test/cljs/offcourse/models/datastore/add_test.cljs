@@ -1,11 +1,11 @@
 (ns offcourse.models.datastore.add-test
-  (:require [offcourse.protocols.queryable :as qa]
+  #_(:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.datastore.index :as sut]
             [offcourse.models.checkpoint :as  cp]
             [offcourse.models.datastore.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]))
 
-(deftest models-datastore-add
+#_(deftest models-datastore-add
 
   (let [id              123
         missing-id      223

@@ -12,6 +12,10 @@
 (def base-graph
   {:container (fnk [] app)})
 
+(def loading-graph
+  {:dashboard (fnk [route-helpers actions labels]
+                   (dashboard {:logo     (logo route-helpers)}))})
+
 (def collection-graph
   {:labels    (fnk [viewmodel] (:labels viewmodel))
    :courses   (fnk [viewmodel] (:courses viewmodel))
@@ -39,4 +43,5 @@
 
 (def views
   {:collection-view (merge base-graph collection-graph)
+   :load-view       (merge base-graph loading-graph)
    :checkpoint-view (merge base-graph checkpoint-graph)})

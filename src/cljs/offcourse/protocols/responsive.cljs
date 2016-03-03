@@ -35,7 +35,7 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      (when (= component-name :ui)
+      #_(when true #_(= component-name :ui)
         (println "--MESSAGE----")
         (println "RECIPIENT" component-name)
         (println "SENDER" source)

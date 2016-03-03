@@ -8,25 +8,29 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now             [28%]
+* Now             [40%]
 + [-] General        [80%]
   - [X] add ci workflow
   - [X] add cd workflow
   - [X] add 'new checkpoint'
   - [X] refactor messaging flow
   - [ ] add support for not found courses
-+ [-] Appstate       [50%]
++ [X] Appstate       [100%]
   - [X] remove viewmodel composition
-  - [ ] merge with datastore
-+ [-] Datastore      [66%]
+  - [X] merge with datastore
++ [X] Datastore      [100%]
   - [X] add queryable/modify
   - [X] remove query helper dependency from tests
-  - [ ] merge with appstate
-  - [ ] implement va/missing-data
+  - [X] merge with appstate
+  - [X] implement va/missing-data
 + [X] UI             [100%]
   - [X] add viewmodel composition
   - [X] move viewmodel composition to views
-+ [X] Models         [100%]
++ [ ] Models         [0%]
+  - [ ] Appstate     [0%]
+    + [ ] incorporate Datastore
+  - [ ] Datastore     [0%]
+    + [ ] remove
   - [X] View          [100%]
     + [X] add viewmodel composition
     + [X] move compose to protocol

@@ -3,7 +3,6 @@
             [com.rpl.specter :refer [select-first]]
             [offcourse.models.datastore.helpers :as h]
             [offcourse.models.appstate.index :as sut]
-            [offcourse.models.datastore.index :as ds :refer [Datastore]]
             [offcourse.models.datastore.paths :as paths]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 

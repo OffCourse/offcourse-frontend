@@ -9,16 +9,16 @@
   {:crashed         (fn [] (clvm/dummy (cl/new :flags :new)))
    :home-view       (fn [] {:view-type :collection-view
                             :view-data {:type :collection
-                                        :collection (cl/new :tags :agile)}})
+                                        :collection (cl/new :flags :featured)}})
    :collection-view (fn [data] (clvm/dummy data))
    :checkpoint-view (fn [data] (cpvm/dummy data))})
 
 (defn handle-request [rt {:keys [handler route-params]}]
   (ri/respond rt :requested-route {:type :appstate
-                                   :appstate ((handler rr))}))
+                                   :appstate ((handler rr) route-params)}))
 
 (defn restart [{:keys [history] :as rt}]
-  (println "---restart---")
+  (println "")
   (pushy/replace-token! history "/"))
 
 (defn listen [{:keys [routes] :as rt}]

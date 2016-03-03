@@ -28,8 +28,8 @@
       (ri/listen rd)))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views route-helpers handlers viewmodels] :as rd} {:keys [state store] :as q}]
-    (let [view (view/new state store route-helpers viewmodels handlers)]
+  (-render [{:keys [views route-helpers handlers viewmodels] :as rd} {:keys [state] :as q}]
+    (let [view (view/new state route-helpers viewmodels handlers)]
       (if (va/valid? view)
         (let [view (-> view
                        (ca/compose views)
