@@ -1,4 +1,4 @@
-(ns offcourse.viewmodels.collection-view.loading-view
+(ns offcourse.viewmodels.loading-view.index
   (:require [offcourse.models.course :as co :refer [Course]]
             [offcourse.models.label :as lb :refer [Label]]
             [offcourse.models.resource :refer [Resource]]
@@ -9,21 +9,17 @@
             [plumbing.graph :as graph]
             [schema.core :as schema :include-macros true]))
 
-(schema/defrecord CheckpointView
-    [view-name :- Keyword
-     labels :- {Keyword #{Label}}
-     course :- Course
-     checkpoint-id :- schema/Num
-     resource :- Resource]
+(schema/defrecord LoadingView
+    [view-name :- Keyword]
   Validatable
   (-missing-data [vm] (va-impl/missing-data vm))
   (-valid? [vm] (if (qa/check vm) false true))
   Queryable
-  (-check [vm] (schema/check CheckpointView vm))
+  (-check [vm] (schema/check LoadingView vm))
   (-refresh [vm store] #_(qa-impl/refresh vm store)))
 
 (def graph
-  {:view-data     (fnk [appstate] (:view-data appstate))})
+  {:view-name     (fnk [appstate] (:view-type appstate))})
 
 (def compose (graph/compile graph))
 
@@ -33,4 +29,4 @@
 (defn new [appstate datastore]
   (-> {:appstate appstate}
       compose
-      map->CheckpointView))
+      map->LoadingView))

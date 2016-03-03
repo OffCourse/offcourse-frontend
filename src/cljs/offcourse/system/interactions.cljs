@@ -21,8 +21,8 @@
    :logger    {:logged-action println}
    :router    {:crashed                  ri/restart}
    :appstate  {:requested-route          qa/refresh
-               :requested-new-checkpoint :forward
                :found-data               qa/refresh
+               :not-found-data           qa/check
                #_:checked-store            #_qa/check
                #_:refreshed-store          #_qa/check}
    :ui        {:refreshed-state          rr/render

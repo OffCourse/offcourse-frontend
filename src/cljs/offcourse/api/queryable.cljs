@@ -11,14 +11,14 @@
   (go
     (let [result (<! (qa/fetch repository query))]
       (if (:error result)
-        (ri/respond api :not-found-data nil)
+        (ri/respond api :not-found-data query)
         (ri/respond api :found-data type (converter result))))))
 
 (defn fetch-m [api repository {:keys [type] :as query} converter field]
   (go
     (let [result (remove nil? (<! (qa/fetch repository query)))]
       (if (or (:error result) (empty? result))
-        (ri/respond api :not-found-data nil)
+        (ri/respond api :not-found-data query)
         (let [converted (map converter result)]
           (ri/respond api :found-data type converted))))))
 

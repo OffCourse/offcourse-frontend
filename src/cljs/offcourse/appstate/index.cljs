@@ -17,7 +17,7 @@
   (start   [as] (ri/listen (assoc as :state (atom (model/new)))))
   (stop    [as] (ri/mute as))
   Queryable
-  (-check   [as query] #_(qa-impl/check as query))
+  (-check   [as query] (qa-impl/check as query))
   (-add  [as query] #_(qa-impl/add as query))
   (-refresh [as query] (qa-impl/refresh as query))
   Validatable

@@ -8,13 +8,13 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now             [40%]
-+ [-] General        [80%]
+* Now             [57%]
++ [X] General        [100%]
   - [X] add ci workflow
   - [X] add cd workflow
   - [X] add 'new checkpoint'
   - [X] refactor messaging flow
-  - [ ] add support for not found courses
+  - [X] add support for not found courses
 + [X] Appstate       [100%]
   - [X] remove viewmodel composition
   - [X] merge with datastore
@@ -26,9 +26,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] UI             [100%]
   - [X] add viewmodel composition
   - [X] move viewmodel composition to views
-+ [ ] Models         [0%]
-  - [ ] Appstate     [0%]
-    + [ ] incorporate Datastore
++ [-] Models         [66%]
+  - [X] Appstate     [100%]
+    + [X] incorporate Datastore
   - [ ] Datastore     [0%]
     + [ ] remove
   - [X] View          [100%]
@@ -48,7 +48,6 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] Validatable   [100%]
     + [X] refactor to minus-function-name style
 + [ ] Router         [0%]
-  - [ ] add support for not found courses
   - [ ] add support for new courses
 * Next             [0%]
 + [ ] General        [0%]

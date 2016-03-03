@@ -14,16 +14,15 @@
   {:container (fnk [] app)})
 
 (def loading-graph
-  {:dashboard (fnk [route-helpers actions labels]
-                   (dashboard {:logo     (logo route-helpers)}))})
+  {:menubar (fnk [route-helpers]
+                (menubar {:logo (logo route-helpers)}))})
 
 (def collection-graph
-  {:labels    (fnk [viewmodel] (:labels viewmodel))
-   :courses   (fnk [viewmodel] (:courses viewmodel))
-   :actions   (fnk [handlers] [])
-   :main      (fnk [courses route-helpers] (cards courses route-helpers))
-   :menubar   (fnk [route-helpers actions labels]
-                   (menubar {:logo     (logo route-helpers)}))})
+  {:courses (fnk [viewmodel] (:courses viewmodel))
+   :actions (fnk [handlers] [])
+   :main    (fnk [courses route-helpers] (cards courses route-helpers))
+   :menubar (fnk [route-helpers]
+                 (menubar {:logo (logo route-helpers)}))})
 
 
 (def checkpoint-graph
@@ -37,11 +36,11 @@
                    (menubar {:logo     (logo route-helpers)
                              :colorful true}))
    :dashboard (fnk [route-helpers course actions]
-                   (dashboard {:logo     (logo route-helpers)
-                               :main     (card course route-helpers)
-                               :nav      (navigation-panel actions)}))})
+                   (dashboard {:logo (logo route-helpers)
+                               :main (card course route-helpers)
+                               :nav  (navigation-panel actions)}))})
 
 (def views
   {:collection-view (merge base-graph collection-graph)
-   :load-view       (merge base-graph loading-graph)
+   :loading-view    (merge base-graph loading-graph)
    :checkpoint-view (merge base-graph checkpoint-graph)})

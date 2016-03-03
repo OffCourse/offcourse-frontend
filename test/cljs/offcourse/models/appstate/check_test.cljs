@@ -102,6 +102,7 @@
         (testing "it reports if resources are present"
           (let [check (fn [resource-ids] (qa/check store :resources resource-ids))]
             (are [resource-ids expectation] (= (check resource-ids) expectation)
+              []           true
               [id]         true
               [missing-id] false)))))
 

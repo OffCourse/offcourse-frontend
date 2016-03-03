@@ -19,7 +19,8 @@
      view-data      :- {schema/Keyword schema/Any}
      collections    :- [Collection]
      courses        :- [Course]
-     resources      :- (schema/maybe {schema/Str Resource})]
+     resources      :- (schema/maybe {schema/Str Resource})
+     queries        :- (schema/maybe #{schema/Num})]
   Validatable
   (-valid? [as] (and (empty? (schema/check Appstate as))
                      (not (va/missing-data as))))
@@ -36,7 +37,7 @@
                         resource-ids (co/get-resource-ids course)
                         query        {:type :resources
                                       :resource-ids resource-ids}]
-                        (when-not (qa/check as query) query)))
+                    (when-not (or (qa/check as query) (empty? resource-ids)) query)))
         view-data)))
 
 
@@ -46,5 +47,5 @@
   (-get [as query] (get-impl/get as query)))
 
 (defn new
-  ([] (->Appstate :loading-view {} [] [] {}))
+  ([] (->Appstate :loading-view {} [] [] {} #{}))
   ([data] (map->Appstate data)))

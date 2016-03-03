@@ -20,11 +20,11 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel (or log-channel (:log channels))
          response (action/new status component-name payload)]
-     #_(when true
-       (println "--RESPONSE-----")
-       (println "SENDER" component-name)
-       (println status)
-       (println payload))
+     (when-not (= component-name :logger)
+       #_(println "--RESPONSE-----")
+       #_(println "SENDER" component-name)
+       #_(println component-name status (:type payload))
+       #_(println payload))
      (go
        (swap! counter inc)
        (>! output-channel response)
@@ -35,12 +35,12 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      #_(when true #_(= component-name :ui)
+      #_(when-not (= component-name :logger)
         (println "--MESSAGE----")
         (println "RECIPIENT" component-name)
         (println "SENDER" source)
         (println type)
-        (println payload))
+        #_(println payload))
       (when reaction
         (if (= reaction :forward)
           (respond this type payload)
