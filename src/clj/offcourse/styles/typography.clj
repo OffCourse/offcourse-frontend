@@ -33,8 +33,8 @@
   [:.textbar {:outline          :none
               :font-family      (:logo fonts)
               :display          :inline-block
-              :font-size        (:subtitle-font units)
-              :line-height      (:subtitle-line-height units)
+              :font-size        (:title-font units)
+              :line-height      (:title-line-height units)
               :padding          [[0 (:third units)]]
               :border           :none
               :background-color (:night colors)

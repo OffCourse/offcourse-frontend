@@ -6,9 +6,9 @@
                       :width            column
                       :padding          0}])
 
-(defn component [{:keys [component highlighted]} {:keys [full third sixth]} {:keys [day primary night]}]
+(defn component [{:keys [component highlighted]} {:keys [full atom third sixth]} {:keys [day medium primary night]}]
   [:.card (h/augment component {:padding-bottom   full
-                                :border-top       [[:solid third night]]
+                                :border-bottom    [[:solid sixth medium]]
                                 :background-color day})
    [:&:hover {:border-color [primary]}]])
 
@@ -26,7 +26,6 @@
 
 (defn overrides [units colors]
   [[:.card--title :.title {:font-size   (:title-font units)
-                           :font-weight 500
                            :line-height (:title-line-height units)}]
   [:card--meta :.keyword {:margin-right (:tenth units)}]])
 

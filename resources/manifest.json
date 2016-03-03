@@ -1,0 +1,7 @@
+{
+    "name": "Offcourse",
+    "short_name": "Offcourse",
+    "start_url": "index.html",
+    "display": "standalone"
+    "fullscreen": "true"
+}

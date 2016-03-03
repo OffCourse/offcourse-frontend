@@ -7,14 +7,8 @@
 
 (defn dashboard [{:keys [templates colors units]}]
   (let [base-component (:component templates)
-        subcomponents  [[:.dashboard              {:background-color (:day colors)
+        subcomponents  [[:.dashboard              {:padding (:full units)
                                                    :align-items :stretch}]
-                        [:.dashboard--logo        {:padding (:full units)
-                                                   :padding-bottom (:two units)
-                                                   :background-color (:primary colors)
-                                                   :flex-grow 0
-                                                   :flex-direction :row
-                                                   :height         (:three units)}]
                         [:.dashboard--main        {:height :auto
                                                    :flex-grow 0}]
                         [:.dashboard--nav         {:height :auto}]]
