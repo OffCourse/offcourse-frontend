@@ -11,13 +11,12 @@
      actions        :- []
      reactions      :- {}]
   Lifecycle
-  (start [rt] (ri/listen rt))
+  (start [rt] (ri/-listen rt))
   (stop [rt] (ri/mute rt))
   Responsive
-  (listen [rt] (ri-impl/listen rt))
-  (restart [rt] (ri-impl/restart rt))
-  (mute [rt] (ri-impl/mute rt))
-  (respond [rt status payload] (ri-impl/respond rt status payload)))
+  (-listen [rt] (ri-impl/listen rt))
+  (-mute [rt] (ri-impl/mute rt))
+  (-respond [rt status payload] (ri-impl/respond rt status payload)))
 
 (defn new []
   (map->Router {:component-name :router}))

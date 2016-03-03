@@ -1,5 +1,5 @@
-(ns offcourse.models.datastore.helpers
-  (:require [clojure.set :as set]))
+(ns offcourse.models.appstate.helpers
+  (:require [offcourse.models.appstate.index :as as]))
 
 (defn falsy? [response]
   (or (nil? response) (false? response)))
@@ -9,6 +9,10 @@
 
 (defn collection ([type name] {:collection-type type
                                :collection-name name}))
+
+(defn appstate [view-type & data-deps]
+  {:type :appstate
+   :appstate (apply as/new view-type data-deps)})
 
 (defn course
   ([id] {:course-id id})

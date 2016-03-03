@@ -1,10 +1,10 @@
-(ns offcourse.models.datastore.check-test
-  (:require [offcourse.protocols.queryable :as qa]
-            [offcourse.models.datastore.index :as sut]
-            [offcourse.models.datastore.helpers :as h]
-            [cljs.test :refer-macros [deftest testing is are]]))
+(ns offcourse.models.appstate.check-test
+  (:require [cljs.test :refer-macros [are deftest is testing]]
+            [offcourse.models.appstate.helpers :as h]
+            [offcourse.models.appstate.index :as sut]
+            [offcourse.protocols.queryable :as qa]))
 
-(deftest models-datastore-check
+(deftest models-appstate-check
 
   (let [id              123
         missing-id      223
@@ -102,6 +102,7 @@
         (testing "it reports if resources are present"
           (let [check (fn [resource-ids] (qa/check store :resources resource-ids))]
             (are [resource-ids expectation] (= (check resource-ids) expectation)
+              []           true
               [id]         true
               [missing-id] false)))))
 

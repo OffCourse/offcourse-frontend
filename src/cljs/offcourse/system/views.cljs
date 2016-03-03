@@ -13,14 +13,17 @@
 (def base-graph
   {:container (fnk [] app)})
 
-(def collection-graph
-  {:labels    (fnk [viewmodel] (:labels viewmodel))
-   :courses   (fnk [viewmodel] (:courses viewmodel))
-   :actions   (fnk [handlers] [])
-   :main      (fnk [courses route-helpers] (cards courses route-helpers))
-   :menubar   (fnk [route-helpers actions labels]
-                   (menubar {:logo     (logo route-helpers)}))})
+(def loading-graph
+  {:menubar (fnk [route-helpers]
+                (menubar {:logo (logo route-helpers)}))})
 
+(def collection-graph
+  {:courses (fnk [viewmodel] (:courses viewmodel))
+   :actions (fnk [handlers] [])
+   :main    (fnk [courses route-helpers] (cards courses route-helpers))
+   :menubar (fnk [route-helpers]
+                 (menubar {:logo (logo route-helpers)
+                           :actions [(:new-course-url route-helpers)]}))})
 
 (def checkpoint-graph
   {:course    (fnk [viewmodel] (:course viewmodel))
@@ -30,13 +33,13 @@
    :actions   (fnk [handlers course-id]
                    (medley/map-kv #(vector %1 (partial %2 course-id)) handlers))
    :menubar   (fnk [route-helpers]
-                   (menubar {:logo     (logo route-helpers)
-                             :colorful true}))
+                   (menubar {:logo     (logo route-helpers)}))
    :dashboard (fnk [route-helpers course actions]
-                   (dashboard {:logo     (logo route-helpers)
-                               :main     (card course route-helpers)
-                               :nav      (navigation-panel actions)}))})
+                   (dashboard {:logo (logo route-helpers)
+                               :main (card course route-helpers)
+                               :nav  (navigation-panel actions)}))})
 
 (def views
   {:collection-view (merge base-graph collection-graph)
+   :loading-view    (merge base-graph loading-graph)
    :checkpoint-view (merge base-graph checkpoint-graph)})

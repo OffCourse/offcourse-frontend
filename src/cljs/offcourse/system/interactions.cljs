@@ -12,24 +12,19 @@
    :logger    [:updated-logs]
    :router    [:requested-route]
    :appstate  [:refreshed-state
+               :checked-state
                :not-found-data]
-   :datastore [:checked-store
-               :not-found-data
-               :refreshed-store]
    :ui        [:rendered-view]})
 
 (def reactions
   {:api       {:not-found-data qa/fetch}
    :logger    {:logged-action println}
-   :router    {:crashed                  ri/restart}
+   :router    {}
    :appstate  {:requested-route          qa/refresh
-               :requested-new-checkpoint :forward
+               :found-data               qa/refresh
                :not-found-data           qa/check
-               :checked-store            qa/check
-               :refreshed-store          qa/check}
-   :datastore {:not-found-data           qa/check
-               :requested-new-checkpoint qa/add
-               :found-data               qa/refresh}
-   :ui        {:refreshed-appstate rr/render
-               :checked-appstate   rr/render
-               :updated-logs       rr/render}})
+               #_:checked-store            #_qa/check
+               #_:refreshed-store          #_qa/check}
+   :ui        {:refreshed-state          rr/render
+               :checked-state            rr/render
+               :updated-logs             rr/render}})

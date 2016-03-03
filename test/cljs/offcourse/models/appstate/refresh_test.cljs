@@ -1,12 +1,12 @@
-(ns offcourse.models.datastore.refresh-test
-  (:require [offcourse.protocols.queryable :as qa]
-            [offcourse.models.datastore.index :as sut]
-            [offcourse.models.datastore.helpers :as h]
-            [offcourse.models.datastore.paths :as paths]
-            [com.rpl.specter :refer [select select-first transform filterer ALL]]
-            [cljs.test :refer-macros [deftest testing is are]]))
+(ns offcourse.models.appstate.refresh-test
+  (:require [cljs.test :refer-macros [are deftest is testing]]
+            [com.rpl.specter :refer [select-first]]
+            [offcourse.models.appstate.helpers :as h]
+            [offcourse.models.appstate.index :as sut]
+            [offcourse.models.appstate.paths :as paths]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 
-(deftest models-datastore-refresh
+(deftest models-appstate-refresh
   (let [id              123
         missing-id      223
         buzzword        :agile
@@ -19,21 +19,17 @@
                          :collection-name buzzword
                          :course-ids      #{}}]
 
-    #_(testing "when query type is collection-names"
+    (testing "when query type is non-existing"
+      (is (= (qa/refresh (sut/new) :bla)
+             {:type :error :error :query-not-supported})))
 
-      (testing "it sets the has-collection-names? flag"
-        (let [store (qa/refresh (sut/new) :collection-names [])]
-          (is (:collection-names store) true)))
+    (testing "when query type is appstate"
 
-      (testing "it merges existing and new collection names"
-        (let [collection2      (assoc collection :collection-name :netiquette)
-              store            (-> (sut/new {:collections [collection collection2]})
-                                   (qa/refresh :collection-names {collection-type [:agile]}))
-              collection-names (map :collection-name (:collections store))]
-          (are [value actual] (= (h/contains-val? collection-names value) actual)
-            :agile          true
-            :netiquette     true
-            :bla            false))))
+        (let [query {:type :appstate
+                     :appstate {:view-type :course-view
+                                :data-deps {:course course}}}
+              state (qa/refresh (sut/new) query)]
+          (is (= :course-view (:view-type state)))))
 
     (testing "when query type is collection"
       (let [store       (sut/new {:collections [(assoc collection :course-ids #{123})]})]
@@ -76,7 +72,6 @@
                 store (sut/new {:courses (courses [id])})
                 ids   (map :course-id (:courses (qa/refresh store query)))]
             (is (= (count (filter #(= id %) ids)) 1))))))
-
 
     (testing "when query type is course"
       (letfn [(courses [ids] (map (fn [id] {:course-id id}) ids))]

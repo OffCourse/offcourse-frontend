@@ -24,7 +24,7 @@
   Queryable
   (-check [course] (schema/check Course course))
   Validatable
-  (valid? [course]
+  (-valid? [course]
     (if-not (qa/check course) true false)))
 
 (defn get-tags [course]

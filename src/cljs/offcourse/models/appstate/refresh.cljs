@@ -1,9 +1,10 @@
-(ns offcourse.models.datastore.refresh
+(ns offcourse.models.appstate.refresh
   (:require [offcourse.models.collection :as cl]
             [medley.core :as medley]
             [com.rpl.specter :refer [select select-first transform filterer ALL]]
             [clojure.set :as set]
-            [offcourse.models.datastore.paths :as paths]))
+            [offcourse.models.appstate.paths :as paths]
+            [offcourse.protocols.queryable :as qa]))
 
 (defn deep-merge
   [& vs]
@@ -11,31 +12,16 @@
     (apply merge-with deep-merge vs)
     (last vs)))
 
-(defn initialize-collection [collection-type collection-name]
-  [collection-name (cl/new-collection collection-type collection-name)])
-
-(defn initialize-collections [collection-type collection-names]
-  [collection-type (->> collection-names
-                        (map #(initialize-collection collection-type %))
-                        (into {}))])
-
 (defn add-course [store {:keys [course-id] :as course}]
   (update-in store [:courses] #(conj % course)))
 
 (defn add-resource [store {:keys [resource-id] :as resource}]
   (assoc-in store [:resources resource-id] resource))
 
-(defn map-collections [collection-names]
-  (medley/map-kv initialize-collections collection-names))
+(defmulti refresh (fn [_ {:keys [type]}] type))
 
-(defmulti refresh
-  (fn [_ {:keys [type]}] type))
-
-(defmethod refresh :collection-names [{:keys [collections-names :as cn] :as store}
-                                      {:keys [collection-names] :as query}]
-  (let [collections (-> collection-names
-                        (deep-merge (or cn {})))]
-    (assoc store :collection-names collections)))
+(defmethod refresh :appstate [state {:keys [appstate]}]
+  (merge state appstate))
 
 (defmethod refresh :collection [store {:keys [collection] :as query}]
   (when-let [{:keys [collection-type collection-name course-ids]} collection]
@@ -67,3 +53,6 @@
 
 (defmethod refresh :resource [store {:keys [resource]}]
   (add-resource store resource))
+
+(defmethod refresh :default [{:keys [store] :as as} query]
+  {:type :error :error :query-not-supported})

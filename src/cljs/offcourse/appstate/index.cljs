@@ -1,28 +1,30 @@
 (ns offcourse.appstate.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.appstate.queryable :as qa-impl]
-            [offcourse.protocols.composable :as ca :refer [Composable]]
+            [offcourse.appstate.validatable :as va-impl]
+            [offcourse.models.appstate.index :as model]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
+            [offcourse.protocols.validatable :as va :refer [Validatable]]
             [schema.core :as schema]))
 
 (schema/defrecord Appstate
     [component-name :- schema/Keyword
      channels       :- {}
-     viewmodels     :- {}
      actions        :- []
      reactions      :- {}]
   Lifecycle
-  (start [as] (ri/listen (assoc as :state (atom nil)
-                                :queries (atom ()))))
-  (stop [as] (ri/mute as))
+  (start   [as] (ri/listen (assoc as :state (atom (model/new)))))
+  (stop    [as] (ri/mute as))
   Queryable
-  (-check [as query] (qa-impl/check as query))
+  (-check   [as query] (qa-impl/check as query))
+  (-add  [as query] #_(qa-impl/add as query))
   (-refresh [as query] (qa-impl/refresh as query))
+  Validatable
+  (-valid?  [as] (va-impl/valid? as))
   Responsive
-  (respond [as status payload] (ri/-respond as status payload))
-  (listen [as] (ri/-listen as))
-  (mute [as] (ri/-mute as)))
+  (-respond [as status payload] (ri/respond as status payload))
+  (-mute [as] (ri/mute as))
+  (-listen [as] (ri/listen as)))
 
-(defn new []
-  (map->Appstate {:component-name :appstate}))
+(defn new [] (map->Appstate {:component-name :appstate}))

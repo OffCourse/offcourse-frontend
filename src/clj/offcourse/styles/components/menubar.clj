@@ -10,7 +10,8 @@
         subcomponents  [[:.menubar              {:background-color (:primary colors)
                                                  :display :flex
                                                  :height :auto
-                                                 :flex-direction :column
+                                                 :flex-direction :row
+                                                 :justify-content :space-between
                                                  :padding (:full units)}]]]
     [(h/augment-many base-component subcomponents)]))
 

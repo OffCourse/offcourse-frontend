@@ -22,9 +22,9 @@
   (-fetch   [db query] (fetch (:connection db) query))
   (-refresh [db query] (refresh db query))
   Validatable
-  (valid? [db] (valid? db))
+  (-valid? [db] (valid? db))
   Responsive
-  (respond [db status] (ri/-respond db status nil)))
+  (-respond [db status] (ri/respond db status nil)))
 
 (defn new-db [name bootstrap-docs]
   (map->PouchDB {:name name

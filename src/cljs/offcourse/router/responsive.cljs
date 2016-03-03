@@ -6,16 +6,16 @@
             [pushy.core :as pushy]
             [bidi.bidi :as bidi]))
 (def rr
-  {:crashed         (fn [] (clvm/dummy (cl/new :flags :new)))
-   :home-view       (fn [] (clvm/dummy (cl/new :flags :new)))
+  {:home-view       (fn [] {:view-type :collection-view
+                            :view-data {:type :collection
+                                        :collection (cl/new :flags :featured)}})
+   :new-course-view (fn [data] data)
    :collection-view (fn [data] (clvm/dummy data))
    :checkpoint-view (fn [data] (cpvm/dummy data))})
 
 (defn handle-request [rt {:keys [handler route-params]}]
-  (when-let [reaction ((handler rr)
-                       (assoc route-params
-                              :checkpoint-id (int (:checkpoint-id route-params))))]
-    (ri/respond rt :requested-route reaction)))
+  (ri/respond rt :requested-route {:type :appstate
+                                   :appstate ((handler rr) route-params)}))
 
 (defn restart [{:keys [history] :as rt}]
   (pushy/replace-token! history "/"))
@@ -25,7 +25,7 @@
                              (partial bidi/match-route routes))
         rt (assoc rt :history history)]
     (pushy/start! history)
-    (ri/-listen rt)))
+    (ri/listen rt)))
 
 
 (defn mute [{:keys [history listeners] :as rt}]

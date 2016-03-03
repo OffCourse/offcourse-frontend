@@ -28,8 +28,8 @@
       (ri/listen rd)))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views route-helpers handlers viewmodels] :as rd} {:keys [state store] :as q}]
-    (let [view (view/new state store route-helpers viewmodels handlers)]
+  (-render [{:keys [views route-helpers handlers viewmodels] :as rd} {:keys [state] :as q}]
+    (let [view (view/new state route-helpers viewmodels handlers)]
       (if (va/valid? view)
         (let [view (-> view
                        (ca/compose views)
@@ -39,10 +39,10 @@
         (ri/respond rd :not-found-data (va/missing-data view)))))
 
   Responsive
-  (listen [rd] (assoc rd :listener (ri/-listen rd)))
-  (mute [rd] (dissoc rd :listener))
-  (respond [rd status] (ri/-respond rd status nil))
-  (respond [rd status payload] (ri/-respond rd status payload)))
+  (-listen [rd] (assoc rd :listener (ri/listen rd)))
+  (-mute [rd] (dissoc rd :listener))
+  (-respond [rd status] (ri/respond rd status nil))
+  (-respond [rd status payload] (ri/respond rd status payload)))
 
 (defn new []
   (map->UI {:component-name :ui}))

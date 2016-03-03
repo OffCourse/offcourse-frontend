@@ -1,11 +1,14 @@
-(ns offcourse.models.datastore.check
+(ns offcourse.models.appstate.check
   (:require [clojure.set :as set]
-            [offcourse.protocols.queryable :as qa]))
+            [offcourse.protocols.queryable :as qa]
+            [schema.core :as schema]))
 
 (defn has-items? [collection-ids query-ids]
   (set/superset? (into #{} collection-ids) (into #{} query-ids)))
 
-(defmulti check (fn [_ {:keys [type]}] type))
+(defmulti check
+  (fn [_ {:keys [type] :as query}]
+    (if query type :store)))
 
 (defmethod check :collection-names [ds query]
   (if (qa/get ds query) true false))
@@ -35,3 +38,4 @@
 (defmethod check :default [_ _]
   {:type :error
    :error :query-not-supported})
+
