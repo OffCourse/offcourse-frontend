@@ -28,15 +28,13 @@
       (ri/listen rd)))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views route-helpers handlers viewmodels] :as rd} {:keys [state] :as q}]
-    (let [view (view/new state route-helpers viewmodels handlers)]
-      (if (va/valid? view)
-        (let [view (-> view
-                       (ca/compose views)
-                       (rr/render)
-                       (ma/mount "#container"))]
-          (ri/respond rd :rendered-view))
-        (ri/respond rd :not-found-data (va/missing-data view)))))
+  (-render [{:keys [views helpers components] :as rd} {:keys [state] :as q}]
+    (let [view (view/new state components helpers)]
+      (-> view
+          (ca/compose views)
+          (rr/render)
+          (ma/mount "#container"))
+    (ri/respond rd :rendered-view)))
 
   Responsive
   (-listen [rd] (assoc rd :listener (ri/listen rd)))

@@ -2,9 +2,7 @@
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.responsive :as ri]
             [offcourse.protocols.renderable :as rr]
-            [offcourse.models.collection :as cl]
-            [offcourse.viewmodels.checkpoint-view.index :as cpvm]
-            [offcourse.viewmodels.collection-view.index :as clvm]))
+            [offcourse.models.collection :as cl]))
 
 (def actions
   {:api       [:not-found-data

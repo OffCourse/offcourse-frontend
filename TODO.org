@@ -11,6 +11,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Now             [0%]
 + General
   - [ ] curation workflow
++ Viewmodels
+  - [X] remove
++ UI
+  - [X] remove viewmodels
++ [ ] Views          [50%]
+  - [ ] move graphs here
+  - [ ] add action-panel to menubar
+  - [ ] pass in components
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] add 'save course' functionality
@@ -43,7 +51,6 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [ ] add publish
 + [-] Views          [50%]
   - [ ] add 'new checkpoint' form
-  - [X] add loading view
 * Future          [0%]
 + [ ] Viewmodels     [0%]
   - [ ] add tests
@@ -186,6 +193,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     - [X] refactor into subcomponents
   - [X] checkpoint view
   - [X] add graph
+  - [X] add loading view
 + [X] UI             [100%]
   - [X] rename from renderer
   - [X] implement renderable

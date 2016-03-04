@@ -11,7 +11,7 @@
             [offcourse.system.handlers :refer [handlers]]
             [offcourse.system.plumbing :as plumbing]
             [offcourse.system.fetchables :refer [fetchables]]
-            [offcourse.system.viewmodels :refer [viewmodels]]
+            [offcourse.system.ui-components :refer [ui-components]]
             [offcourse.system.views :refer [views]]))
 
 
@@ -20,10 +20,9 @@
     (component/system-map
      :routes                 routes
      :repositories           repositories
-     :viewmodels             viewmodels
      :views                  views
-     :route-helpers          (route-helpers routes)
-     :handlers               handlers
+     :view-components        ui-components
+     :view-helpers          (route-helpers routes)
      :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
@@ -54,17 +53,16 @@
      :appstate-reactions     (:appstate reactions)
      :appstate-channels      (:appstate channels)
      :appstate               (component/using (appstate/new)
-                                             {:channels  :appstate-channels
-                                              :actions   :appstate-actions
-                                              :reactions :appstate-reactions})
+                                              {:channels  :appstate-channels
+                                               :actions   :appstate-actions
+                                               :reactions :appstate-reactions})
      :ui-actions             (:ui actions)
      :ui-reactions           (:ui reactions)
      :ui-channels            (:ui channels)
      :ui                     (component/using (ui/new)
-                                              {:channels      :ui-channels
-                                               :actions       :ui-actions
-                                               :route-helpers :route-helpers
-                                               :handlers      :handlers
-                                               :views         :views
-                                               :viewmodels    :viewmodels
-                                               :reactions     :ui-reactions}))))
+                                              {:channels   :ui-channels
+                                               :actions    :ui-actions
+                                               :helpers    :view-helpers
+                                               :components :view-components
+                                               :views      :views
+                                               :reactions  :ui-reactions}))))
