@@ -23,6 +23,9 @@
 (defmethod refresh :appstate [state {:keys [appstate]}]
   (merge state appstate))
 
+(defmethod refresh :user [state {:keys [user]}]
+  (assoc state :user user))
+
 (defmethod refresh :collection [store {:keys [collection] :as query}]
   (when-let [{:keys [collection-type collection-name course-ids]} collection]
     (let [collection-path (paths/collection collection-type collection-name)

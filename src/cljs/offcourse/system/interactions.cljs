@@ -12,7 +12,9 @@
    :appstate  [:refreshed-state
                :checked-state
                :not-found-data]
-   :ui        [:rendered-view]})
+   :user      [:signed-in-user]
+   :ui        [:rendered-view
+               :requested-sign-in]})
 
 (def reactions
   {:api       {:not-found-data qa/fetch}
@@ -21,8 +23,8 @@
    :appstate  {:requested-route          qa/refresh
                :found-data               qa/refresh
                :not-found-data           qa/check
-               #_:checked-store            #_qa/check
-               #_:refreshed-store          #_qa/check}
+               :signed-in-user           qa/refresh}
+   :user      {:requested-sign-in        #(ri/respond %1 :signed-in-user %2)}
    :ui        {:refreshed-state          rr/render
                :checked-state            rr/render
                :updated-logs             rr/render}})

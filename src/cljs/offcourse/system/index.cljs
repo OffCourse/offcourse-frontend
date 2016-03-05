@@ -3,6 +3,7 @@
             [offcourse.appstate.index :as appstate]
             [offcourse.logger.index :as logger]
             [offcourse.router.index :as router]
+            [offcourse.user.index :as user]
             [offcourse.api.index :as api]
             [offcourse.ui.index :as ui]
             [offcourse.models.appstate.index :as appstate-model]
@@ -36,6 +37,13 @@
                                                :fetchables   :fetchables
                                                :reactions    :api-reactions
                                                :repositories :repositories})
+     :user-actions            (:user actions)
+     :user-reactions          (:user reactions)
+     :user-channels           (:user channels)
+     :user                    (component/using (user/new)
+                                              {:channels     :user-channels
+                                               :actions      :user-actions
+                                               :reactions    :user-reactions})
      :router-actions         (:router actions)
      :router-reactions       (:router reactions)
      :router-channels        (:router channels)

@@ -19,6 +19,7 @@
     [site-title     :- schema/Str
      view-type      :- schema/Keyword
      view-data      :- {schema/Keyword schema/Any}
+     user           :- {:name (schema/maybe schema/Keyword)}
      collections    :- [Collection]
      courses        :- [Course]
      resources      :- (schema/maybe {schema/Str Resource})
@@ -52,6 +53,7 @@
 (def defaults {:site-title "BLABLA"
                :view-type :loading-view
                :view-data {}
+               :user {:name nil}
                :collections []
                :courses []
                :resources {}

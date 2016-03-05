@@ -31,6 +31,13 @@
               state (qa/refresh (sut/new) query)]
           (is (= :course-view (:view-type state)))))
 
+    (testing "when query type is user"
+
+      (let [query {:type :user
+                   :user {:name :yeehaa}}
+            state (qa/refresh (sut/new) query)]
+        (is (= :yeehaa (get-in state [:user :name])))))
+
     (testing "when query type is collection"
       (let [store       (sut/new {:collections [(assoc collection :course-ids #{123})]})]
 

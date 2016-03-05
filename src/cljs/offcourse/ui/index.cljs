@@ -27,7 +27,8 @@
   (stop [rd] (ri/mute rd))
   Renderable
   (-render [{:keys [views url-helpers appstate components] :as rd} _]
-    (let [view (view/new @appstate components url-helpers)]
+    (let [handlers {:sign-in (partial ri/respond rd :requested-sign-in :user)}
+          view     (view/new @appstate components url-helpers handlers)]
       (-> view
           (ca/compose views)
           (rr/render)

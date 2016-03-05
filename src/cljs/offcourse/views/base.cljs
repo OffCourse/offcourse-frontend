@@ -5,8 +5,10 @@
   {:container (fnk [[:components app]] app)
    :view-data (fnk [appstate] (:view-data appstate))
    :view-name (fnk [appstate] (:view-type appstate))
-   :menubar   (fnk [[:appstate site-title]
+   :menubar   (fnk [[:appstate user site-title]
                     [:url-helpers home-url]
+                    handlers
                     [:components logo menubar]]
                    (menubar {:logo    (logo site-title home-url)
-                             :actions {}}))})
+                             :user-name (:name user)
+                             :actions (select-keys handlers [:sign-in])}))})

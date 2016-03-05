@@ -5,5 +5,5 @@
 
 (defn render
   ([component] (-render component))
-  ([component viewmodel]
+  ([component query]
    (-render component query)))
