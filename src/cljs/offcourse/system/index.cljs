@@ -5,9 +5,10 @@
             [offcourse.router.index :as router]
             [offcourse.api.index :as api]
             [offcourse.ui.index :as ui]
+            [offcourse.models.appstate.index :as appstate-model]
             [offcourse.system.interactions :refer [actions reactions]]
-            [offcourse.system.routes :refer [routes]]
-            [offcourse.system.route-helpers :refer [route-helpers]]
+            [offcourse.system.routes :as routes]
+            [offcourse.system.view-actions :refer [view-actions]]
             [offcourse.system.handlers :refer [handlers]]
             [offcourse.system.plumbing :as plumbing]
             [offcourse.system.fetchables :refer [fetchables]]
@@ -18,11 +19,13 @@
 (defn system [bootstrap-docs repositories]
   (let [channels plumbing/channels]
     (component/system-map
-     :routes                 routes
+     :routes                 routes/table
+     :route-responses        routes/responses
+     :url-helpers            routes/url-helpers
+     :appstate-state         (atom (appstate-model/new "Offcourse_"))
      :repositories           repositories
      :views                  views
      :view-components        ui-components
-     :view-helpers          (route-helpers routes)
      :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
@@ -39,6 +42,7 @@
      :router                 (component/using (router/new)
                                               {:channels  :router-channels
                                                :routes    :routes
+                                               :responses :route-responses
                                                :actions   :router-actions
                                                :reactions :router-reactions})
      :logger-actions         (:logger actions)
@@ -54,15 +58,18 @@
      :appstate-channels      (:appstate channels)
      :appstate               (component/using (appstate/new)
                                               {:channels  :appstate-channels
+                                               :state     :appstate-state
                                                :actions   :appstate-actions
                                                :reactions :appstate-reactions})
      :ui-actions             (:ui actions)
      :ui-reactions           (:ui reactions)
      :ui-channels            (:ui channels)
      :ui                     (component/using (ui/new)
-                                              {:channels   :ui-channels
-                                               :actions    :ui-actions
-                                               :helpers    :view-helpers
-                                               :components :view-components
-                                               :views      :views
-                                               :reactions  :ui-reactions}))))
+                                              {:channels    :ui-channels
+                                               :actions     :ui-actions
+                                               :appstate    :appstate-state
+                                               :url-helpers :url-helpers
+                                               :routes      :routes
+                                               :components  :view-components
+                                               :views       :views
+                                               :reactions   :ui-reactions}))))

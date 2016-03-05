@@ -17,4 +17,4 @@
    :courses         (fnk [appstate collection]
                          (some->> (qa/get appstate :courses (:course-ids collection))
                                   (map (partial augment-course (:collection-name collection)))))
-   :main            (fnk [courses helpers [:components cards]] (cards courses helpers))})
+   :main            (fnk [courses url-helpers [:components cards]] (cards courses url-helpers))})

@@ -16,20 +16,18 @@
 (schema/defrecord UI
     [component-name :- schema/Keyword
      channels       :- {}
-     route-helpers  :- {}
+     url-helpers    :- {}
      handlers       :- {}
      views          :- {}
      viewmodels     :- {}
      actions        :- []
      reactions      :- {}]
   Lifecycle
-  (start [rd]
-    (let [rd (assoc rd :handlers (medley/map-kv #(augment-handler rd %1 %2) handlers))]
-      (ri/listen rd)))
+  (start [rd] (ri/listen rd))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views helpers components] :as rd} {:keys [state] :as q}]
-    (let [view (view/new state components helpers)]
+  (-render [{:keys [views url-helpers appstate components] :as rd} _]
+    (let [view (view/new @appstate components url-helpers)]
       (-> view
           (ca/compose views)
           (rr/render)

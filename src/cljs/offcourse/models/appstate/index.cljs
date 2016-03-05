@@ -16,7 +16,8 @@
    type data})
 
 (schema/defrecord Appstate
-    [view-type      :- schema/Keyword
+    [site-title     :- schema/Str
+     view-type      :- schema/Keyword
      view-data      :- {schema/Keyword schema/Any}
      collections    :- [Collection]
      courses        :- [Course]
@@ -48,6 +49,4 @@
   (-add [as query] (add-impl/add as query))
   (-get [as query] (get-impl/get as query)))
 
-(defn new
-  ([] (->Appstate :loading-view {} [] [] {} #{}))
-  ([data] (map->Appstate data)))
+(defn new ([title] (->Appstate title :loading-view {} [] [] {} #{})))

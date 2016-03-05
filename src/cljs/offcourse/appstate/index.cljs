@@ -11,10 +11,11 @@
 (schema/defrecord Appstate
     [component-name :- schema/Keyword
      channels       :- {}
+     state          :- schema/Any
      actions        :- []
      reactions      :- {}]
   Lifecycle
-  (start   [as] (ri/listen (assoc as :state (atom (model/new)))))
+  (start   [as] (ri/listen as))
   (stop    [as] (ri/mute as))
   Queryable
   (-check   [as query] (qa-impl/check as query))

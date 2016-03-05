@@ -9,16 +9,28 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
 * Now             [0%]
-+ General
++ General [0%]
   - [ ] curation workflow
-+ Viewmodels
++ System [100%]
+  - [X] add appstate atom
+  - [X] combine different route modules
++ Appstate [100%]
+  - [X] pass in state externally
+  - [X] no longer marshall state in response
++ Viewmodels [100%]
   - [X] remove
-+ UI
++ UI [100%]
   - [X] remove viewmodels
-+ [ ] Views          [50%]
-  - [ ] move graphs here
-  - [ ] add action-panel to menubar
-  - [ ] pass in components
+  - [X] pass in appstate atom
++ [-] Views          [66%]
+  - [X] move graphs here
+  - [X] pass in components
+  - [ ] Menubar [0%]
+    + [ ] add action-panel
+  - [ ] Action Panel
+    + [ ] add sign-in button
++ [ ] User
+  - [ ] Create Component
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] add 'save course' functionality

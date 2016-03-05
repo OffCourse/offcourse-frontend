@@ -15,4 +15,3 @@
    :viewer viewer
    :dashboard dashboard
    :menubar menubar})
-

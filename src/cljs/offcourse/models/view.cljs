@@ -12,7 +12,7 @@
     [type :- schema/Keyword
      viewmodel :- {}
      components :- {}
-     route-helpers :- {}
+     url-helpers :- {}
      handlers :- {}]
   Composable
   (-compose [view views]
@@ -26,10 +26,10 @@
   (-mount [{:keys [rendered]} element]
     (rum/mount rendered (. js/document (querySelector element)))))
 
-(defn new [appstate components helpers]
+(defn new [appstate components url-helpers]
   (let [view-type (get-in appstate [:view-type])
         blacklist [:collection-data :tags :resource-id :course-ids :view-data]]
     (map->View {:appstate   appstate
                 :type       view-type
                 :components components
-                :helpers    helpers})))
+                :url-helpers    url-helpers})))

@@ -13,7 +13,7 @@
       (if (va/valid? as)
         (do
           (swap! state (fn [state] (assoc state :queries #{})))
-          (respond as :refreshed-state {:state @state}))
+          (respond as :refreshed-state))
         (when-let [missing-data (va/missing-data @state)]
           (swap! state (fn [state] (update state :queries #(conj % (hash missing-data)))))
           (respond as :not-found-data missing-data))))))

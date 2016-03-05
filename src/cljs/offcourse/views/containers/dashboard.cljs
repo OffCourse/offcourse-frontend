@@ -1,6 +1,6 @@
 (ns offcourse.views.containers.dashboard
   (:require [rum.core :as rum]))
 
-(rum/defc dashboard [{:keys [logo main nav colorful]}]
-  [:.dashboard {:data-colorful colorful}
+(rum/defc dashboard [{:keys [main]}]
+  [:.dashboard
    [:.dashboard--main main]])

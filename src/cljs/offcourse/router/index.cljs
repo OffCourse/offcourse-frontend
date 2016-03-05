@@ -7,6 +7,7 @@
 (schema/defrecord Router
     [component-name :- schema/Keyword
      routes         :- []
+     responses      :- {}
      channels       :- {}
      actions        :- []
      reactions      :- {}]

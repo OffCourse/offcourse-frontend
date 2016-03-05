@@ -33,6 +33,5 @@
                        (qa/get appstate :resource {:resource-id resource-id}))
    :course-id     (fnk [course] (:course-id course))
    :main          (fnk [resource [:components viewer]] (viewer resource))
-   :dashboard     (fnk [helpers course [:components logo card dashboard]]
-                       (dashboard {:logo (logo helpers)
-                                   :main (card course helpers)}))})
+   :dashboard     (fnk [url-helpers course [:components card dashboard]]
+                       (dashboard {:main (card course url-helpers)}))})
