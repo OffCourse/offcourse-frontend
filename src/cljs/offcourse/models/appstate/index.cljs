@@ -49,4 +49,14 @@
   (-add [as query] (add-impl/add as query))
   (-get [as query] (get-impl/get as query)))
 
-(defn new ([title] (->Appstate title :loading-view {} [] [] {} #{})))
+(def defaults {:site-title "BLABLA"
+               :view-type :loading-view
+               :view-data {}
+               :collections []
+               :courses []
+               :resources {}
+               :queries #{}})
+(defn new
+  ([] (map->Appstate defaults))
+  ([data]
+   (map->Appstate (merge defaults data))))

@@ -16,13 +16,13 @@
             [offcourse.system.views :refer [views]]))
 
 
-(defn system [bootstrap-docs repositories]
+(defn system [site-title repositories]
   (let [channels plumbing/channels]
     (component/system-map
      :routes                 routes/table
      :route-responses        routes/responses
      :url-helpers            routes/url-helpers
-     :appstate-state         (atom (appstate-model/new "Offcourse_"))
+     :appstate-state         (atom (appstate-model/new {:site-title "Offcourse_"}))
      :repositories           repositories
      :views                  views
      :view-components        ui-components
