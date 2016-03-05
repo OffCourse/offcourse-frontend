@@ -14,6 +14,7 @@
             [offcourse.system.plumbing :as plumbing]
             [offcourse.system.fetchables :refer [fetchables]]
             [offcourse.system.ui-components :refer [ui-components]]
+            [offcourse.system.handlers :refer [handlers]]
             [offcourse.system.views :refer [views]]))
 
 
@@ -27,11 +28,12 @@
      :repositories           repositories
      :views                  views
      :view-components        ui-components
+     :view-handlers          handlers
      :fetchables             fetchables
      :api-actions            (:api actions)
      :api-reactions          (:api reactions)
      :api-channels           (:api channels)
-     :api                    (component/using (api/new :api)
+     :api                    (component/using (api/new)
                                               {:channels     :api-channels
                                                :actions      :api-actions
                                                :fetchables   :fetchables
@@ -77,6 +79,7 @@
                                                :actions     :ui-actions
                                                :appstate    :appstate-state
                                                :url-helpers :url-helpers
+                                               :handlers    :view-handlers
                                                :routes      :routes
                                                :components  :view-components
                                                :views       :views

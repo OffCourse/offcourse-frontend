@@ -27,5 +27,4 @@
   (-mute [api] (ri/mute api))
   (-listen  [api] (ri/listen api)))
 
-(defn new [component-name]
-  (map->API {:component-name component-name}))
+(defn new [] (map->API {:component-name :api}))

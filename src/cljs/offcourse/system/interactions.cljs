@@ -2,6 +2,7 @@
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.responsive :as ri]
             [offcourse.protocols.renderable :as rr]
+            [offcourse.protocols.authenticable :as ac]
             [offcourse.models.collection :as cl]))
 
 (def actions
@@ -24,7 +25,7 @@
                :found-data               qa/refresh
                :not-found-data           qa/check
                :signed-in-user           qa/refresh}
-   :user      {:requested-sign-in        #(ri/respond %1 :signed-in-user %2)}
+   :user      {:requested-sign-in        ac/authenticate}
    :ui        {:refreshed-state          rr/render
                :checked-state            rr/render
                :updated-logs             rr/render}})

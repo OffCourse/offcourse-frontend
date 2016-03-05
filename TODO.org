@@ -12,6 +12,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [-] General [50%]
   + [X] basic (fake) auth flow
   + [ ] curation workflow
++ [ ] Protocols
+  + [ ] Authenticable
 + [X] System [100%]
   - [X] add appstate atom
   - [X] combine different route modules
