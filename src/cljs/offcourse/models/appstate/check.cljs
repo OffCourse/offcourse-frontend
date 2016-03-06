@@ -21,8 +21,13 @@
     (has-items? (map :course-id (qa/get ds query)) course-ids)
     false))
 
-(defmethod check :course [store query]
-  (if (qa/get store query) true false))
+(defmethod check :course [{:keys [user] :as store} {:keys [course] :as query}]
+  (let [{:keys [course-id curator]} course
+        {:keys [name]} user]
+    (if (or (and (= course-id :new) #_(= name curator))
+            (qa/get store query))
+      true
+      false)))
 
 (defmethod check :checkpoint [store query]
   (if (qa/get store query) true false))

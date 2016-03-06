@@ -10,3 +10,9 @@
    :view-data {:type       :course
                :course     (select-keys data [:curator :hashtag])
                :checkpoint (or (int checkpoint-id) 0)}})
+
+(defn new-course-view [{:keys [curator]}]
+  {:view-type :new-course-view
+   :view-data {:type       :course
+               :course     {:course-id :new
+                            :curator curator}}})

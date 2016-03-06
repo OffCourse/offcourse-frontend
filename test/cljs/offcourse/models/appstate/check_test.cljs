@@ -65,13 +65,23 @@
               [missing-id] false)))))
 
     (testing "when query type is course"
-      (let [store (sut/new {:courses [course]})]
+      (let [store (sut/new {:user {:name user-id}
+                            :courses [course]})]
 
         (testing "it reports if course is present by checking its id"
           (let [check (fn [course-id] (qa/check store :course (h/course course-id)))]
             (are [course-id expectation] (= (check course-id) expectation)
               id         true
               missing-id false)))
+
+        (testing "it doesn't check if course-id is new"
+          (let [check (fn [curator] (qa/check store {:type :course
+                                                     :course {:course-id :new
+                                                              :curator curator}}))]
+
+            (are [curator expectation] (= (check curator) expectation)
+              user-id true
+              #_:bla    #_false)))
 
         (testing "it reports if course is present by checking its curator and hashtag"
           (let [check (fn [curator hashtag] (qa/check store :course (h/course curator hashtag)))]

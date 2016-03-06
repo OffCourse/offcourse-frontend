@@ -19,7 +19,7 @@
 
 (def responses
   {:home-view       (fn [] (vh/collection-view (cl/new :flags :featured)))
-   :new-course-view (fn [data] data)
+   :new-course-view (fn [data] (vh/new-course-view data))
    :collection-view (fn [data] (vh/collection-view data))
    :checkpoint-view (fn [data] (vh/checkpoint-view data))})
 

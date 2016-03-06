@@ -4,6 +4,7 @@
             [offcourse.views.components.card :refer [cards]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.components.viewer :refer [viewer]]
+            [offcourse.views.components.course-form :refer [course-form]]
             [offcourse.views.components.card :refer [card]]
             [offcourse.views.containers.menubar :refer [menubar]]))
 
@@ -13,5 +14,6 @@
    :card card
    :cards cards
    :viewer viewer
+   :course-form course-form
    :dashboard dashboard
    :menubar menubar})
