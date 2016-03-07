@@ -78,4 +78,7 @@
   (go (create-fake-resource resource-id)))
 
 (defmethod fetch :resources [_ {:keys [resource-ids]}]
-  (go (map create-fake-resource resource-ids)))
+  (go
+    (if (= resource-ids :featured)
+      (map create-fake-resource ["aa" "bb" "cc" "dd" "ee" "ff"])
+      (map create-fake-resource resource-ids))))

@@ -8,7 +8,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [66%]
+* Now            [77%]
 + [-] General [50%]
   + [X] basic (fake) auth flow
   + [ ] curation workflow
@@ -17,10 +17,13 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] System [100%]
   - [X] add appstate atom
   - [X] combine different route modules
-+ [ ] models
-  - [ ] Appstate
-    + [ ] missing-data
-      - [ ] resources for new courses
++ [-] models
+  - [X] Appstate
+    + [X] missing-data
+      - [X] resources for new courses
+  - [ ] Resource
+    + [ ] remove resource-id
+    + [ ] user url as foreign key
 + [X] Appstate [100%]
   - [X] pass in state externally
   - [X] add user
@@ -30,14 +33,17 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] UI [100%]
   - [X] remove viewmodels
   - [X] pass in appstate atom
-+ [-] Views          [75%]
++ [-] Views          [100%]
   - [X] move graphs here
   - [X] pass in components
   - [X] Menubar [100%]
     + [X] add sign-in button
-  - [ ] new-course-view
-    + [ ] add forms
-    + [ ] add resources
+  - [-] new-course-view
+    + [X] add forms
+    + [X] add resources
+    + [ ] design resource list
++ [ ] Styles
+   + [ ] make a global list style
 + [X] User [100%]
   - [X] Create Component
 * Next             [0%]

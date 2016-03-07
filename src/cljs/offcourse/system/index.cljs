@@ -9,7 +9,6 @@
             [offcourse.models.appstate.index :as appstate-model]
             [offcourse.system.interactions :refer [actions reactions]]
             [offcourse.system.routes :as routes]
-            [offcourse.system.view-actions :refer [view-actions]]
             [offcourse.system.handlers :refer [handlers]]
             [offcourse.system.plumbing :as plumbing]
             [offcourse.system.fetchables :refer [fetchables]]
