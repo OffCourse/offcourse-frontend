@@ -2,6 +2,7 @@
   (:require [offcourse.styles.components.todo-list :refer [todo-list]]
             [offcourse.styles.components
              [collection-panel :refer [collection-panel collection-panels]]
+             [resource-list :refer [resource-list]]
              [label :refer [label]]
              [card :refer [card]]
              [cards :refer [cards]]
@@ -14,5 +15,5 @@
 
 (defn components [config]
   (let [components [dashboard menubar navigation-panel card viewer label cards
-                    todo-list collection-panels collection-panel]]
+                    todo-list collection-panels resource-list collection-panel]]
     (for [component components] (component config))))

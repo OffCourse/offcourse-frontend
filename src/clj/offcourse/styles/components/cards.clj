@@ -11,7 +11,11 @@
                       :background-color (:light colors)
                       :overflow-x       :hidden
                       :column-gap       column-gap})
-      [:.container--card {:padding [[(:full units) 0 0 0]]}]]
+
+      [:.container--card {:display          :inline-block
+                          :width            (:column units)
+                          :padding [[(:full units) 0 0 0]]}]]
+
      (for [{:keys [min-width max-width column-count]} breakpoints]
        (at-media {:min-width min-width :max-width max-width}
                  (let [gap-count    (dec column-count)

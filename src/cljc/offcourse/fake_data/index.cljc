@@ -113,9 +113,9 @@
 
 (defn create-resource [url]
   (let [{:keys [title text]} (generate-content)]
-    {:url url
-     :resource-type "markdown"
-     :title title
+    {:url     url
+     :type    :markdown
+     :title   title
      :authors nil
-     :tags (set-of-buzzwords 1 5)
+     :tags    (set-of-buzzwords 1 5)
      :content text}))

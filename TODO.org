@@ -8,10 +8,13 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [77%]
+* Now            [54%]
 + [-] General [50%]
-  + [X] basic (fake) auth flow
-  + [ ] curation workflow
+  - [X] basic (fake) auth flow
+  - [ ] curation workflow
++ [ ] Adapters
+  - [ ] FakeDB
+    + [ ] refactor / rewrite
 + [X] Protocols
   + [X] Authenticable
 + [X] System [100%]
@@ -33,7 +36,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] UI [100%]
   - [X] remove viewmodels
   - [X] pass in appstate atom
-+ [-] Views          [100%]
++ [-] Views          [75%]
   - [X] move graphs here
   - [X] pass in components
   - [X] Menubar [100%]
@@ -43,7 +46,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] add resources
     + [ ] design resource list
 + [ ] Styles
-   + [ ] make a global list style
+  + [ ] make a global list style
 + [X] User [100%]
   - [X] Create Component
 * Next             [0%]

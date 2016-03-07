@@ -5,7 +5,7 @@
 
 (schema/defrecord Resource
     [resource-id   :- schema/Str
-     resource-type :- schema/Keyword
+     type          :- schema/Keyword
      url           :- schema/Str
      title         :- schema/Str
      authors       :- [schema/Str]
