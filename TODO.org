@@ -8,7 +8,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [54%]
+* Now            [45%]
 + [-] General [50%]
   - [X] basic (fake) auth flow
   - [ ] curation workflow
@@ -27,9 +27,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] Resource
     + [ ] remove resource-id
     + [ ] user url as foreign key
-+ [X] Appstate [100%]
+    + [ ] add checkpoint tasks (as title)
++ [-] Appstate [75%]
   - [X] pass in state externally
   - [X] add user
+  - [ ] resources map -> vector
   - [X] no longer marshall state in response
 + [X] Viewmodels [100%]
   - [X] remove
