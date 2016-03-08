@@ -1,11 +1,14 @@
 (ns offcourse.styles.components.card
   (:require [offcourse.styles.helpers :as h]))
 
-(defn component [{:keys [component highlighted]} {:keys [full atom third sixth]} {:keys [day medium primary night]}]
-  [:.card (h/augment component {:padding-bottom   full
-                                :border-bottom    [[:solid sixth medium]]
-                                :background-color day})
-   [:&:hover {:border-color [primary]}]])
+(defn component [{:keys [component highlighted]} {:keys [column full atom third sixth]}
+                 {:keys [day medium primary night]}]
+  [[:.container--card {:display          :inline-block
+                       :width            column}]
+   [:.card (h/augment component {:padding-bottom   full
+                                 :border-bottom    [[:solid sixth medium]]
+                                 :background-color day})
+    [:&:hover {:border-color [primary]}]]])
 
 (defn card-section [{:keys [full half two-third]}] {:padding [[0 full two-third full]]})
 
