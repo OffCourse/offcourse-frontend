@@ -19,3 +19,6 @@
 
 (defn checkpoint [course-id checkpoint-id]
   [(course course-id) :checkpoints ALL #(= (:checkpoint-id %) checkpoint-id)])
+
+(defn resource [url]
+  [:resources ALL #(= (:url %) url)])

@@ -16,7 +16,7 @@
    :course              :course
    :checkpoint          :checkpoint
    :view                :view
-   :resources           :resource-ids
+   :resources           :urls
    :resource            :resource})
 
 (defn get

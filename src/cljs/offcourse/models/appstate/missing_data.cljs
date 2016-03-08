@@ -16,18 +16,18 @@
 
 (defmethod missing-data :checkpoint-view [{:keys [view-data collection] :as as} data-type]
   (if-let [data-present? (qa/check as data-type (data-type view-data))]
-    (let [course       (qa/get as :course (:course view-data))
-          resource-ids (co/get-resource-ids course)
-          query        {:type :resources
-                        :resource-ids resource-ids}]
-      (when-not (or (qa/check as query) (empty? resource-ids))
-        query))
+    (let [course (qa/get as :course (:course view-data))
+          urls   (co/get-resource-urls course)
+          query  {:type :resources
+                  :urls urls}]
+      (when-not (or (qa/check as query) (empty? urls)) query))
     view-data))
 
 (defmethod missing-data :new-course-view [{:keys [resources] :as as} data-type]
   (when (< (count resources) 5) {:type :resources
-                                  :resource-ids :featured}))
+                                  :tags [:featured]}))
 
-(defmethod missing-data :default [as type]
-  {:type :error
-   :error :appstate-empty})
+(defmethod missing-data :default [{:keys [view-type]} type]
+  (when-not (= view-type :loading-view)
+    {:type :error
+     :error :appstate-empty}))

@@ -23,7 +23,7 @@
      user           :- {:name (schema/maybe schema/Keyword)}
      collections    :- [Collection]
      courses        :- [Course]
-     resources      :- (schema/maybe {schema/Str Resource})
+     resources      :- (schema/maybe [Resource])
      queries        :- (schema/maybe #{schema/Num})]
   Validatable
   (-valid? [as] (and (empty? (schema/check Appstate as))
@@ -43,7 +43,7 @@
                :user {:name nil}
                :collections []
                :courses []
-               :resources {}
+               :resources []
                :queries #{}})
 (defn new
   ([] (map->Appstate defaults))

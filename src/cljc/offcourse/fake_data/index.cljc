@@ -12,7 +12,11 @@
 
 (def urls ["facebook.com"
            "google.com"
+           "lifely.nl"
+           "zeef.com"
            "yahoo.com"
+           "pinterest.com"
+           "gibbon.co"
            "offcourse.io"])
 
 (def users ["yeehaa" "greg" "r2j2" "reika" "charlotte" "marijn"])
@@ -78,7 +82,7 @@
   {:checkpoint-id index
    :order index
    :task task
-   :resource-id (str (uuid/make-random-squuid))
+   :url (rand-nth urls)
    :tags (set-of-buzzwords 0 5)})
 
 (defn- index-checkpoints [checkpoints]

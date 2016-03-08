@@ -8,11 +8,11 @@
    [:li.resource-list--item
     [:.info
      [:h1.title title]
-     [:p.url (str "http://" url)]]
+     [:p.url url]]
     [:.tags (labels (map (fn [tag] {:label-name tag}) tags)
                     url-helpers)]]])
 
 (rum/defc resource-list [resources url-helpers]
   [:ul.resource-list
-   (map #(rum/with-key (resource-list-item (second %) url-helpers) (first %))
+   (map #(rum/with-key (resource-list-item % url-helpers) (:url %))
         resources)])

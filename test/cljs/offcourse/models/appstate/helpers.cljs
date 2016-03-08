@@ -22,4 +22,5 @@
 (defn checkpoint ([course-id checkpoint-id] {:course-id course-id
                                              :checkpoint-id checkpoint-id}))
 
-(defn resource ([id] {:resource-id id}))
+(defn resource ([id] {:resource-id  id
+                      :url id}))

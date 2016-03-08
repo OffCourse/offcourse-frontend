@@ -32,9 +32,9 @@
 (defmethod check :checkpoint [store query]
   (if (qa/get store query) true false))
 
-(defmethod check :resources [{:keys [resources] :as ds} {:keys [resource-ids] :as query}]
+(defmethod check :resources [{:keys [resources] :as ds} {:keys [urls] :as query}]
   (if (and resources (not (empty? resources)))
-    (has-items? (map :resource-id (qa/get ds query)) resource-ids)
+    (has-items? (map :url (qa/get ds query)) urls)
     false))
 
 (defmethod check :resource [ds query]

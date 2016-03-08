@@ -33,15 +33,15 @@
     (let [{:keys [course-id checkpoint-id]} checkpoint]
       (select-first (paths/checkpoint course-id checkpoint-id) ds))))
 
-(defmethod get :resources [{:keys [resources]} {:keys [resource-ids]}]
+(defmethod get :resources [{:keys [resources] :as ds} {:keys [urls]}]
   (when resources
-    (when-let [resources (keep #(get-in resources [%]) resource-ids)]
-      (if (empty? resources) nil resources))))
+      (when-let [resources (keep #(select-first (paths/resource %) ds) urls)]
+        (if (empty? resources) nil resources))))
 
-(defmethod get :resource [{:keys [resources]} {:keys [resource]}]
+(defmethod get :resource [{:keys [resources] :as ds} {:keys [resource]}]
   (when resources
-    (when-let [{:keys [resource-id]} resource]
-      (get-in resources [resource-id]))))
+    (when-let [{:keys [url]} resource]
+      (select-first (paths/resource url) ds))))
 
 (defmethod get :default [_ _]
   {:type :error

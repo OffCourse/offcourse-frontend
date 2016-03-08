@@ -7,6 +7,8 @@
 (deftest models-appstate-get
   (let [id              123
         missing-id      223
+        url             "http://offcourse.io"
+        missing-url     "http://gibbon.co"
         buzzword        :agile
         user-id         :yeehaa
         checkpoint      {:checkpoint-id 1
@@ -19,7 +21,7 @@
         collection      {:collection-type collection-type
                          :collection-name buzzword
                          :course-ids      #{id}}
-        resource        {:resource-id id}]
+        resource        {:url url}]
 
 
     (testing "it returns an error if given an non-exisiting query type"
@@ -96,20 +98,20 @@
             missing-id    1       nil))))
 
     (testing "when query type is resources"
-      (let [store (sut/new {:resources {id resource}})
+      (let [store (sut/new {:resources [resource]})
             get   (partial qa/get store :resources)]
 
         (testing "it retrieves the resources"
           (are [resource-ids expectation] (= (get resource-ids) expectation)
-            [id]            [resource]
-            [missing-id]    nil))))
+            [url]            [resource]
+            [missing-url]    nil))))
 
 
     (testing "when query type is resource"
-      (let [store (sut/new {:resources {id resource}})
+      (let [store (sut/new {:resources [resource]})
             get   (partial qa/get store :resource)]
 
         (testing "it retrieves a resource"
-          (are [resource-id expectation] (= (get (h/resource resource-id)) expectation)
-            id             resource
-            missing-id     nil))))))
+          (are [url expectation] (= (get (h/resource url)) expectation)
+            url            resource
+            missing-url     nil))))))

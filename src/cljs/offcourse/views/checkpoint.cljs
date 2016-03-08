@@ -27,10 +27,10 @@
                                            augment-course)]
                          course
                          course-data))
-   :resource-id   (fnk [course checkpoint-id]
-                       (co/get-resource-id course checkpoint-id))
-   :resource      (fnk [appstate resource-id]
-                       (qa/get appstate :resource {:resource-id resource-id}))
+   :url           (fnk [course checkpoint-id]
+                       (co/get-resource-url course checkpoint-id))
+   :resource      (fnk [appstate url]
+                       (qa/get appstate :resource {:url url}))
    :course-id     (fnk [course] (:course-id course))
    :main          (fnk [resource [:components viewer]] (viewer resource))
    :dashboard     (fnk [url-helpers course [:components card dashboard]]

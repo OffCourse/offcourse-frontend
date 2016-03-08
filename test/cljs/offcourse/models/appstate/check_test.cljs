@@ -8,18 +8,21 @@
 
   (let [id              123
         missing-id      223
+        url             "http://offcourse.io"
+        missing-url     "http://gibbon.co"
         buzzword        :agile
         user-id         :yeehaa
         checkpoint      {:checkpoint-id 1
-                         :resource-id id}
-        course          {:course-id id
-                         :curator   user-id
-                         :hashtag   buzzword
+                         :resource-id   id}
+        course          {:course-id   id
+                         :curator     user-id
+                         :hashtag     buzzword
                          :checkpoints [checkpoint]}
         collection-type :flags
         collection      {:collection-type collection-type
                          :collection-name buzzword
-                         :course-ids      #{}}]
+                         :course-ids      #{}}
+        resource        {:url url}]
 
     (testing "it returns an error if given an non-exisiting query type"
       (is (= (qa/check (sut/new) :bla)
@@ -49,11 +52,11 @@
         (testing "it reports if a collection is present"
           (let [check (fn [type name] (qa/check store :collection (h/collection type name)))]
             (are [type name expectation] (= (check type name) expectation)
-              collection-type buzzword        true
-              collection-type :netiquette     false
-              collection-type :bla            false
-              :bla            buzzword        false
-              :bla            :bla            false)))))
+              collection-type buzzword    true
+              collection-type :netiquette false
+              collection-type :bla        false
+              :bla            buzzword    false
+              :bla            :bla        false)))))
 
     (testing "when query type is courses"
       (let [store (sut/new {:courses [course]})]
@@ -65,7 +68,7 @@
               [missing-id] false)))))
 
     (testing "when query type is course"
-      (let [store (sut/new {:user {:name user-id}
+      (let [store (sut/new {:user    {:name user-id}
                             :courses [course]})]
 
         (testing "it reports if course is present by checking its id"
@@ -75,13 +78,13 @@
               missing-id false)))
 
         (testing "it doesn't check if course-id is new"
-          (let [check (fn [curator] (qa/check store {:type :course
+          (let [check (fn [curator] (qa/check store {:type   :course
                                                      :course {:course-id :new
-                                                              :curator curator}}))]
+                                                              :curator   curator}}))]
 
             (are [curator expectation] (= (check curator) expectation)
               user-id true
-              #_:bla    #_false)))
+              #_:bla  #_false)))
 
         (testing "it reports if course is present by checking its curator and hashtag"
           (let [check (fn [curator hashtag] (qa/check store :course (h/course curator hashtag)))]
@@ -93,34 +96,34 @@
 
     (testing "when query type is checkpoint"
       (let [new-checkpoint {:checkpoint-id :new}
-            course (update course :checkpoints #(conj % new-checkpoint))
-            store (sut/new {:courses [course]})]
+            course         (update course :checkpoints #(conj % new-checkpoint))
+            store          (sut/new {:courses [course]})]
 
         (testing "it reports if course is present by checking its id"
           (let [check (fn [course-id checkpoint-id] (qa/check store :checkpoint
                                                               (h/checkpoint course-id checkpoint-id)))]
             (are [course-id checkpoint-id expectation]
                 (= (check course-id checkpoint-id) expectation)
-              id         :new     true
-              id         1        true
-              missing-id :new     false
-              missing-id 1        false)))))
+              id         :new true
+              id         1    true
+              missing-id :new false
+              missing-id 1    false)))))
 
     (testing "when query type is resources"
-      (let [store (sut/new {:resources {123 {:resource-id 123}}})]
+      (let [store (sut/new {:resources [resource]})]
 
         (testing "it reports if resources are present"
-          (let [check (fn [resource-ids] (qa/check store :resources resource-ids))]
-            (are [resource-ids expectation] (= (check resource-ids) expectation)
-              []           true
-              [id]         true
-              [missing-id] false)))))
+          (let [check (fn [urls] (qa/check store :resources urls))]
+            (are [urls expectation] (= (check urls) expectation)
+              []            true
+              [url]         true
+              [missing-url] false)))))
 
     (testing "when query type is resource"
-      (let [store (sut/new {:resources {123 {:resource-id 123}}})]
+      (let [store (sut/new {:resources [resource]})]
 
         (testing "it reports if resource is present"
-          (let [check (fn [resource-id] (qa/check store :resource (h/resource resource-id)))]
-            (are [resource-id expectation] (= (check resource-id) expectation)
-              id         true
-              missing-id false)))))))
+          (let [check (fn [url] (qa/check store :resource (h/resource url)))]
+            (are [url expectation] (= (check url) expectation)
+              url         true
+              missing-url false)))))))

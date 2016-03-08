@@ -6,11 +6,11 @@
              [com.rpl.specter :refer [select select-first filterer ALL]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn create-fake-resource [resource-id]
+(defn create-fake-resource [url]
   (-> fake-data/urls
       rand-nth
       fake-data/create-resource
-      (assoc :resource-id resource-id)))
+      (assoc :url url)))
 
 (defonce courses (conj (take 10 (repeatedly fake-data/generate-course))
                        (fake-data/generate-course "yeehaa" "netiquette")))
@@ -74,11 +74,11 @@
   (let [courses (select [ALL #(contains? course-ids (:course-id %))] courses)]
     (go (if courses courses {:error :not-found-data}))))
 
-(defmethod fetch :resource [_ {:keys [resource-id]}]
-  (go (create-fake-resource resource-id)))
+(defmethod fetch :resource [_ {:keys [url]}]
+  (go (create-fake-resource url)))
 
-(defmethod fetch :resources [_ {:keys [resource-ids]}]
+(defmethod fetch :resources [_ {:keys [urls tags]}]
   (go
-    (if (= resource-ids :featured)
-      (map create-fake-resource ["aa" "bb" "cc" "dd" "ee" "ff"])
-      (map create-fake-resource resource-ids))))
+    (if tags
+      (map create-fake-resource fake-data/urls)
+      (map create-fake-resource urls))))

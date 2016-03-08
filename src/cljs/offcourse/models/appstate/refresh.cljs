@@ -12,11 +12,11 @@
     (apply merge-with deep-merge vs)
     (last vs)))
 
-(defn add-course [store {:keys [course-id] :as course}]
+(defn add-course [store course]
   (update-in store [:courses] #(conj % course)))
 
-(defn add-resource [store {:keys [resource-id] :as resource}]
-  (assoc-in store [:resources resource-id] resource))
+(defn add-resource [store resource]
+  (update-in store [:resources] #(conj % resource)))
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
@@ -51,11 +51,22 @@
       (add-course store course)
       store)))
 
-(defmethod refresh :resources [store {:keys [resources]}]
-  (reduce add-resource store resources))
+(defmethod refresh :resources [store query]
+  (let [store-urls        (into #{} (map :url (:resources store)))
+        query-urls        (into #{} (map :url (:resources query)))
+        missing-urls      (set/difference query-urls store-urls)
+        missing-resources (keep (fn [{:keys [url] :as resource}]
+                                  (when (contains? missing-urls url) resource))
+                                (:resources query))]
+    (if-not (empty? missing-urls)
+      (reduce add-resource store missing-resources)
+      store)))
 
 (defmethod refresh :resource [store {:keys [resource]}]
-  (add-resource store resource))
+  (let [store-urls (into #{} (map :url (:resources store)))]
+    (if-not (contains? store-urls (:url resource))
+      (add-resource store resource)
+      store)))
 
 (defmethod refresh :default [{:keys [store] :as as} query]
   {:type :error :error :query-not-supported})

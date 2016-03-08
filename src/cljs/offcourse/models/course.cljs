@@ -33,14 +33,15 @@
        (map :tags)
        (apply set/union)))
 
-(defn get-resource-ids [course]
+(defn get-resource-urls [course]
   (->> course
        :checkpoints
-       (map :resource-id)))
+       (map :url)))
 
-(defn get-resource-id [course checkpoint-id]
+(defn get-resource-url [course checkpoint-id]
   (when (:checkpoints course)
-    (select-first [:checkpoints ALL #(= (:checkpoint-id %) checkpoint-id) :resource-id] course)))
+
+    (select-first [:checkpoints ALL #(= (:checkpoint-id %) checkpoint-id) :url] course)))
 
 (defn get-checkpoint [course checkpoint-id]
   (->> (:checkpoints course)
