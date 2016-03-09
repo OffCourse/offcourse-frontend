@@ -11,8 +11,10 @@
                  :padding [[(:full units) 0 0 0]]}]
    [:.resource-list  {:width            (percent 100)
                       :display          :flex
+                      :padding-right    (:full units)
                       :background-color (:light colors)
-                      :flex-direction   :column}]
+                      :flex-direction   :column
+                      :overflow-y :auto}]
    [:.resource-list--item {:padding (:full units)
                            :border-bottom    [[:solid (:sixth units) (:medium units)]]
                            :display          :flex

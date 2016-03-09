@@ -4,7 +4,7 @@
             [offcourse.models.appstate.helpers :as h]
             [offcourse.models.appstate.index :as sut]
             [offcourse.models.appstate.paths :as paths]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]))
+            [offcourse.protocols.queryable :as qa]))
 
 (deftest models-appstate-refresh
   (let [id              123
@@ -12,7 +12,9 @@
         buzzword        :agile
         user-id         :yeehaa
         url             "http://offcourse.io"
-        missing-url     "http://gibbon.co"
+        new-url1        "http://bla.com"
+        new-url2        "http://blabla.com"
+        missing-url     "http://facebook.co"
         course          {:course-id id
                          :curator   user-id
                          :hashtag   buzzword}
@@ -104,35 +106,42 @@
     (testing "when query type is resources"
       (letfn [(resources [urls] (map (fn [url] {:url url}) urls))]
 
-        #_(testing "it adds new resources"
-            (let [query {:type      :resources
-                         :resources (resources [url "http://bla.com"])}
-                  store (sut/new {:resources (resources ["http://blabla.com"])})
-                  urls  (map :url (:resources (qa/refresh store query)))]
+        (testing "it adds new resources"
+          (let [query {:type      :resources
+                       :resources (resources [url new-url1])}
+                store (sut/new {:resources (resources [new-url2])})
+                urls  (map :url (:resources (qa/refresh store query)))]
             (are [value actual] (= (h/contains-val? urls value) actual)
-              url                 true
-              "http://bla.com"    true
-              "http://blabla.com" true
-              missing-url         false)))
+              url         true
+              new-url1    true
+              new-url2    true
+              missing-url false)))
 
         (testing "does not add resources that are already in store"
           (let [query {:type      :resources
-                       :resources (resources [url "http://bla.com"])}
+                       :resources (resources [url new-url1])}
                 store (sut/new {:resources (resources [url])})
                 urls  (map :url (:resources (qa/refresh store query)))]
-            (is (= (count (filter #(= url %) urls)) 1))))))
+            (is (= (count (filter #(= url %) urls)) 1))))
+
+        (testing "does not add two of the same resources that are not in store"
+          (let [query {:type      :resources
+                       :resources (resources [new-url1 new-url1])}
+                store (sut/new {:resources (resources [url])})
+                urls  (map :url (:resources (qa/refresh store query)))]
+            (is (= (count (filter #(= new-url1 %) urls)) 1))))))
 
     (testing "when query type is resource"
       (let [resources (fn [urls] (map (fn [url] {:url url}) urls))]
 
         (testing "it adds a new resource"
-          (let [store (sut/new {:resources (resources ["http://bla.com"])})
+          (let [store (sut/new {:resources (resources [new-url1])})
                 urls  (map :url (:resources (qa/refresh store :resource resource)))]
 
             (are [value actual] (= (h/contains-val? urls value) actual)
-              url              true
-              "http://bla.com" true
-              missing-url      false)))
+              url         true
+              new-url1    true
+              missing-url false)))
 
         (testing "does not add a resource that is already in store"
           (let [store (sut/new {:resources [resource]})

@@ -9,12 +9,12 @@
 
 (defn viewer [{:keys [templates colors fonts units]}]
   [[:.viewer  {:width (percent 100)
-               :height (percent 100)
-               :background-color (:day colors)}]
-   [:.content {:display      :block
-               :max-width    (* 33 (:full units))
-               :padding      (:full units)
-               :padding-left (:full units)}
+               :background-color (:day colors)
+               :overflow-y :auto}]
+    [:.content {:display      :block
+                :max-width    (* 33 (:full units))
+                :padding      (:full units)
+                :padding-left (:full units)}
     [:h1 {:font-size     (* 2 (:title-font units))
           :line-height   (* 1.8 (:title-line-height units))
           :margin-bottom (:full units)

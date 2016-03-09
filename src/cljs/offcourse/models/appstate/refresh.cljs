@@ -1,10 +1,7 @@
 (ns offcourse.models.appstate.refresh
-  (:require [offcourse.models.collection :as cl]
-            [medley.core :as medley]
-            [com.rpl.specter :refer [select select-first transform filterer ALL]]
-            [clojure.set :as set]
-            [offcourse.models.appstate.paths :as paths]
-            [offcourse.protocols.queryable :as qa]))
+  (:require [clojure.set :as set]
+            [com.rpl.specter :refer [select-first transform]]
+            [offcourse.models.appstate.paths :as paths]))
 
 (defn deep-merge
   [& vs]
@@ -16,7 +13,10 @@
   (update-in store [:courses] #(conj % course)))
 
 (defn add-resource [store resource]
-  (update-in store [:resources] #(conj % resource)))
+  (let [store-urls (into #{} (map :url (:resources store)))]
+    (if-not (contains? store-urls (:url resource))
+      (update-in store [:resources] #(conj % resource))
+      store)))
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
@@ -51,22 +51,11 @@
       (add-course store course)
       store)))
 
-(defmethod refresh :resources [store query]
-  (let [store-urls        (into #{} (map :url (:resources store)))
-        query-urls        (into #{} (map :url (:resources query)))
-        missing-urls      (set/difference query-urls store-urls)
-        missing-resources (keep (fn [{:keys [url] :as resource}]
-                                  (when (contains? missing-urls url) resource))
-                                (:resources query))]
-    (if-not (empty? missing-urls)
-      (reduce add-resource store missing-resources)
-      store)))
+(defmethod refresh :resources [store {:keys [resources]}]
+  (reduce add-resource store resources))
 
 (defmethod refresh :resource [store {:keys [resource]}]
-  (let [store-urls (into #{} (map :url (:resources store)))]
-    (if-not (contains? store-urls (:url resource))
-      (add-resource store resource)
-      store)))
+  (add-resource store resource))
 
 (defmethod refresh :default [{:keys [store] :as as} query]
   {:type :error :error :query-not-supported})

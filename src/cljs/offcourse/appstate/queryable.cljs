@@ -7,8 +7,10 @@
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
 (defmethod refresh :default [{:keys [state] :as as} query]
+  (println "Query" (map :url (:resources query)))
   (let [old-state @state]
     (swap! state #(qa/refresh % query))
+    (println "Store" (map :url (:resources @state)))
     (when-not (= old-state @state)
       (if (va/valid? as)
         (do
