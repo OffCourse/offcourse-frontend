@@ -10,7 +10,6 @@
     [course-id    :- schema/Int
      base-id      :- schema/Int
      hashtag      :- schema/Keyword
-     description  :- schema/Str
      timestamp    :- schema/Int
      version      :- [schema/Int]
      revision     :- schema/Int

@@ -5,11 +5,6 @@
             [offcourse.fake-data.buzzwords :as bw]
             [offcourse.fake-data.courses :refer [raw-courses]]))
 
-(def checkpoint {:checkpoint-id :new
-                 :task "Do Something Different"
-                 :url "bla.com"
-                 :completed false})
-
 (def urls ["facebook.com"
            "google.com"
            "lifely.nl"
@@ -30,27 +25,6 @@
        (take (rand-int-between 10 40))
        (map #(str/capitalize %1))
        (str/join " ")))
-
-(defn make-title []
-  (->> (lorem/words)
-       (take (rand-int-between 3 8))
-       (map #(str/capitalize %1))
-       (str/join " ")))
-
-(def body
-  (->> (lorem/paragraphs (rand-int-between 8 15))
-       (take (rand-int-between 10 40))))
-
-(defn make-text [title]
-  (->> (conj body (str "# " title))
-       (str/join "\n\n")))
-
-(defn generate-content []
-  (let [title (make-title)
-        text (make-text title)]
-    {:title title
-     :text text}))
-
 
 (defn to-snake-case [str]
   (as-> str %
@@ -74,9 +48,6 @@
        shuffle
        (take (rand-int 4))
        (into #{})))
-
-(defn generate-user []
-  (rand-nth users))
 
 (defn- index-checkpoint [index {:keys [task completed]}]
   {:checkpoint-id index
@@ -114,12 +85,3 @@
                                 :flags (generate-flags))
                          (update-in [:checkpoints] index-checkpoints)
                          add-ids)))
-
-(defn create-resource [url]
-  (let [{:keys [title text]} (generate-content)]
-    {:url     url
-     :type    :markdown
-     :title   title
-     :authors nil
-     :tags    (set-of-buzzwords 1 5)
-     :content text}))
