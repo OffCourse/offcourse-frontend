@@ -8,10 +8,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [70%]
-+ [-] General [50%]
+* Now            [90%]
++ [X] General [100%]
   - [X] basic (fake) auth flow
-  - [ ] curation workflow
 + [X] Adapters
   - [X] FakeDB
     + [X] refactor / rewrite
@@ -20,14 +19,14 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [X] System [100%]
   - [X] add appstate atom
   - [X] combine different route modules
-+ [-] models
++ [X] models
   - [X] Appstate
     + [X] missing-data
       - [X] resources for new courses
-  - [-] Resource
+  - [X] Resource
     + [X] remove resource-id
     + [X] user url as foreign key
-    + [ ] add checkpoint tasks (as title)
+    + [X] add checkpoint tasks (as title)
 + [X] Appstate [100%]
   - [X] pass in state externally
   - [X] add user
@@ -53,6 +52,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 + [ ] General        [0%]
   - [ ] add 'save course' functionality
   - [ ] refactor schemas
+  - [ ] curation workflow
 + [ ] Protocols      [0%]
   - [ ] Bootstrappable
   - [ ] Lifecycle    [0%]

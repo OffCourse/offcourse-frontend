@@ -38,10 +38,8 @@
 (def urls ["facebook.com"
            "google.com"
            "lifely.nl"
-           "zeef.com"
            "yahoo.com"
            "pinterest.com"
-           "gibbon.co"
            "offcourse.io"])
 
 (def users ["yeehaa" "greg" "r2j2" "reika" "charlotte" "marijn"])

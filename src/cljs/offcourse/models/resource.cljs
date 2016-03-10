@@ -8,6 +8,7 @@
      url           :- schema/Str
      title         :- schema/Str
      authors       :- [schema/Str]
+     tasks         :- {schema/Str schema/Num}
      tags          :- #{schema/Keyword}
      content       :- schema/Any]
   Queryable

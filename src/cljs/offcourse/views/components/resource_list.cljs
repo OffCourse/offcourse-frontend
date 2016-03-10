@@ -3,7 +3,8 @@
             [offcourse.views.components.label :refer [labels]]
             [bidi.bidi :refer [path-for]]))
 
-(rum/defc resource-list-item [{:keys [title tags url] :as resource} url-helpers]
+(rum/defc resource-list-item [{:keys [title tags url tasks] :as resource} url-helpers]
+  (println url tasks)
   [:.container
    [:li.resource-list--item
     [:.info
