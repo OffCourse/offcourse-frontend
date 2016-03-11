@@ -1,6 +1,5 @@
 (ns offcourse.models.viewmodel.refresh
-  (:require [medley.core :as medley]
-            [offcourse.models.viewmodel.index :as vm]))
+  (:require [medley.core :as medley]))
 
 (def view-hierarchy
   (-> (make-hierarchy)
@@ -19,13 +18,15 @@
                  query-dependencies))
 
 (defmethod refresh :course-view [vm query]
-  (vm/new {:type (:type query)
-           :dependencies (refresh-dependencies
-                          (:dependencies vm) (:dependencies query))}))
+  (assoc vm
+         :type (:type query)
+         :dependencies (refresh-dependencies
+                        (:dependencies vm) (:dependencies query))))
 
 (defmethod refresh :view [vm query]
-  (vm/new {:type (:type query)
-           :dependencies (:dependencies query)}))
+  (assoc vm :type
+         (:type query)
+         :dependencies (:dependencies query)))
 
 (defmethod refresh :default [_ _]
   {:type :error :error :query-not-supported})

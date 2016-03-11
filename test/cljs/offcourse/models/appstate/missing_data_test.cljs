@@ -1,6 +1,5 @@
 (ns offcourse.models.appstate.missing-data-test
-  (:require [cljs.test :refer-macros [are deftest is testing]]
-            [offcourse.models.appstate.helpers :as h]
+  (:require [cljs.test :refer-macros [deftest is testing]]
             [offcourse.models.appstate.index :as sut]
             [offcourse.protocols.validatable :as va]))
 
@@ -40,7 +39,7 @@
               :urls [url]})))
 
     (testing "missing resources in new-course"
-      (is (= (va/missing-data (sut/new {:viewmodel {:type         :new-course-view
+      (is (= (va/missing-data (sut/new {:viewmodel {:type         :course-view
                                                     :dependencies new-course-view-data}
                                         :courses   [course]}))
              {:type :resources
