@@ -3,31 +3,35 @@
             [offcourse.protocols.queryable :as qa]))
 
 (defmulti missing-data
-  (fn [{:keys [view-type]} type] view-type))
+  (fn [{:keys [viewmodel]}] (:type viewmodel)))
 
-(defmethod missing-data :collection-view [{:keys [view-data collection] :as as} data-type]
-  (if-let [data-present? (qa/check as data-type (data-type view-data))]
-    (let [collection (qa/get as :collection (:collection view-data))
-          course-ids (:course-ids collection)
-          query {:type :courses
-                 :course-ids course-ids}]
-      (when-not (qa/check as query) query))
-    view-data))
+(defmethod missing-data :collection-view [{:keys [viewmodel collection] :as as}]
+  (let [{:keys [dependencies]} viewmodel]
+    (if-let [data-present? (qa/check as :collection (:collection dependencies))]
+      (let [collection (qa/get as :collection (:collection dependencies))
+            course-ids (:course-ids collection)
+            query {:type :courses
+                   :course-ids course-ids}]
+        (when-not (qa/check as query) query))
+      {:type :collection
+       :collection (:collection dependencies)})))
 
-(defmethod missing-data :checkpoint-view [{:keys [view-data collection] :as as} data-type]
-  (if-let [data-present? (qa/check as data-type (data-type view-data))]
-    (let [course (qa/get as :course (:course view-data))
-          urls   (co/get-resource-urls course)
-          query  {:type :resources
-                  :urls urls}]
-      (when-not (or (qa/check as query) (empty? urls)) query))
-    view-data))
+(defmethod missing-data :checkpoint-view [{:keys [viewmodel] :as as}]
+  (let [{:keys [dependencies]} viewmodel]
+    (if-let [data-present? (qa/check as :course (:course dependencies))]
+      (let [course (qa/get as :course (:course dependencies))
+            urls   (co/get-resource-urls course)
+            query  {:type :resources
+                    :urls urls}]
+        (when-not (or (qa/check as query) (empty? urls)) query))
+      {:type :course
+       :course (:course dependencies)})))
 
-(defmethod missing-data :new-course-view [{:keys [resources] :as as} data-type]
+(defmethod missing-data :course-view [{:keys [resources] :as as} data-type]
   (when (< (count resources) 5) {:type :resources
                                   :tags [:featured]}))
 
-(defmethod missing-data :default [{:keys [view-type]} type]
-  (when-not (= view-type :loading-view)
+(defmethod missing-data :default [{:keys [viewmodel]}]
+  (when-not (= (:type viewmodel) :loading-view)
     {:type :error
      :error :appstate-empty}))

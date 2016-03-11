@@ -4,6 +4,7 @@
             [offcourse.models.appstate.add :as add-impl]
             [offcourse.models.appstate.missing-data :as md-impl]
             [offcourse.models.appstate.refresh :as refresh-impl]
+            [offcourse.models.viewmodel.index :as vm]
             [offcourse.models.collection :refer [Collection]]
             [offcourse.models.course :refer [Course]]
             [offcourse.models.resource :refer [Resource]]
@@ -18,9 +19,7 @@
 
 (schema/defrecord Appstate
     [site-title     :- schema/Str
-     view-type      :- schema/Keyword
-     view-data      :- {schema/Keyword schema/Any}
-     viewmodel      :- {schema/Keyword schema/Any}
+     viewmodel      :- schema/Any
      user           :- {:name (schema/maybe schema/Keyword)}
      collections    :- [Collection]
      courses        :- [Course]
@@ -29,7 +28,7 @@
   Validatable
   (-valid? [as] (and (empty? (schema/check Appstate as))
                      (not (va/missing-data as))))
-  (-missing-data [{:keys [view-data] :as as}] (md-impl/missing-data as (:type view-data)))
+  (-missing-data [{:keys [view-data] :as as}] (md-impl/missing-data as))
 
 
   Queryable
@@ -39,8 +38,7 @@
   (-get [as query] (get-impl/get as query)))
 
 (def defaults {:site-title "BLABLA"
-               :view-type :loading-view
-               :view-data {}
+               :viewmodel (vm/new {:type :loading-view})
                :user {:name nil}
                :collections []
                :courses []

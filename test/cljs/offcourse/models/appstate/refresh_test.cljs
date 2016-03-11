@@ -28,7 +28,7 @@
       (is (= (qa/refresh (sut/new) :bla)
              {:type :error :error :query-not-supported})))
 
-    (testing "when query type is view"
+    #_(testing "when query type is view"
 
       (let [query {:type     :view
                    :view-data {:view-type :course-view

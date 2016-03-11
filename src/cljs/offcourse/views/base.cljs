@@ -12,9 +12,8 @@
 (def graph
   {:container (fnk [[:components app]] app)
    :view-data (fnk [appstate]
-                   (println (:view appstate))
-                   (:view-data appstate))
-   :view-name (fnk [appstate] (:view-type appstate))
+                   (-> appstate :viewmodel :dependencies))
+   :view-name (fnk [appstate view-data] (:type view-data))
    :menubar   (fnk [[:appstate user site-title]
                     [:url-helpers home-url new-course-url]
                     handlers

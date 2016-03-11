@@ -10,7 +10,8 @@
     (-> course (with-meta {:tags tags}))))
 
 (def graph
-  {:collection-data (fnk [view-data] (:collection view-data))
+  {:collection-data (fnk [view-data]
+                         (:collection view-data))
    :collection      (fnk [appstate collection-data]
                          (or (qa/get appstate :collection collection-data)
                              collection-data))

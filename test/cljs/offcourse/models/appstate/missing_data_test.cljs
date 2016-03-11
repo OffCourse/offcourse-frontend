@@ -18,47 +18,49 @@
                               :course course}
         collection-view-data {:type       :collection
                               :collection (dissoc collection :course-ids)}]
+
     (testing "empty store"
-      (is (= (va/missing-data (sut/new {:view-type :loading-view}))
+
+      (is (= (va/missing-data (sut/new {:viewmodel {:type :loading-view}}))
              nil))
-      (is (= (va/missing-data (sut/new {:view-type :bla-view}))
+      (is (= (va/missing-data (sut/new {:viewmodel {:type :bla-view}}))
              {:type :error :error :appstate-empty})))
 
     (testing "missing course"
-      (is (= (va/missing-data (sut/new {:view-type :checkpoint-view
-                                        :view-data checkpoint-view-data}))
+      (is (= (va/missing-data (sut/new {:viewmodel {:type         :checkpoint-view
+                                                    :dependencies checkpoint-view-data} }))
              {:type   :course
               :course course})))
 
     (testing "missing resources in course"
-      (is (= (va/missing-data (sut/new {:view-type :checkpoint-view
-                                        :view-data checkpoint-view-data
+      (is (= (va/missing-data (sut/new {:viewmodel {:type         :checkpoint-view
+                                                    :dependencies checkpoint-view-data}
                                         :courses   [course]}))
              {:type :resources
               :urls [url]})))
 
     (testing "missing resources in new-course"
-      (is (= (va/missing-data (sut/new {:view-type :new-course-view
-                                        :view-data new-course-view-data
+      (is (= (va/missing-data (sut/new {:viewmodel {:type         :new-course-view
+                                                    :dependencies new-course-view-data}
                                         :courses   [course]}))
              {:type :resources
               :tags [:featured]})))
 
     (testing "missing courses in collection"
-      (is (= (va/missing-data (sut/new {:view-type   :collection-view
-                                        :view-data   collection-view-data
-                                        :collections [collection]}))
+      (is (= (va/missing-data (sut/new {:viewmodel   {:type         :collection-view
+                                                      :dependencies collection-view-data}
+                                        :collections [collection]} ))
              {:type       :courses
               :course-ids #{course-id}})))
 
     (testing "happy path"
-      (is (= (va/missing-data (sut/new {:view-type   :collection-view
-                                        :view-data   collection-view-data
+      (is (= (va/missing-data (sut/new {:viewmodel   {:type          :collection-view
+                                                      :dependencies collection-view-data}
                                         :collections [collection]
                                         :courses     [course]})) nil))
 
 
-      (is (= (va/missing-data (sut/new {:view-type :checkpoint-view
-                                        :view-data checkpoint-view-data
+      (is (= (va/missing-data (sut/new {:viewmodel {:type :checkpoint-view
+                                                    :view-data checkpoint-view-data}
                                         :courses   [course]
                                         :resources [{:url url}]})) nil)))))

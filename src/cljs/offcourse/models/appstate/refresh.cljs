@@ -1,7 +1,8 @@
 (ns offcourse.models.appstate.refresh
   (:require [clojure.set :as set]
             [com.rpl.specter :refer [select-first transform]]
-            [offcourse.models.appstate.paths :as paths]))
+            [offcourse.models.appstate.paths :as paths]
+            [offcourse.protocols.queryable :as qa]))
 
 (defn deep-merge
   [& vs]
@@ -21,8 +22,7 @@
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
 (defmethod refresh :view [state {:keys [view-data]}]
-  (-> (merge state view-data)
-      (assoc :viewmodel view-data)))
+  (update state :viewmodel #(qa/refresh % view-data)))
 
 (defmethod refresh :user [state {:keys [user]}]
   (assoc state :user user))

@@ -14,6 +14,9 @@
    :collection          :collection
    :courses             :course-ids
    :course              :course
+   :course-view         :dependencies
+   :collection-view     :dependencies
+   :checkpoint-view     :dependencies
    :checkpoint          :checkpoint
    :view                :view
    :resources           :urls

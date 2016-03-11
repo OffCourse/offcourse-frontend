@@ -27,7 +27,7 @@
     (rum/mount rendered (. js/document (querySelector element)))))
 
 (defn new [appstate components url-helpers handlers]
-  (let [view-type (get-in appstate [:view-type])
+  (let [view-type (get-in appstate [:viewmodel :type])
         blacklist [:collection-data :tags :resource-id :course-ids :view-data]]
     (map->View {:appstate    appstate
                 :type        view-type
