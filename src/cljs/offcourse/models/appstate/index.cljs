@@ -20,6 +20,7 @@
     [site-title     :- schema/Str
      view-type      :- schema/Keyword
      view-data      :- {schema/Keyword schema/Any}
+     viewmodel      :- {schema/Keyword schema/Any}
      user           :- {:name (schema/maybe schema/Keyword)}
      collections    :- [Collection]
      courses        :- [Course]

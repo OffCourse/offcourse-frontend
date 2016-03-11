@@ -17,21 +17,41 @@
     {:url     url
      :type    :markdown
      :title   title
-     :tasks   {task 0}
+     :tasks   {task 1}
+     :checkpoint-count 1
      :authors nil
      :tags    (h/set-of-buzzwords 1 5)
      :content content}))
 
+(defn compare-values [key1 key2 tasks]
+  (compare [(get tasks key2) key2]
+           [(get tasks key1) key1]))
+
+(defn sort-tasks [{:keys [tasks] :as resource}]
+  (->> tasks
+       (into (sorted-map-by #(compare-values %1 %2 tasks)))
+       keys
+       (into #{})
+       (assoc resource :tasks)))
+
+(defn set-or-update-tasks [tasks task]
+  (if (get tasks task)
+    (update tasks task inc)
+    (assoc tasks task 0)))
+
+(defn update-resource [resource task]
+  (-> resource
+      (update :tasks #(set-or-update-tasks %1 task))
+      (update :checkpoint-count inc)))
+
+(defn create-or-update-resource [resources {:keys [url task] :as checkpoint}]
+  (if (select-resource url resources)
+    (transform [(resource-path url)] #(update-resource %1 task) resources)
+    (conj resources (dummy checkpoint))))
+
 (defn resources [courses]
-  (let [checkpoints (mapcat :checkpoints courses)]
-    (reduce (fn [resources {:keys [url task] :as checkpoint}]
-              (if (select-resource url resources)
-                (transform [(resource-path url) :tasks]
-                           (fn [tasks]
-                             (if (get tasks task)
-                               (update tasks task inc)
-                               (assoc tasks task 0)))
-                           resources)
-                (conj resources (dummy checkpoint)))) [] checkpoints)))
-
-
+  (->> (mapcat :checkpoints courses)
+       (reduce create-or-update-resource [])
+       (map sort-tasks)
+       (sort-by :checkpoint-count)
+       reverse))

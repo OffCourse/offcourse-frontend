@@ -4,8 +4,8 @@
             [pushy.core :as pushy]))
 
 (defn handle-request [{:keys [responses] :as rt} {:keys [handler route-params]}]
-  (ri/respond rt :requested-route {:type :appstate
-                                   :appstate ((handler responses) route-params)}))
+  (ri/respond rt :requested-view {:type :view
+                                  :view-data ((handler responses) route-params)}))
 
 (defn restart [{:keys [history] :as rt}]
   (pushy/replace-token! history "/"))

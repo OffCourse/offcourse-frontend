@@ -20,8 +20,9 @@
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :appstate [state {:keys [appstate]}]
-  (merge state appstate))
+(defmethod refresh :view [state {:keys [view-data]}]
+  (-> (merge state view-data)
+      (assoc :viewmodel view-data)))
 
 (defmethod refresh :user [state {:keys [user]}]
   (assoc state :user user))

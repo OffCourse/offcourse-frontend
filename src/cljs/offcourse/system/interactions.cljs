@@ -21,7 +21,8 @@
   {:api       {:not-found-data qa/fetch}
    :logger    {:logged-action println}
    :router    {}
-   :appstate  {:requested-route          qa/refresh
+   :appstate  {:requested-view          qa/refresh
+               :requested-update         qa/refresh
                :found-data               qa/refresh
                :not-found-data           qa/check
                :signed-in-user           qa/refresh}

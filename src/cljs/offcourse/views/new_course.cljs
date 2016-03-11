@@ -7,7 +7,7 @@
 (def graph
   {:course-data (fnk [view-data] (:course view-data))
    :course      (fnk [course-data] course-data)
-   :main        (fnk [appstate [:components resource-list] url-helpers]
-                     (resource-list (:resources appstate) url-helpers))
-   :dashboard   (fnk [course [:components dashboard course-form]]
-                     (dashboard {:main (course-form course)}))})
+   :main        (fnk [appstate handlers [:components resource-list] url-helpers]
+                     (resource-list (:resources appstate) url-helpers (:update-appstate handlers)))
+   :dashboard   (fnk [course handlers [:components dashboard course-form]]
+                     (dashboard {:main (course-form course (:update-appstate handlers))}))})

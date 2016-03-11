@@ -28,13 +28,13 @@
       (is (= (qa/refresh (sut/new) :bla)
              {:type :error :error :query-not-supported})))
 
-    (testing "when query type is appstate"
+    (testing "when query type is view"
 
-      (let [query {:type     :appstate
-                   :appstate {:view-type :course-view
-                              :data-deps {:course course}}}
+      (let [query {:type     :view
+                   :view-data {:view-type :course-view
+                               :data-deps {:course course}}}
             state (qa/refresh (sut/new) query)]
-          (is (= :course-view (:view-type state)))))
+        (is (= :course-view (:view-type state)))))
 
     (testing "when query type is user"
 
