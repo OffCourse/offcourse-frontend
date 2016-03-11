@@ -18,7 +18,7 @@
    :collection-view     :dependencies
    :checkpoint-view     :dependencies
    :checkpoint          :checkpoint
-   :view                :view
+   :view                :view-data
    :resources           :urls
    :resource            :resource})
 

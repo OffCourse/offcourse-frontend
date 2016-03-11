@@ -9,9 +9,10 @@
   [:.container
    [:li.resource-list--item
     [:.info
-     [:h1 {:on-click #(update-appstate {:view-data
-                                        {:checkpoint [{:url  url
-                                                       :task (first tasks)}]}})} "+"]
+     [:h1 {:on-click #(update-appstate {:type :update-deps
+                                        :dependencies {:checkpoint {:url  url
+                                                                    :task (first tasks)
+                                                                    :tags tags}}})} "+"]
      [:h1.title (first tasks)]
      [:p.resource_title title]
      [:p.checkpoint-count checkpoint-count]

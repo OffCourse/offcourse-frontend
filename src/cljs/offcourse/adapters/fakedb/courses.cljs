@@ -5,7 +5,6 @@
 
 (defn- index-checkpoint [index {:keys [task completed]} urls]
   {:checkpoint-id index
-   :order index
    :task task
    :url (rand-nth urls)
    :tags (h/set-of-buzzwords 0 5)})

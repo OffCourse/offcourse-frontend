@@ -8,9 +8,23 @@
   (-mute [this])
   (-respond [this status] [this status payload] [this status type result]))
 
+(def payloads
+  {:collection-names    :collection-type
+   :collection          :collection
+   :courses             :courses
+   :course              :course
+   :course-view         :dependencies
+   :collection-view     :dependencies
+   :checkpoint-view     :dependencies
+   :checkpoint          :checkpoint
+   :view                :view-data
+   :user                :user
+   :resources           :resources
+   :resource            :resource})
+
 (defn payload [type result]
   {:type type
-   type result})
+   (type payloads) result})
 
 (def counter (atom 0))
 
@@ -21,10 +35,10 @@
          log-channel    (or log-channel (:log channels))
          response       (action/new status component-name payload)]
      #_(when true #_(= component-name :ui)
-       (println "--RESPONSE-----")
-       (println "SENDER" component-name)
-       (println "STATUS" status)
-       (println "PAYLOAD" (keys payload)))
+           (println "--RESPONSE-----")
+           (println "SENDER" component-name)
+           (println "STATUS" status)
+           (println "PAYLOAD" payload))
      (go
        (swap! counter inc)
        (>! output-channel response)

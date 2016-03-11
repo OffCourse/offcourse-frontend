@@ -9,7 +9,6 @@
 (defmethod refresh :default [{:keys [state] :as as} query]
   (let [old-state @state]
     (swap! state #(qa/refresh % query))
-    (println (va/missing-data @state))
     (when-not (= old-state @state)
       (if (va/valid? as)
         (do

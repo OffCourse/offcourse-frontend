@@ -42,6 +42,7 @@
         missing-courses (keep (fn [{:keys [course-id] :as course}]
                                 (when (contains? missing-ids course-id) course))
                               (:courses query))]
+
     (if-not (empty? missing-ids)
       (reduce add-course store missing-courses)
       store)))

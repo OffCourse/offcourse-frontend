@@ -1,10 +1,12 @@
 (ns offcourse.models.viewmodel.refresh
-  (:require [medley.core :as medley]))
+  (:require [medley.core :as medley]
+            [offcourse.models.checkpoint :as cp]))
 
 (def view-hierarchy
   (-> (make-hierarchy)
-      (derive :checkpoint-view :view)
-      (derive :collection-view :view)))
+      (derive :checkpoint-view :new-view)
+      (derive :course-view :new-view)
+      (derive :collection-view :new-view)))
 
 (defmulti refresh
   (fn [_ {:keys [type]}] type)
@@ -12,18 +14,20 @@
 
 (defn refresh-dependencies [{:keys [course]} query-dependencies]
   (medley/map-kv (fn [dep-name dep]
-                   (if (= dep-name :checkpoint)
-                     [:course (update course :checkpoints #(conj % dep))]
-                     [dep-name dep]))
+                     (if (= dep-name :checkpoint)
+                       (let [checkpoint (assoc dep :checkpoint-id (-> course :checkpoints count))]
+                         [:course (update course :checkpoints
+                                          #(conj % (cp/map->Checkpoint checkpoint)))])
+                       [dep-name dep]))
                  query-dependencies))
 
-(defmethod refresh :course-view [vm query]
+(defmethod refresh :update-deps [vm query]
   (assoc vm
-         :type (:type query)
+         :type (:type vm)
          :dependencies (refresh-dependencies
                         (:dependencies vm) (:dependencies query))))
 
-(defmethod refresh :view [vm query]
+(defmethod refresh :new-view [vm query]
   (assoc vm :type
          (:type query)
          :dependencies (:dependencies query)))

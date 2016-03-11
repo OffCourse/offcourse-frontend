@@ -52,13 +52,7 @@
 
     (is (= (qa/refresh (sut/new) :course-view {:course course})
            (vm/new {:type :course-view
-             :dependencies {:course course}})))
-
-    (is (= (qa/refresh (sut/new {:dependencies {:course course}})
-                                :course-view {:checkpoint checkpoint})
-           (let [course (update course :checkpoints #(conj % checkpoint))]
-             (vm/new {:type :course-view
-               :dependencies {:course course}})))))
+                    :dependencies {:course course}}))))
 
   (testing "when query type is non-existing"
     (is (= (qa/refresh (sut/new) :bla)
