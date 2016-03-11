@@ -30,6 +30,7 @@
                  [rum                         "0.6.0"]
                  [sablono                     "0.5.3"]
                  [bidi                        "1.25.0"]
+                 [funcool/cuerdas             "0.7.0"]
                  [kibu/pushy                  "0.3.6"]
                  [cljsjs/pouchdb              "5.1.0-1"]
                  [cljsjs/react                "0.14.3-0"]

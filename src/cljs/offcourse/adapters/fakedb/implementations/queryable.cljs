@@ -18,12 +18,11 @@
          :course-ids (get-in collections [collection-type collection-name])})))
 
 (defmethod fetch :course [_ {:keys [course]}]
-  (let [{:keys [course-id curator hashtag]} course]
-    (go
-      (if-let [course (or (cs/course-by-id course courses)
-                          (cs/course-by-curator-and-hashtag course courses))]
-        course
-        {:error :not-found-data}))))
+  (go
+    (if-let [course (or (cs/course-by-id course courses)
+                        (cs/course-by-curator-and-slug course courses))]
+      course
+      {:error :not-found-data})))
 
 (defmethod fetch :courses [_ {:keys [course-ids]}]
   (go

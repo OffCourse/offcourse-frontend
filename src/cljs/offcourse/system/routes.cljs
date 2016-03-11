@@ -6,7 +6,7 @@
 (def home-route        [[keyword :collection-name]])
 (def curator-routes    ["courses/" [keyword :curator]])
 (def new-course-routes (conj curator-routes "/new"))
-(def course-routes     (conj curator-routes "/" [keyword :hashtag]))
+(def course-routes     (conj curator-routes "/" :slug))
 (def collection-routes [[keyword :collection-type] "/" [keyword :collection-name]])
 (def checkpoint-routes (conj course-routes "/checkpoints/" :checkpoint-id))
 
@@ -31,10 +31,10 @@
                                      :collection-name collection-name))
         new-course-url (fn [curator] (create-url :new-course-view
                                                  :curator curator))
-        checkpoint-url (fn [curator hashtag checkpoint-id]
+        checkpoint-url (fn [curator slug checkpoint-id]
                          (create-url :checkpoint-view
                                      :curator curator
-                                     :hashtag hashtag
+                                     :slug slug
                                      :checkpoint-id checkpoint-id))
         home-url       (collection-url :flags :featured)]
     {:home-url       home-url

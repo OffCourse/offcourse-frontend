@@ -2,19 +2,24 @@
   (:require [cljs.test :refer-macros [are deftest is testing]]
             [offcourse.models.appstate.helpers :as h]
             [offcourse.models.appstate.index :as sut]
-            [offcourse.protocols.queryable :as qa]))
+            [offcourse.protocols.queryable :as qa]
+            [cuerdas.core :as str]))
 
 (deftest models-appstate-check
 
   (let [id              123
         missing-id      223
         url             "http://offcourse.io"
+        goal            "blabla"
+        slug            (str/slugify goal)
         missing-url     "http://gibbon.co"
         buzzword        :agile
         user-id         :yeehaa
         checkpoint      {:checkpoint-id 1
                          :resource-id   id}
         course          {:course-id   id
+                         :goal goal
+                         :slug slug
                          :curator     user-id
                          :hashtag     buzzword
                          :checkpoints [checkpoint]}
@@ -72,7 +77,7 @@
                             :courses [course]})]
 
         (testing "it reports if course is present by checking its id"
-          (let [check (fn [course-id] (qa/check store :course (h/course course-id)))]
+          (let [check (fn [course-id] (qa/check store :course (h/course-by-id course-id)))]
             (are [course-id expectation] (= (check course-id) expectation)
               id         true
               missing-id false)))
@@ -86,8 +91,8 @@
               user-id true
               #_:bla  #_false)))
 
-        (testing "it reports if course is present by checking its curator and hashtag"
-          (let [check (fn [curator hashtag] (qa/check store :course (h/course curator hashtag)))]
+        #_(testing "it reports if course is present by checking curator and hashtag"
+          (let [check (fn [curator hashtag] (qa/check store :course (h/course-by-hashtag curator hashtag)))]
             (are [curator hashtag expectation] (= (check curator hashtag) expectation)
               user-id buzzword true
               user-id :bla     false

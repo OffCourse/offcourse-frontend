@@ -14,10 +14,16 @@
   {:type :appstate
    :appstate (apply as/new view-type data-deps)})
 
-(defn course
-  ([id] {:course-id id})
-  ([curator hashtag] {:curator curator
-                      :hashtag hashtag}))
+(defn course-by-id [id] {:course-id id})
+
+(defn course-by-hashtag [curator hashtag] {:curator curator
+                                           :hashtag hashtag})
+
+(defn course-by-goal [curator goal] {:curator curator
+                                       :goal goal})
+
+(defn course-by-slug [curator slug] {:curator curator
+                                     :slug slug})
 
 (defn checkpoint ([course-id checkpoint-id] {:course-id course-id
                                              :checkpoint-id checkpoint-id}))

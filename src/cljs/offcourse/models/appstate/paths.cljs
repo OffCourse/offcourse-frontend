@@ -1,6 +1,7 @@
 (ns offcourse.models.appstate.paths
   (:require [offcourse.protocols.queryable :as qa]
-            [com.rpl.specter :refer [ALL transform select-first]]))
+            [com.rpl.specter :refer [ALL transform select-first]]
+            [cuerdas.core :as str]))
 
 (defn collection [collection-type collection-name]
   [:collections ALL #(and (= (:collection-type %) collection-type)
@@ -13,6 +14,16 @@
   ([course-id] [:courses ALL #(= (:course-id %) course-id)])
   ([curator hashtag] [:courses ALL #(and (= (:hashtag %) hashtag)
                                          (= (:curator %) curator))]))
+
+(defn course2
+  ([curator goal]
+   [:courses ALL #(and (= (:slug %) (str/slugify goal))
+                       (= (:curator %) curator))]))
+
+(defn course3
+  ([curator slug]
+   [:courses ALL #(and (= (:slug %) slug)
+                       (= (:curator %) curator))]))
 
 (defn checkpoints [course-id]
   [(course course-id) :checkpoints])
