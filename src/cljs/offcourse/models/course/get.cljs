@@ -12,9 +12,9 @@
        (apply set/union)
        (into #{})))
 
-(defmethod get :url [{:keys [checkpoints]} {:keys [checkpoint-id]}]
+(defmethod get :url [{:keys [checkpoints]} {:keys [checkpoint-slug]}]
   (when checkpoints
-    (select-first [ALL #(= (:checkpoint-id %) checkpoint-id) :url] checkpoints)))
+    (select-first [ALL #(= (:checkpoint-slug %) checkpoint-slug) :url] checkpoints)))
 
 (defmethod get :checkpoint [course {:keys [checkpoint] :as q}]
   (->> (:checkpoints course)

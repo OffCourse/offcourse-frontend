@@ -6,6 +6,7 @@
 
 (defn- index-checkpoint [index {:keys [task completed]} urls]
   {:checkpoint-id index
+   :checkpoint-slug (str/slugify task)
    :task task
    :url (rand-nth urls)
    :tags (h/set-of-buzzwords 0 5)})
@@ -20,7 +21,7 @@
                    :course-id base-id})))
 
 (defn add-slug [{:keys [goal] :as course}]
-  (assoc course :slug (str/slugify goal)))
+  (assoc course :course-slug (str/slugify goal)))
 
 (defn generate-course
   ([] (generate-course (rand-nth h/users)))
@@ -43,8 +44,8 @@
 (defn course-by-id [{:keys [course-id]} courses]
   (select-first [ALL #(= (:course-id %) course-id)] courses))
 
-(defn course-by-curator-and-slug [{:keys [curator slug]} courses]
-  (select-first [ALL #(and (= (:slug %) slug)
+(defn course-by-curator-and-slug [{:keys [curator course-slug]} courses]
+  (select-first [ALL #(and (= (:course-slug %) course-slug)
                            (= (:curator %) (name curator)))] courses))
 
 (defn courses []

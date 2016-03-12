@@ -14,6 +14,7 @@
         buzzword        :agile
         user-id         :yeehaa
         checkpoint      {:checkpoint-id 1
+                         :checkpoint-slug slug
                          :tags [buzzword]
                          :url url}]
 
@@ -43,7 +44,7 @@
       (let [sut (assoc (sut/new) :checkpoints [{:checkpoint-id 0}
                                                checkpoint])]
 
-        (is (= (qa/get sut :url 1) url))))
+        (is (= (qa/get sut :url slug) url))))
 
     (testing "query type is urls"
 

@@ -6,8 +6,10 @@
             [offcourse.models.checkpoint :as cp]))
 
 (defn add-new-checkpoint [as course-id]
-  (if (select-first (paths/checkpoint course-id :new) as)
-    (setval (paths/checkpoint course-id :new) cp/placeholder as)
+  (if (select-first (paths/checkpoint {:course-id     course-id
+                                       :checkpoint-id :new}) as)
+    (setval (paths/checkpoint {:course-id     course-id
+                               :checkpoint-id :new}) cp/placeholder as)
     (transform [(paths/course course-id) :checkpoints] #(conj % cp/placeholder) as)))
 
 (defmulti add (fn [_ {:keys [type]}] type))

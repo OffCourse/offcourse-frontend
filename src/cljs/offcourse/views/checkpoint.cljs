@@ -18,17 +18,24 @@
             (with-meta {:tags tags}))))
 
 (def graph
-  {:checkpoint-id (fnk [view-data] (:checkpoint view-data))
+  {:checkpoint-slug (fnk [view-data]
+                         (-> view-data :checkpoint :checkpoint-slug))
    :course-data   (fnk [view-data] (:course view-data))
-   :course        (fnk [appstate course-data checkpoint-id]
+   :course        (fnk [appstate course-data checkpoint-slug]
                        (if-let [course (-> appstate
                                            (qa/get :course course-data)
-                                           (assoc :checkpoint-id checkpoint-id)
+                                           (assoc :checkpoint-slug checkpoint-slug)
                                            augment-course)]
                          course
                          course-data))
-   :url           (fnk [course checkpoint-id]
-                       (qa/get course :url checkpoint-id))
+   :url           (fnk [course checkpoint-slug]
+                       (let [slug (if (= checkpoint-slug "index")
+                                    (-> course
+                                        :checkpoints
+                                        first
+                                        :checkpoint-slug)
+                                    checkpoint-slug)]
+                         (qa/get course :url slug)))
    :resource      (fnk [appstate url]
                        (qa/get appstate :resource {:url url}))
    :course-id     (fnk [course] (:course-id course))

@@ -3,14 +3,14 @@
             [offcourse.views.components.todo :refer [todo-list]]
             [rum.core :as rum]))
 
-(rum/defc card [{:keys [goal tags description slug checkpoints curator] :as course}
+(rum/defc card [{:keys [goal tags description course-slug checkpoints curator] :as course}
                 {:keys [checkpoint-url] :as helpers}]
   [:.container--card
    [:.card
     [:.card--title
-     [:a.title {:href (checkpoint-url curator slug 0)} goal]]
+     [:a.title {:href (checkpoint-url curator course-slug "index")} goal]]
     [:.card--checkpoints (todo-list checkpoints
-                                    {:checkpoint-url (partial checkpoint-url curator slug)})]
+                                    {:checkpoint-url (partial checkpoint-url curator course-slug)})]
     [:.card--tags (labels (:tags (meta course)) helpers)]
     #_[:.card--description [:p description]]
     #_[:.card--meta (meta-box course)]]])

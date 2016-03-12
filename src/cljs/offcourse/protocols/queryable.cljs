@@ -18,7 +18,7 @@
    :checkpoint-view     :dependencies
    :checkpoint          :checkpoint
    :view                :view-data
-   :url                 :checkpoint-id
+   :url                 :checkpoint-slug
    :resources           :urls
    :resource            :resource})
 

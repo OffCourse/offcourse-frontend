@@ -14,11 +14,12 @@
         missing-url     "http://gibbon.co"
         buzzword        :agile
         user-id         :yeehaa
-        checkpoint      {:checkpoint-id 1
-                         :resource-id   id}
+        checkpoint      {:checkpoint-id   1
+                         :checkpoint-slug slug
+                         :resource-id     id}
         course          {:course-id   id
                          :goal        goal
-                         :slug        slug
+                         :course-slug slug
                          :curator     user-id
                          :hashtag     buzzword
                          :checkpoints [checkpoint]}
@@ -100,6 +101,12 @@
             course         (update course :checkpoints #(conj % new-checkpoint))
             store          (sut/new {:courses [course]})
             get            (partial qa/get store :checkpoint)]
+
+        (testing "it retrieves a checkpoint by slug"
+          (are [course-id checkpoint-slug expectation]
+              (= (get (h/checkpoint-by-slug course-id checkpoint-slug)) expectation)
+            id         slug checkpoint
+            missing-id slug nil))
 
         (testing "it retrieves a checkpoint by id"
           (are [course-id checkpoint-id expectation]

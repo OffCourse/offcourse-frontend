@@ -20,13 +20,16 @@
                                            :hashtag hashtag})
 
 (defn course-by-goal [curator goal] {:curator curator
-                                       :goal goal})
+                                     :goal goal})
 
 (defn course-by-slug [curator slug] {:curator curator
-                                     :slug slug})
+                                     :course-slug slug})
 
 (defn checkpoint ([course-id checkpoint-id] {:course-id course-id
                                              :checkpoint-id checkpoint-id}))
+
+(defn checkpoint-by-slug ([course-id checkpoint-slug] {:course-id course-id
+                                                       :checkpoint-slug checkpoint-slug}))
 
 (defn resource ([id] {:resource-id  id
                       :url id}))

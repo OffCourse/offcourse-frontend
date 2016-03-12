@@ -9,7 +9,7 @@
 (schema/defrecord Course
     [course-id    :- schema/Num
      base-id      :- schema/Num
-     slug         :- schema/Str
+     course-slug  :- schema/Str
      timestamp    :- schema/Int
      version      :- [schema/Num]
      revision     :- schema/Num

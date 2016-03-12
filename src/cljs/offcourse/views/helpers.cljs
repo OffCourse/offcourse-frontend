@@ -6,8 +6,8 @@
 
 (defn checkpoint-view [{:keys [checkpoint-id] :as data}]
   {:type :checkpoint-view
-   :dependencies {:course     (select-keys data [:curator :slug])
-                  :checkpoint (or (int checkpoint-id) 0)}})
+   :dependencies {:course     (select-keys data [:curator :course-slug])
+                  :checkpoint (select-keys data [:checkpoint-slug :checkpoint-id])}})
 
 (defn new-course-view [{:keys [curator]}]
   {:type :course-view

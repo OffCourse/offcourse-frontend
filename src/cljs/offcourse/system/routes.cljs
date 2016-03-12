@@ -4,11 +4,11 @@
             [offcourse.views.helpers :as vh]))
 
 (def home-route        [[keyword :collection-name]])
-(def curator-routes    ["courses/" [keyword :curator]])
+(def curator-routes    [[keyword :curator]])
 (def new-course-routes (conj curator-routes "/new"))
-(def course-routes     (conj curator-routes "/" :slug))
+(def course-routes     (conj curator-routes "/courses/" :course-slug))
 (def collection-routes [[keyword :collection-type] "/" [keyword :collection-name]])
-(def checkpoint-routes (conj course-routes "/checkpoints/" :checkpoint-id))
+(def checkpoint-routes (conj course-routes "/checkpoints/" :checkpoint-slug))
 
 (def table ["/" {home-route        :home-view
                  checkpoint-routes :checkpoint-view
@@ -31,11 +31,11 @@
                                      :collection-name collection-name))
         new-course-url (fn [curator] (create-url :new-course-view
                                                  :curator curator))
-        checkpoint-url (fn [curator slug checkpoint-id]
+        checkpoint-url (fn [curator course-slug checkpoint-slug checkpoint-id]
                          (create-url :checkpoint-view
                                      :curator curator
-                                     :slug slug
-                                     :checkpoint-id checkpoint-id))
+                                     :course-slug course-slug
+                                     :checkpoint-slug checkpoint-slug))
         home-url       (collection-url :flags :featured)]
     {:home-url       home-url
      :new-course-url new-course-url

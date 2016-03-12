@@ -17,19 +17,24 @@
 
 (defn course2
   ([curator goal]
-   [:courses ALL #(and (= (:slug %) (str/slugify goal))
+   [:courses ALL #(and (= (:course-slug %) (str/slugify goal))
                        (= (:curator %) curator))]))
 
 (defn course3
   ([curator slug]
-   [:courses ALL #(and (= (:slug %) slug)
+   [:courses ALL #(and (= (:course-slug %) slug)
                        (= (:curator %) curator))]))
 
 (defn checkpoints [course-id]
   [(course course-id) :checkpoints])
 
-(defn checkpoint [course-id checkpoint-id]
-  [(course course-id) :checkpoints ALL #(= (:checkpoint-id %) checkpoint-id)])
+(defn checkpoint [{:keys [course-id checkpoint-id checkpoint-slug]}]
+  (if checkpoint-id
+    [(course course-id) :checkpoints ALL #(= (:checkpoint-id %) checkpoint-id)]
+    [(course course-id) :checkpoints ALL #(= (:checkpoint-slug %) checkpoint-slug)]))
+
+(defn checkpoint-by-slug [course-id checkpoint-slug]
+  [(course course-id) :checkpoints ALL #(= (:checkpoint-slug %) checkpoint-slug)])
 
 (defn resource [url]
   [:resources ALL #(= (:url %) url)])
