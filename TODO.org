@@ -19,15 +19,17 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] viewmodel [100%]
     + [X] implement
     + [X] write tests
-  - [-] checkpoint
+  - [-] checkpoint [33%]
     + [X] remove order
     + [ ] add slug
     + [ ] add tests
-  - [-] course
+  - [X] course [100%]
     + [X] remove hashtag
     + [X] add slug
-    + [ ] add tests
-  - [X] appstate
+    + [X] implement queryable/get
+    + [X] implement queryable/add
+    + [X] add tests
+  - [X] appstate [100%]
     + [X] replace view-type view-data with viewmodel
 * Next             [0%]
 + [ ] General        [0%]

@@ -8,8 +8,7 @@
                                          {:keys [checkpoint-url] :as helpers}
                                          update-appstate]
   (let [local (:rum/local state)]
-    (swap! local #(merge % course))
-    [:.container--card
+   [:.container--card
      [:.card
       [:.card--title {:key :title}
        [:input.title {:placeholder "Enter Unique Title Here"
@@ -17,8 +16,8 @@
                       :on-change (fn [event]
                                    (swap! local #(assoc % :goal (-> event .-target .-value))))
                       :on-blur #(update-appstate {:type :update-deps
-                                                  :dependencies {:course @local}})}]]
+                                                  :dependencies {:goal (:goal @local)}})}]]
       [:.card--checkpoints {:key :checkpoints}
-       (todo-list (:checkpoints @local)
-                  {:checkpoint-url (partial checkpoint-url (:curator @local) :new)})]
+       (todo-list (:checkpoints course)
+                  {:checkpoint-url (partial checkpoint-url (:curator course) :new)})]
       [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]]]))

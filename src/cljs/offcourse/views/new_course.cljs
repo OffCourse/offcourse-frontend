@@ -14,7 +14,6 @@
   {:course-data (fnk [view-data] (:course view-data))
    :course        (fnk [appstate course-data]
                        (if-let [course (-> course-data
-                                           co/new
                                            augment-course)]
                          course
                          course-data))

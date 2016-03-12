@@ -4,7 +4,6 @@
 (defprotocol Queryable
   (-get     [this query])
   (-add     [this query])
-  (-modify  [this query])
   (-check   [this] [this query])
   (-fetch   [this query])
   (-refresh [this doc]))
@@ -31,9 +30,6 @@
 (defn fetch [this query]
   (-fetch this query))
 
-(defn modify
-  ([this query] (-modify this query)))
-
 (defn refresh
   ([this query] (-refresh this query))
   ([this type data] (-refresh this {:type           type
@@ -43,7 +39,6 @@
   ([this query] (-add this query))
   ([this type data] (-add this {:type           type
                                 (type payloads) data})))
-
 (defn check
   ([this] (-check this))
   ([this query] (-check this query))

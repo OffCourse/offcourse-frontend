@@ -4,7 +4,8 @@
             [offcourse.models.appstate.helpers :as h]
             [offcourse.models.viewmodel.index :as sut]
             [offcourse.protocols.queryable :as qa]
-            [offcourse.models.viewmodel.index :as vm]))
+            [offcourse.models.viewmodel.index :as vm]
+            [offcourse.models.course.index :as co]))
 
 (deftest models-viewmodel-refresh
   (let [id              123
@@ -15,9 +16,9 @@
         new-url1        "http://bla.com"
         new-url2        "http://blabla.com"
         missing-url     "http://facebook.co"
-        course          {:course-id id
-                         :curator   user-id
-                         :hashtag   buzzword}
+        course          (co/new {:course-id id
+                                 :curator   user-id
+                                 :hashtag   buzzword})
         collection-type :flags
         checkpoint      {:url url}
         collection      {:collection-type collection-type
