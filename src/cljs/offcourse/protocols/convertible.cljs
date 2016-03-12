@@ -1,6 +1,6 @@
 (ns offcourse.protocols.convertible
   (:require [offcourse.helpers.converters :as cv]
-            [offcourse.models.course :as co :refer [Course]]))
+            [offcourse.models.course.index :refer [Course]]))
 
 (defprotocol Convertible
   (to-js [this])

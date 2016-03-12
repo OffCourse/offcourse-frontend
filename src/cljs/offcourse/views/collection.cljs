@@ -1,11 +1,11 @@
 (ns offcourse.views.collection
-  (:require [offcourse.models.course :as co]
+  (:require [offcourse.models.course.index :as co]
             [offcourse.models.label :as lb]
             [offcourse.protocols.queryable :as qa]
             [plumbing.core :refer-macros [fnk]]))
 
 (defn augment-course [selected {:keys [checkpoints] :as course}]
-  (let [tags (-> (co/get-tags course)
+  (let [tags (-> (qa/get course :tags {})
                  (lb/collection->labels selected))]
     (-> course (with-meta {:tags tags}))))
 

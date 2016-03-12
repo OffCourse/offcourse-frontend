@@ -118,7 +118,6 @@
             [url]         [resource]
             [missing-url] nil))))
 
-
     (testing "when query type is resource"
       (let [store (sut/new {:resources [resource]})
             get   (partial qa/get store :resource)]

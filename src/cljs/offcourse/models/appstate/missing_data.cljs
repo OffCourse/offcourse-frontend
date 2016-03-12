@@ -1,6 +1,5 @@
 (ns offcourse.models.appstate.missing-data
-  (:require [offcourse.models.course :as co]
-            [offcourse.protocols.queryable :as qa]))
+  (:require [offcourse.protocols.queryable :as qa]))
 
 (defmulti missing-data
   (fn [{:keys [viewmodel]}] (:type viewmodel)))
@@ -20,7 +19,7 @@
   (let [{:keys [dependencies]} viewmodel]
     (if-let [data-present? (qa/check as :course (:course dependencies))]
       (let [course (qa/get as :course (:course dependencies))
-            urls   (co/get-resource-urls course)
+            urls   (qa/get course :urls {})
             query  {:type :resources
                     :urls urls}]
         (when-not (or (qa/check as query) (empty? urls)) query))

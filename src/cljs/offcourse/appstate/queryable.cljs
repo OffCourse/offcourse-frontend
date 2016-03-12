@@ -21,7 +21,7 @@
 
 (defn check [{:keys [queries state] :as as} query]
   (if (set/subset? queries #{(hash query)})
-    (qa/refresh as {:type :appstate
-                    :appstate {:view-type :loading-view
-                               :view-data {}}})
+    (qa/refresh as {:type :view
+                    :view-data {:type :loading-view
+                                :dependencies {}}})
     (respond as :not-found-data query)))

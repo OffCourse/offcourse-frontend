@@ -1,17 +1,16 @@
 (ns offcourse.models.appstate.index
-  (:require [offcourse.models.appstate.check :as check-impl]
+  (:require [offcourse.models.appstate.add :as add-impl]
+            [offcourse.models.appstate.check :as check-impl]
             [offcourse.models.appstate.get :as get-impl]
-            [offcourse.models.appstate.add :as add-impl]
             [offcourse.models.appstate.missing-data :as md-impl]
             [offcourse.models.appstate.refresh :as refresh-impl]
-            [offcourse.models.viewmodel.index :as vm]
             [offcourse.models.collection :refer [Collection]]
-            [offcourse.models.course :refer [Course]]
+            [offcourse.models.course.index :as co :refer [Course]]
             [offcourse.models.resource :refer [Resource]]
+            [offcourse.models.viewmodel.index :as vm]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [schema.core :as schema]
-            [offcourse.models.course :as co]))
+            [schema.core :as schema]))
 
 (defn query [[type data]]
   {:type type

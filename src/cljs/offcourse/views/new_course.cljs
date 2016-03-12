@@ -1,11 +1,11 @@
 (ns offcourse.views.new-course
-  (:require [offcourse.models.course :as co]
+  (:require [offcourse.models.course.index :as co]
             [offcourse.models.label :as lb]
             [offcourse.protocols.queryable :as qa]
             [plumbing.core :refer-macros [fnk]]))
 
 (defn augment-course [{:keys [checkpoints] :as course}]
-  (let [tags (-> (co/get-tags course)
+  (let [tags (-> (qa/get course :tags {})
                  (lb/collection->labels 0))]
     (some-> course
             (with-meta {:tags tags}))))
@@ -14,6 +14,7 @@
   {:course-data (fnk [view-data] (:course view-data))
    :course        (fnk [appstate course-data]
                        (if-let [course (-> course-data
+                                           co/new
                                            augment-course)]
                          course
                          course-data))

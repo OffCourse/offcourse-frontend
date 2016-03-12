@@ -1,5 +1,5 @@
 (ns offcourse.views.checkpoint
-  (:require [offcourse.models.course :as co]
+  (:require [offcourse.models.course.index :as co]
             [offcourse.models.label :as lb]
             [offcourse.protocols.queryable :as qa]
             [plumbing.core :refer-macros [fnk]]))
@@ -11,7 +11,7 @@
       checkpoint)))
 
 (defn augment-course [{:keys [checkpoints checkpoint-id] :as course}]
-  (let [tags (-> (co/get-tags course)
+  (let [tags (-> (qa/get course :tags {})
                  (lb/collection->labels checkpoint-id))]
     (some-> course
             (assoc :checkpoints (select-checkpoint checkpoints checkpoint-id))
@@ -28,7 +28,7 @@
                          course
                          course-data))
    :url           (fnk [course checkpoint-id]
-                       (co/get-resource-url course checkpoint-id))
+                       (qa/get course :url checkpoint-id))
    :resource      (fnk [appstate url]
                        (qa/get appstate :resource {:url url}))
    :course-id     (fnk [course] (:course-id course))

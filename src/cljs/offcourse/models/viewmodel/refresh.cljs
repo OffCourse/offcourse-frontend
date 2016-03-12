@@ -5,6 +5,7 @@
 (def view-hierarchy
   (-> (make-hierarchy)
       (derive :checkpoint-view :new-view)
+      (derive :loading-view :new-view)
       (derive :course-view :new-view)
       (derive :collection-view :new-view)))
 

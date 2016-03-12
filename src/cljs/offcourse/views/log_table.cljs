@@ -1,6 +1,6 @@
 (ns offcourse.views.log-table
   (:require [cljsjs.fixed-data-table]
-            [offcourse.models.course :as co]
+            [offcourse.models.course.index :as co]
             [medley.core :as medley]
             [rum.core :as rum]))
 

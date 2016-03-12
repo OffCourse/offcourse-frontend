@@ -1,10 +1,7 @@
 (ns offcourse.views.components.card
-  (:require [offcourse.models.course :as co]
+  (:require [offcourse.views.components.label :refer [labels]]
             [offcourse.views.components.todo :refer [todo-list]]
-            [offcourse.views.components.label :refer [labels]]
-            [offcourse.views.components.meta-box :refer [meta-box]]
-            [rum.core :as rum]
-            [bidi.bidi :refer [path-for]]))
+            [rum.core :as rum]))
 
 (rum/defc card [{:keys [goal tags description slug checkpoints curator] :as course}
                 {:keys [checkpoint-url] :as helpers}]

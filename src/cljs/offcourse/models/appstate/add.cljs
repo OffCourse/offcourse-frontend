@@ -2,7 +2,7 @@
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.appstate.paths :as paths]
             [com.rpl.specter :refer [ALL select-first setval transform select-first]]
-            [offcourse.models.course :as co]
+            [offcourse.models.course.index :as co]
             [offcourse.models.checkpoint :as cp]))
 
 (defn add-new-checkpoint [as course-id]

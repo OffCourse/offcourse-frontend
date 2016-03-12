@@ -1,13 +1,14 @@
 (ns offcourse.models.appstate.missing-data-test
   (:require [cljs.test :refer-macros [deftest is testing]]
             [offcourse.models.appstate.index :as sut]
-            [offcourse.protocols.validatable :as va]))
+            [offcourse.protocols.validatable :as va]
+            [offcourse.models.course.index :as co]))
 
 (deftest missing-data-test
   (let [course-id            "123"
         url                  "http://offcourse.io"
-        course               {:course-id   course-id
-                              :checkpoints [{:url url}]}
+        course               (co/new {:course-id   course-id
+                                      :checkpoints [{:url url}]})
         collection           {:collection-type :flags
                               :collection-name :agile
                               :course-ids      #{course-id}}
@@ -35,8 +36,8 @@
       (is (= (va/missing-data (sut/new {:viewmodel {:type         :checkpoint-view
                                                     :dependencies checkpoint-view-data}
                                         :courses   [course]}))
-             {:type :resources
-              :urls [url]})))
+             { :type :resources
+              :urls #{url} })))
 
     (testing "missing resources in new-course"
       (is (= (va/missing-data (sut/new {:viewmodel {:type         :course-view
