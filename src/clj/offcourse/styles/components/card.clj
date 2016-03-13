@@ -24,7 +24,8 @@
 
 (defn overrides [units colors]
   [[:.card--title :.title {:font-size   (:title-font units)
-                           :line-height (:title-line-height units)}]
+                           :line-height (:title-line-height units)
+                           :border      :none}]
   [:card--meta :.keyword {:margin-right (:tenth units)}]])
 
 
