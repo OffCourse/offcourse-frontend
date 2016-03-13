@@ -4,7 +4,7 @@
             [cljs.test :refer-macros [deftest testing is are]]
             [cuerdas.core :as str]))
 
-(deftest models-course-get
+(deftest models-course-add
   (let [id              123
         missing-id      223
         goal            "alone in the dark"
@@ -14,6 +14,7 @@
         buzzword        :agile
         user-id         :yeehaa
         checkpoint      {:checkpoint-id 1
+                         :checkpoint-slug slug
                          :tags [buzzword]
                          :url url}]
 
@@ -23,10 +24,11 @@
     (testing "query type is checkpoint"
 
       (let [sut (-> (sut/new)
-               (assoc :checkpoints [{:checkpoint-id 0}])
+                    (assoc :checkpoints [{:checkpoint-id 0}])
+                    (qa/add :checkpoint checkpoint))]
+        (is (= (count (:checkpoints sut)) 2)))
+
+      (let [sut (-> (sut/new)
+               (assoc :checkpoints [checkpoint])
                (qa/add :checkpoint checkpoint))]
-
-        (is (= (count (:checkpoints sut)) 2))))))
-
-
-
+        (is (= (count (:checkpoints sut)) 1))))))

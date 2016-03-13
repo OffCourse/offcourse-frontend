@@ -5,22 +5,27 @@
             [offcourse.models.viewmodel.index :as sut]
             [offcourse.protocols.queryable :as qa]
             [offcourse.models.viewmodel.index :as vm]
-            [offcourse.models.course.index :as co]))
+            [offcourse.models.course.index :as co]
+            [cuerdas.core :as str]))
 
 (deftest models-viewmodel-refresh
   (let [id              123
         missing-id      223
-        buzzword        :agile
         user-id         :yeehaa
+        goal            "alone in the dark"
+        slug            (str/slugify goal)
+        buzzword        :agile
         url             "http://offcourse.io"
         new-url1        "http://bla.com"
         new-url2        "http://blabla.com"
         missing-url     "http://facebook.co"
         course          (co/new {:course-id id
                                  :curator   user-id
-                                 :hashtag   buzzword})
+                                 :goal goal
+                                 :slug slug})
         collection-type :flags
-        checkpoint      {:url url}
+        checkpoint      {:url url
+                         :checkpoint-slug slug}
         collection      {:collection-type collection-type
                          :collection-name buzzword
                          :course-ids      #{}}
@@ -41,10 +46,10 @@
              {:type :error :error :query-not-supported}))
 
       (is (= (qa/refresh (sut/new) :checkpoint-view {:course course
-                                                     :checkpoint-id id})
+                                                     :checkpoint checkpoint})
              (vm/new {:type :checkpoint-view
                :dependencies {:course course
-                              :checkpoint-id id}}))))
+                              :checkpoint checkpoint}}))))
 
   (testing "when query type is course-view"
 

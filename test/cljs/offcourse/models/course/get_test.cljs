@@ -1,8 +1,8 @@
 (ns offcourse.models.course.get-test
-  (:require [offcourse.protocols.queryable :as qa]
+  (:require [cljs.test :refer-macros [deftest is testing]]
+            [cuerdas.core :as str]
             [offcourse.models.course.index :as sut]
-            [cljs.test :refer-macros [deftest testing is are]]
-            [cuerdas.core :as str]))
+            [offcourse.protocols.queryable :as qa]))
 
 (deftest models-course-get
   (let [id              123
@@ -22,7 +22,6 @@
       (is (= (qa/get (sut/new) :bla {}) {:type :error :error :query-not-supported})))
 
     (testing "query type is tags"
-
       (let [sut (sut/new)]
         (is (= (qa/get (sut/new) :tags {}) #{})))
 
@@ -30,14 +29,16 @@
         (is (= (qa/get sut :tags {}) #{:agile}))))
 
     (testing "query type is checkpoint"
+      (let [sut (assoc (sut/new) :checkpoints [{:checkpoint-slug "hello-world"}
+                                               checkpoint])]
+        (is (= (qa/get sut :checkpoint {:checkpoint-slug slug}) checkpoint))))
 
+    (testing "query type is checkpoint"
       (let [sut (assoc (sut/new) :checkpoints [{:checkpoint-id 0}
                                                checkpoint])]
-
         (is (= (qa/get sut :checkpoint {:checkpoint-id 1}) checkpoint))))
 
     (testing "query type is url"
-
       (let [sut (sut/new)]
         (is (= (qa/get (sut/new) :urls {}) #{})))
 
@@ -47,6 +48,5 @@
         (is (= (qa/get sut :url slug) url))))
 
     (testing "query type is urls"
-
       (let [sut (assoc (sut/new) :checkpoints [checkpoint])]
         (is (= (qa/get sut :urls {}) #{url}))))))

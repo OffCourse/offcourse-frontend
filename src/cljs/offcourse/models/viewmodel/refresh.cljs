@@ -1,8 +1,7 @@
 (ns offcourse.models.viewmodel.refresh
   (:require [medley.core :as medley]
-            [offcourse.models.checkpoint :as cp]
-            [offcourse.protocols.queryable :as qa]
-            [offcourse.models.course.index :as co]))
+            [offcourse.models.course.index :as co]
+            [offcourse.protocols.queryable :as qa]))
 
 (def view-hierarchy
   (-> (make-hierarchy)
