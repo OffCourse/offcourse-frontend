@@ -11,8 +11,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Now            [66%]
 + [ ] General        [0%]
   - [ ] add 'save course' functionality
-  - [ ] curation workflow
-  - [ ] refactor
+  - [ ] 'add course' workflow
 + [X] router
   - [X] course route by goal (slug) not hashtag
 + [X] Models

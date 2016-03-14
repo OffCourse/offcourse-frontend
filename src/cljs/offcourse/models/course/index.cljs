@@ -4,7 +4,8 @@
             [offcourse.models.course.get :as get-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [schema.core :as schema :include-macros true]))
+            [schema.core :as schema :include-macros true]
+            [cuerdas.core :as str]))
 
 (schema/defrecord Course
     [course-id    :- schema/Num
@@ -24,7 +25,20 @@
   (-get [course query] (get-impl/get course query))
   (-add [course query] (add-impl/add course query))
   Validatable
-  (-valid? [course] (if-not (qa/check course) true false)))
+  (-valid? [{:keys [checkpoints] :as course}]
+    (if (and (empty? (qa/check course)) (>= (count checkpoints) 1))
+      true false)))
+
+(defn complete [{:keys [goal] :as course}]
+  (let [base-id (hash course)]
+    (assoc course
+           :base-id base-id
+           :course-id base-id
+           :revision 0
+           :course-slug (str/slugify goal)
+           :flags #{:featured}
+           :forks #{}
+           :timestamp (.now js/Date))))
 
 (defn new
   ([defaults] (map->Course defaults))

@@ -3,4 +3,5 @@
 
 (def handlers
   {:sign-in (fn [responder] (partial responder :requested-sign-in :user))
-   :update-appstate (fn [responder] (partial responder :requested-update :view))})
+   :update-appstate (fn [responder] (partial responder :requested-update :view))
+   :save-course (fn [responder] #(responder :requested-save :course))})

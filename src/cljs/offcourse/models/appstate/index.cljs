@@ -28,8 +28,6 @@
   (-valid? [as] (and (empty? (schema/check Appstate as))
                      (not (va/missing-data as))))
   (-missing-data [{:keys [view-data] :as as}] (md-impl/missing-data as))
-
-
   Queryable
   (-refresh [as query] (refresh-impl/refresh as query))
   (-check [as query] (check-impl/check as query))

@@ -12,12 +12,16 @@
 
 (def graph
   {:course-data (fnk [view-data] (:course view-data))
-   :course        (fnk [appstate course-data]
-                       (if-let [course (-> course-data
-                                           augment-course)]
-                         course
-                         course-data))
+   :course      (fnk [appstate course-data]
+                     (if-let [course (-> course-data
+                                         augment-course)]
+                       course
+                       course-data))
    :main        (fnk [appstate handlers [:components resource-list] url-helpers]
-                     (resource-list (:resources appstate) url-helpers (:update-appstate handlers)))
+                     (resource-list (:resources appstate)
+                                    url-helpers
+                                    handlers))
    :dashboard   (fnk [course handlers [:components dashboard course-form] url-helpers]
-                     (dashboard {:main (course-form course url-helpers (:update-appstate handlers) )}))})
+                     (dashboard {:main (course-form course
+                                                    url-helpers
+                                                    handlers)}))})

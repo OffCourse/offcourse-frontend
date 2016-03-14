@@ -2,7 +2,8 @@
   (:require [offcourse.protocols.responsive :refer [respond]]
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]
-            [clojure.set :as set]))
+            [clojure.set :as set]
+            [offcourse.models.course.index :as co]))
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
@@ -25,3 +26,13 @@
                     :view-data {:type :loading-view
                                 :dependencies {}}})
     (respond as :not-found-data query)))
+
+(defn add [{:keys [state] :as as} query]
+  (let [course (-> (:viewmodel @state)
+                   (qa/get query)
+                   co/complete)]
+    (if (va/valid? course)
+      (qa/refresh as :course course))
+      #_(println (qa/check course))))
+
+

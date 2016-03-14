@@ -7,6 +7,7 @@
     [type :- schema/Keyword
      dependencies :- {schema/Keyword schema/Any}]
   Queryable
+  (-get [vm query] (get-in vm [:dependencies :course]))
   (-refresh [vm query] (refresh-impl/refresh vm query)))
 
 (defn new

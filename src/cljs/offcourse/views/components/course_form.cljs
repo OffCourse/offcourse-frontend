@@ -6,7 +6,8 @@
 
 (rum/defcs course-form < (rum/local {}) [state course
                                          {:keys [checkpoint-url] :as helpers}
-                                         update-appstate]
+                                         {:keys [update-appstate
+                                                 save-course]}]
   (let [local (:rum/local state)]
    [:.container--card
      [:.card
@@ -20,4 +21,7 @@
       [:.card--checkpoints {:key :checkpoints}
        (todo-list (:checkpoints course)
                   {:checkpoint-url (partial checkpoint-url (:curator course) :new)})]
-      [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]]]))
+      [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]
+      [:.card--actions {:key :actions} [:.actions [:.textbar
+                                                   {:on-click save-course}
+                                                   "Save Course"]]]]]))

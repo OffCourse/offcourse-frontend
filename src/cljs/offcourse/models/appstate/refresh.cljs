@@ -50,7 +50,7 @@
 (defmethod refresh :course [store {:keys [course]}]
   (let [store-ids (into #{} (map :course-id (:courses store)))]
     (if-not (contains? store-ids (:course-id course))
-      (add-course store course)
+     (add-course store course)
       store)))
 
 (defmethod refresh :resources [store {:keys [resources]}]

@@ -7,10 +7,6 @@
   (if (qa/get course query)
     course
     (let [checkpoint (-> checkpoint
-                         cp/map->Checkpoint
-                         (assoc
-                          :checkpoint-id (-> course :checkpoints count)
-                          :checkpoint-slug (str/slugify (:task checkpoint))
-                          (cp/map->Checkpoint checkpoint)))]
-      (update course :checkpoints
-              #(conj % checkpoint)))))
+                         (assoc :checkpoint-id (-> course :checkpoints count)
+                                :checkpoint-slug (str/slugify (:task checkpoint))))]
+      (update course :checkpoints #(conj % (cp/map->Checkpoint checkpoint))))))

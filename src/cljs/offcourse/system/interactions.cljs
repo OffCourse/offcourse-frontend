@@ -18,15 +18,16 @@
                :requested-sign-in]})
 
 (def reactions
-  {:api       {:not-found-data qa/fetch}
-   :logger    {:logged-action println}
-   :router    {}
-   :appstate  {:requested-view          qa/refresh
-               :requested-update         qa/refresh
-               :found-data               qa/refresh
-               :not-found-data           qa/check
-               :signed-in-user           qa/refresh}
-   :user      {:requested-sign-in        ac/authenticate}
-   :ui        {:refreshed-state          rr/render
-               :checked-state            rr/render
-               :updated-logs             rr/render}})
+  {:api      {:not-found-data qa/fetch}
+   :logger   {:logged-action println}
+   :router   {}
+   :appstate {:requested-view   qa/refresh
+              :requested-update qa/refresh
+              :requested-save   qa/add
+              :found-data       qa/refresh
+              :not-found-data   qa/check
+              :signed-in-user   qa/refresh}
+   :user     {:requested-sign-in ac/authenticate}
+   :ui       {:refreshed-state rr/render
+              :checked-state   rr/render
+              :updated-logs    rr/render}})

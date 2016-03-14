@@ -19,8 +19,9 @@
                          :padding-bottom two-third}]
    [:.card--meta        {:padding [[half full]]}]
    [:.card--description {}]
-   [:.card--tags        {:padding-bottom 0}]
-   [:.card--checkpoints {:padding-bottom full}]])
+   [:.card--tags        {:padding-bottom full}]
+   [:.card--checkpoints {:padding-bottom full}]
+   [:.card--actions     {:padding-bottom 0}]])
 
 (defn overrides [units colors]
   [[:.card--title :.title {:font-size   (:title-font units)

@@ -19,7 +19,7 @@
   (stop    [as] (ri/mute as))
   Queryable
   (-check   [as query] (qa-impl/check as query))
-  (-add  [as query] #_(qa-impl/add as query))
+  (-add  [as query] (qa-impl/add as query))
   (-refresh [as query] (qa-impl/refresh as query))
   Validatable
   (-valid?  [as] (va-impl/valid? as))

@@ -38,7 +38,7 @@
            (println "--RESPONSE-----")
            (println "SENDER" component-name)
            (println "STATUS" status)
-           (println "PAYLOAD" payload))
+           #_(println "PAYLOAD" payload))
      (go
        (swap! counter inc)
        (>! output-channel response)
