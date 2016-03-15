@@ -2,7 +2,8 @@
   (:require [offcourse.protocols.queryable :as qa]))
 
 (defmulti missing-data
-  (fn [{:keys [viewmodel]}] (:type viewmodel)))
+  (fn [{:keys [viewmodel]} {:keys [type]}]
+    (or type (:type viewmodel))))
 
 (defmethod missing-data :collection-view [{:keys [viewmodel collection] :as as}]
   (let [{:keys [dependencies]} viewmodel]
@@ -30,7 +31,14 @@
   (when (< (count resources) 5) {:type :resources
                                   :tags [:featured]}))
 
+(defmethod missing-data :course [store {:keys [course] :as query}]
+  (let [store-ids (into #{} (map :course-id (:courses store)))]
+    (when-not (contains? store-ids (:course-id course))
+      {:type :course
+       :course (select-keys course [:course-id])})))
+
 (defmethod missing-data :default [{:keys [viewmodel]}]
   (when-not (= (:type viewmodel) :loading-view)
     {:type :error
      :error :appstate-empty}))
+

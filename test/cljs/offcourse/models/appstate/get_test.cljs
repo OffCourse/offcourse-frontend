@@ -34,23 +34,9 @@
       (is (= (qa/get (sut/new) :bla {}) {:type :error :error :query-not-supported})))
 
     (testing "it returns nil by default"
-      (let [types     [:collection-names :course :courses :resources :collection]
+      (let [types     [:course :courses :resources :collection]
             responses (map #(qa/get (sut/new) % nil) types)]
         (is (every? #(nil? %) responses))))
-
-    (testing "when query type is collection-names"
-      (let [collections      {:agile (assoc collection :course-ids #{123})}
-            collection-names (into #{} (keys collections))
-            store            (sut/new {:collection-names {collection-type collection-names
-                                                          :tags           collection-names}})
-            get              (partial qa/get store :collection-names)]
-
-        (testing "it retrieves the names of the collections"
-          (are [type expectation] (= (get type) expectation)
-            :all            {collection-type #{buzzword} :tags #{buzzword}}
-            nil             {collection-type #{buzzword} :tags #{buzzword}}
-            collection-type #{buzzword}))))
-
 
     (testing "when query type is collection"
       (let [store (sut/new {:collections [(assoc collection :course-ids #{123})]})

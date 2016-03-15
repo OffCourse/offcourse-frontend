@@ -27,7 +27,9 @@
   Validatable
   (-valid? [as] (and (empty? (schema/check Appstate as))
                      (not (va/missing-data as))))
-  (-missing-data [{:keys [view-data] :as as}] (md-impl/missing-data as))
+  (-missing-data [as] (md-impl/missing-data as))
+  (-missing-data [as query]
+    (md-impl/missing-data as query))
   Queryable
   (-refresh [as query] (refresh-impl/refresh as query))
   (-check [as query] (check-impl/check as query))
@@ -41,6 +43,7 @@
                :courses []
                :resources []
                :queries #{}})
+
 (defn new
   ([] (map->Appstate defaults))
   ([data]

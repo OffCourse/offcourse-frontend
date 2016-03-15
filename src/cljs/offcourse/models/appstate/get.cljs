@@ -6,12 +6,6 @@
 
 (defmulti get (fn [_ {:keys [type]}] type))
 
-(defmethod get :collection-names [{:keys [collection-names]} {:keys [collection-type]}]
-  (when collection-names
-    (if (or (not collection-type) (= collection-type :all))
-      collection-names
-      (collection-type collection-names))))
-
 (defmethod get :collection [{:keys [collections] :as ds} {:keys [collection]}]
   (when collections
     (let [{:keys [collection-type collection-name]} collection]

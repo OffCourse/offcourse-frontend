@@ -2,7 +2,8 @@
   (:require [clojure.set :as set]
             [com.rpl.specter :refer [select-first transform]]
             [offcourse.models.appstate.paths :as paths]
-            [offcourse.protocols.queryable :as qa]))
+            [offcourse.protocols.queryable :as qa]
+            [offcourse.protocols.validatable :as va]))
 
 (defn deep-merge
   [& vs]
@@ -42,16 +43,14 @@
         missing-courses (keep (fn [{:keys [course-id] :as course}]
                                 (when (contains? missing-ids course-id) course))
                               (:courses query))]
-
     (if-not (empty? missing-ids)
       (reduce add-course store missing-courses)
       store)))
 
-(defmethod refresh :course [store {:keys [course]}]
-  (let [store-ids (into #{} (map :course-id (:courses store)))]
-    (if-not (contains? store-ids (:course-id course))
-     (add-course store course)
-      store)))
+(defmethod refresh :course [store {:keys [course] :as query}]
+  (if (va/missing-data store query)
+    (qa/add store query)
+    store))
 
 (defmethod refresh :resources [store {:keys [resources]}]
   (reduce add-resource store resources))

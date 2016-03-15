@@ -34,20 +34,9 @@
              {:type :error :error :query-not-supported})))
 
     (testing "it returns an falsey value by default"
-      (let [types     [:course :resources :collection :collection-names]
+      (let [types     [:course :resources :collection]
             responses (map #(qa/check (sut/new) {:type %}) types)]
         (is (every? #(h/falsy? %) responses))))
-
-
-    (testing "when query type is collection-names"
-
-      (testing "it reports if collection-names are present"
-        (let [store (sut/new {:collection-names {:flag [id]}})]
-          (is (qa/check store :collection-names nil))))
-
-      (testing "it reports if collection-names are missing"
-        (let [store (sut/new)]
-          (is (not (qa/check store :collection-names nil))))))
 
 
     (testing "when query type is collection"

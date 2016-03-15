@@ -8,13 +8,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [66%]
+* Now            [33%]
 + [ ] General        [0%]
   - [ ] add 'save course' functionality
-  - [ ] 'add course' workflow
+  - [ ] add 'add course' workflow
 + [X] router
   - [X] course route by goal (slug) not hashtag
-+ [X] Models
++ [-] Models
+  - [ ] appstate [0%]
+    + [ ] refactor collection check /get / refresh
   - [X] viewmodel [100%]
     + [X] implement
     + [X] write tests
