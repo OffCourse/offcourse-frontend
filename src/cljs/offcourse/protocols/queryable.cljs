@@ -11,7 +11,7 @@
 (def payloads
   {:collection-names    :collection-type
    :collection          :collection
-   :courses             :course-ids
+   :courses             :courses
    :course              :course
    :course-view         :dependencies
    :collection-view     :dependencies
@@ -19,7 +19,7 @@
    :checkpoint          :checkpoint
    :view                :view-data
    :url                 :checkpoint-slug
-   :resources           :urls
+   :resources           :resources
    :resource            :resource})
 
 (defn get

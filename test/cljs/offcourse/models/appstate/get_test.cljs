@@ -11,7 +11,7 @@
         goal            "alone in the dark"
         slug            (str/slugify goal)
         url             "http://offcourse.io"
-        missing-url     "http://gibbon.co"
+        missing-url     "http://ribbon.com"
         buzzword        :agile
         user-id         :yeehaa
         checkpoint      {:checkpoint-id   1
@@ -56,8 +56,8 @@
 
         (testing "it retrieves the courses"
           (are [course-ids expectation] (= (get course-ids) expectation)
-            [id]         [course]
-            [missing-id] nil))))
+            [course]         [course]
+            [{:course-id missing-id}] nil))))
 
     (testing "when query type is course"
       (let [store (sut/new {:courses [course]})
@@ -108,8 +108,8 @@
 
         (testing "it retrieves the resources"
           (are [resource-ids expectation] (= (get resource-ids) expectation)
-            [url]         [resource]
-            [missing-url] nil))))
+            [resource]         [resource]
+            [{:url missing-url}] nil))))
 
     (testing "when query type is resource"
       (let [store (sut/new {:resources [resource]})

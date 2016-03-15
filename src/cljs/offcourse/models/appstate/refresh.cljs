@@ -5,22 +5,21 @@
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]))
 
+(def data-hierarchy
+  (-> (make-hierarchy)
+      (derive :courses :data)
+      (derive :course :data)
+      (derive :resources :data)
+      (derive :resource :data)))
+
 (defn deep-merge
   [& vs]
   (if (every? map? vs)
     (apply merge-with deep-merge vs)
     (last vs)))
 
-(defn add-course [store course]
-  (update-in store [:courses] #(conj % course)))
-
-(defn add-resource [store resource]
-  (let [store-urls (into #{} (map :url (:resources store)))]
-    (if-not (contains? store-urls (:url resource))
-      (update-in store [:resources] #(conj % resource))
-      store)))
-
-(defmulti refresh (fn [_ {:keys [type]}] type))
+(defmulti refresh (fn [_ {:keys [type]}] type)
+  :hierarchy #'data-hierarchy)
 
 (defmethod refresh :view [state {:keys [view-data]}]
   (update state :viewmodel #(qa/refresh % view-data)))
@@ -36,27 +35,10 @@
         (transform courses-path #(set/union store-ids course-ids) store)
         (transform [:collections] #(conj % collection) store)))))
 
-(defmethod refresh :courses [store query]
-  (let [store-ids (into #{} (map :course-id (:courses store)))
-        query-ids (into #{} (map :course-id (:courses query)))
-        missing-ids (set/difference query-ids store-ids)
-        missing-courses (keep (fn [{:keys [course-id] :as course}]
-                                (when (contains? missing-ids course-id) course))
-                              (:courses query))]
-    (if-not (empty? missing-ids)
-      (reduce add-course store missing-courses)
-      store)))
-
-(defmethod refresh :course [store {:keys [course] :as query}]
-  (if (va/missing-data store query)
-    (qa/add store query)
+(defmethod refresh :data [store query]
+  (if-let [missing-courses (va/missing-data store query)]
+    (qa/add store missing-courses)
     store))
-
-(defmethod refresh :resources [store {:keys [resources]}]
-  (reduce add-resource store resources))
-
-(defmethod refresh :resource [store {:keys [resource]}]
-  (add-resource store resource))
 
 (defmethod refresh :default [{:keys [store] :as as} query]
   {:type :error :error :query-not-supported})

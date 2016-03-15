@@ -8,8 +8,10 @@
 (deftest missing-data-test
   (let [course-id            "123"
         url                  "http://offcourse.io"
+        missing-url     "http://ribbon.com"
         course               (co/new {:course-id   course-id
                                       :checkpoints [{:url url}]})
+        resource        {:url url}
         collection           {:collection-type :flags
                               :collection-name :agile
                               :course-ids      #{course-id}}
@@ -23,16 +25,36 @@
     (testing "empty store"
 
       (is (= (va/missing-data (sut/new {:viewmodel {:type :loading-view}}))
-             nil))
-      (is (= (va/missing-data (sut/new {:viewmodel {:type :bla-view}}))
-             {:type :error :error :appstate-empty})))
+             nil)))
+
 
     (testing "missing course in store"
-      (let [store        (sut/new {:courses []})
+      (let [store        (sut/new)
             missing-data (va/missing-data store {:type :course
                                                  :course course})]
         (is (= missing-data {:type :course
                              :course {:course-id course-id}}))))
+
+    (testing "missing courses in store"
+      (let [store        (sut/new {:courses [course]})
+            missing-data (va/missing-data store {:type :courses
+                                                 :courses [course {:course-id "234"}]})]
+        (is (= missing-data {:type :courses
+                             :courses [{:course-id "234"}]}))))
+
+    (testing "missing resource in store"
+      (let [store        (sut/new)
+            missing-data (va/missing-data store {:type :resource
+                                                 :resource resource})]
+        (is (= missing-data {:type :resource
+                             :resource {:url url}}))))
+
+    (testing "missing resources in store"
+      (let [store        (sut/new {:resources [resource]})
+            missing-data (va/missing-data store {:type :resources
+                                                 :resources [resource {:url missing-url}]})]
+        (is (= missing-data {:type :resources
+                             :resources [{:url missing-url}]}))))
 
     (testing "missing course in checkpoint-view"
       (is (= (va/missing-data (sut/new {:viewmodel {:type         :checkpoint-view

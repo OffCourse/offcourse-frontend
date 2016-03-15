@@ -11,10 +11,11 @@
     (let [{:keys [collection-type collection-name]} collection]
       (select-first (paths/collection collection-type collection-name) ds))))
 
-(defmethod get :courses [{:keys [courses] :as ds} {:keys [course-ids]}]
+(defmethod get :courses [{:keys [courses] :as ds} query]
   (when courses
-    (when-let [courses (keep #(select-first (paths/course %) ds) course-ids)]
-      (if (empty? courses) nil courses))))
+    (let [course-ids (map :course-id (:courses query))]
+      (when-let [courses (keep #(select-first (paths/course %) ds) course-ids)]
+        (if (empty? courses) nil courses)))))
 
 (defmethod get :course [{:keys [courses] :as ds} {:keys [course]}]
   (when courses
@@ -27,10 +28,11 @@
   (when courses
     (select-first (paths/checkpoint checkpoint) ds)))
 
-(defmethod get :resources [{:keys [resources] :as ds} {:keys [urls]}]
+(defmethod get :resources [{:keys [resources] :as ds} query]
   (when resources
+    (let [urls (map :url (:resources query))]
       (when-let [resources (keep #(select-first (paths/resource %) ds) urls)]
-        (if (empty? resources) nil resources))))
+        (if (empty? resources) nil resources)))))
 
 (defmethod get :resource [{:keys [resources] :as ds} {:keys [resource]}]
   (when resources

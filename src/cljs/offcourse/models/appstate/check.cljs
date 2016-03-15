@@ -16,10 +16,11 @@
 (defmethod check :collection [ds query]
   (if (qa/get ds query) true false))
 
-(defmethod check :courses [{:keys [courses] :as ds} {:keys [course-ids] :as query}]
-  (if (and courses (not (empty? courses)))
-    (has-items? (map :course-id (qa/get ds query)) course-ids)
-    false))
+(defmethod check :courses [{:keys [courses] :as ds} query]
+  (let [course-ids (map :course-id (:courses query))]
+    (if (and courses (not (empty? courses)))
+      (has-items? (map :course-id (qa/get ds query)) course-ids)
+      false)))
 
 (defmethod check :course [{:keys [user] :as store} {:keys [course] :as query}]
   (let [{:keys [course-id curator]} course
@@ -32,10 +33,11 @@
 (defmethod check :checkpoint [store query]
   (if (qa/get store query) true false))
 
-(defmethod check :resources [{:keys [resources] :as ds} {:keys [urls] :as query}]
-  (if (and resources (not (empty? resources)))
-    (has-items? (map :url (qa/get ds query)) urls)
-    false))
+(defmethod check :resources [{:keys [resources] :as ds} query]
+  (let [urls (map :url (:resources query))]
+    (if (and resources (not (empty? resources)))
+      (has-items? (map :url (qa/get ds query)) urls)
+      false)))
 
 (defmethod check :resource [ds query]
   (if (qa/get ds query) true false))

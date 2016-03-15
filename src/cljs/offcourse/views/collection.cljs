@@ -16,7 +16,8 @@
                          (or (qa/get appstate :collection collection-data)
                              collection-data))
    :courses         (fnk [appstate collection]
-                         (some->> (qa/get appstate :courses (:course-ids collection))
-                                  (map (partial augment-course (:collection-name collection)))))
+                         (let [course-ids (map (fn [id] {:course-id id}) (:course-ids collection))]
+                           (some->> (qa/get appstate :courses course-ids)
+                                    (map (partial augment-course (:collection-name collection))))))
    :main            (fnk [courses url-helpers [:components cards]]
                          (cards courses url-helpers))})

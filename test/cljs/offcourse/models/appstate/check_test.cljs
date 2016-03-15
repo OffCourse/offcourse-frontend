@@ -18,8 +18,8 @@
         checkpoint      {:checkpoint-id 1
                          :resource-id   id}
         course          {:course-id   id
-                         :goal goal
-                         :slug slug
+                         :goal        goal
+                         :slug        slug
                          :curator     user-id
                          :hashtag     buzzword
                          :checkpoints [checkpoint]}
@@ -56,10 +56,10 @@
       (let [store (sut/new {:courses [course]})]
 
         (testing "it reports if courses are present"
-          (let [check (fn [course-ids] (qa/check store :courses course-ids))]
-            (are [course-ids expectation] (= (check course-ids) expectation)
-              [id]         true
-              [missing-id] false)))))
+          (let [check (fn [courses] (qa/check store :courses courses))]
+            (are [courses expectation] (= (check courses) expectation)
+              [course]                  true
+              [{:course-id missing-id}] false)))))
 
     (testing "when query type is course"
       (let [store (sut/new {:user    {:name user-id}
@@ -81,7 +81,7 @@
               #_:bla  #_false)))
 
         #_(testing "it reports if course is present by checking curator and hashtag"
-          (let [check (fn [curator hashtag] (qa/check store :course (h/course-by-hashtag curator hashtag)))]
+            (let [check (fn [curator hashtag] (qa/check store :course (h/course-by-hashtag curator hashtag)))]
             (are [curator hashtag expectation] (= (check curator hashtag) expectation)
               user-id buzzword true
               user-id :bla     false
@@ -107,11 +107,11 @@
       (let [store (sut/new {:resources [resource]})]
 
         (testing "it reports if resources are present"
-          (let [check (fn [urls] (qa/check store :resources urls))]
-            (are [urls expectation] (= (check urls) expectation)
-              []            true
-              [url]         true
-              [missing-url] false)))))
+          (let [check (fn [resources] (qa/check store :resources resources))]
+            (are [resources expectation] (= (check resources) expectation)
+              []                   true
+              [resource]           true
+              [{:url missing-url}] false)))))
 
     (testing "when query type is resource"
       (let [store (sut/new {:resources [resource]})]
