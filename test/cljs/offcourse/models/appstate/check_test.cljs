@@ -93,7 +93,7 @@
             course         (update course :checkpoints #(conj % new-checkpoint))
             store          (sut/new {:courses [course]})]
 
-        (testing "it reports if course is present by checking its id"
+        (testing "it reports if checkpoint is present by checking its id"
           (let [check (fn [course-id checkpoint-id] (qa/check store :checkpoint
                                                               (h/checkpoint course-id checkpoint-id)))]
             (are [course-id checkpoint-id expectation]

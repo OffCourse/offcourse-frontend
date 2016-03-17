@@ -36,9 +36,8 @@
   (let [course-id (:course-id course)
         curator-query [(query :curators (:curator course) course-id)]
         flag-queries (map #(query :flags % course-id) (:flags course))
-        tag-queries (map #(query :tags % course-id) (:tags course))
+        tag-queries (map #(query :tags % course-id) (qa/get course :tags {}))
         queries [curator-query flag-queries tag-queries]]
-    (println (:collections (reduce #(qa/refresh %1 :collection %2) store (flatten queries))))
     (reduce #(qa/refresh %1 :collection %2) store (flatten queries))))
 
 (defmethod refresh :collection [store {:keys [collection] :as query}]

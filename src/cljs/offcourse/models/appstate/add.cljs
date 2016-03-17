@@ -3,6 +3,7 @@
             [offcourse.models.appstate.paths :as paths]
             [com.rpl.specter :refer [ALL select-first setval transform select-first]]
             [offcourse.models.course.index :as co]
+            [offcourse.models.collection :as cl]
             [offcourse.models.checkpoint :as cp]))
 
 (defn add-course [store course]
@@ -14,16 +15,15 @@
 (defmulti add (fn [_ {:keys [type]}] type))
 
 (defmethod add :collection [store {:keys [collection] :as q}]
-  (transform [:collections] #(conj % collection) store))
+  (transform [:collections] #(conj % (cl/new collection)) store))
 
 (defmethod add :courses [store {:keys [courses] :as q}]
   (reduce add-course store courses))
 
 (defmethod add :course [store {:keys [course] :as query}]
-  (let [{:keys [curator course-id]} course]
-    (-> store
-        (update :courses #(conj % course))
-        (qa/refresh :collections course))))
+  (-> store
+      (update :courses #(conj % course))
+      (qa/refresh :collections course)))
 
 (defmethod add :resources [store {:keys [resources]}]
   (reduce add-resource store resources))

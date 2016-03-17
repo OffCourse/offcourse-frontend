@@ -5,6 +5,7 @@
             [offcourse.models.appstate.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]
             [cuerdas.core :as str]
+            [offcourse.models.collection :as cl]
             [offcourse.models.course.index :as co]))
 
 (deftest models-appstate-add
@@ -24,9 +25,8 @@
                                          :hashtag     buzzword
                                          :checkpoints [checkpoint]})
         collection-type :flags
-        collection      {:collection-type collection-type
-                         :collection-name buzzword
-                         :course-ids      #{}}
+        collection      (cl/new {:collection-type collection-type
+                                 :collection-name buzzword})
         resource        {:url url}]
 
     (testing "it returns an error if given an non-exisiting query type"

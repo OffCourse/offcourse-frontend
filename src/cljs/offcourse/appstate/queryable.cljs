@@ -5,9 +5,7 @@
             [clojure.set :as set]
             [offcourse.models.course.index :as co]))
 
-(defmulti refresh (fn [_ {:keys [type]}] type))
-
-(defmethod refresh :default [{:keys [state] :as as} query]
+(defn refresh-state [{:keys [state] :as as} query]
   (let [old-state @state]
     (swap! state #(qa/refresh % query))
     (when-not (= old-state @state)
@@ -19,6 +17,15 @@
           (swap! state (fn [state] (update state :queries #(conj % (hash missing-data)))))
           (respond as :not-found-data missing-data))))))
 
+(defmulti refresh (fn [_ {:keys [type]}] type))
+
+(defmethod refresh :view [as {:keys [type view-data] :as query}]
+  (when (= (:type view-data) :collection-view)
+    (respond as :not-found-data :collection (get-in view-data [:dependencies :collection])))
+  (refresh-state as query))
+
+(defmethod refresh :default [as query]
+  (refresh-state as query))
 
 (defn check [{:keys [queries state] :as as} query]
   (if (set/subset? queries #{(hash query)})

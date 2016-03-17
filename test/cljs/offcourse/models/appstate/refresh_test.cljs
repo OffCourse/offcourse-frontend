@@ -4,6 +4,7 @@
             [offcourse.models.appstate.helpers :as h]
             [offcourse.models.appstate.index :as sut]
             [offcourse.models.collection :as cl]
+            [offcourse.models.course.index :as co]
             [offcourse.models.appstate.paths :as paths]
             [offcourse.protocols.queryable :as qa]))
 
@@ -17,11 +18,11 @@
         new-url2        "http://blabla.com"
         missing-url     "http://facebook.co"
         collection-type :flags
-        course          {:course-id id
+        course          (co/new {:course-id id
                          :flags     #{collection-type}
-                         :tags      #{buzzword}
+                         :checkpoints [{:checkpoint-id id :tags #{buzzword}}]
                          :curator   user-id
-                         :hashtag   buzzword}
+                         :hashtag   buzzword})
         collection      (cl/new {:collection-type collection-type
                                  :collection-name buzzword
                                  :course-ids      #{}})
@@ -107,7 +108,7 @@
       (letfn [(courses [ids] (map (fn [id] {:course-id id}) ids))]
 
         (testing "it adds a new course"
-          (let [course {:course-id 234}
+          (let [course (co/new {:course-id 234})
                 store  (sut/new {:courses (courses [id])})
                 ids    (map :course-id (:courses (qa/refresh store :course course)))]
             (are [value actual] (= (h/contains-val? ids value) actual)
