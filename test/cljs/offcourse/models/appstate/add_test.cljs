@@ -33,8 +33,13 @@
       (is (= (qa/add (sut/new) :bla {})
              {:type :error :error :query-not-supported})))
 
-    (testing "when query type is courses"
+    (testing "when query type is collection"
+      (testing "it adds new collection"
+        (let [store (-> (sut/new)
+                        (qa/add :collection collection))]
+          (is (= (:collections store) [collection])))))
 
+    (testing "when query type is courses"
       (testing "it adds new courses"
         (let [store (-> (sut/new)
                         (qa/add :courses [course]))]
@@ -44,8 +49,17 @@
 
       (testing "it adds a new course"
         (let [store (-> (sut/new)
-                        (qa/add :course course))]
-          (is (= (first (:courses store)) course)))))
+                        (qa/add :course course))
+              stored-course (first (:courses store))]
+          (is (= stored-course course))))
+
+      (testing "it adds a new course"
+        (let [store (-> (sut/new)
+                        (qa/add :course course))
+              collection (qa/get store :collection {:collection-type :curators
+                                                    :collection-name user-id})
+              course-ids (:course-ids collection)]
+          (is (contains? course-ids id)))))
 
     (testing "when query type is resources"
 

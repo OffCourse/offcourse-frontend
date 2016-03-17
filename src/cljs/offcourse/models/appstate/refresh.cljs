@@ -27,17 +27,35 @@
 (defmethod refresh :user [state {:keys [user]}]
   (assoc state :user user))
 
+(defn query [type name id]
+  {:collection-type type
+   :collection-name name
+   :course-ids #{id}})
+
+(defmethod refresh :collections [store {:keys [course]}]
+  (let [course-id (:course-id course)
+        curator-query [(query :curators (:curator course) course-id)]
+        flag-queries (map #(query :flags % course-id) (:flags course))
+        tag-queries (map #(query :tags % course-id) (:tags course))
+        queries [curator-query flag-queries tag-queries]]
+    (println (:collections (reduce #(qa/refresh %1 :collection %2) store (flatten queries))))
+    (reduce #(qa/refresh %1 :collection %2) store (flatten queries))))
+
 (defmethod refresh :collection [store {:keys [collection] :as query}]
-  (when-let [{:keys [collection-type collection-name course-ids]} collection]
-    (let [collection-path (paths/collection collection-type collection-name)
-          courses-path    [collection-path :course-ids]]
-      (if-let [store-ids (select-first courses-path store)]
-        (transform courses-path #(set/union store-ids course-ids) store)
-        (transform [:collections] #(conj % collection) store)))))
+  (if (qa/get store query)
+    (transform (paths/collection collection)
+               #(qa/refresh % query)
+               store)
+    (qa/add store query)))
+
+(defmethod refresh :course [store query]
+  (if-let [missing-query (va/missing-data store query)]
+    (qa/add store query)
+    store))
 
 (defmethod refresh :data [store query]
-  (if-let [missing-courses (va/missing-data store query)]
-    (qa/add store missing-courses)
+  (if-let [missing-query (va/missing-data store query)]
+    (qa/add store missing-query)
     store))
 
 (defmethod refresh :default [{:keys [store] :as as} query]

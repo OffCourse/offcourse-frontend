@@ -3,9 +3,12 @@
             [com.rpl.specter :refer [ALL transform select-first]]
             [cuerdas.core :as str]))
 
-(defn collection [collection-type collection-name]
+(defn collection
+  ([{:keys [collection-type collection-name]}]
+    (collection collection-type collection-name))
+  ([collection-type collection-name]
   [:collections ALL #(and (= (:collection-type %) collection-type)
-                          (= (:collection-name %) collection-name))])
+                          (= (:collection-name %) collection-name))]))
 
 (defn course-ids [collection-type collection-name]
   [(collection collection-type collection-name) :course-ids])

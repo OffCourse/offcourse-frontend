@@ -3,6 +3,7 @@
             [com.rpl.specter :refer [select-first]]
             [offcourse.models.appstate.helpers :as h]
             [offcourse.models.appstate.index :as sut]
+            [offcourse.models.collection :as cl]
             [offcourse.models.appstate.paths :as paths]
             [offcourse.protocols.queryable :as qa]))
 
@@ -15,13 +16,15 @@
         new-url1        "http://bla.com"
         new-url2        "http://blabla.com"
         missing-url     "http://facebook.co"
+        collection-type :flags
         course          {:course-id id
+                         :flags     #{collection-type}
+                         :tags      #{buzzword}
                          :curator   user-id
                          :hashtag   buzzword}
-        collection-type :flags
-        collection      {:collection-type collection-type
-                         :collection-name buzzword
-                         :course-ids      #{}}
+        collection      (cl/new {:collection-type collection-type
+                                 :collection-name buzzword
+                                 :course-ids      #{}})
         resource        {:url url}]
 
     (testing "when query type is non-existing"
@@ -30,10 +33,10 @@
 
     #_(testing "when query type is view"
 
-      (let [query {:type     :view
-                   :view-data {:view-type :course-view
-                               :data-deps {:course course}}}
-            state (qa/refresh (sut/new) query)]
+        (let [query {:type      :view
+                     :view-data {:view-type :course-view
+                                 :data-deps {:course course}}}
+              state (qa/refresh (sut/new) query)]
         (is (= :course-view (:view-type state)))))
 
     (testing "when query type is user"
@@ -42,6 +45,21 @@
                    :user {:name :yeehaa}}
             state (qa/refresh (sut/new) query)]
         (is (= :yeehaa (get-in state [:user :name])))))
+
+    (testing "when query type is collections"
+      (let [store (sut/new {:collections [(assoc collection :course-ids #{})]})]
+
+        (testing "it adds a new course"
+          (let [store              (qa/refresh store :collections course)
+                curator-collection (qa/get store :collection {:collection-type :curators
+                                                              :collection-name user-id})
+                flag-collection    (qa/get store :collection {:collection-type :flags
+                                                              :collection-name collection-type})
+                tag-collection     (qa/get store :collection {:collection-type :tags
+                                                              :collection-name buzzword})]
+            (is (contains? (:course-ids tag-collection) id))
+            (is (contains? (:course-ids flag-collection) id))
+            (is (contains? (:course-ids curator-collection) id))))))
 
     (testing "when query type is collection"
       (let [store (sut/new {:collections [(assoc collection :course-ids #{123})]})]

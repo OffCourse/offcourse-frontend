@@ -13,11 +13,17 @@
 
 (defmulti add (fn [_ {:keys [type]}] type))
 
+(defmethod add :collection [store {:keys [collection] :as q}]
+  (transform [:collections] #(conj % collection) store))
+
 (defmethod add :courses [store {:keys [courses] :as q}]
   (reduce add-course store courses))
 
-(defmethod add :course [store {:keys [course]}]
-  (update-in store [:courses] #(conj % course)))
+(defmethod add :course [store {:keys [course] :as query}]
+  (let [{:keys [curator course-id]} course]
+    (-> store
+        (update :courses #(conj % course))
+        (qa/refresh :collections course))))
 
 (defmethod add :resources [store {:keys [resources]}]
   (reduce add-resource store resources))
