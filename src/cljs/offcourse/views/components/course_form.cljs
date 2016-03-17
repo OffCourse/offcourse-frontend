@@ -4,7 +4,9 @@
             [offcourse.views.components.label :refer [labels]]
             [rum.core :as rum]))
 
-(rum/defcs course-form < (rum/local {}) [state course
+(rum/defcs course-form < (rum/local {}) [state
+                                         course
+                                         {:keys [name]}
                                          {:keys [checkpoint-url] :as helpers}
                                          {:keys [update-appstate
                                                  save-course]}]
@@ -22,6 +24,6 @@
        (todo-list (:checkpoints course)
                   {:checkpoint-url (partial checkpoint-url (:curator course) :new)})]
       [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]
-      [:.card--actions {:key :actions} [:.actions [:.textbar
-                                                   {:on-click save-course}
-                                                   "Save Course"]]]]]))
+      [:.card--actions {:key :actions}
+       [:.actions
+        (when name [:.textbar {:on-click save-course} "Save Course"])]]]]))

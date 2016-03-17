@@ -19,5 +19,7 @@
                          (let [course-ids (map (fn [id] {:course-id id}) (:course-ids collection))]
                            (some->> (qa/get appstate :courses course-ids)
                                     (map (partial augment-course (:collection-name collection))))))
+   :view-actions   (fnk [user-name [:url-helpers home-url new-course-url]]
+                        {:add-course (when user-name (new-course-url user-name))})
    :main            (fnk [courses url-helpers [:components cards]]
                          (cards courses url-helpers))})

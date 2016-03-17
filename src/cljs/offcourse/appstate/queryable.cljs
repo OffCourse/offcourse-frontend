@@ -39,6 +39,8 @@
                    (qa/get query)
                    co/complete)]
     (if (va/valid? course)
-      (qa/refresh as :course course)
+      (do
+        (qa/refresh as :course course)
+        (.alert js/window "saved!"))
       (.alert js/window "not saved..."))))
 

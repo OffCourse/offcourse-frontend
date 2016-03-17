@@ -17,11 +17,14 @@
                                          augment-course)]
                        course
                        course-data))
+   :user        (fnk [appstate] (:user appstate))
    :main        (fnk [appstate handlers [:components resource-list] url-helpers]
                      (resource-list (:resources appstate)
                                     url-helpers
                                     handlers))
-   :dashboard   (fnk [course handlers [:components dashboard course-form] url-helpers]
+   :view-actions (fnk [] {})
+   :dashboard   (fnk [course user handlers [:components dashboard course-form] url-helpers]
                      (dashboard {:main (course-form course
+                                                    user
                                                     url-helpers
                                                     handlers)}))})

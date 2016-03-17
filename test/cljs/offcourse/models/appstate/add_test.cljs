@@ -41,20 +41,20 @@
 
     (testing "when query type is courses"
       (testing "it adds new courses"
-        (let [store (-> (sut/new)
+        (let [store (-> (sut/new )
                         (qa/add :courses [course]))]
           (is (= (:courses store) [course])))))
 
     (testing "when query type is course"
 
       (testing "it adds a new course"
-        (let [store (-> (sut/new)
+        (let [store (-> (sut/new {:user {:name user-id}})
                         (qa/add :course course))
               stored-course (first (:courses store))]
           (is (= stored-course course))))
 
       (testing "it adds a new course"
-        (let [store (-> (sut/new)
+        (let [store (-> (sut/new {:user {:name user-id}})
                         (qa/add :course course))
               collection (qa/get store :collection {:collection-type :curators
                                                     :collection-name user-id})

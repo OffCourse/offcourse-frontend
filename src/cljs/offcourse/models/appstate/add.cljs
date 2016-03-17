@@ -20,10 +20,11 @@
 (defmethod add :courses [store {:keys [courses] :as q}]
   (reduce add-course store courses))
 
-(defmethod add :course [store {:keys [course] :as query}]
-  (-> store
-      (update :courses #(conj % course))
-      (qa/refresh :collections course)))
+(defmethod add :course [{:keys [user] :as store} {:keys [course] :as query}]
+  (let [course (assoc course :curator (:name user))]
+    (-> store
+        (update :courses #(conj % course))
+        (qa/refresh :collections course))))
 
 (defmethod add :resources [store {:keys [resources]}]
   (reduce add-resource store resources))

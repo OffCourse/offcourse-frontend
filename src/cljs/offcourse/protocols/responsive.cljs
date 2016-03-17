@@ -28,17 +28,20 @@
 
 (def counter (atom 0))
 
+(defn debug-helper [component-name status payload]
+  (when (= component-name :user)
+    (println "--RESPONSE-----")
+    (println "SENDER" component-name)
+    (println "STATUS" status)
+    #_(println "PAYLOAD" payload)))
+
 (defn respond
   ([this status] (respond this status nil))
   ([{:keys [output-channel log-channel channels component-name]} status payload]
    (let [output-channel (or output-channel (:output channels))
          log-channel    (or log-channel (:log channels))
          response       (action/new status component-name payload)]
-     #_(when true #_(= component-name :ui)
-           (println "--RESPONSE-----")
-           (println "SENDER" component-name)
-           (println "STATUS" status)
-           #_(println "PAYLOAD" payload))
+     #_(debug-helper component-name status payload)
      (go
        (swap! counter inc)
        (>! output-channel response)
@@ -49,12 +52,8 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-     #_(when (and (= component-name :ui) #_(= source :user))
-        (println "--MESSAGE----")
-        (println "RECIPIENT" component-name)
-        (println "SENDER" source)
-        (println type)
-        #_(println payload))
+      #_(when true #_(= component-name :user)
+        (debug-helper source type payload))
       (when reaction
         (if (= reaction :forward)
           (respond this type payload)

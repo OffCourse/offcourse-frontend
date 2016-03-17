@@ -12,7 +12,9 @@
                                                  :height :auto
                                                  :flex-direction :row
                                                  :justify-content :space-between
-                                                 :padding (:full units)}]]]
+                                                 :padding (:full units)}]
+                        [:nav {:display :flex
+                                :flex-direction :row}]]]
     [(h/augment-many base-component subcomponents)]))
 
 

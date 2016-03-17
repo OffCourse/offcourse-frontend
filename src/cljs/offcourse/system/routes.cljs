@@ -36,8 +36,10 @@
                                      :curator curator
                                      :course-slug course-slug
                                      :checkpoint-slug checkpoint-slug))
+        profile-url    (fn [curator] (collection-url :curators curator))
         home-url       (collection-url :flags :featured)]
     {:home-url       home-url
+     :profile-url    profile-url
      :new-course-url new-course-url
      :collection-url collection-url
      :checkpoint-url checkpoint-url}))
