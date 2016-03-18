@@ -19,9 +19,8 @@
                          :url url}]
 
     (testing "query type is checkpoint"
-
       (let [sut (-> (sut/new)
                     (assoc :checkpoints [checkpoint])
-                    (qa/remove :checkpoints [checkpoint]))]
+                    (qa/remove :checkpoint checkpoint))]
         (is (= (count (:checkpoints sut)) 0))))))
 

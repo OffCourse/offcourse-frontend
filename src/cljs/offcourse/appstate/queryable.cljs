@@ -5,36 +5,31 @@
             [clojure.set :as set]
             [offcourse.models.course.index :as co]))
 
-(defn refresh-state [{:keys [state] :as as} query]
+(defmulti refresh
+  (fn [_ {:keys [type]}] type))
+
+(defmethod refresh :default [{:keys [state] :as as} query]
   (let [old-state @state]
     (swap! state #(qa/refresh % query))
     (when-not (= old-state @state)
       (if (va/valid? as)
         (do
-          (swap! state (fn [state] (assoc state :queries #{})))
+          ;; move to refresh :queries
+          (swap! state #(assoc % :queries #{}))
           (respond as :refreshed-state))
         (when-let [missing-data (va/missing-data @state)]
+          ;; move to add :query
           (swap! state (fn [state] (update state :queries #(conj % (hash missing-data)))))
           (respond as :not-found-data missing-data))))))
 
-(defmulti refresh (fn [_ {:keys [type]}] type))
-
-(defmethod refresh :view [as {:keys [type view-data] :as query}]
-  (when (= (:type view-data) :collection-view)
-    (respond as :not-found-data :collection (get-in view-data [:dependencies :collection])))
-  (refresh-state as query))
-
-(defmethod refresh :default [as query]
-  (refresh-state as query))
-
 (defn check [{:keys [queries state] :as as} query]
   (if (set/subset? queries #{(hash query)})
-    (qa/refresh as {:type :view
-                    :view-data {:type :loading-view
-                                :dependencies {}}})
+    (qa/refresh as {:type :loading-view})
     (respond as :not-found-data query)))
 
+;; this needs to be a multimethod
 (defn add [{:keys [state] :as as} query]
+  ;; move to view-model-get (return course if valid otherwise nil)
   (let [course (-> (:viewmodel @state)
                    (qa/get query)
                    co/complete)]

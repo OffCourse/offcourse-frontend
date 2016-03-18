@@ -2,9 +2,8 @@
   (:require [rum.core :as rum]))
 
 (defn delete-checkpoint [update-appstate checkpoint-slug]
-  (update-appstate {:type :update-deps
-                    :actions {:type :delete
-                              :checkpoints [{:checkpoint-slug checkpoint-slug}]}}))
+  (update-appstate {:type :delete-checkpoint
+                    :checkpoint {:checkpoint-slug checkpoint-slug}}))
 
 (rum/defc list-item [{:keys [task checkpoint-slug]}
                      {:keys [update-appstate]}

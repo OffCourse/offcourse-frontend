@@ -3,14 +3,24 @@
             [com.rpl.specter :refer [select-first transform]]
             [offcourse.models.appstate.paths :as paths]
             [offcourse.protocols.queryable :as qa]
-            [offcourse.protocols.validatable :as va]))
+            [offcourse.protocols.validatable :as va]
+            [offcourse.models.viewmodel.index :as vm]))
 
 (def data-hierarchy
   (-> (make-hierarchy)
-      (derive :courses :data)
-      (derive :course :data)
-      (derive :resources :data)
-      (derive :resource :data)))
+      (derive :add-checkpoint    :dependencies)
+      (derive :delete-checkpoint :dependencies)
+      (derive :update-goal       :dependencies)
+      (derive :update-curator    :dependencies)
+
+      (derive :collection-view   :viewmodel)
+      (derive :checkpoint-view   :viewmodel)
+      (derive :course-view       :viewmodel)
+      (derive :loading-view      :viewmodel)
+
+      (derive :courses           :data)
+      (derive :resources         :data)
+      (derive :resource          :data)))
 
 (defn deep-merge
   [& vs]
@@ -18,14 +28,22 @@
     (apply merge-with deep-merge vs)
     (last vs)))
 
-(defmulti refresh (fn [_ {:keys [type]}] type)
+(defmulti refresh (fn [_ {:keys [type]}]
+                    type)
   :hierarchy #'data-hierarchy)
 
-(defmethod refresh :view [state {:keys [view-data]}]
-  (update state :viewmodel #(qa/refresh % view-data)))
+(defmethod refresh :dependencies [state query]
+  (update-in state [:viewmodel :dependencies] #(qa/refresh % query)))
+
+(defmethod refresh :viewmodel [{:keys [user] :as state} query]
+  (-> state
+      (assoc :viewmodel (vm/new query))
+      (qa/refresh :update-curator (:name user))))
 
 (defmethod refresh :user [state {:keys [user]}]
-  (assoc state :user user))
+  (-> state
+      (assoc :user user)
+      (qa/refresh :update-curator (:name user))))
 
 (defn query [type name id]
   {:collection-type type

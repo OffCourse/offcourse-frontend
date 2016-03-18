@@ -20,8 +20,8 @@
                       :value (:goal @local)
                       :on-change (fn [event]
                                    (swap! local #(assoc % :goal (-> event .-target .-value))))
-                      :on-blur #(update-appstate {:type :update-deps
-                                                  :actions {:goal (:goal @local)}})}]]
+                      :on-blur #(update-appstate  {:type :update-goal
+                                                   :goal (:goal @local)})}]]
       [:.card--checkpoints {:key :checkpoints}
        (item-list :edit (:checkpoints course)
                   helpers

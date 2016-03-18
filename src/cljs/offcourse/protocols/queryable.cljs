@@ -15,13 +15,11 @@
    :collection          :collection
    :courses             :courses
    :course              :course
-   :course-view         :dependencies
-   :collection-view     :dependencies
-   :checkpoint-view     :dependencies
    :checkpoints         :checkpoints
    :checkpoint          :checkpoint
    :view                :view-data
    :url                 :checkpoint-slug
+   :update-curator      :curator
    :resources           :resources
    :resource            :resource})
 
