@@ -6,20 +6,19 @@
              [arithmetic :refer [/ + *]]]))
 
 (defn todo-list [{:keys [templates fonts units colors]}]
-  [[:.todo-list--item {:justify-content  :center
-                       :padding          (:half units)
-                       :height           (:one-and-half units)
-                       :margin-bottom    (:sixth units)
-                       :background-color (:light colors)
-                       :color            (:night colors)}
-    [:&:hover (:highlighted templates)]
+  [[:.list--item {:justify-content  :center
+                  :padding          (:half units)
+                  :height           (:one-and-half units)
+                  :margin-bottom    (:sixth units)
+                  :background-color (:light colors)
+                  :color            (:night colors)}
     [:p {:display         :flex
          :flex-direction  :row
          :font-size       (:subtitle-font units)
          :font-family     (:title fonts)
          :font-weight     500
          :line-height     (:subtitle-line-height units)
-         :justify-content :flex-start
+         :justify-content :space-between
          :align-items     :center
          :height          (percent 100)}]
     [:.checkbox {:display          :inline-block ;
@@ -27,7 +26,13 @@
                  :width            (:two-third units)
                  :height           (:two-third units)
                  :background-color (:day colors)
-                 :vertical-align   :center}]]
-   [(s/> :.todo-list (s/attr :data-selected := :true)) (:selected templates)
+                 :vertical-align   :center}]
+    [(s/> :p (s/attr :data-remove := :true)) {:color (:medium colors)
+                                              :user-select :none}
+     [:&:hover {:color (:primary colors)}]]]
+   [(s/> :.item-list (s/attr :data-item-type := :todo)) {}
+    [:p {:justify-content :flex-start}]
+    [:&:hover (:highlighted templates)]]
+   [(s/> :.item-list (s/attr :data-selected := :true)) (:selected templates)
     [:&:hover (:highlighted templates)]]])
 

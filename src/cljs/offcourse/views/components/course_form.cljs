@@ -1,6 +1,6 @@
 (ns offcourse.views.components.course-form
   (:require [markdown.core :refer [md->html]]
-            [offcourse.views.components.todo :refer [todo-list]]
+            [offcourse.views.components.todo :refer [item-list]]
             [offcourse.views.components.label :refer [labels]]
             [rum.core :as rum]))
 
@@ -9,7 +9,7 @@
                                          {:keys [name]}
                                          {:keys [checkpoint-url] :as helpers}
                                          {:keys [update-appstate
-                                                 save-course]}]
+                                                 save-course] :as handlers}]
   (let [local (:rum/local state)]
    [:.container--card
      [:.card
@@ -19,14 +19,17 @@
                       :on-change (fn [event]
                                    (swap! local #(assoc % :goal (-> event .-target .-value))))
                       :on-blur #(update-appstate {:type :update-deps
-                                                  :dependencies {:goal (:goal @local)}})}]]
+                                                  :actions {:goal (:goal @local)}})}]]
       [:.card--checkpoints {:key :checkpoints}
-       (todo-list (:checkpoints course)
-                  {:checkpoint-url (partial checkpoint-url (:curator course) :new)})]
+       (item-list :edit (:checkpoints course)
+                  helpers
+                  handlers)]
       [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]
       [:.card--actions {:key :actions}
        [:.actions
-        (when (and (:valid? (meta course))
-                   (not (:saved? (meta course)))
-                   name) [:.textbar {:key :save-course
-                                     :on-click save-course} "Save Course"])]]]]))
+        (let [enabled? (and (:valid? (meta course))
+                             (not (:saved? (meta course)))
+                             name)]
+          [:button.textbar {:key :save-course
+                            :on-click save-course
+                            :disabled (not enabled?)} "Save Course"])]]]]))

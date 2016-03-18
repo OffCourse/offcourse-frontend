@@ -1,6 +1,6 @@
 (ns offcourse.views.components.card
   (:require [offcourse.views.components.label :refer [labels]]
-            [offcourse.views.components.todo :refer [todo-list]]
+            [offcourse.views.components.todo :refer [item-list]]
             [rum.core :as rum]))
 
 (rum/defc card [{:keys [goal tags description course-slug checkpoints curator] :as course}
@@ -9,7 +9,7 @@
    [:.card
     [:.card--title
      [:a.title {:href (checkpoint-url curator course-slug "index")} goal]]
-    [:.card--checkpoints (todo-list checkpoints
+    [:.card--checkpoints (item-list :todo checkpoints
                                     {:checkpoint-url (partial checkpoint-url curator course-slug)})]
     [:.card--tags (labels (:tags (meta course)) helpers)]
     #_[:.card--description [:p description]]

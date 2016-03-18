@@ -2,6 +2,7 @@
   (:require [offcourse.models.checkpoint :refer [Checkpoint]]
             [offcourse.models.course.add :as add-impl]
             [offcourse.models.course.get :as get-impl]
+            [offcourse.models.course.remove :as remove-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [schema.core :as schema :include-macros true]
@@ -23,6 +24,7 @@
   Queryable
   (-check [course] (schema/check Course course))
   (-get [course query] (get-impl/get course query))
+  (-remove [course query] (remove-impl/remove course query))
   (-add [course query] (add-impl/add course query))
   Validatable
   (-valid? [{:keys [checkpoints] :as course}]

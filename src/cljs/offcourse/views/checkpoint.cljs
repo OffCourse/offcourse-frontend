@@ -4,17 +4,17 @@
             [offcourse.protocols.queryable :as qa]
             [plumbing.core :refer-macros [fnk]]))
 
-(defn select-checkpoint [checkpoints selected-id]
-  (for [{:keys [checkpoint-id] :as checkpoint} checkpoints]
-    (if (= selected-id checkpoint-id)
+(defn select-checkpoint [checkpoints selected-slug]
+  (for [{:keys [checkpoint-slug] :as checkpoint} checkpoints]
+    (if (= selected-slug checkpoint-slug)
       (with-meta checkpoint {:selected true})
       checkpoint)))
 
-(defn augment-course [{:keys [checkpoints checkpoint-id] :as course}]
+(defn augment-course [{:keys [checkpoints checkpoint-slug] :as course}]
   (let [tags (-> (qa/get course :tags {})
-                 (lb/collection->labels checkpoint-id))]
+                 (lb/collection->labels checkpoint-slug))]
     (some-> course
-            (assoc :checkpoints (select-checkpoint checkpoints checkpoint-id))
+            (assoc :checkpoints (select-checkpoint checkpoints checkpoint-slug))
             (with-meta {:tags tags}))))
 
 (def graph

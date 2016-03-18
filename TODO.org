@@ -8,21 +8,26 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [66%]
-+ [-] General        [75%]
+* Now            [33%]
++ [-] General        [80%]
   - [X] add 'save course' functionality
   - [X] add 'add course' workflow
   - [X] make save conditional
+  - [X] add 'delete checkpoint'
   - [ ] refactor
 + [X] router
   - [X] course route by goal (slug) not hashtag
-+ [X] Models
++ [-] Models
   - [X] appstate [100%]
     + [X] refactor collection check /get / refresh
-  - [X] viewmodel [100%]
+  - [-] viewmodel [60%]
     + [X] implement
     + [X] add saved meta-field on course
     + [X] write tests
+    + [ ] make dependencies separate record
+    + [ ] refactor
+  - [ ] dependencies
+    + [ ] implement Queryable
   - [X] checkpoint [100%]
     + [X] remove order
     + [X] add slug
@@ -39,6 +44,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] add sign-in-panel
     + [X] make actions externally configurable
     + [X] add valid meta-field on new-course
+    + [X] create a generic item-list component
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas

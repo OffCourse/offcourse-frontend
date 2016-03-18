@@ -14,18 +14,19 @@
   (fn [_ {:keys [type]}] type)
   :hierarchy #'view-hierarchy)
 
-(defn refresh-dependencies [{:keys [course]} query-dependencies]
+(defn refresh-dependencies [{:keys [course]} action]
   (medley/map-kv (fn [dep-name dep]
-                     (if (= dep-name :checkpoint)
-                       [:course (qa/add course :checkpoint dep)]
-                       [:course (merge course query-dependencies)]))
-                 query-dependencies))
+                   (case dep-name
+                     :checkpoint [:course (qa/add course :checkpoint dep)]
+                     :checkpoints [:course (qa/remove course :checkpoints dep)]
+                     [:course (merge course (dissoc action :type))]))
+                 (dissoc action :type)))
 
-(defmethod refresh :update-deps [{:keys [course] :as vm} query]
+(defmethod refresh :update-deps [{:keys [dependencies course] :as vm}
+                                 {:keys [actions] :as q}]
   (assoc vm
          :type (:type vm)
-         :dependencies (refresh-dependencies
-                        (:dependencies vm) (:dependencies query))))
+         :dependencies (refresh-dependencies dependencies actions)))
 
 (defmethod refresh :new-view [vm {:keys [dependencies] :as query}]
   (let [{:keys [course]} dependencies]

@@ -29,7 +29,7 @@
 (def counter (atom 0))
 
 (defn debug-helper [component-name status payload]
-  (when (= component-name :user)
+  (when (= component-name :ui)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)

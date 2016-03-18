@@ -39,6 +39,10 @@
               :border           :none
               :background-color (:night colors)
               :color            (:day colors)}
+   [:&:disabled {:background-color (:medium colors)
+                 :color (:light colors)}
+    [:&:hover {:background-color (:medium colors)
+               :color (:day colors)}]]
    [:&:hover {:background-color (:day colors)
               :color (:night colors)}]])
 

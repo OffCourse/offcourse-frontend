@@ -4,6 +4,7 @@
 (defprotocol Queryable
   (-get     [this query])
   (-add     [this query])
+  (-remove  [this query])
   (-check   [this] [this query])
   (-fetch   [this query])
   (-refresh [this doc]))
@@ -17,6 +18,7 @@
    :course-view         :dependencies
    :collection-view     :dependencies
    :checkpoint-view     :dependencies
+   :checkpoints         :checkpoints
    :checkpoint          :checkpoint
    :view                :view-data
    :url                 :checkpoint-slug
@@ -40,6 +42,12 @@
   ([this query] (-add this query))
   ([this type data] (-add this {:type           type
                                 (type payloads) data})))
+
+(defn remove
+  ([this query] (-remove this query))
+  ([this type data] (-remove this {:type           type
+                                (type payloads) data})))
+
 (defn check
   ([this] (-check this))
   ([this query] (-check this query))
