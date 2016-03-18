@@ -10,7 +10,9 @@
                                          {:keys [checkpoint-url] :as helpers}
                                          {:keys [update-appstate
                                                  save-course] :as handlers}]
-  (let [local (:rum/local state)]
+  (let [local (:rum/local state)
+        dirty? (not (:saved? (meta course)))
+        enabled? (and (:valid? (meta course)) name)]
    [:.container--card
      [:.card
       [:.card--title {:key :title}
@@ -23,13 +25,11 @@
       [:.card--checkpoints {:key :checkpoints}
        (item-list :edit (:checkpoints course)
                   helpers
-                  handlers)]
+                  handlers
+                  dirty?)]
       [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]
       [:.card--actions {:key :actions}
        [:.actions
-        (let [enabled? (and (:valid? (meta course))
-                             (not (:saved? (meta course)))
-                             name)]
-          [:button.textbar {:key :save-course
-                            :on-click save-course
-                            :disabled (not enabled?)} "Save Course"])]]]]))
+          (when dirty? [:button.textbar {:key :save-course
+                             :on-click save-course
+                             :disabled (not enabled?)} "Save Course"])]]]]))
