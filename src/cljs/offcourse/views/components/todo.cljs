@@ -1,5 +1,6 @@
 (ns offcourse.views.components.todo
-  (:require [rum.core :as rum]))
+  (:require [rum.core :as rum]
+             [offcourse.views.components.list-item :refer [list-item]]))
 
 (rum/defc todo-list-item [{:keys [task checkpoint-slug order] :as checkpoint}
                           {:keys [checkpoint-url]}]
@@ -10,20 +11,6 @@
      [:a {:href url} [:p
                       [:span.checkbox {:key :checkbox} nil]
                       [:span {:key :title} task]]]]))
-
-  (rum/defc list-item [{:keys [task checkpoint-slug]}
-                       {:keys [update-appstate]}
-                       dirty?]
-  [:li.list--item
-   [:p
-    [:span {:key :title} task]
-    (when dirty? [:span {:key :remove
-            :data-remove true
-            :on-click #(update-appstate
-                        {:type :update-deps
-                         :actions {:type :delete
-                                   :checkpoints [{:checkpoint-slug checkpoint-slug}]}})}
-     "Delete"])]])
 
 (rum/defc item-list [list-type checkpoints url-helpers handlers dirty?]
   [:ul.item-list {:data-list-type list-type}
