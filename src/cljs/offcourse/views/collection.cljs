@@ -7,7 +7,8 @@
 (defn augment-course [selected {:keys [checkpoints] :as course}]
   (let [tags (-> (qa/get course :tags {})
                  (lb/collection->labels selected))]
-    (-> course (with-meta {:tags tags}))))
+    (some-> course
+            (with-meta {:tags tags}))))
 
 (def graph
   {:collection-data (fnk [view-data]
@@ -19,7 +20,7 @@
                          (let [course-ids (map (fn [id] {:course-id id}) (:course-ids collection))]
                            (some->> (qa/get appstate :courses course-ids)
                                     (map (partial augment-course (:collection-name collection))))))
-   :view-actions   (fnk [user-name [:url-helpers home-url new-course-url]]
+   :actions   (fnk [user-name [:url-helpers home-url new-course-url]]
                         {:add-course (when user-name (new-course-url user-name))})
    :main            (fnk [courses url-helpers [:components cards]]
                          (cards courses url-helpers))})

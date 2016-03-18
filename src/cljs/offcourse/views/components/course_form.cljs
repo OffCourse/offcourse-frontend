@@ -26,4 +26,7 @@
       [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]
       [:.card--actions {:key :actions}
        [:.actions
-        (when name [:.textbar {:on-click save-course} "Save Course"])]]]]))
+        (when (and (:valid? (meta course))
+                   (not (:saved? (meta course)))
+                   name) [:.textbar {:key :save-course
+                                     :on-click save-course} "Save Course"])]]]]))

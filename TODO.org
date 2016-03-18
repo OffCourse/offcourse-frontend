@@ -21,6 +21,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] refactor collection check /get / refresh
   - [X] viewmodel [100%]
     + [X] implement
+    + [X] add saved meta-field on course
     + [X] write tests
   - [X] checkpoint [100%]
     + [X] remove order
@@ -37,6 +38,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] add action-panel
     + [X] add sign-in-panel
     + [X] make actions externally configurable
+    + [X] add valid meta-field on new-course
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas

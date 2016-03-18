@@ -23,6 +23,7 @@
 (defmethod add :course [{:keys [user] :as store} {:keys [course] :as query}]
   (let [course (assoc course :curator (:name user))]
     (-> store
+        (update-in [:viewmodel :dependencies :course] #(with-meta % {:saved? true}))
         (update :courses #(conj % course))
         (qa/refresh :collections course))))
 
