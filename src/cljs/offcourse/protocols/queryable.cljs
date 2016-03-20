@@ -19,7 +19,8 @@
    :checkpoint          :checkpoint
    :view                :view-data
    :url                 :checkpoint-slug
-   :update-curator      :curator
+   :curator             :curator
+   :goal                :goal
    :resources           :resources
    :resource            :resource})
 

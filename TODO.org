@@ -8,21 +8,23 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [25%]
+* Now            [33%]
 + [-] General        [80%]
   - [X] add 'save course' functionality
   - [X] add 'add course' workflow
   - [X] make save conditional
   - [X] add 'delete checkpoint'
   - [ ] refactor
-+ [ ] protocols
++ [ ] Protocols      [0%]
   - [ ] queryable
     - [ ] make payloads external
-+ [ ] appstate
++ [ ] Appstate       [0%]
   - [ ] add tests
-+ [X] router
++ [X] Router         [100%]
   - [X] course route by goal (slug) not hashtag
-+ [-] Models
++ [ ] Tests          [0%]
+  + [ ] refactor
++ [X] Models         [100%]
   - [X] appstate [100%]
     + [X] refactor collection check /get / refresh
   - [X] viewmodel [100%]
@@ -31,9 +33,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] write tests
     + [X] make dependencies separate record
     + [X] refactor
-  - [-] dependencies
+  - [X] dependencies
     + [X] implement Queryable
-    + [ ] add tests
+    + [X] add tests
   - [X] checkpoint [100%]
     + [X] remove order
     + [X] add slug
@@ -42,10 +44,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] add slug
     + [X] implement queryable/get
     + [X] implement queryable/add
+    + [X] implement queryable/refresh
     + [X] add tests
   - [X] appstate [100%]
-    + [X] replace view-type view-data with viewmodel
-  - [X] views [100%]
+    + [X] replace view-type view-data with viewmode
++ [X] views          [100%]
     + [X] add action-panel
     + [X] add sign-in-panel
     + [X] make actions externally configurable

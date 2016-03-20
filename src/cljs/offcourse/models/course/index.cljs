@@ -6,7 +6,8 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [schema.core :as schema :include-macros true]
-            [cuerdas.core :as str]))
+            [cuerdas.core :as str]
+            [offcourse.models.course.refresh :as refresh-impl]))
 
 (schema/defrecord Course
     [course-id    :- schema/Num
@@ -25,6 +26,7 @@
   (-check [course] (schema/check Course course))
   (-get [course query] (get-impl/get course query))
   (-remove [course query] (remove-impl/remove course query))
+  (-refresh [course query] (refresh-impl/refresh course query))
   (-add [course query] (add-impl/add course query))
   Validatable
   (-valid? [{:keys [checkpoints] :as course}]

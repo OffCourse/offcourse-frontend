@@ -13,3 +13,5 @@
                     :url "abc"
                     :task "Add Something"
                     :tags #{}}))
+
+(defn new [overrides] (map->Checkpoint overrides))

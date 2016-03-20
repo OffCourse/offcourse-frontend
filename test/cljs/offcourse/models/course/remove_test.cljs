@@ -1,8 +1,8 @@
 (ns offcourse.models.course.remove-test
-  (:require [offcourse.protocols.queryable :as qa]
+  (:require [cljs.test :refer-macros [deftest is testing]]
+            [cuerdas.core :as str]
             [offcourse.models.course.index :as sut]
-            [cljs.test :refer-macros [deftest testing is are]]
-            [cuerdas.core :as str]))
+            [offcourse.protocols.queryable :as qa]))
 
 (deftest models-course-delete
   (let [id              123

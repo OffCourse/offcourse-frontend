@@ -1,7 +1,7 @@
 (ns offcourse.models.viewmodel.index
   (:require [schema.core :as schema]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.models.dependencies :as deps]
+            [offcourse.models.dependencies.index :as deps]
             [medley.core :as medley]
             [offcourse.models.course.index :as co]))
 
