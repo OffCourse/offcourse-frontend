@@ -1,69 +1,46 @@
 (ns offcourse.models.dependencies.refresh-test
-  (:require [cljs.test :refer-macros [are deftest is testing]]
-            [offcourse.models.dependencies.index :as sut]
+  (:require [cljs.test :refer-macros [deftest are is testing]]
+            [cuerdas.core :as str]
             [offcourse.models.course.index :as co]
-            [offcourse.protocols.queryable :as qa]
-            [offcourse.models.checkpoint :as cp]
-            [cuerdas.core :as str]))
+            [offcourse.models.dependencies.index :as sut]
+            [offcourse.models.fixtures :as fx]
+            [offcourse.protocols.queryable :as qa]))
 
 (deftest models-dependencies-refresh
-  (let [id              123
-        missing-id      223
-        buzzword        :agile
-        user-id         :yeehaa
-        title           "hello world"
-        url             "http://offcourse.io"
-        new-url1        "http://bla.com"
-        new-url2        "http://blabla.com"
-        missing-url     "http://facebook.co"
-        collection-type :flags
-        checkpoint      {:task title
-                         :checkpoint-slug (str/slugify title)
-                         :tags #{buzzword}}
-        course          (co/new {:course-id id
-                                 :goal title
-                                 :flags     #{collection-type}
-                                 :checkpoints []
-                                 :curator   user-id
-                                 :hashtag   buzzword})]
+  (testing "when action type is add-checkpoint"
+    (let [action       {:type       :add-checkpoint
+                        :checkpoint fx/checkpoint}
+          dependencies (qa/refresh (sut/new {:course fx/course}) action)]
+      (is (= (-> dependencies :course :checkpoints count) 1))))
 
-    (testing "when action type is add-checkpoint"
-      (let [action {:type :add-checkpoint
-                    :checkpoint checkpoint}
-            dependencies (qa/refresh (sut/new {:course course}) action)]
-        (is (= (-> dependencies :course :checkpoints count) 1))))
+  (testing "when action type is delete-checkpoint"
+    (let [action       {:type       :delete-checkpoint
+                        :checkpoint fx/checkpoint}
+          course       (qa/add fx/course fx/checkpoint)
+          dependencies (qa/refresh (sut/new {:course fx/course}) action)]
+      (is (= (-> dependencies :course :checkpoints count) 0))))
 
-    (testing "when action type is delete-checkpoint"
-      (let [action {:type :delete-checkpoint
-                    :checkpoint checkpoint}
-            course (qa/add course checkpoint)
-            dependencies (qa/refresh (sut/new {:course course}) action)]
-        (is (= (-> dependencies :course :checkpoints count) 0))))
+  (testing "when action type is update-goal"
+    (let [action       {:type :update-goal
+                        :goal fx/other-goal}
+          dependencies (qa/refresh (sut/new {:course fx/course}) action)]
+      (are [field value] (= (-> dependencies :course field) value)
+        :goal        fx/other-goal
+        :course-slug fx/other-slug)))
 
-    (testing "when action type is update-goal"
-      (let [new-title "goodbye world"
-            action {:type :update-goal
-                    :goal new-title}
-            dependencies (qa/refresh (sut/new {:course course}) action)]
-        (is (= (-> dependencies :course :goal) new-title))
-        (is (= (-> dependencies :course :course-slug) (str/slugify new-title)))))
+  (testing "when action type is update-curator"
 
-    (testing "when action type is update-curator"
+    (let [action       {:type    :update-curator
+                        :curator fx/other-user-name}
+          dependencies (qa/refresh (sut/new) action)]
+      (is (= dependencies (sut/new))))
 
-      (let [new-curator :greg
-            action {:type :update-curator
-                    :curator new-curator}
-            dependencies (qa/refresh (sut/new) action)]
-        (is (= dependencies (sut/new))))
+    (let [action       {:type    :update-curator
+                        :curator nil}
+          dependencies (qa/refresh (sut/new {:course fx/course}) action)]
+      (is (= dependencies (sut/new {:course fx/course}))))
 
-      (let [new-curator nil
-            action {:type :update-curator
-                    :curator new-curator}
-            dependencies (qa/refresh (sut/new {:course course}) action)]
-        (is (= dependencies (sut/new {:course course}))))
-
-      (let [new-curator :greg
-            action {:type :update-curator
-                    :curator new-curator}
-            dependencies (qa/refresh (sut/new {:course course}) action)]
-        (is (= (-> dependencies :course :curator) user-id))))))
+    (let [action       {:type    :update-curator
+                        :curator fx/other-user-name}
+          dependencies (qa/refresh (sut/new {:course fx/course}) action)]
+      (is (= (-> dependencies :course :curator) fx/user-name)))))

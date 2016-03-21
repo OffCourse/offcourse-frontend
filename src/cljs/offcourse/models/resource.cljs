@@ -13,8 +13,6 @@
      tags             :- #{schema/Keyword}
      content          :- schema/Any]
   Queryable
-  (-check [resource]
-    (schema/check Resource resource))
+  (-check [resource] (schema/check Resource resource))
   Validatable
-  (-valid? [resource]
-    (if-not (qa/check resource) true false)))
+  (-valid? [resource] (if-not (qa/check resource) true false)))

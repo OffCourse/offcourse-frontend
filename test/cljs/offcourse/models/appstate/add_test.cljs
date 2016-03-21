@@ -2,6 +2,7 @@
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.appstate.index :as sut]
             [offcourse.models.checkpoint :as  cp]
+            [offcourse.models.fixtures :as  fx]
             [offcourse.models.appstate.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]
             [cuerdas.core :as str]
@@ -10,67 +11,57 @@
 
 (deftest models-appstate-add
 
-  (let [id              123
-        missing-id      223
-        buzzword        :agile
-        user-id         :yeehaa
-        url             "http://offcourse.io"
-        goal            "alone in the dark"
-        slug            (str/slugify goal)
-        checkpoint      {:checkpoint-id 1
-                         :resource-id   id}
-        course          (co/map->Course {:course-id   id
-                                         :course-slug slug
-                                         :curator     user-id
-                                         :hashtag     buzzword
-                                         :checkpoints [checkpoint]})
-        collection-type :flags
-        collection      (cl/new {:collection-type collection-type
-                                 :collection-name buzzword})
-        resource        {:url url}]
+  (testing "it returns an error if given an non-exisiting query type"
+    (is (= (qa/add (sut/new) :bla {})
+           {:type :error :error :query-not-supported})))
 
-    (testing "it returns an error if given an non-exisiting query type"
-      (is (= (qa/add (sut/new) :bla {})
-             {:type :error :error :query-not-supported})))
+  (testing "when query type is collection"
+    (let [store (qa/add (sut/new) :collection fx/collection)]
 
-    (testing "when query type is collection"
-      (testing "it adds new collection"
-        (let [store (-> (sut/new)
-                        (qa/add :collection collection))]
-          (is (= (:collections store) [collection])))))
+    (testing "it adds new collection"
+        (is (= (:collections store) [fx/collection])))))
 
-    (testing "when query type is courses"
+  (testing "when query type is courses"
+    (let [store (qa/add (sut/new) :courses [fx/course])]
+
       (testing "it adds new courses"
-        (let [store (-> (sut/new )
-                        (qa/add :courses [course]))]
-          (is (= (:courses store) [course])))))
+        (is (= (:courses store) [fx/course])))))
 
-    (testing "when query type is course"
+  (testing "when query type is course"
 
-      (testing "it adds a new course"
-        (let [store (-> (sut/new {:user {:name user-id}})
-                        (qa/add :course course))
-              stored-course (first (:courses store))]
-          (is (= stored-course course))))
+    (testing "without a user"
+      (let [course        (assoc fx/course :curator nil)
+            store         (qa/add (sut/new) :course course)]
 
-      (testing "it adds a new course"
-        (let [store (-> (sut/new {:user {:name user-id}})
-                        (qa/add :course course))
-              collection (qa/get store :collection {:collection-type :curators
-                                                    :collection-name user-id})
-              course-ids (:course-ids collection)]
-          (is (contains? course-ids id)))))
+        (testing "it does not adds a new course"
+          (is (= (:courses store) [])))
 
-    (testing "when query type is resources"
+        (testing "it does not adds the course-id to the right collections"
+          (are [collection] (not (contains? (:course-ids (qa/get store :collection collection)) fx/id))
+            fx/flag-collection
+            fx/curator-collection
+            fx/tag-collection))))
 
-      (testing "it adds new resources"
-        (let [store (-> (sut/new)
-                        (qa/add :resources [resource]))]
-          (is (= (:resources store) [resource])))))
+    (testing "with a user"
+      (let [store         (-> (sut/new {:user fx/user})
+                              (qa/add :course fx/course))]
 
-    (testing "when query type is resource"
+        (testing "it adds a new course"
+          (is (= (:courses store) [fx/course])))
 
-      (testing "it adds a new resource"
-        (let [store (-> (sut/new)
-                        (qa/add :resource resource))]
-          (is (= (first (:resources store)) resource)))))))
+        (testing "it adds the course-id to the right collections"
+          (are [collection] (contains? (:course-ids (qa/get store :collection collection)) fx/id)
+            fx/flag-collection
+            fx/curator-collection
+            fx/tag-collection)))))
+
+  (testing "when query type is resources"
+    (let [store (qa/add (sut/new) :resources [fx/resource])]
+    (testing "it adds new resources"
+        (is (= (:resources store) [fx/resource])))))
+
+  (testing "when query type is resource"
+    (let [store (qa/add (sut/new) :resource fx/resource)]
+
+    (testing "it adds a new resource"
+      (is (= (:resources store) [fx/resource]))))))

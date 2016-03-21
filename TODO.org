@@ -8,47 +8,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [33%]
-+ [-] General        [80%]
-  - [X] add 'save course' functionality
-  - [X] add 'add course' workflow
-  - [X] make save conditional
-  - [X] add 'delete checkpoint'
-  - [ ] refactor
-+ [X] Router         [100%]
-  - [X] course route by goal (slug) not hashtag
-+ [ ] Tests          [0%]
-  + [ ] refactor
-+ [X] Models         [100%]
-  - [X] appstate [100%]
-    + [X] refactor collection check /get / refresh
-  - [X] viewmodel [100%]
-    + [X] implement
-    + [X] add saved meta-field on course
-    + [X] write tests
-    + [X] make dependencies separate record
-    + [X] refactor
-  - [X] dependencies
-    + [X] implement Queryable
-    + [X] add tests
-  - [X] checkpoint [100%]
-    + [X] remove order
-    + [X] add slug
-  - [X] course [100%]
-    + [X] remove hashtag
-    + [X] add slug
-    + [X] implement queryable/get
-    + [X] implement queryable/add
-    + [X] implement queryable/refresh
-    + [X] add tests
-  - [X] appstate [100%]
-    + [X] replace view-type view-data with viewmode
-+ [X] views          [100%]
-    + [X] add action-panel
-    + [X] add sign-in-panel
-    + [X] make actions externally configurable
-    + [X] add valid meta-field on new-course
-    + [X] create a generic item-list component
+* Now            [100%]
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas
@@ -120,6 +80,13 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] refactor messaging flow
   - [X] add support for not found courses
   - [X] basic (fake) auth flow
+  - [X] add 'save course' functionality
+  - [X] add 'add course' workflow
+  - [X] make save conditional
+  - [X] add 'delete checkpoint'
+  - [X] refactor
++ [X] Tests          [100%]
+  + [X] refactor
 + [X] System         [100%]
   - [X] refactor map
   - [X] move index file to correct dir
@@ -129,7 +96,19 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] action
     + [X] implement loggable protocol
   - [X] collection
-  - [X] course
+  - [X] checkpoint [100%]
+    + [X] remove order
+    + [X] add slug
+  - [X] course [100%]
+    + [X] remove hashtag
+    + [X] add slug
+    + [X] implement queryable/get
+    + [X] implement queryable/add
+    + [X] implement queryable/refresh
+    + [X] add tests
+  - [X] dependencies
+    + [X] implement Queryable
+    + [X] add tests
     + [X] add description field
     + [X] change base-id to hash
     + [X] add hashtag
@@ -138,6 +117,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] incorporate datastore model
     + [X] missing-data
       - [X] resources for new courses
+    + [X] refactor collection check /get / refresh
+    + [X] replace view-type view-data with viewmode
   - [X] datastore
     + [X] add tests
       - [X] check
@@ -159,6 +140,12 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] Add Validatable
     + [X] Add Renderable
     + [X] Add Mountable
+  - [X] viewmodel [100%]
+    + [X] implement
+    + [X] add saved meta-field on course
+    + [X] write tests
+    + [X] make dependencies separate record
+    + [X] refactor
 + [X] Protocols      [100%]
   - [X] Queryable
     + [X] add get
@@ -173,7 +160,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] Convertible
   - [X] Composable
   - [X] Loggable
-  + [X] Authenticable
+  - [X] Authenticable
 + [X] Adapters       [100%]
   - [X] fakedb
     + [X] fetch
@@ -233,6 +220,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] collections
     + [X] course
     + [X] checkpoint
+  - [X] course route by goal (slug) not hashtag
 + [X] Views          [100%]
   - [X] transition view-components to RUM or Sablono
   - [X] sidebar
@@ -252,6 +240,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] add forms
     + [X] add resources
     + [X] design resource list
+  - [X] add action-panel
+  - [X] add sign-in-panel
+  - [X] make actions externally configurable
+  - [X] add valid meta-field on new-course
+  - [X] create a generic item-list component
 + [X] UI             [100%]
   - [X] rename from renderer
   - [X] implement renderable

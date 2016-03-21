@@ -1,7 +1,9 @@
 (ns offcourse.models.fixtures
   (:require [offcourse.models.collection :as cl]
             [offcourse.models.course.index :as co]
-            [cuerdas.core :as str]))
+            [offcourse.models.viewmodel.index :as vm]
+            [cuerdas.core :as str]
+            [offcourse.models.checkpoint :as cp]))
 
 (def id                     123)
 (def other-id               129)
@@ -20,38 +22,54 @@
 (def other-url              "http://bla.com")
 (def yet-another-url        "http://blabla.com")
 (def missing-url            "http://facebook.co")
+(def flag-type              :featured)
 (def collection-type        :flags)
 (def other-collection-type  :tags)
 
-(def collection      (cl/new {:collection-type collection-type
-                              :collection-name buzzword
-                              :course-ids      #{}}))
+(def user               {:name user-name})
 
-(def checkpoint      {:checkpoint-id   1
-                      :checkpoint-slug slug
-                      :url             url
-                      :tags            #{buzzword}
-                      :resource-id     id})
+(def collection         (cl/new {:collection-type collection-type
+                                 :collection-name buzzword
+                                 :course-ids      #{}}))
 
-(def course          (co/new {:course-id   id
-                              :goal        goal
-                              :course-slug slug
-                              :flags       #{collection-type}
-                              :checkpoints [checkpoint]
-                              :curator     user-name
-                              :hashtag     buzzword}))
+(def flag-collection     (cl/new {:collection-type collection-type
+                                  :collection-name flag-type
+                                  :course-ids      #{}}))
 
-(def resource         {:url url})
+(def tag-collection      (cl/new {:collection-type other-collection-type
+                                  :collection-name buzzword
+                                  :course-ids      #{}}))
 
-(def course-data {:course-id id})
+(def curator-collection  (cl/new {:collection-type :curators
+                                  :collection-name user-name
+                                  :course-ids      #{}}))
 
-(def loading-vm {:viewmodel {:type :loading-view}})
+(def checkpoint          (cp/new {:checkpoint-id   1
+                                  :task            goal
+                                  :checkpoint-slug slug
+                                  :url             url
+                                  :tags            #{buzzword}}))
 
-(def checkpoint-vm {:type         :checkpoint-view
-                    :dependencies {:course course}})
+(def course              (co/new {:course-id   id
+                                  :base-id     id
+                                  :revision    0
+                                  :forks       #{}
+                                  :timestamp   (.now js/Date)
+                                  :goal        goal
+                                  :course-slug slug
+                                  :flags       #{flag-type}
+                                  :checkpoints [checkpoint]
+                                  :curator     user-name}))
 
-(def course-vm {:type         :course-view
-                :dependencies {:course course}})
+(def resource            {:url url})
 
-(def collection-vm {:type         :collection-view
-                    :dependencies {:collection collection}})
+(def loading-vm          (vm/new {:type :loading-view}))
+
+(def checkpoint-vm       (vm/new {:type   :checkpoint-view
+                                  :course course}))
+
+(def course-vm           (vm/new {:type   :course-view
+                                  :course course}))
+
+(def collection-vm       (vm/new {:type       :collection-view
+                                  :collection collection}))

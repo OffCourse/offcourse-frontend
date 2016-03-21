@@ -1,9 +1,8 @@
 (ns offcourse.models.viewmodel.index
-  (:require [schema.core :as schema]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+  (:require [offcourse.models.course.index :as co]
             [offcourse.models.dependencies.index :as deps]
-            [medley.core :as medley]
-            [offcourse.models.course.index :as co]))
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [schema.core :as schema]))
 
 (schema/defrecord Viewmodel
     [type :- schema/Keyword

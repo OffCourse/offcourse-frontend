@@ -4,6 +4,7 @@
             [com.rpl.specter :refer [ALL select-first setval transform select-first]]
             [offcourse.models.course.index :as co]
             [offcourse.models.collection :as cl]
+            [offcourse.protocols.validatable :as va]
             [offcourse.models.checkpoint :as cp]))
 
 (defn add-course [store course]
@@ -21,13 +22,14 @@
   (reduce add-course store courses))
 
 (defmethod add :course [{:keys [user] :as store} {:keys [course] :as query}]
-  (let [course (assoc course :curator (:name user))]
+  (if (va/valid? course)
     (-> store
         (update-in [:viewmodel :dependencies :course] #(with-meta % {:saved? true}))
         (update :courses #(conj % course))
-        (qa/refresh :collections course))))
+        (qa/refresh :collections course))
+    store))
 
-(defmethod add :resources [store {:keys [resources]}]
+  (defmethod add :resources [store {:keys [resources]}]
   (reduce add-resource store resources))
 
 (defmethod add :resource [store {:keys [resource]}]
