@@ -9,6 +9,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
 * Now            [100%]
++ [ ] General        [0%]
+  - [ ] add 'add resource' workflow
++ [ ] Views          [0%]
+  - [ ] add 'new resource form
+  - [ ] add 'course view'
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas
@@ -20,32 +25,18 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [ ] Bootstrappable
   - [ ] Lifecycle    [0%]
     + [ ] Build abstraction around component
-+ [ ] Viewmodels     [0%]
++ [-] Viewmodels     [50%]
   - [ ] add converter from hash-map
-  - [ ] add loading view
 + [ ] Appstate       [0%]
   - [ ] use vm converter instead of constructor
 + [ ] UI             [0%]
   - [ ] make renderer a separate component
-+ [ ] Models         [0%]
-  - [ ] Datastore
-    + [ ] implement queryable/modify
-  - [ ] Course
-    - [ ] add qa/get protocol
-  - [ ] Checkpoint
-    - [ ] add qa/get protocol
-+ [ ] Router         [0%]
-  - [ ] add support for new courses
 + [ ] Adapters       [0%]
   - [ ] HTTP
 + [ ] Authentication [0%]
 + [ ] Repositories   [0%]
   - [ ] central repo
     + [ ] add publish
-+ [ ] Styles
-  + [ ] make a global list style
-+ [-] Views          [50%]
-  - [ ] add 'new checkpoint' form
 * Future          [0%]
 + [ ] Viewmodels     [0%]
   - [ ] add tests
@@ -96,10 +87,10 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] action
     + [X] implement loggable protocol
   - [X] collection
-  - [X] checkpoint [100%]
+  - [X] checkpoint   [100%]
     + [X] remove order
     + [X] add slug
-  - [X] course [100%]
+  - [X] course       [100%]
     + [X] remove hashtag
     + [X] add slug
     + [X] implement queryable/get
@@ -140,7 +131,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] Add Validatable
     + [X] Add Renderable
     + [X] Add Mountable
-  - [X] viewmodel [100%]
+  - [X] viewmodel    [100%]
     + [X] implement
     + [X] add saved meta-field on course
     + [X] write tests
@@ -221,6 +212,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] course
     + [X] checkpoint
   - [X] course route by goal (slug) not hashtag
+  - [X] add support for new courses
 + [X] Views          [100%]
   - [X] transition view-components to RUM or Sablono
   - [X] sidebar
@@ -245,6 +237,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] make actions externally configurable
   - [X] add valid meta-field on new-course
   - [X] create a generic item-list component
+  - [X] add loading view
 + [X] UI             [100%]
   - [X] rename from renderer
   - [X] implement renderable
@@ -268,6 +261,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] rewrite styles to garden
   - [X] correct BEM mistake
   - [X] add media queries
-+ [X] User [100%]
+  - [X] make a global list style
++ [X] User           [100%]
   - [X] Create Component
     
