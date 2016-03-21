@@ -1,7 +1,8 @@
 (ns offcourse.appstate.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.appstate.add :as add-impl]
-            [offcourse.appstate.queryable :as qa-impl]
+            [offcourse.appstate.check :as check-impl]
+            [offcourse.appstate.refresh :as refresh-impl]
             [offcourse.appstate.validatable :as va-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
@@ -18,9 +19,9 @@
   (start   [as] (ri/listen as))
   (stop    [as] (ri/mute as))
   Queryable
-  (-check   [as query] (qa-impl/check as query))
+  (-check   [as query] (check-impl/check as query))
   (-add  [as query] (add-impl/add as query))
-  (-refresh [as query] (qa-impl/refresh as query))
+  (-refresh [as query] (refresh-impl/refresh as query))
   Validatable
   (-valid?  [as] (va-impl/valid? as))
   Responsive

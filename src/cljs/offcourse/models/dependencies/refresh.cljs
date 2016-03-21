@@ -13,6 +13,6 @@
   (update-in dependencies [:course] #(qa/refresh % :goal goal)))
 
 (defmethod refresh :update-curator [{:keys [course] :as dependencies} {:keys [curator] :as query}]
-  (if (and course curator)
+  (if (and course curator (not (:curator course)))
     (update-in dependencies [:course] #(qa/refresh % :curator curator))
     dependencies))

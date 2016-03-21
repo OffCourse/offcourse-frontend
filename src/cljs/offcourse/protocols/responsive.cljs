@@ -10,6 +10,7 @@
 
 (def payloads
   {:collection-names    :collection-type
+   :query               :missing-data
    :collection          :collection
    :courses             :courses
    :course              :course

@@ -66,4 +66,4 @@
             action {:type :update-curator
                     :curator new-curator}
             dependencies (qa/refresh (sut/new {:course course}) action)]
-        (is (= (-> dependencies :course :curator) new-curator))))))
+        (is (= (-> dependencies :course :curator) user-id))))))
