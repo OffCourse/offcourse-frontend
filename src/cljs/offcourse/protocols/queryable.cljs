@@ -20,6 +20,7 @@
    :view                :view-data
    :url                 :checkpoint-slug
    :curator             :curator
+   :update-curator      :curator
    :goal                :goal
    :resources           :resources
    :resource            :resource})
