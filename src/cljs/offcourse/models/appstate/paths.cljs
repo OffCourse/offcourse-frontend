@@ -13,20 +13,11 @@
 (defn course-ids [collection-type collection-name]
   [(collection collection-type collection-name) :course-ids])
 
-(defn course
-  ([course-id] [:courses ALL #(= (:course-id %) course-id)])
-  ([curator hashtag] [:courses ALL #(and (= (:hashtag %) hashtag)
-                                         (= (:curator %) curator))]))
-
-(defn course2
-  ([curator goal]
-   [:courses ALL #(and (= (:course-slug %) (str/slugify goal))
-                       (= (:curator %) curator))]))
-
-(defn course3
-  ([curator slug]
-   [:courses ALL #(and (= (:course-slug %) slug)
-                       (= (:curator %) curator))]))
+(defn course [{:keys [course-id course-slug curator goal] :as course}]
+  (if-let [slug (or course-slug (str/slugify goal))]
+    [:courses ALL #(and (= (:course-slug %) slug)
+                        (= (:curator %) curator))]
+    [:courses ALL #(= (:course-id %) (or course-id course))]))
 
 (defn checkpoints [course-id]
   [(course course-id) :checkpoints])

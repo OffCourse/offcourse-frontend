@@ -19,10 +19,7 @@
 
 (defmethod get :course [{:keys [courses] :as ds} {:keys [course]}]
   (when courses
-    (let [{:keys [course-id curator goal course-slug]} course]
-      (or (select-first (paths/course course-id) ds)
-          (select-first (paths/course3 curator course-slug) ds)
-          (select-first (paths/course2 curator goal) ds)))))
+    (select-first (paths/course course) ds)))
 
 (defmethod get :checkpoint [{:keys [courses] :as ds} {:keys [checkpoint]}]
   (when courses

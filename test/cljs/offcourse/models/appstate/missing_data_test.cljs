@@ -1,100 +1,86 @@
 (ns offcourse.models.appstate.missing-data-test
   (:require [cljs.test :refer-macros [deftest is testing]]
+            [offcourse.models.fixtures :as fx]
             [offcourse.models.appstate.index :as sut]
-            [offcourse.protocols.validatable :as va]
-            [offcourse.models.course.index :as co]
-            [offcourse.protocols.queryable :as qa]))
+            [offcourse.protocols.validatable :as va]))
 
 (deftest missing-data-test
-  (let [course-id            "123"
-        url                  "http://offcourse.io"
-        missing-url     "http://ribbon.com"
-        course               (co/new {:course-id   course-id
-                                      :checkpoints [{:url url}]})
-        resource        {:url url}
-        collection           {:collection-type :flags
-                              :collection-name :agile
-                              :course-ids      #{course-id}}
-        new-course-view-data {:type   :course
-                              :course (assoc course :course-id :new)}
-        checkpoint-view-data {:type   :course
-                              :course course}
-        collection-view-data {:type       :collection
-                              :collection (dissoc collection :course-ids)}]
+
+  (testing "store"
 
     (testing "empty store"
-
       (is (= (va/missing-data (sut/new {:viewmodel {:type :loading-view}}))
              nil)))
 
-
-    (testing "missing course in store"
+    (testing "missing course"
       (let [store        (sut/new)
             missing-data (va/missing-data store {:type :course
-                                                 :course course})]
+                                                 :course fx/course})]
         (is (= missing-data {:type :course
-                             :course {:course-id course-id}}))))
+                             :course {:course-id fx/id}}))))
 
-    (testing "missing courses in store"
-      (let [store        (sut/new {:courses [course]})
+    (testing "missing courses"
+      (let [store        (sut/new {:courses [fx/course]})
             missing-data (va/missing-data store {:type :courses
-                                                 :courses [course {:course-id "234"}]})]
+                                                 :courses [fx/course {:course-id "234"}]})]
         (is (= missing-data {:type :courses
                              :courses [{:course-id "234"}]}))))
 
-    (testing "missing resource in store"
+    (testing "missing resource"
       (let [store        (sut/new)
             missing-data (va/missing-data store {:type :resource
-                                                 :resource resource})]
+                                                 :resource fx/resource})]
         (is (= missing-data {:type :resource
-                             :resource {:url url}}))))
+                             :resource {:url fx/url}}))))
 
-    (testing "missing resources in store"
-      (let [store        (sut/new {:resources [resource]})
+    (testing "missing resources"
+      (let [store        (sut/new {:resources [fx/resource]})
             missing-data (va/missing-data store {:type :resources
-                                                 :resources [resource {:url missing-url}]})]
+                                                 :resources [fx/resource {:url fx/missing-url}]})]
         (is (= missing-data {:type :resources
-                             :resources [{:url missing-url}]}))))
-
-    (testing "missing course in checkpoint-view"
-      (is (= (va/missing-data (sut/new {:viewmodel {:type         :checkpoint-view
-                                                    :dependencies checkpoint-view-data} }))
-             {:type   :course
-              :course course})))
-
-    (testing "missing resources in checkpoint-view"
-      (is (= (va/missing-data (sut/new {:viewmodel {:type         :checkpoint-view
-                                                    :dependencies checkpoint-view-data}
-                                        :courses   [course]}))
-             { :type :resources
-              :urls  #{url} })))
-
-    (testing "missing resources in course-view"
-      (is (= (va/missing-data (sut/new {:viewmodel {:type         :course-view
-                                                    :dependencies new-course-view-data}
-                                        :courses   [course]}))
-             {:type :resources
-              :tags [:featured]})))
-
-    (testing "missing courses in collection-view"
-      (is (= (va/missing-data (sut/new {:viewmodel   {:type         :collection-view
-                                                      :dependencies collection-view-data}
-                                        :collections [collection]} ))
-             {:type       :courses
-              :course-ids #{course-id}})))
+                             :resources [{:url fx/missing-url}]}))))
 
     (testing "happy path"
-      (is (= (va/missing-data (sut/new {:viewmodel   {:type         :collection-view
-                                                      :dependencies collection-view-data}
-                                        :collections [collection]
-                                        :courses     [course]})) nil))
-
-      (let [store        (sut/new {:courses [course]})
-            missing-data (va/missing-data store {:course course})]
-        (is (= missing-data nil)))
+      (is (= (va/missing-data (sut/new {:courses [fx/course]})
+                              {:course fx/course}) nil))))
 
 
-      (is (= (va/missing-data (sut/new {:viewmodel {:type      :checkpoint-view
-                                                    :view-data checkpoint-view-data}
-                                        :courses   [course]
-                                        :resources [{:url url}]})) nil)))))
+  (testing "loading-view"
+    (testing "empty store"
+      (is (= (va/missing-data (sut/new fx/loading-vm)) nil))))
+
+  (testing "checkpoint-view"
+    (let [store (sut/new {:viewmodel fx/checkpoint-vm})]
+
+      (testing "missing course"
+        (is (= (-> store va/missing-data :course :course-id) fx/id)))
+
+      (testing "missing resources "
+        (let [store (assoc store :courses [fx/course])]
+          (is (= (va/missing-data store) {:type :resources
+                                          :urls  #{fx/url} }))))
+
+      (testing "happy path"
+        (let [store (assoc store :courses [fx/course]
+                           :resources [fx/resource])]
+          (is (= (va/missing-data store) nil))))))
+
+  (testing "course-view"
+    (testing "missing resources in course-view"
+      (is (= (va/missing-data (sut/new {:viewmodel fx/course-vm
+                                        :courses   [fx/course]}))
+             {:type :resources
+              :tags [:featured]}))))
+
+  (testing "collection-view"
+    (let [collection (assoc fx/collection :course-ids #{fx/id})
+          store (sut/new {:viewmodel fx/collection-vm
+                          :collections [collection]})]
+
+    (testing "missing courses in collection-view"
+      (is (= (va/missing-data store)
+             {:type       :courses
+              :course-ids #{fx/id}})))
+
+    (testing "happy path"
+      (is (= (va/missing-data (assoc store :courses [fx/course])) nil))))))
