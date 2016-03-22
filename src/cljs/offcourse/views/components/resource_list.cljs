@@ -19,7 +19,33 @@
     [:.tags (labels (map (fn [tag] {:label-name tag}) tags)
                     url-helpers)]]])
 
-(rum/defc resource-list [resources url-helpers update-appstate]
+(rum/defcs resource-form < (rum/local {}) [state {:keys [update-appstate]}]
+  (let [local (:rum/local state)]
+    [:.container
+     [:li.resource-list--item
+      [:.info {:key :info}
+       [:h1 {:key :add-button
+             :on-click #(update-appstate {:type :add-checkpoint
+                                          :checkpoint {:url  "HEllO"
+                                                       :task (:task @local)
+                                                       :tags [:hi :BYE]}})} "+"]
+       [:input.title {:key :title
+                      :placeholder "Enter Unique Title Here"
+                      :value (:task @local)
+                      :on-change (fn [event]
+                                   (swap! local #(assoc % :task (-> event .-target .-value))))}]
+       [:p.resource_title {:key :resource-title} "loading.."]
+       [:input.url {:key :url
+                      :placeholder "Enter Unique Title Here"
+                      :value (:url @local)
+                      :on-change (fn [event]
+                                   (swap! local #(assoc % :url (-> event .-target .-value))))}]]
+      [:.tags {:key :tags
+               :content-editable true
+               :placeholder "tags"}]]]))
+
+(rum/defc resource-list [resources url-helpers handlers]
   [:ul.resource-list
-   (map #(rum/with-key (resource-list-item % url-helpers update-appstate) (:url %))
+   (resource-form handlers)
+   (map #(rum/with-key (resource-list-item % url-helpers handlers) (:url %))
         resources)])

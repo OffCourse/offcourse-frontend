@@ -8,6 +8,7 @@
 
 (def data-hierarchy
   (-> (make-hierarchy)
+
       (derive :add-checkpoint    :dependencies)
       (derive :delete-checkpoint :dependencies)
       (derive :update-goal       :dependencies)
@@ -15,21 +16,14 @@
 
       (derive :collection-view   :viewmodel)
       (derive :checkpoint-view   :viewmodel)
-      (derive :course-view       :viewmodel)
+      (derive :new-course-view   :viewmodel)
       (derive :loading-view      :viewmodel)
 
       (derive :courses           :data)
       (derive :resources         :data)
       (derive :resource          :data)))
 
-(defn deep-merge
-  [& vs]
-  (if (every? map? vs)
-    (apply merge-with deep-merge vs)
-    (last vs)))
-
-(defmulti refresh (fn [_ {:keys [type]}]
-                    type)
+(defmulti refresh (fn [_ {:keys [type]}] type)
   :hierarchy #'data-hierarchy)
 
 (defmethod refresh :dependencies [state query]

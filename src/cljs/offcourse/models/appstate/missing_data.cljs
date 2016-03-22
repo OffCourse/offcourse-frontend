@@ -30,10 +30,9 @@
       {:type :course
        :course (:course dependencies)})))
 
-(defmethod missing-data :course-view [{:keys [resources] :as as} data-type]
+(defmethod missing-data :new-course-view [{:keys [resources] :as as} data-type]
   (when (< (count resources) 5) {:type :resources
-                                  :tags [:featured]}))
-
+                                 :tags [:featured]}))
 
 (defmethod missing-data :courses [store {:keys [courses] :as query}]
   (let [store-ids (into #{} (map :course-id (:courses store)))

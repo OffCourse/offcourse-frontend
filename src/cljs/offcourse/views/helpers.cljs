@@ -10,6 +10,6 @@
    :checkpoint (select-keys data [:checkpoint-slug :checkpoint-id])})
 
 (defn new-course-view [{:keys [curator]}]
-  {:type :course-view
+  {:type :new-course-view
    :dependencies {:course     {:course-id :new
                                :curator curator}}})

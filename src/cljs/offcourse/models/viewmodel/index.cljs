@@ -20,7 +20,7 @@
   (map->Viewmodel {:type type
                    :dependencies (deps/new {:collection collection})}))
 
-(defmethod new :course-view [{:keys [type user-name course]}]
+(defmethod new :new-course-view [{:keys [type user-name course]}]
   (let [course (-> course
                    (assoc :curator user-name)
                    co/new)]

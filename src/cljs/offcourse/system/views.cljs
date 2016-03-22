@@ -6,6 +6,6 @@
 
 (def views
   {:loading-view    bv/graph
-   :course-view (merge bv/graph ncv/graph)
+   :new-course-view (merge bv/graph ncv/graph)
    :collection-view (merge bv/graph clv/graph)
    :checkpoint-view (merge bv/graph cpv/graph)})

@@ -68,7 +68,7 @@
 (def checkpoint-vm       (vm/new {:type   :checkpoint-view
                                   :course course}))
 
-(def course-vm           (vm/new {:type   :course-view
+(def new-course-vm       (vm/new {:type :new-course-view
                                   :course course}))
 
 (def collection-vm       (vm/new {:type       :collection-view

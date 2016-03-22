@@ -22,6 +22,9 @@
                            :align-items      :center
                            :flex-wrap        :wrap
                            :background-color (:day colors)}
-    [:.info   {:flex [5 5]}]
-    [:.tags   {:flex [2 1]}]
+    [:.info   {:flex [[5 5]]}]
+    [:.tags   {:flex [[2 1]]}
+     [:.labels {:display :flex
+                :justify-content :flex-end
+                :flex-wrap :wrap}]]
     [:&:hover {:border-color [(:primary colors)]}]]])
