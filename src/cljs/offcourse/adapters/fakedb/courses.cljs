@@ -49,5 +49,5 @@
                            (= (:curator %) (name curator)))] courses))
 
 (defn courses []
-  (conj (take 10 (repeatedly generate-course))
+  (conj (take 100 (repeatedly generate-course))
         (generate-course "yeehaa")))

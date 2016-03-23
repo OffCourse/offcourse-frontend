@@ -4,24 +4,20 @@
             [offcourse.views.components.label :refer [labels]]
             [rum.core :as rum]))
 
-(rum/defcs course-form < (rum/local {}) [state
-                                         course
-                                         {:keys [name]}
-                                         {:keys [checkpoint-url] :as helpers}
-                                         {:keys [update-appstate
-                                                 save-course] :as handlers}]
-  (let [local (:rum/local state)
-        dirty? (not (:saved? (meta course)))
+(rum/defc course-form  [course
+                        {:keys [name]}
+                        {:keys [checkpoint-url] :as helpers}
+                        {:keys [update-appstate
+                                save-course] :as handlers}]
+  (let [dirty? (not (:saved? (meta course)))
         enabled? (and (:valid? (meta course)) name)]
    [:.container--card
      [:.card
       [:.card--title {:key :title}
-       [:input.title {:placeholder "Enter Unique Title Here"
-                      :value (:goal @local)
-                      :on-change (fn [event]
-                                   (swap! local #(assoc % :goal (-> event .-target .-value))))
-                      :on-blur #(update-appstate  {:type :update-goal
-                                                   :goal (:goal @local)})}]]
+       [:input.title {:placeholder "Goal"
+                      :value (:goal course)
+                      :on-change #(update-appstate  {:type :update-goal
+                                                   :goal (-> % .-target .-value)})}]]
       [:.card--checkpoints {:key :checkpoints}
        (item-list :edit (:checkpoints course)
                   helpers

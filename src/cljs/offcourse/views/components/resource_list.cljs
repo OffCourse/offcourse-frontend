@@ -19,33 +19,27 @@
     [:.tags (labels (map (fn [tag] {:label-name tag}) tags)
                     url-helpers)]]])
 
-(rum/defcs resource-form < (rum/local {}) [state
-                                           {:keys [task url checkpoint-slug] :as checkpoint}
-                                           {:keys [update-appstate save-checkpoint]}]
-  (let [local (:rum/local state)]
+(rum/defc resource-form  [{:keys [task url checkpoint-slug] :as checkpoint}
+                          {:keys [update-appstate save-checkpoint]}]
     [:.container
      [:li.resource-list--item
       [:.info {:key :info}
        [:h1 {:key :add-button
              :on-click save-checkpoint} "+"]
        [:input.title {:key :title
-                      :placeholder "Enter Unique Title Here"
-                      :value (:task @local)
-                      :on-change (fn [event]
-                                   (swap! local #(assoc % :task (-> event .-target .-value))))
+                      :placeholder "Task"
+                      :value task
                       :on-blur #(update-appstate  {:type :update-task
-                                                   :task (:task @local)})}]
+                                                     :task (-> % .-target .-value)})}]
        [:p.resource_title {:key :resource-title} "loading.."]
        [:input.url {:key :url
-                    :placeholder "Enter Unique Title Here"
-                    :value (:url @local)
-                    :on-change (fn [event]
-                                 (swap! local #(assoc % :url (-> event .-target .-value))))
-                    :on-blur #(update-appstate  {:type :update-url
-                                                 :url (:url @local)})}]]
+                    :placeholder "URL"
+                    :value url
+                    :on-change #(update-appstate  {:type :update-url
+                                                 :url (-> % .-target .-value)})}]]
       [:.tags {:key :tags
                :content-editable true
-               :placeholder "tags"}]]]))
+               :placeholder "tags"}]]])
 
 (rum/defc resource-list [resources checkpoint url-helpers handlers]
   [:ul.resource-list

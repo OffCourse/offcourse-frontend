@@ -25,4 +25,4 @@
   (update-in dependencies [:checkpoint] #(qa/refresh % :task task)))
 
 (defmethod refresh :reset-checkpoint [dependencies]
-  (assoc-in dependencies [:checkpoint] (cp/new {})))
+  (assoc-in dependencies [:checkpoint] (cp/new {:tags #{}})))

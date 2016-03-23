@@ -11,17 +11,12 @@
   (swap! state (fn [state] (update state :queries #(conj % (hash missing-data))))))
 
 (defmethod add :checkpoint [{:keys [state] :as as} query]
-  (let [checkpoint (get-in @state [:viewmodel :dependencies :checkpoint])
-        resource-data (select-keys checkpoint [:url :task :tags])
-        resource (rs/new resource-data)]
-    (do
-      (when (va/valid? checkpoint)
-        (qa/refresh as {:type :add-checkpoint
-                        :checkpoint checkpoint}))
-      (when (va/valid? resource)
-        (qa/refresh as {:type :resource
-                        :resource resource})
-        (qa/refresh as {:type :reset-checkpoint})))))
+  (let [checkpoint (get-in @state [:viewmodel :dependencies :checkpoint])]
+    (println checkpoint)
+    (when (va/valid? checkpoint)
+      (qa/refresh as {:type :add-checkpoint
+                      :checkpoint checkpoint})
+      (qa/refresh as {:type :reset-checkpoint}))))
 
 (defmethod add :course [{:keys [state] :as as} query]
   (let [course (-> (:viewmodel @state)

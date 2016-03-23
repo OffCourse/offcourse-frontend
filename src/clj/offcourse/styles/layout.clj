@@ -18,8 +18,7 @@
    [:.layout--dashboard  {:height        (percent 100)
                           :align-content :stretch}]
    [:.layout--main       {:flex-direction :row
-                          :display        :flex
-                          :overflow-y     :hidden}]
+                          :display        :flex}]
    [:.layout--content       {:display        :flex
                              :flex-grow      2
                              :flex-direction :row}]])
