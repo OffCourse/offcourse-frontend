@@ -12,11 +12,13 @@
 
 (defmethod add :checkpoint [{:keys [state] :as as} query]
   (let [checkpoint (get-in @state [:viewmodel :dependencies :checkpoint])]
-    (println checkpoint)
     (when (va/valid? checkpoint)
-      (qa/refresh as {:type :add-checkpoint
-                      :checkpoint checkpoint})
-      (qa/refresh as {:type :reset-checkpoint}))))
+      (do
+        (qa/refresh as {:type :add-checkpoint
+                        :checkpoint checkpoint})
+        (qa/refresh as {:type :resource
+                        :resource (rs/new checkpoint)})
+        (qa/refresh as {:type :reset-checkpoint})))))
 
 (defmethod add :course [{:keys [state] :as as} query]
   (let [course (-> (:viewmodel @state)
