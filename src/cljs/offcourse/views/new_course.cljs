@@ -24,10 +24,13 @@
 
    :checkpoint      (fnk [view-data]
                          (:checkpoint view-data))
+   :tag      (fnk [view-data]
+                  (:tag view-data))
    :user        (fnk [appstate] (:user appstate))
-   :main        (fnk [appstate checkpoint handlers [:components resource-list] url-helpers]
+   :main        (fnk [appstate checkpoint tag handlers [:components resource-list] url-helpers]
                      (resource-list (:resources appstate)
                                     checkpoint
+                                    tag
                                     url-helpers
                                     handlers))
    :actions     (fnk [] {})

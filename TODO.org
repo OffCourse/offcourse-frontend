@@ -8,12 +8,16 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [0%]
-+ [ ] General        [0%]
-  - [ ] add 'add resource' workflow
-+ [ ] Views          [0%]
-  - [ ] add 'new resource form
+* Now            [50%]
++ [X] General        [100%]
+  - [X] add 'add resource' workflow
   - [ ] add 'course view'
++ [X] Views          [50%]
+  - [X] add 'new resource form
++ [ ] Styles
+  - [ ] style resource form
+  - [ ] style resource list
+  - [ ] refactor
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas

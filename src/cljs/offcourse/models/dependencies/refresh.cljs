@@ -1,6 +1,7 @@
 (ns offcourse.models.dependencies.refresh
   (:require [offcourse.protocols.queryable :as qa]
-            [offcourse.models.checkpoint.index :as cp]))
+            [offcourse.models.checkpoint.index :as cp]
+            [cuerdas.core :as str]))
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
@@ -26,3 +27,12 @@
 
 (defmethod refresh :reset-checkpoint [dependencies]
   (assoc-in dependencies [:checkpoint] (cp/new {:tags #{}})))
+
+(defmethod refresh :reset-tag [dependencies]
+  (assoc-in dependencies [:tag] nil))
+
+(defmethod refresh :update-tag [dependencies {:keys [tag] :as query}]
+  (assoc-in dependencies [:tag] tag))
+
+(defmethod refresh :add-tag [dependencies {:keys [tag] :as q}]
+  (update-in dependencies [:checkpoint] #(qa/add % :tag tag)))

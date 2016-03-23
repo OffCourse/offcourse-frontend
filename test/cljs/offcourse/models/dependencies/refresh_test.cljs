@@ -53,10 +53,32 @@
           dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
       (are [field value] (= (-> dependencies :checkpoint field) value)
         :task        fx/other-goal
-        :checkpoint-slug fx/other-slug))
+        :checkpoint-slug fx/other-slug)))
 
-    (testing "when action type is update-url"
-      (let [action       {:type :update-url
-                          :url  fx/other-url}
-            dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
-        (is (= (-> dependencies :checkpoint :url) fx/other-url))))))
+  (testing "when action type is update-url"
+    (let [action       {:type :update-url
+                        :url  fx/other-url}
+          dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
+      (is (= (-> dependencies :checkpoint :url) fx/other-url))))
+
+  (testing "when action type is update-tag"
+    (let [action       {:type :update-tag
+                        :tag  (name fx/other-buzzword)}
+          dependencies (qa/refresh (sut/new {:course fx/course}) action)]
+      (is (= (-> dependencies :tag) (name fx/other-buzzword)))))
+
+  (testing "when action type is add-tag"
+    (let [action       {:type :add-tag
+                        :tag  fx/other-buzzword}
+          dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
+      (is (contains? (-> dependencies :checkpoint :tags) fx/other-buzzword))))
+
+  (testing "when action type is reset-checkpoint"
+    (let [action       {:type :reset-checkpoint}
+          dependencies (qa/refresh (sut/new {:checkpoint (cp/new {:task "hii"})}) action)]
+      (is (= (-> dependencies :checkpoint) (cp/new {:tags #{}})))))
+
+  (testing "when action type is reset-tag"
+    (let [action       {:type :reset-tag}
+          dependencies (qa/refresh (sut/new {:tag "hii"}) action)]
+      (is (= (-> dependencies :tag) nil)))))

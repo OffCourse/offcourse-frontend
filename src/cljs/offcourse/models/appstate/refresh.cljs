@@ -15,7 +15,10 @@
       (derive :update-curator    :dependencies)
       (derive :update-task       :dependencies)
       (derive :update-url        :dependencies)
+      (derive :update-tag        :dependencies)
       (derive :reset-checkpoint  :dependencies)
+      (derive :reset-tag         :dependencies)
+      (derive :add-tag           :dependencies)
 
       (derive :collection-view   :viewmodel)
       (derive :checkpoint-view   :viewmodel)

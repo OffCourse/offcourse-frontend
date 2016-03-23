@@ -25,6 +25,7 @@
    :update-curator      :curator
    :goal                :goal
    :resources           :resources
+   :tag                 :tag
    :resource            :resource})
 
 (defn get

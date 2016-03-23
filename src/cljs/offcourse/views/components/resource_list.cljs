@@ -20,8 +20,8 @@
                     url-helpers)]]])
 
 
-(rum/defc resource-list [resources checkpoint url-helpers handlers]
+(rum/defc resource-list [resources checkpoint tag url-helpers handlers]
   [:ul.resource-list
-   (checkpoint-form checkpoint url-helpers handlers)
+   (checkpoint-form checkpoint tag url-helpers handlers)
    (map #(rum/with-key (resource-list-item % url-helpers handlers) (:url %))
         resources)])

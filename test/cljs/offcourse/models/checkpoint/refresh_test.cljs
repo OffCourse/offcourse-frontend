@@ -1,9 +1,8 @@
 (ns offcourse.models.checkpoint.refresh-test
-  (:require [offcourse.protocols.queryable :as qa]
+  (:require [cljs.test :refer-macros [deftest is testing]]
+            [cuerdas.core :as str]
             [offcourse.models.fixtures :as fx]
-            [offcourse.models.checkpoint.index :as sut]
-            [cljs.test :refer-macros [deftest testing is are]]
-            [cuerdas.core :as str]))
+            [offcourse.protocols.queryable :as qa]))
 
 (deftest models-checkpoint-refresh
   (testing "query contains task"
@@ -14,6 +13,6 @@
 
   (testing "query contains url"
     (let [checkpoint (qa/refresh fx/checkpoint {:type :url
-                                        :url fx/other-url})]
+                                                :url fx/other-url})]
       (is (= (-> checkpoint :url) fx/other-url)))))
 

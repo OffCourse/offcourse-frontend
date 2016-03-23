@@ -4,28 +4,25 @@
             [offcourse.views.components.label :refer [labels]]
             [rum.core :as rum]))
 
-(rum/defc course-form  [course
+(rum/defc course-form  [{:keys [goal checkpoints] :as course}
                         {:keys [name]}
                         {:keys [checkpoint-url] :as helpers}
-                        {:keys [update-appstate
+                        {:keys [update-goal
                                 save-course] :as handlers}]
-  (let [dirty? (not (:saved? (meta course)))
+  (let [dirty?   (not (:saved? (meta course)))
         enabled? (and (:valid? (meta course)) name)]
    [:.container--card
      [:.card
       [:.card--title {:key :title}
        [:input.title {:placeholder "Goal"
-                      :value (:goal course)
-                      :on-change #(update-appstate  {:type :update-goal
-                                                   :goal (-> % .-target .-value)})}]]
+                      :value goal
+                      :on-change update-goal}]]
       [:.card--checkpoints {:key :checkpoints}
-       (item-list :edit (:checkpoints course)
-                  helpers
-                  handlers
-                  dirty?)]
+       (item-list :edit checkpoints helpers handlers dirty?)]
       [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]
       [:.card--actions {:key :actions}
        [:.actions
-          (when dirty? [:button.textbar {:key :save-course
-                             :on-click save-course
-                             :disabled (not enabled?)} "Save Course"])]]]]))
+        (when dirty?
+          [:button.textbar {:key :save-course
+                            :on-click save-course
+                            :disabled (not enabled?)} "Save Course"])]]]]))

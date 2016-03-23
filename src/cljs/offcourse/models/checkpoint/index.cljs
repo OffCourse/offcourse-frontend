@@ -2,6 +2,7 @@
   (:require [schema.core :as schema :include-macros true]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.models.checkpoint.refresh :as refresh-impl]
+            [offcourse.models.checkpoint.add :as add-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 
 (schema/defrecord Checkpoint
@@ -15,6 +16,7 @@
     (not (qa/check course)))
   Queryable
   (-check [checkpoint] (schema/check Checkpoint checkpoint))
+  (-add [checkpoint query] (add-impl/add checkpoint query))
   (-refresh [checkpoint query] (refresh-impl/refresh checkpoint query)))
 
 (defn new [overrides] (map->Checkpoint overrides))
