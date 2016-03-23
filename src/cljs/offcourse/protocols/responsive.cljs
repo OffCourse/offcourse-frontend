@@ -18,6 +18,7 @@
    :new-course-view     :dependencies
    :collection-view     :dependencies
    :checkpoint-view     :dependencies
+   :add-checkpoint      :checkpoint
    :checkpoint          :checkpoint
    :view                :view-data
    :user                :user
@@ -43,7 +44,7 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel    (or log-channel (:log channels))
          response       (action/new status component-name payload)]
-     (debug-helper component-name status payload)
+     #_(debug-helper component-name status payload)
      (go
        (swap! counter inc)
        (>! output-channel response)

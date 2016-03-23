@@ -1,9 +1,10 @@
 (ns offcourse.models.dependencies.refresh
-  (:require [offcourse.protocols.queryable :as qa]))
+  (:require [offcourse.protocols.queryable :as qa]
+            [offcourse.models.checkpoint.index :as cp]))
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :add-checkpoint [dependencies {:keys [checkpoint]}]
+(defmethod refresh :add-checkpoint [dependencies {:keys [checkpoint] :as query}]
   (update-in dependencies [:course] #(qa/add % :checkpoint checkpoint)))
 
 (defmethod refresh :delete-checkpoint [dependencies {:keys [checkpoint]}]
@@ -16,3 +17,12 @@
   (if (and course curator (not (:curator course)))
     (update-in dependencies [:course] #(qa/refresh % :curator curator))
     dependencies))
+
+(defmethod refresh :update-url [dependencies {:keys [url] :as query}]
+  (update-in dependencies [:checkpoint] #(qa/refresh % :url url)))
+
+(defmethod refresh :update-task [dependencies {:keys [task] :as query}]
+  (update-in dependencies [:checkpoint] #(qa/refresh % :task task)))
+
+(defmethod refresh :reset-checkpoint [dependencies]
+  (assoc-in dependencies [:checkpoint] (cp/new {})))

@@ -5,7 +5,7 @@
             [offcourse.models.course.index :as co]
             [offcourse.models.collection :as cl]
             [offcourse.protocols.validatable :as va]
-            [offcourse.models.checkpoint :as cp]))
+            [offcourse.models.checkpoint.index :as cp]))
 
 (defn add-course [store course]
   (update-in store [:courses] #(conj % course)))

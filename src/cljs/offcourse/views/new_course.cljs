@@ -21,9 +21,13 @@
                                          augment-course)]
                        course
                        course-data))
+
+   :checkpoint      (fnk [view-data]
+                         (:checkpoint view-data))
    :user        (fnk [appstate] (:user appstate))
-   :main        (fnk [appstate handlers [:components resource-list] url-helpers]
+   :main        (fnk [appstate checkpoint handlers [:components resource-list] url-helpers]
                      (resource-list (:resources appstate)
+                                    checkpoint
                                     url-helpers
                                     handlers))
    :actions     (fnk [] {})

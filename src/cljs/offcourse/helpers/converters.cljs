@@ -6,8 +6,8 @@
             [cljs.core.match :refer-macros [match]]
             [cljs-uuid-utils.core :as uuid]
             [offcourse.models.course.index :as co :refer [Course]]
-            [offcourse.models.resource :as rs :refer [Resource]]
-            [offcourse.models.checkpoint :as cp :refer [Checkpoint]]
+            [offcourse.models.resource.index :as rs :refer [Resource]]
+            [offcourse.models.checkpoint.index :as cp :refer [Checkpoint]]
             [offcourse.models.collection :as cl :refer [Collection]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]))

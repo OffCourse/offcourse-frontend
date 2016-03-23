@@ -1,5 +1,6 @@
 (ns offcourse.models.viewmodel.index
   (:require [offcourse.models.course.index :as co]
+            [offcourse.models.checkpoint.index :as cp]
             [offcourse.models.dependencies.index :as deps]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [schema.core :as schema]))
@@ -25,7 +26,8 @@
                    (assoc :curator user-name)
                    co/new)]
     (map->Viewmodel {:type type
-                     :dependencies (deps/new {:course course})})))
+                     :dependencies (deps/new {:course course
+                                              :checkpoint (cp/new {:tags #{}})})})))
 
 (defmethod new :checkpoint-view [{:keys [type course checkpoint]}]
   (map->Viewmodel {:type type

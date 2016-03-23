@@ -35,11 +35,11 @@
                                         first
                                         :checkpoint-slug)
                                     checkpoint-slug)]
-                         (qa/get course :url slug)))
+                         (qa/get course :checkpoint-url slug)))
    :resource      (fnk [appstate url]
                        (qa/get appstate :resource {:url url}))
    :course-id     (fnk [course] (:course-id course))
-   :actions (fnk [] {})
+   :actions       (fnk [] {})
    :main          (fnk [resource [:components viewer]] (viewer resource))
    :dashboard     (fnk [url-helpers course [:components card dashboard]]
                        (dashboard {:main (card course url-helpers)}))})

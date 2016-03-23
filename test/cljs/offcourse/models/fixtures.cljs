@@ -3,7 +3,7 @@
             [offcourse.models.course.index :as co]
             [offcourse.models.viewmodel.index :as vm]
             [cuerdas.core :as str]
-            [offcourse.models.checkpoint :as cp]))
+            [offcourse.models.checkpoint.index :as cp]))
 
 (def id                     123)
 (def other-id               129)

@@ -4,7 +4,8 @@
             [offcourse.models.course.index :as co]
             [offcourse.models.dependencies.index :as sut]
             [offcourse.models.fixtures :as fx]
-            [offcourse.protocols.queryable :as qa]))
+            [offcourse.protocols.queryable :as qa]
+            [offcourse.models.checkpoint.index :as cp]))
 
 (deftest models-dependencies-refresh
   (testing "when action type is add-checkpoint"
@@ -43,4 +44,19 @@
     (let [action       {:type    :update-curator
                         :curator fx/other-user-name}
           dependencies (qa/refresh (sut/new {:course fx/course}) action)]
-      (is (= (-> dependencies :course :curator) fx/user-name)))))
+      (is (= (-> dependencies :course :curator) fx/user-name))))
+
+  (testing "when action type is update-task"
+
+    (let [action       {:type :update-task
+                        :task  fx/other-goal}
+          dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
+      (are [field value] (= (-> dependencies :checkpoint field) value)
+        :task        fx/other-goal
+        :checkpoint-slug fx/other-slug))
+
+    (testing "when action type is update-url"
+      (let [action       {:type :update-url
+                          :url  fx/other-url}
+            dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
+        (is (= (-> dependencies :checkpoint :url) fx/other-url))))))

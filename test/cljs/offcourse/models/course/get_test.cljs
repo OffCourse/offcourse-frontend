@@ -38,14 +38,14 @@
                                                checkpoint])]
         (is (= (qa/get sut :checkpoint {:checkpoint-id 1}) checkpoint))))
 
-    (testing "query type is url"
+    (testing "query type is checkpoint-url"
       (let [sut (sut/new)]
         (is (= (qa/get (sut/new) :urls {}) #{})))
 
       (let [sut (assoc (sut/new) :checkpoints [{:checkpoint-id 0}
                                                checkpoint])]
 
-        (is (= (qa/get sut :url slug) url))))
+        (is (= (qa/get sut :checkpoint-url slug) url))))
 
     (testing "query type is urls"
       (let [sut (assoc (sut/new) :checkpoints [checkpoint])]

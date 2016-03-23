@@ -1,5 +1,5 @@
 (ns offcourse.models.course.add
-  (:require [offcourse.models.checkpoint :as cp]
+  (:require [offcourse.models.checkpoint.index :as cp]
             [cuerdas.core :as str]
             [offcourse.protocols.queryable :as qa]))
 

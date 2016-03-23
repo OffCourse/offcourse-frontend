@@ -6,7 +6,7 @@
             [offcourse.models.appstate.refresh :as refresh-impl]
             [offcourse.models.collection :refer [Collection]]
             [offcourse.models.course.index :as co :refer [Course]]
-            [offcourse.models.resource :refer [Resource]]
+            [offcourse.models.resource.index :refer [Resource]]
             [offcourse.models.viewmodel.index :as vm]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]

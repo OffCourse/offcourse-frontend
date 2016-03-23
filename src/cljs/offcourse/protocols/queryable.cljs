@@ -18,7 +18,9 @@
    :checkpoints         :checkpoints
    :checkpoint          :checkpoint
    :view                :view-data
-   :url                 :checkpoint-slug
+   :url                 :url
+   :checkpoint-url      :checkpoint-slug
+   :task                :task
    :curator             :curator
    :update-curator      :curator
    :goal                :goal

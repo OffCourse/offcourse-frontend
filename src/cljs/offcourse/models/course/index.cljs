@@ -1,5 +1,5 @@
 (ns offcourse.models.course.index
-  (:require [offcourse.models.checkpoint :refer [Checkpoint]]
+  (:require [offcourse.models.checkpoint.index :refer [Checkpoint]]
             [offcourse.models.course.add :as add-impl]
             [offcourse.models.course.get :as get-impl]
             [offcourse.models.course.remove :as remove-impl]

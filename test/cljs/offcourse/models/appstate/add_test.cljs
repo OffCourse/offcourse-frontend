@@ -1,7 +1,7 @@
 (ns offcourse.models.appstate.add-test
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.appstate.index :as sut]
-            [offcourse.models.checkpoint :as  cp]
+            [offcourse.models.checkpoint.index :as  cp]
             [offcourse.models.fixtures :as  fx]
             [offcourse.models.appstate.helpers :as h]
             [cljs.test :refer-macros [deftest testing is are]]

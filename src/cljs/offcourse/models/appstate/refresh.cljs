@@ -13,6 +13,9 @@
       (derive :delete-checkpoint :dependencies)
       (derive :update-goal       :dependencies)
       (derive :update-curator    :dependencies)
+      (derive :update-task       :dependencies)
+      (derive :update-url        :dependencies)
+      (derive :reset-checkpoint  :dependencies)
 
       (derive :collection-view   :viewmodel)
       (derive :checkpoint-view   :viewmodel)
@@ -20,8 +23,7 @@
       (derive :loading-view      :viewmodel)
 
       (derive :courses           :data)
-      (derive :resources         :data)
-      (derive :resource          :data)))
+      (derive :resources         :data)))
 
 (defmulti refresh (fn [_ {:keys [type]}] type)
   :hierarchy #'data-hierarchy)
@@ -60,6 +62,11 @@
     (qa/add store query)))
 
 (defmethod refresh :course [store query]
+  (if-let [missing-query (va/missing-data store query)]
+    (qa/add store query)
+    store))
+
+(defmethod refresh :resource [store query]
   (if-let [missing-query (va/missing-data store query)]
     (qa/add store query)
     store))
