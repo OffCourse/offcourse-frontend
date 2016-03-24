@@ -31,6 +31,7 @@
   (->> tasks
        (into (sorted-map-by #(compare-values %1 %2 tasks)))
        keys
+       shuffle
        (into #{})
        (assoc resource :tasks)))
 

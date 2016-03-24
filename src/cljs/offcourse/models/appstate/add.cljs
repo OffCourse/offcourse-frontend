@@ -33,7 +33,7 @@
   (reduce add-resource store resources))
 
 (defmethod add :resource [store {:keys [resource]}]
-  (update-in store [:resources] #(conj % resource)))
+  (add-resource store resource))
 
 (defmethod add :default [_ _]
   {:type :error

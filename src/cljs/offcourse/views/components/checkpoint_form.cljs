@@ -13,9 +13,9 @@
                                    save-checkpoint]}]
   [:.container
    [:li.resource-list--item
-    [:.info
-     [:h1 {:key :add-button
+     [:h1.add-btn {:key :add-button
            :on-click save-checkpoint} "+"]
+    [:.info
      [:input.title {:key :title
                     :placeholder "Task"
                     :value task

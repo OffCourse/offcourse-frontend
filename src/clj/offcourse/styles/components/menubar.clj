@@ -14,7 +14,8 @@
                                                  :justify-content :space-between
                                                  :padding (:full units)}]
                         [:nav {:display :flex
-                                :flex-direction :row}]]]
+                               :flex [[1 2]]
+                               :flex-direction :row}]]]
     [(h/augment-many base-component subcomponents)]))
 
 

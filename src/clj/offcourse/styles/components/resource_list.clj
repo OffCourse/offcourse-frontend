@@ -19,11 +19,13 @@
                            :border-bottom    [[:solid (:sixth units) (:medium units)]]
                            :display          :flex
                            :justify-content  :space-between
+                           :margin-bottom    (:full units)
                            :align-items      :center
                            :flex-wrap        :wrap
                            :background-color (:day colors)}
-    [:.info   {:flex [[5 5]]}]
-    [:.tags   {:flex [[2 1]]}
+    [:.add-btn {:flex [[1]]}]
+    [:.info   {:flex [[6]]}]
+    [:.tags   {:flex [[4]]}
      [:.labels {:display :flex
                 :justify-content :flex-end
                 :flex-wrap :wrap}]]

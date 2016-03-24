@@ -8,11 +8,11 @@
                               {:keys [update-appstate]}]
   [:.container
    [:li.resource-list--item
-    [:.info
-     [:h1 {:on-click #(update-appstate {:type :add-checkpoint
+     [:h1.add-btn {:on-click #(update-appstate {:type :add-checkpoint
                                         :checkpoint {:url  url
                                                      :task (first tasks)
                                                      :tags tags}})} "+"]
+    [:.info
      [:h1.title (first tasks)]
      [:p.resource_title title]
      [:p.url url]]

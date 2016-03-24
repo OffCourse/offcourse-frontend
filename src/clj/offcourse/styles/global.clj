@@ -10,7 +10,8 @@
             :padding     0
             :user-select :none
             :box-sizing  :border-box}]
-   [:ul {:list-style :none}]
+   [:ul {:list-style :none
+         :margin-right :none}]
    [:a  {:color :inherit
          :text-decoration :inherit}]
    [:html {:font-family (:base fonts)}]
