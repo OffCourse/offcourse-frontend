@@ -10,6 +10,7 @@
                           :width            (vw 100)
                           :align-content    :stretch
                           :flex-direction   :column
+                          :overflow         :hidden
                           :background-color (:light colors)}]
    [:.layout--menubar    {:display          :flex
                           :width            (percent 100)
@@ -21,4 +22,5 @@
                           :display        :flex}]
    [:.layout--content       {:display        :flex
                              :flex-grow      2
+                             :overflow       :scroll
                              :flex-direction :row}]])
