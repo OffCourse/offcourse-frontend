@@ -11,23 +11,22 @@
                                    save-tag
                                    update-tag
                                    save-checkpoint]}]
-  [:.container
-   [:li.resource-list--item
-     [:h1.add-btn {:key :add-button
-           :on-click save-checkpoint} "+"]
-    [:.info
-     [:input.title {:key :title
-                    :placeholder "Task"
-                    :value task
-                    :on-change update-task}]
-     [:input.url {:key :url
-                  :placeholder "URL"
-                  :value url
-                  :on-change update-url}]]
-    [:form.tags
-     {:on-submit save-tag}
-     (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)
-     [:input.tag {:placeholder "Add Tag"
+  [:li.list--item {:data-form true}
+   [:.btn--add {:key :add-button
+                :on-click save-checkpoint} "+"]
+   [:.info
+    [:input.title {:key :title
+                   :placeholder "Task"
+                   :value task
+                   :on-change update-task}]
+    [:input.url {:key :url
+                 :placeholder "URL"
+                 :value url
+                 :on-change update-url}]]
+   [:div.tags
+    (when-not (empty? tags) (labels (map (fn [tag] {:label-name tag}) tags) url-helpers))
+    [:form.tag--input {:on-submit save-tag}
+     [:input.tag {:placeholder "Tag"
                   :value tag
                   :on-change update-tag
                   :name "tag"}]

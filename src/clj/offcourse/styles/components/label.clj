@@ -7,13 +7,15 @@
              [stylesheet :refer [at-font-face]]]))
 
 
-(defn label [{:keys [templates colors units]}]
+(defn label [{:keys [templates fonts colors units]}]
   [[:.label {:display          :inline-flex
              :height           (:full units)
              :margin-right     (:sixth units)
              :margin-bottom    (:sixth units)
              :font-size        (* (:atom units) 18)
              :align-items      :center
+             :font-family      (:base fonts)
+             :font-weight      300
              :justify-content  :center
              :padding          [[0 (:half units)]]
              :color            (:night colors)

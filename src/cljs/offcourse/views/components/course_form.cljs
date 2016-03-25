@@ -1,6 +1,6 @@
 (ns offcourse.views.components.course-form
   (:require [markdown.core :refer [md->html]]
-            [offcourse.views.components.todo :refer [item-list]]
+            [offcourse.views.components.item-list :refer [item-list]]
             [offcourse.views.components.label :refer [labels]]
             [rum.core :as rum]))
 

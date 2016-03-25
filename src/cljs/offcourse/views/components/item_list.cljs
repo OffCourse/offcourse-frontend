@@ -1,19 +1,30 @@
-(ns offcourse.views.components.todo
-  (:require [rum.core :as rum]
-             [offcourse.views.components.list-item :refer [list-item]]))
+(ns offcourse.views.components.item-list
+  (:require [rum.core :as rum]))
+
 
 (rum/defc todo-list-item [{:keys [task checkpoint-slug order] :as checkpoint}
                           {:keys [checkpoint-url]}]
+
   (let [{:keys [selected]} (meta checkpoint)
         url (checkpoint-url checkpoint-slug)]
     [:li.list--item {:data-selected selected
                      :data-item-type :todo}
-     [:a {:href url} [:p
-                      [:span.checkbox {:key :checkbox} nil]
-                      [:span {:key :title} task]]]]))
+     [:span.checkbox {:key :checkbox} nil]
+     [:a {:key :title
+          :href url} [:span task]]]))
+
+(rum/defc list-item [{:keys [task] :as checkpoint}
+                     {:keys [delete-checkpoint]}
+                     dirty?]
+  [:li.list--item
+   [:span {:key :title} task]
+   (when dirty? [:span {:key :remove
+                        :data-remove true
+                        :on-click #(delete-checkpoint checkpoint)}
+                 "Delete"])])
 
 (rum/defc item-list [list-type checkpoints url-helpers handlers dirty?]
-  [:ul.item-list {:data-list-type list-type}
+  [:ul.list {:data-list-type (name list-type)}
    (case list-type
      :todo (map #(rum/with-key (todo-list-item % url-helpers) (:checkpoint-id %)) checkpoints)
      :edit (map #(rum/with-key (list-item % handlers dirty?) (:checkpoint-id %)) checkpoints))])

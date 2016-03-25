@@ -5,7 +5,10 @@
              [units :as u :refer [vh vw px percent]]]))
 
 (defn layout [{:keys [units colors]}]
-  [[:.layout--app        {:display          :flex
+  [[:.container {:display :flex
+                 :flex [[1 1]]
+                 :padding [[(:full units) 0 0 0]]}]
+   [:.layout--app        {:display          :flex
                           :height           (vh 100)
                           :width            (vw 100)
                           :align-content    :stretch

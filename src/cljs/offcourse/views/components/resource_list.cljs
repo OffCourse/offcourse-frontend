@@ -5,23 +5,20 @@
 
 (rum/defc resource-list-item [{:keys [title checkpoint-count tags url tasks] :as resource}
                               url-helpers
-                              {:keys [update-appstate]}]
-  [:.container
-   [:li.resource-list--item
-     [:h1.add-btn {:on-click #(update-appstate {:type :add-checkpoint
-                                        :checkpoint {:url  url
-                                                     :task (first tasks)
-                                                     :tags tags}})} "+"]
+                              {:keys [add-checkpoint]}]
+   [:li.list--item
+    [:.btn--add {:on-click #(add-checkpoint {:url  url
+                                              :task (first tasks)
+                                              :tags tags})} "+"]
     [:.info
      [:h1.title (first tasks)]
-     [:p.resource_title title]
-     [:p.url url]]
+     [:p.url url]
+     [:p.resource_title title]]
     [:.tags (labels (map (fn [tag] {:label-name tag}) tags)
-                    url-helpers)]]])
-
+                    url-helpers)]])
 
 (rum/defc resource-list [resources checkpoint tag url-helpers handlers]
-  [:ul.resource-list
+  [:ul.list {:data-list-type "checkpoint"}
    (checkpoint-form checkpoint tag url-helpers handlers)
    (map #(rum/with-key (resource-list-item % url-helpers handlers) (:url %))
         resources)])
