@@ -5,15 +5,13 @@
 
 (rum/defc card [{:keys [goal tags description course-slug checkpoints curator] :as course}
                 {:keys [checkpoint-url] :as helpers}]
-  [:.container--card
+  [:.container
    [:.card
-    [:.card--title
+    [:.card--section
      [:a.title {:href (checkpoint-url curator course-slug "index")} goal]]
-    [:.card--checkpoints (item-list :todo checkpoints
+    [:.card--section (item-list :todo checkpoints
                                     {:checkpoint-url (partial checkpoint-url curator course-slug)})]
-    [:.card--tags (labels (:tags (meta course)) helpers)]
-    #_[:.card--description [:p description]]
-    #_[:.card--meta (meta-box course)]]])
+    [:.card--section (labels (:tags (meta course)) helpers)]]])
 
 (rum/defc cards [items helpers]
   [:.cards (map #(rum/with-key (card % helpers) (:course-id %)) items)])

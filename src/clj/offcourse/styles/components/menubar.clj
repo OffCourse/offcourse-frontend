@@ -9,13 +9,14 @@
   (let [base-component (:component templates)
         subcomponents  [[:.menubar              {:background-color (:primary colors)
                                                  :display :flex
+                                                 :flex 1
                                                  :height :auto
                                                  :flex-direction :row
                                                  :justify-content :space-between
                                                  :padding (:full units)}]
-                        [:nav {:display :flex
-                               :flex [[1 2]]
-                               :flex-direction :row}]]]
+                        [:menubar--actions {:display :flex
+                                            :flex [[1 2]]
+                                            :flex-direction :row}]]]
     [(h/augment-many base-component subcomponents)]))
 
 

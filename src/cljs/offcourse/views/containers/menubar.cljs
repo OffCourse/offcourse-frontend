@@ -4,6 +4,5 @@
 (rum/defc menubar [{:keys [logo action-panel sign-in-panel]}]
   [:.menubar
    [:.menubar--logo logo]
-   [:menubar-actions
-    [:nav action-panel sign-in-panel]]])
+   [:.menubar--actions action-panel sign-in-panel]])
 

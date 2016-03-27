@@ -35,16 +35,31 @@
    :atom                 (fnk [full] (/ full 30))})
 
 (def templates-graph
-  {:highlighted (fnk [colors] {:background-color (:primary colors)
-                               :color            (:night colors)})
-   :selected    (fnk [colors] {:background-color (:night colors)
-                               :color            (:day colors)})
-   :component    (fnk [] {:display        :flex
-                          :flex-direction :column
-                          :width          (percent 100)
-                          :height         (percent 100)
-                          :padding        0
-                          :margin         0})})
+  {:highlighted      (fnk [colors] {:background-color (:primary colors)
+                                    :color            (:night colors)})
+   :selected         (fnk [colors] {:background-color (:night colors)
+                                    :color            (:day colors)})
+   :paper            (fnk [colors] {:background-color (:day colors)
+                                    :color            (:night colors)})
+   :sheet            (fnk [paper borders]
+                          (merge paper {:border-bottom (:default borders)}))
+   :recycled-paper   (fnk [colors] {:background-color (:light colors)
+                                    :color            (:night colors)})
+   :tiny-font        (fnk [units fonts] {:font-size   (:tag-font units)
+                                         :font-family (:base fonts)
+                                         :font-weight 300})
+   :title-font       (fnk [units fonts] {:font-size   (:title-font units)
+                                         :line-height (:title-line-height units)
+                                         :border      :none})
+   :subtitle-font    (fnk [units fonts] {:font-size   (:subtitle-font units)
+                                         :font-family (:title fonts)
+                                         :font-weight 500})
+   :component        (fnk [] {:display        :flex
+                              :flex-direction :column
+                              :padding        0
+                              :margin         0})
+   :column-component (fnk [component] component)
+   :row-component    (fnk [component] (merge component {:flex-direction :row}))})
 
 (def config-graph
   {:colors      (fnk [raw-colors base-color]
@@ -68,13 +83,14 @@
                       :raw   (vals raw-fonts)})
 
    :borders     (fnk [units colors]
-                     {:default [[:solid (:sixth units) (:medium units)]]
+                     {:default [[:solid (:sixth units) (:medium colors)]]
                       :highlighted {:border-color [(:primary colors)]}})
    :units       (fnk [base-unit] (-compose units-graph {:base-unit base-unit}))
-   :templates   (fnk [units fonts colors]
+   :templates   (fnk [units fonts colors borders]
                      (-compose templates-graph {:units  units
                                                 :fonts fonts
-                                                :colors colors}))})
+                                                :colors colors
+                                                :borders borders}))})
 
 
 (def compose (partial -compose config-graph))

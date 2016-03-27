@@ -11,16 +11,16 @@
                                 save-course] :as handlers}]
   (let [dirty?   (not (:saved? (meta course)))
         enabled? (and (:valid? (meta course)) name)]
-   [:.container--card
+   [:.container
      [:.card
-      [:.card--title {:key :title}
+      [:.card--section {:key :title}
        [:input.title {:placeholder "Goal"
                       :value goal
                       :on-change update-goal}]]
-      [:.card--checkpoints {:key :checkpoints}
+      [:.card--section {:key :checkpoints}
        (item-list :edit checkpoints helpers handlers dirty?)]
-      [:.card--tags {:key :tags} (labels (:tags (meta course)) helpers)]
-      [:.card--actions {:key :actions}
+      [:.card--section {:key :tags} (labels (:tags (meta course)) helpers)]
+      [:.card--section {:key :actions}
        [:.actions
         (when dirty?
           [:button.textbar {:key :save-course

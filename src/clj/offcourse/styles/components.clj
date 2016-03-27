@@ -1,12 +1,12 @@
 (ns offcourse.styles.components
   (:refer-clojure :exclude [list])
   (:require [offcourse.styles.components
-             [card :refer [card]]
              [cards :refer [cards]]
-             [collection-panel :refer [collection-panel collection-panels]]
              [dashboard :refer [dashboard]]
              [button :refer [button]]
+             [strip :refer [strip]]
              [label :refer [label-component]]
+             [form :refer [form]]
              [list :refer [list-component]]
              [menubar :refer [menubar]]
              [viewer :refer [viewer]]]))
@@ -15,5 +15,7 @@
   [[:.navigation-panel (merge (:component templates) {})]])
 
 (defn components [config]
-  (let [components [list-component button dashboard menubar navigation-panel card viewer label-component cards collection-panels collection-panel]]
+  (let [components [list-component form strip
+                    button dashboard menubar navigation-panel
+                    viewer label-component cards]]
     (for [component components] (component config))))

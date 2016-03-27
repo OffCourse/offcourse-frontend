@@ -2,12 +2,14 @@
   (:refer-clojure :exclude [+ - * /])
   (:require [garden
              [arithmetic :refer [*]]
-             [units :as u :refer [vh vw px percent]]]))
+             [units :as u :refer [vh vw px percent]]]
+            [offcourse.styles.classes :as c]))
 
 (defn layout [{:keys [units colors]}]
-  [[:.container {:display :flex
-                 :flex [[1 1]]
-                 :padding [[(:full units) 0 0 0]]}]
+  [[c/container {:display :flex
+                 :flex-direction :row
+                 :flex 1
+                 :padding [[0 0 (:full units) 0]]}]
    [:.layout--app        {:display          :flex
                           :height           (vh 100)
                           :width            (vw 100)

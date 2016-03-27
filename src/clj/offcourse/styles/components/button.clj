@@ -8,8 +8,6 @@
 
 
 (defn button [{:keys [templates colors units fonts]}]
-  [btn {:flex         [[0 0 (:full units)]]
-        :font-weight  700
-        :margin-right (:full units)
+  [btn {:font-weight  700
         :font-size    (:one-and-half units)}
-   [hovered (:highlighted templates)]])
+   [hovered {:color (:primary colors)}]])

@@ -27,8 +27,8 @@
    :tag      (fnk [view-data]
                   (:tag view-data))
    :user        (fnk [appstate] (:user appstate))
-   :main        (fnk [appstate checkpoint tag handlers [:components resource-list] url-helpers]
-                     (resource-list (:resources appstate)
+   :main        (fnk [appstate checkpoint tag handlers [:components strips] url-helpers]
+                     (strips (:resources appstate)
                                     checkpoint
                                     tag
                                     url-helpers
