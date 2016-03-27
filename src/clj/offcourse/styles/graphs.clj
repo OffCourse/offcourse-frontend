@@ -8,11 +8,13 @@
              [graph :as graph]]))
 
 (defn -compose [graph config] ((graph/compile graph) config))
+
 (def units-graph
   {:column               (fnk [full] (* full 14))
    :column-gap           (fnk [full] (* 1 full))
    :map                  (fnk [column] (/ column 2))
-   :four                  (fnk [full]  (* full 4))
+   :four                 (fnk [full]  (* full 4))
+   :five                 (fnk [full]  (* full 5))
    :three                (fnk [full] (* full 3))
    :two                  (fnk [full] (* full 2))
    :one-and-half         (fnk [full] (* full 1.5))
@@ -22,6 +24,7 @@
    :subtitle-line-height (fnk [atom] (* atom 30))
    :base-font            (fnk [atom] (* atom 16))
    :full                 (fnk [base-unit] (rem (/ base-unit 16)))
+   :tag-font             (fnk [atom] (* atom 18))
    :base-line-height     (fnk [atom] (* atom 20))
    :title-font           (fnk [atom] (* atom 32))
    :title-line-height    (fnk [atom] (* atom 36))
@@ -34,14 +37,14 @@
 (def templates-graph
   {:highlighted (fnk [colors] {:background-color (:primary colors)
                                :color            (:night colors)})
-   :selected  (fnk [colors] {:background-color (:night colors)
-                             :color            (:day colors)})
-   :component (fnk [] {:display        :flex
-                       :flex-direction :column
-                       :width          (percent 100)
-                       :height         (percent 100)
-                       :padding        0
-                       :margin         0})})
+   :selected    (fnk [colors] {:background-color (:night colors)
+                               :color            (:day colors)})
+   :component    (fnk [] {:display        :flex
+                          :flex-direction :column
+                          :width          (percent 100)
+                          :height         (percent 100)
+                          :padding        0
+                          :margin         0})})
 
 (def config-graph
   {:colors      (fnk [raw-colors base-color]
@@ -63,10 +66,15 @@
                       :logo  logo-font
                       :title title-font
                       :raw   (vals raw-fonts)})
+
+   :borders     (fnk [units colors]
+                     {:default [[:solid (:sixth units) (:medium units)]]
+                      :highlighted {:border-color [(:primary colors)]}})
    :units       (fnk [base-unit] (-compose units-graph {:base-unit base-unit}))
-   :templates   (fnk [units colors]
+   :templates   (fnk [units fonts colors]
                      (-compose templates-graph {:units  units
-                                               :colors colors}))})
+                                                :fonts fonts
+                                                :colors colors}))})
 
 
 (def compose (partial -compose config-graph))

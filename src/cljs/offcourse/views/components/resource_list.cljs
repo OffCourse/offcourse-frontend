@@ -7,13 +7,13 @@
                               url-helpers
                               {:keys [add-checkpoint]}]
    [:li.list--item
-    [:.btn--add {:on-click #(add-checkpoint {:url  url
-                                              :task (first tasks)
-                                              :tags tags})} "+"]
+    [:.btn {:on-click #(add-checkpoint {:url  url
+                                        :task (first tasks)
+                                        :tags tags})} "+"]
     [:.info
      [:h1.title (first tasks)]
-     [:p.url url]
-     [:p.resource_title title]]
+     [:p.subtitle url]
+     [:p.subtitle title]]
     [:.tags (labels (map (fn [tag] {:label-name tag}) tags)
                     url-helpers)]])
 

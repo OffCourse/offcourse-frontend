@@ -1,14 +1,17 @@
 (ns offcourse.styles.components.card
-  (:require [offcourse.styles.helpers :as h]))
+  (:require [offcourse.styles.helpers :as h]
+            [offcourse.styles.modifiers :refer [removable selected hovered]]))
 
-(defn component [{:keys [component highlighted]} {:keys [column full atom third sixth]}
-                 {:keys [day medium primary night]}]
-  [[:.container--card {:display          :inline-block
-                       :width            column}]
+(defn component [{:keys [component highlighted]}
+                 {:keys [column full atom third sixth]}
+                 {:keys [day medium primary night]}
+                 borders]
+  [[:.container--card {:display :inline-block
+                       :width   column}]
    [:.card (h/augment component {:padding-bottom   full
-                                 :border-bottom    [[:solid sixth medium]]
+                                 :border-bottom    (:default borders)
                                  :background-color day})
-    [:&:hover {:border-color [primary]}]]])
+    [hovered (:highlighted borders)]]])
 
 (defn card-section [{:keys [full half two-third]}] {:padding [[0 full two-third full]]})
 
@@ -30,8 +33,8 @@
   [:card--meta :.keyword {:margin-right (:tenth units)}]])
 
 
-(defn card [{:keys [templates units colors]}]
+(defn card [{:keys [templates units colors borders]}]
   (let [base-component (:component templates)]
-    [(component templates units colors)
+    [(component templates units colors borders)
      (h/augment-many (card-section units) (card-sections units colors))
      (overrides units colors)]))

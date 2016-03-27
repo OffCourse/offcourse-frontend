@@ -18,9 +18,9 @@
                      dirty?]
   [:li.list--item
    [:span {:key :title} task]
-   (when dirty? [:span {:key :remove
-                        :data-remove true
-                        :on-click #(delete-checkpoint checkpoint)}
+   (when dirty? [:span.btn--remove {:key :remove
+                                        :data-remove true
+                                        :on-click #(delete-checkpoint checkpoint)}
                  "Delete"])])
 
 (rum/defc item-list [list-type checkpoints url-helpers handlers dirty?]

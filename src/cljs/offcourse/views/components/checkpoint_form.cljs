@@ -12,24 +12,23 @@
                                    update-tag
                                    save-checkpoint]}]
   [:li.list--item {:data-form true}
-   [:.btn--add {:key :add-button
+   [:.btn {:key :add-button
                 :on-click save-checkpoint} "+"]
    [:.info
     [:input.title {:key :title
                    :placeholder "Task"
                    :value task
                    :on-change update-task}]
-    [:input.url {:key :url
-                 :placeholder "URL"
-                 :value url
-                 :on-change update-url}]]
+    [:input.subtitle {:key :url
+                      :placeholder "URL"
+                      :value url
+                      :on-change update-url}]]
    [:div.tags
     (when-not (empty? tags) (labels (map (fn [tag] {:label-name tag}) tags) url-helpers))
     [:form.tag--input {:on-submit save-tag}
-     [:input.tag {:placeholder "Tag"
-                  :value tag
-                  :on-change update-tag
-                  :name "tag"}]
-     [:input.submit {:type "submit"
-                     :value "+"}]]]])
-
+     [:input.subtitle {:placeholder "Tag"
+                       :value tag
+                       :on-change update-tag
+                       :name "tag"}]
+     [:input.btn {:type "submit"
+                  :value "+"}]]]])
