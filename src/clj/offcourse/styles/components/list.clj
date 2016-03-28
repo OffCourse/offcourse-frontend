@@ -1,44 +1,24 @@
 (ns offcourse.styles.components.list
-  (:refer-clojure :exclude [+ - * / list])
-  (:require [garden.selectors :as s]
-            [offcourse.styles
-             [classes :refer [checkbox list list--item]]
-             [modifiers :refer [hovered removable selected]]]))
-
-(def todo-list (list (s/attr :data-list-type := :todo)))
-(def edit-list (list (s/attr :data-list-type := :edit)))
-(def checkpoint-list (list (s/attr :data-list-type := :checkpoint)))
+  (:refer-clojure :exclude [first last list])
+  (:require [offcourse.styles.vocabulary :as v]))
 
 (defn list-component [{:keys [templates borders colors fonts units]}]
 
-  [[list        (merge (:column-component templates))
-    [list--item (merge (:row-component templates)
+  [[v/list        (merge (:column-component templates))
+    [v/list--item (merge (:row-component templates)
                        (:recycled-paper templates)
-                       (:subtitle-font templates)
-                       {:justify-content :space-between
-                        :margin-bottom   (:sixth units)
+                       (:title templates)
+                       {:margin-bottom   (:sixth units)
                         :align-items     :center
+                        :font-size       (:subtitle-font units)
                         :padding         (:half units)
-                        :flex            1
                         :height          (:one-and-half units)})]]
 
+   [v/edit-list
+    [v/list--item {:justify-content :space-between}]]
 
-   [edit-list
-    [list--item
-     [:.btn--remove
-      [removable {:color       (:medium colors)
-                  :user-select :none}
-       [hovered {:color (:primary colors)}]]]]]
-
-   [todo-list
-    [list--item {:justify-content :flex-start}
-     [hovered (:highlighted templates)]
-     [selected (:selected templates)
-      [hovered (:highlighted templates)]]
-
-     [checkbox (merge (:component templates)
-                      (:paper templates)
-                      {:display          :flex
-                       :margin-right     (:two-third units)
-                       :width            (:two-third units)
-                       :height           (:two-third units)})]]]])
+   [v/todo-list
+    [v/list--item {:justify-content :flex-start}
+     [v/hovered (:highlighted templates)]
+     [v/selected (:selected templates)
+      [v/hovered (:highlighted templates)]]]]])

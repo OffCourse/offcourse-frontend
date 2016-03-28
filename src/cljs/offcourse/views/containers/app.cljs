@@ -2,8 +2,9 @@
   (:require[rum.core :as rum]))
 
 (rum/defc app [{:keys [main menubar dashboard]}]
-  [:.layout--app.app
-   [:.layout--menubar menubar]
-   [:.layout--main
-    (when dashboard [:.layout--dashboard dashboard])
-    [:.layout--content main]]])
+  [:.layout
+   [:.layout--section menubar]
+   [:.layout--section
+    [:.main
+     (when dashboard [:.main--section dashboard])
+     [:.main--section main]]]])

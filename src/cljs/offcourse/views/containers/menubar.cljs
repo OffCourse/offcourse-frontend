@@ -3,6 +3,6 @@
 
 (rum/defc menubar [{:keys [logo action-panel sign-in-panel]}]
   [:.menubar
-   [:.menubar--logo logo]
-   [:.menubar--actions action-panel sign-in-panel]])
+   [:.menubar--section logo]
+   [:.menubar--section action-panel sign-in-panel]])
 

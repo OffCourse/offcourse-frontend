@@ -1,44 +1,24 @@
 (ns offcourse.styles.typography
-  (:refer-clojure :exclude [+ - * /])
-  (:require [garden
-             [arithmetic :refer [* + /]]
-             [units :as u :refer [px]]
-             [selectors :as s]
-             [stylesheet :refer [at-font-face]]]))
+  (:require [garden.stylesheet :refer [at-font-face]]
+            [offcourse.styles.vocabulary :as v]))
 
 (defn make-at-font-face [[font-name file-name]]
   (at-font-face {:font-family font-name
                  :font-weight 500
-                 :src         (str "url('/fonts/" file-name ".woff') " "format('woff')")}))
+                 :src (str "url('/fonts/" file-name ".woff') " "format('woff')")}))
 
-(defn title [{:keys [fonts]}]
-  [:.title {:font-family (:title fonts)}])
+(defn title [{:keys [templates]}]
+  [v/title (:title templates)])
 
-(defn subtitle[{:keys [fonts units]}]
-  [:.subtitle {:font-family (:base fonts)
-                :font-weight 300
-                :font-size   (:subtitle-font units)
-                :margin-bottom (:third units)}])
+(defn subtitle [{:keys [templates]}]
+  [v/subtitle (:subtitle templates)])
 
-(defn textbar [{:keys [colors units fonts] :as config}]
-  [:.textbar {:outline          :none
-              :font-family      (:logo fonts)
-              :display          :inline-block
-              :font-size        (:title-font units)
-              :line-height      (:title-line-height units)
-              :padding          [[0 (:third units)]]
-              :border           :none
-              :background-color (:night colors)
-              :color            (:day colors)}
-   [:&:disabled {:background-color (:medium colors)
-                 :color (:light colors)}
-    [:&:hover {:background-color (:medium colors)
-               :color (:day colors)}]]
-   [:&:hover {:background-color (:day colors)
-              :color (:night colors)}]])
+(defn logo [{:keys [templates colors units fonts] :as config}]
+  [v/logo (:textbar templates)
+   [v/hovered (:paper templates)]])
 
 (defn typography [{:keys [fonts] :as config}]
-  (let [components [title subtitle textbar]]
+  (let [components [title subtitle logo]]
     [(map make-at-font-face (:raw fonts))
      (for [component components]
        (component config))]))

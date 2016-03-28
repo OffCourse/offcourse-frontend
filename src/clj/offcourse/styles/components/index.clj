@@ -1,5 +1,4 @@
-(ns offcourse.styles.components
-  (:refer-clojure :exclude [list])
+(ns offcourse.styles.components.index
   (:require [offcourse.styles.components
              [cards :refer [cards]]
              [dashboard :refer [dashboard]]

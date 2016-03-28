@@ -23,6 +23,7 @@
       [:.card--section {:key :actions}
        [:.actions
         (when dirty?
-          [:button.textbar {:key :save-course
-                            :on-click save-course
-                            :disabled (not enabled?)} "Save Course"])]]]]))
+          [:button.button {:key :save-course
+                           :data-button-type :textbar
+                           :on-click save-course
+                           :disabled (not enabled?)} "Save Course"])]]]]))

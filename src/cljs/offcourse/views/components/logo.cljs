@@ -3,4 +3,4 @@
 
 (rum/defc logo [title url]
   [:.logo
-   [:a.logo.textbar {:href url} title]])
+   [:a {:href url} title]])

@@ -12,6 +12,8 @@
 (def units-graph
   {:column               (fnk [full] (* full 14))
    :column-gap           (fnk [full] (* 1 full))
+   :sidebar              (fnk [column column-gap] (+ column (* 2 column-gap)))
+   :max-content-width    (fnk [full] (* 33 full))
    :map                  (fnk [column] (/ column 2))
    :four                 (fnk [full]  (* full 4))
    :five                 (fnk [full]  (* full 5))
@@ -42,24 +44,48 @@
    :paper            (fnk [colors] {:background-color (:day colors)
                                     :color            (:night colors)})
    :sheet            (fnk [paper borders]
-                          (merge paper {:border-bottom (:default borders)}))
+                          (merge paper
+                                 {:border-bottom (:default borders)}))
+   :negative         (fnk [colors] {:background-color (:night colors)
+                                    :color            (:day colors)})
+
    :recycled-paper   (fnk [colors] {:background-color (:light colors)
                                     :color            (:night colors)})
    :tiny-font        (fnk [units fonts] {:font-size   (:tag-font units)
                                          :font-family (:base fonts)
                                          :font-weight 300})
-   :title-font       (fnk [units fonts] {:font-size   (:title-font units)
-                                         :line-height (:title-line-height units)
-                                         :border      :none})
-   :subtitle-font    (fnk [units fonts] {:font-size   (:subtitle-font units)
-                                         :font-family (:title fonts)
-                                         :font-weight 500})
+   :banner      (fnk [units fonts] {:font-size     (* 2 (:title-font units))
+                                    :line-height   (* 1.8 (:title-line-height units))
+                                    :margin-bottom (:full units)
+                                    :font-family   (:title fonts)})
+   :title       (fnk [units fonts] {:font-family (:title fonts)
+                                    :font-size   (:title-font units)
+                                    :line-height (:title-line-height units)
+                                    :font-weight 500})
+   :logo        (fnk [fonts units] {:font-family (:logo fonts)
+                                    :font-size   (:title-font units)
+                                    :line-height (:title-line-height units)
+                                    :font-weight 500})
+   :subtitle    (fnk [units fonts] {:font-size   (:subtitle-font units)
+                                    :line-height (:subtitle-line-height units)
+                                    :font-family (:base fonts)
+                                    :font-weight 300})
+   :text    (fnk [units fonts]     {:font-size     (* 1.5 (:base-font units))
+                                    :line-height   (* 1.5 (:base-line-height units))
+                                    :margin-bottom (:full units)})
    :component        (fnk [] {:display        :flex
                               :flex-direction :column
                               :padding        0
                               :margin         0})
    :column-component (fnk [component] component)
-   :row-component    (fnk [component] (merge component {:flex-direction :row}))})
+   :row-component    (fnk [component] (merge component {:flex-direction :row}))
+   :textbar          (fnk [units component logo negative]
+                          (merge logo
+                                 negative
+                                 component
+                                 {:outline          :none
+                                  :padding          [[0 (:third units)]]
+                                  :border           :none}))})
 
 (def config-graph
   {:colors      (fnk [raw-colors base-color]

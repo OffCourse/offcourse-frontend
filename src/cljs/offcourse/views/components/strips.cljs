@@ -11,10 +11,11 @@
                                    update-tag
                                    save-checkpoint] :as handlers}]
   [:.container
-   [:div.strip {:data-form true}
+   [:div.strip
     [:.strip--section
-     [:.btn {:key :add-button
-             :on-click save-checkpoint} "+"]]
+     [:.button {:key :add-button
+                :data-button-type (name :icon)
+                :on-click save-checkpoint} "+"]]
     [:.strip--section
      [:input.title {:key :title
                     :placeholder "Task"
@@ -35,9 +36,10 @@
   [:.container
    [:div.strip {:data-form true}
     [:.strip--section
-    [:.btn {:on-click #(add-checkpoint {:url  url
-                                        :task (first tasks)
-                                        :tags tags})} "+"]]
+     [:.button {:data-button-type (name :icon)
+                :on-click #(add-checkpoint {:url  url
+                                            :task (first tasks)
+                                            :tags tags})} "+"]]
     [:.strip--section
      [:h1.title (first tasks)]
      [:p.subtitle url]
@@ -46,7 +48,7 @@
                     url-helpers)]]])
 
 (rum/defc strips [resources checkpoint tag url-helpers handlers]
-  [:div.strips {:data-list-type "checkpoint"}
+  [:div.strips
    (strip-form checkpoint tag url-helpers handlers)
    (map #(rum/with-key (strip-base % url-helpers handlers) (:url %))
         resources)])

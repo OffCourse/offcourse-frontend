@@ -5,5 +5,5 @@
 (rum/defc viewer [{:keys [content] :as resource}]
   [:.viewer
    (if content
-     [:.content {:dangerouslySetInnerHTML {:__html (md->html content)}}]
+     [:article.viewer--content {:dangerouslySetInnerHTML {:__html (md->html content)}}]
      [:.loading "Waiting"])])

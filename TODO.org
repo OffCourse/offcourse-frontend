@@ -8,20 +8,13 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [33%]
-+ [-] General        [50%]
-  - [X] add 'add resource' workflow
-  - [ ] add 'course view'
-+ [X] Views          [100%]
-  - [X] add 'new resource form
-  - [X] titleize menubar
-+ [-] Styles
-  - [ ] style resource form
-  - [X] style resource list
-  - [ ] refactor
+* Now            [0%]
++ [ ] General        [0%]
+  - [ ] implement authentication?
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas
+  - [ ] add 'course view'
 + [ ] Appstate       [0%]
   - [ ] add tests
 + [ ] Protocols      [0%]
@@ -81,6 +74,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] make save conditional
   - [X] add 'delete checkpoint'
   - [X] refactor
+  - [X] add 'add resource' workflow
 + [X] Tests          [100%]
   + [X] refactor
 + [X] System         [100%]
@@ -243,6 +237,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add valid meta-field on new-course
   - [X] create a generic item-list component
   - [X] add loading view
+  - [X] add 'new resource form
+  - [X] titleize menubar
 + [X] UI             [100%]
   - [X] rename from renderer
   - [X] implement renderable
@@ -267,6 +263,9 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] correct BEM mistake
   - [X] add media queries
   - [X] make a global list style
+  - [X] style resource form
+  - [X] style resource list
+  - [X] refactor
 + [X] User           [100%]
   - [X] Create Component
     

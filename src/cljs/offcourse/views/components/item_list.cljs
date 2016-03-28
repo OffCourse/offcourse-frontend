@@ -9,7 +9,8 @@
         url (checkpoint-url checkpoint-slug)]
     [:li.list--item {:data-selected selected
                      :data-item-type :todo}
-     [:span.checkbox {:key :checkbox} nil]
+     [:span.button {:key :checkbox
+                    :data-button-type :checkbox} nil]
      [:a {:key :title
           :href url} [:span task]]]))
 
@@ -18,9 +19,9 @@
                      dirty?]
   [:li.list--item
    [:span {:key :title} task]
-   (when dirty? [:span.btn--remove {:key :remove
-                                        :data-remove true
-                                        :on-click #(delete-checkpoint checkpoint)}
+   (when dirty? [:span.button {:key :remove
+                               :data-button-type :understated
+                               :on-click #(delete-checkpoint checkpoint)}
                  "Delete"])])
 
 (rum/defc item-list [list-type checkpoints url-helpers handlers dirty?]

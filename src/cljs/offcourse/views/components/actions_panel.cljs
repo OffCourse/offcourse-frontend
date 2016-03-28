@@ -6,8 +6,9 @@
   (when actions [:ul.actions-panel
     (keep (fn [[action-name action-url]]
             (when action-url
-              [:li.textbar
-               {:key [action-name]}
+              [:li.button
+               {:key [action-name]
+                :data-button-type :textbar}
                [:a {:href action-url} (-> action-name
                                           name
                                           str/humanize

@@ -1,12 +1,10 @@
 (ns offcourse.styles.components.label
-  (:require [offcourse.styles
-             [classes :as c]
-             [modifiers :as m]]))
+  (:require [offcourse.styles.vocabulary :as v]))
 
 (defn label-component [{:keys [templates fonts colors units]}]
-  [c/labels  (merge (:row-component templates)
+  [v/labels  (merge (:row-component templates)
                     {:flex-wrap :wrap})
-   [c/label (merge (:column-component templates)
+   [v/label (merge (:column-component templates)
                    (:tiny-font templates)
                    (:recycled-paper templates)
                    {:height       (:full units)
@@ -16,5 +14,5 @@
                     :align-items      :center
                     :justify-content  :center
                     :padding          [[(:tenth units) (:half units)]]})
-   [m/selected (:selected templates)]
-   [m/hovered (:highlighted templates)]]])
+   [v/selected (:selected templates)]
+   [v/hovered (:highlighted templates)]]])
