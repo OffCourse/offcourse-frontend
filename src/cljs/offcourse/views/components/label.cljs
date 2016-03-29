@@ -26,6 +26,6 @@
                         :value tag
                         :on-change update-tag
                         :name "tag"}]
-   [:input.button {:type "submit"
-                   :data-button-type (name :icon)
-                   :value "+"}]])
+   #_[:input.button {:type "submit"
+                     :data-button-type (name :icon)
+                     :value "+"}]])

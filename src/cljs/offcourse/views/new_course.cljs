@@ -33,7 +33,8 @@
                                     tag
                                     url-helpers
                                     handlers))
-   :actions     (fnk [] {})
+   :actions   (fnk [user-name [:url-helpers home-url new-course-url]]
+                   {:add-course (when user-name (new-course-url user-name))})
    :dashboard   (fnk [course user handlers [:components dashboard course-form] url-helpers]
                      (dashboard {:main (course-form course
                                                     user

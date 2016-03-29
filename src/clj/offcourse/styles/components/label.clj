@@ -14,5 +14,5 @@
                     :align-items      :center
                     :justify-content  :center
                     :padding          [[(:tenth units) (:half units)]]})
-   [v/selected (:selected templates)]
-   [v/hovered (:highlighted templates)]]])
+   [v/selected (:highlighted templates)]
+   [v/hovered (:selected templates)]]])

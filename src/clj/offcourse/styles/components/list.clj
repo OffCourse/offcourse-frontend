@@ -19,6 +19,5 @@
 
    [v/todo-list
     [v/list--item {:justify-content :flex-start}
-     [v/hovered (:highlighted templates)]
-     [v/selected (:selected templates)
-      [v/hovered (:highlighted templates)]]]]])
+     [v/hovered (:selected templates)]
+     [v/selected (:highlighted templates)]]]])

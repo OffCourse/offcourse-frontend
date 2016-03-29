@@ -5,5 +5,9 @@
   [[v/menubar (merge (:row-component templates)
                      (:highlighted templates)
                      {:justify-content :space-between
+                      :align-items :center
                       :flex 1
-                      :padding (:full units)})]])
+                      :padding [[(:two-third units)(:full units)]]})]
+   [v/menubar--section {:height (:full units)
+                        :display :flex
+                        :align-items :center}]])

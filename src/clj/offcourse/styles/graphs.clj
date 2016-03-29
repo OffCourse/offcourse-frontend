@@ -12,6 +12,7 @@
 (def units-graph
   {:column               (fnk [full] (* full 14))
    :column-gap           (fnk [full] (* 1 full))
+   :padded-column        (fnk [full] (* 12 full))
    :sidebar              (fnk [column column-gap] (+ column (* 2 column-gap)))
    :max-content-width    (fnk [full] (* 33 full))
    :map                  (fnk [column] (/ column 2))
@@ -43,9 +44,8 @@
                                     :color            (:day colors)})
    :paper            (fnk [colors] {:background-color (:day colors)
                                     :color            (:night colors)})
-   :sheet            (fnk [paper borders]
-                          (merge paper
-                                 {:border-bottom (:default borders)}))
+   :sheet            (fnk [paper borders] (merge paper
+                                                 {:border-bottom (:default borders)}))
    :negative         (fnk [colors] {:background-color (:night colors)
                                     :color            (:day colors)})
 
@@ -84,6 +84,7 @@
                                  negative
                                  component
                                  {:outline          :none
+                                  :heigth           (:full units)
                                   :padding          [[0 (:third units)]]
                                   :border           :none}))})
 

@@ -35,4 +35,4 @@
                             {:padding [[0 0 (:full units) 0]]})
      [v/first {:padding-top    (:two-third units)
                :padding-bottom (:two-third units)}]
-     [v/last {:padding-bottom (:one-and-half units)}]]]])
+     [v/last {}]]]])

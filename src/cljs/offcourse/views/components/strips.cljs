@@ -20,7 +20,8 @@
      [:input.title {:key :title
                     :placeholder "Task"
                     :value task
-                    :on-change update-task}]
+                    :on-change update-task}]]
+     [:.strip--section
      [:input.subtitle {:key :url
                        :placeholder "URL"
                        :value url
@@ -41,9 +42,9 @@
                                             :task (first tasks)
                                             :tags tags})} "+"]]
     [:.strip--section
-     [:h1.title (first tasks)]
-     [:p.subtitle url]
-     [:p.subtitle title]]
+     [:h1.title (first tasks)]]
+    [:.strip--section
+     [:p.subtitle url]]
     [:.strip--section (labels (map (fn [tag] {:label-name tag}) tags)
                     url-helpers)]]])
 

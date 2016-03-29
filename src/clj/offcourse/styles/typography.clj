@@ -14,7 +14,7 @@
   [v/subtitle (:subtitle templates)])
 
 (defn logo [{:keys [templates colors units fonts] :as config}]
-  [v/logo (:textbar templates)
+  [v/logo ((:textbar templates))
    [v/hovered (:paper templates)]])
 
 (defn typography [{:keys [fonts] :as config}]

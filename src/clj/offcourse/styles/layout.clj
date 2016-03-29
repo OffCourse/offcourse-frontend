@@ -23,4 +23,4 @@
                    {:flex 2
                     :overflow       :scroll})]]]
    [v/container (merge (:row-component templates)
-                       {:padding [[0 0 (:full units) 0]]})]])
+                       {:padding [[0 0 (:two-third units) 0]]})]])

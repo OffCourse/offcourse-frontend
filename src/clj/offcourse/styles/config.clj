@@ -12,7 +12,10 @@
                     :medium-gray "#e0e4e1"
                     :light-gray  "#f4f6f4"
                     :yellow      "#E5CF39"
-                    :green       "#A5CC45"
+                    :green       "#19A196"
+                    :green-dark  "#3A676E"
+                    :orange      "#F96220"
+                    :orange-dark "#A25418"
                     :blue        "#75C7B3"
                     :red         "#E34D2F"})
 
@@ -32,7 +35,7 @@
 (def config (graphs/compose {:raw-colors      colors
                              :raw-breakpoints breakpoints
                              :base-unit       30
-                             :base-color      :blue
+                             :base-color      :orange
                              :raw-fonts       fonts
                              :base-font       :NittiGrotesk
                              :logo-font       :NittiBold
