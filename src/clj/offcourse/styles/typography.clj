@@ -1,4 +1,5 @@
 (ns offcourse.styles.typography
+  (:refer-clojure :exclude [+ - * /])
   (:require [garden.stylesheet :refer [at-font-face]]
             [offcourse.styles.vocabulary :as v]))
 
@@ -14,7 +15,7 @@
   [v/subtitle (:subtitle templates)])
 
 (defn logo [{:keys [templates colors units fonts] :as config}]
-  [v/logo ((:textbar templates))
+  [v/logo (:textbar templates)
    [v/hovered (:paper templates)]])
 
 (defn typography [{:keys [fonts] :as config}]

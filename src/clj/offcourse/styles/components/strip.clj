@@ -43,8 +43,7 @@
               :margin-right (:sixth units)}]
     [v/second {:flex [[0 0 (:padded-column units)]]
               :margin-right (:full units)}]
-    [v/third {:flex [[0 0 (:one-and-half units)]]
-              :height (:one-and-half units)
+    [v/third {:height (:one-and-half units)
               :margin-right (:full units)}]
     [v/last {:flex 4
              :margin-right 0
