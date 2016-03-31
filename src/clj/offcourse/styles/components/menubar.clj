@@ -10,4 +10,5 @@
                       :padding [[(:two-third units)(:full units)]]})]
    [v/menubar--section {:height (:full units)
                         :display :flex
-                        :align-items :center}]])
+                        :align-items :center}
+    [:.actions-panel (:row-component templates)]]])

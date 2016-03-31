@@ -1,10 +1,13 @@
 (ns offcourse.system.handlers
   (:require [bidi.bidi :refer [path-for]]))
 
-(defn request-update [responder message] (responder :requested-update message))
+(defn request-update [responder message]
+  (responder :requested-update message))
 
 (def handlers
-  {:sign-in (fn [responder] (partial responder :requested-sign-in :user))
+  {:sign-in (fn [responder] (partial responder :requested-sign-in))
+
+   :sign-out (fn [responder] (partial responder :requested-sign-out))
 
    :update-tag (fn [responder] #(request-update responder {:type :update-tag
                                                            :tag (-> % .-target .-value)}))

@@ -15,11 +15,14 @@
                         actions
                         [:appstate site-title]
                         [:url-helpers home-url profile-url]
-                        handlers
-                        [:components actions-panel sign-in-panel logo menubar]]
+                        [:handlers sign-in sign-out]
+                        [:components actions-panel logo menubar]]
                        (menubar {:logo          (logo site-title home-url)
-                                 :action-panel  (actions-panel (merge base-actions actions))
-                                 :sign-in-panel (sign-in-panel user-name (:sign-in handlers)
+                                 :action-panel  (actions-panel (merge base-actions actions)
+                                                               user-name
+                                                               sign-in
+                                                               sign-out
                                                                profile-url)}))})
+
 
 

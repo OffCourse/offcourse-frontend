@@ -1,8 +1,8 @@
 (ns offcourse.views.containers.menubar
   (:require [rum.core :as rum]))
 
-(rum/defc menubar [{:keys [logo action-panel sign-in-panel]}]
+(rum/defc menubar [{:keys [logo action-panel]}]
   [:.menubar
    [:.menubar--section logo]
-   [:.menubar--section action-panel sign-in-panel]])
+   [:.menubar--section action-panel]])
 

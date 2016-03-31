@@ -1,7 +1,11 @@
 (ns offcourse.protocols.authenticable)
 
 (defprotocol Authenticable
-  (-authenticate [this query]))
+  (-sign-in [this])
+  (-sign-out [this]))
 
-(defn authenticate [this query]
-  (-authenticate this query))
+(defn sign-in [this]
+  (-sign-in this))
+
+(defn sign-out [this]
+  (-sign-out this))

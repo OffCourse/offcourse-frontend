@@ -7,7 +7,6 @@
             [offcourse.views.components.course-form :refer [course-form]]
             [offcourse.views.components.strips :refer [strips]]
             [offcourse.views.components.card :refer [card]]
-            [offcourse.views.components.sign-in-panel :refer [sign-in-panel]]
             [offcourse.views.components.actions-panel :refer [actions-panel]]
             [offcourse.views.containers.menubar :refer [menubar]]))
 
@@ -18,7 +17,6 @@
    :card card
    :cards cards
    :viewer viewer
-   :sign-in-panel sign-in-panel
    :actions-panel actions-panel
    :strips strips
    :course-form course-form
