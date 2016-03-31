@@ -5,4 +5,4 @@
                     :language-out :ecmascript5
                     :foreign-libs [{:file "src/js/platform.js"
                                     :provides ["gapi"]}]
-                    :externs ["src/js/platform.js"]}}
+                    :externs ["src/js/platform.ext.js"]}}
