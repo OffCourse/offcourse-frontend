@@ -1,9 +1,0 @@
-var OffcourseDesignDocs = {};
-OffcourseDesignDocs.course = {};
-OffcourseDesignDocs.course._id = {};
-OffcourseDesignDocs.course.views = {};
-OffcourseDesignDocs.course.views.goals = {};
-OffcourseDesignDocs.course.views.flags = {};
-OffcourseDesignDocs.course.views.tags = {};
-OffcourseDesignDocs.course.views.courseIds = {};
-OffcourseDesignDocs.course.views.curators = {};
