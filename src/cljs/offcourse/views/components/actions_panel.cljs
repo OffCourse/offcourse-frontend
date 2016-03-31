@@ -5,7 +5,6 @@
 (rum/defc actions-panel [actions user-name sign-in sign-out profile-url]
   [:ul.actions-panel
    (keep (fn [[action-name action-url]]
-           (println action-url)
            (when action-url
              [:li.button
               {:key [action-name]

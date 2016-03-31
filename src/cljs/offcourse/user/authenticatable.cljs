@@ -21,7 +21,6 @@
 (defn handle-user-change
   [user u]
   (when-let [profile (.getBasicProfile u)]
-    (println "HO")
     (let [user-name (keyword (.getName profile))
           email   (.getEmail profile)
           token (get-google-token)]
