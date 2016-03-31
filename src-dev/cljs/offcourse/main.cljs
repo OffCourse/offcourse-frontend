@@ -1,6 +1,6 @@
 (ns offcourse.main
   (:require [cljs.core.async :refer [put!]]
-            [OffcourseDesignDocs]
+            #_[OffcourseDesignDocs]
             [offcourse.fake-data.index :as fake-data]
             [com.stuartsierra.component :as component]
             [offcourse.sample-queries :refer [sample-query]]
@@ -8,7 +8,7 @@
             [offcourse.core :as core]))
 
 (defonce app (atom nil))
-(defonce design-doc (.-course js/OffcourseDesignDocs))
+#_(defonce design-doc (.-course js/OffcourseDesignDocs))
 
 (defn add-db-id [doc]
   #_(assoc doc :_id (str (:base-id doc)))
@@ -19,7 +19,7 @@
         bootstrap-doc   (clj->js (add-db-id bd))]
     (do
       (enable-console-print!)
-      (reset! app (core/app [design-doc bootstrap-doc]))
+      (reset! app (core/app [#_design-doc bootstrap-doc]))
       (reset! app (component/start @app))
       #_(put! (:router-output @app) sample-request))))
 

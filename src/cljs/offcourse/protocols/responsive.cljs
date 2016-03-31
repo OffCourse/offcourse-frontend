@@ -36,7 +36,7 @@
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
-    #_(println "PAYLOAD" payload)))
+    (println "PAYLOAD" payload)))
 
 (defn respond
   ([this status] (respond this status nil))

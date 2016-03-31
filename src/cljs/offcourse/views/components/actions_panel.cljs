@@ -18,9 +18,9 @@
      [:li.button
       {:key :profile
        :data-button-type "textbar"}
-      [:a {:href profile-url} (-> user-name
-                                   name
-                                   str/titleize)]])
+      [:a {:href (profile-url user-name)} (-> user-name
+                                              name
+                                              str/titleize)]])
    (if user-name
      [:li.button {:data-button-type "textbar"
                   :on-click #(sign-out)} "Sign Out"]
