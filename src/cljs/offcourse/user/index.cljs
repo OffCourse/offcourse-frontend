@@ -4,7 +4,6 @@
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
             [offcourse.user.authenticatable :as ac-impl]
-            [gapi]
             [schema.core :as schema])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
@@ -16,12 +15,12 @@
   Lifecycle
   (start [user]
     (go
-      (<! (ac-impl/init user))
+      (ac-impl/init user)
       (ri/listen user)))
   (stop [user] (ri/mute user))
   Authenticable
-  (-sign-in [user] (ac-impl/sign-in))
-  (-sign-out [user] (ac-impl/sign-out))
+  (-sign-in [user] (ac-impl/sign-in user))
+  (-sign-out [user] (ac-impl/sign-out user))
   Responsive
   (-respond [user status payload] (ri/respond user status payload))
   (-respond [user status type result] (ri/respond user status type result))

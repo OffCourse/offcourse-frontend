@@ -3,41 +3,42 @@
             [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
-            [gapi]
+            [FB]
             [schema.core :as schema])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-(defn load-gapi-auth2 []
+
+(defn init-data []
+  (.init js/FB (clj->js {:appId "1729934507285439"
+                         :cookie     true
+                         :xfbml      true
+                         :version    "v2.5"})))
+
+(defn get-login-status []
   (let [c (chan)]
-    (.load js/gapi "auth2" #(go (>! c true)))
+    (.getLoginStatus js/FB #(go (>! c %)))
     c))
 
-(defn auth-instance []
-  (.getAuthInstance js/gapi.auth2))
+(defn get-profile []
+  (let [c (chan)]
+    (.api js/FB "/me" #(go (>! c %)))
+    c))
 
-(defn get-google-token []
-  (-> (auth-instance) .-currentUser .get .getAuthResponse .-id_token))
-
-(defn handle-user-change
-  [user u]
-  (when-let [profile (.getBasicProfile u)]
-    (let [user-name (keyword (.getName profile))
-          email   (.getEmail profile)
-          token (get-google-token)]
-      (if token
-        (ri/respond user :refreshed-user :user {:name user-name})
-        (ri/respond user :refreshed-user :user {:name nil})))))
+(defn refresh-user [user]
+  (go
+    (let [profile (js->clj (<! (get-profile)))
+          user-name (keyword (get profile "name"))]
+      (ri/respond user :refreshed-user :user {:name user-name}))))
 
 (defn init [user]
+  (init-data)
   (go
-    (<! (load-gapi-auth2))
-    (.init js/gapi.auth2
-           (clj->js {"client_id" "916200543092-1l4drfqvifc1l57djumde0vls81iktru.apps.googleusercontent.com"
-                     "scope"     "profile"}))
-    (let [current-user (.-currentUser (auth-instance))]
-      (.listen current-user (partial handle-user-change user)))))
+    (let [response (js->clj (<! (get-login-status)))
+          status (keyword (get response "status"))]
+      (refresh-user user))))
 
-(defn sign-in []
-          (.signIn (auth-instance)))
+(defn sign-in [user]
+  (.login js/FB #(refresh-user user)))
 
-(defn sign-out [] (.signOut (auth-instance)))
+(defn sign-out [user]
+  (.logout js/FB #(refresh-user user)))
