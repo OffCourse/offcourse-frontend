@@ -4,6 +4,7 @@
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
             [FB]
+            [cuerdas.core :as str]
             [schema.core :as schema])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
@@ -24,7 +25,7 @@
 (defn refresh-user [user]
   (go
     (let [profile (js->clj (<! (get-profile)))
-          user-name (keyword (get profile "name"))]
+          user-name (keyword (str/slugify (get profile "name")))]
       (ri/respond user :refreshed-user :user {:name user-name}))))
 
 (defn init [{:keys [auth-config] :as user}]
