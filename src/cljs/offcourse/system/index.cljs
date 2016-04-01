@@ -17,7 +17,7 @@
             [offcourse.system.views :refer [views]]))
 
 
-(defn system [site-title repositories auth-config]
+(defn system [site-title repositories auth-config identity-config]
   (let [channels plumbing/channels]
     (component/system-map
      :routes                 routes/table
@@ -42,9 +42,11 @@
      :user-reactions          (:user reactions)
      :user-channels           (:user channels)
      :auth-config             auth-config
+     :identity-config         identity-config
      :user                    (component/using (user/new)
                                               {:channels     :user-channels
                                                :auth-config  :auth-config
+                                               :identity-config  :identity-config
                                                :actions      :user-actions
                                                :reactions    :user-reactions})
      :router-actions         (:router actions)

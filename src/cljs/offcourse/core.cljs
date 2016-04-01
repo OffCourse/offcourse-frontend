@@ -3,7 +3,7 @@
             [offcourse.adapters.pouchdb.index :as pouchdb]
             [offcourse.adapters.fakedb.index :as fakedb]))
 
-(defn app [bootstrap-docs auth-config]
+(defn app [bootstrap-docs auth-config identity-config]
   (system "Offcourse_"
           [{:adapter           fakedb/new-db
                          :supported-types [:collection-names :collection
@@ -12,4 +12,5 @@
                         {:adapter         fakedb/new-db
                          :supported-types [:resource :resources]
                          :name            :resources-repo}]
-          auth-config))
+          auth-config
+          identity-config))

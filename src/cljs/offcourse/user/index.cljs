@@ -4,6 +4,7 @@
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
             [offcourse.user.authenticatable :as ac-impl]
+            [cljsjs.aws-sdk-js]
             [schema.core :as schema])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 

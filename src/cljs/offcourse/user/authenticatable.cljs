@@ -28,12 +28,20 @@
           user-name (keyword (str/slugify (get profile "name")))]
       (ri/respond user :refreshed-user :user {:name user-name}))))
 
-(defn init [{:keys [auth-config] :as user}]
-  (init-data auth-config)
-  (go
-    (let [response (js->clj (<! (get-login-status)))
-          status (keyword (get response "status"))]
-      (refresh-user user))))
+(def CognitoConstructor (.-CognitoIdentityCredentials js/AWS))
+(def S3Constructor (.-S3 js/AWS))
+(def ConfigConstructor (.-Config js/AWS))
+
+(defn init [{:keys [auth-config identity-config] :as user}]
+
+  (let [credentials (CognitoConstructor.
+                      "{\"IdentityPoolId\": \"eu-west-1:8ec6381f-02fc-4167-a272-2dd785d8aee2\"}")]
+    (println credentials)
+    (init-data auth-config)
+    (go
+      (let [response (js->clj (<! (get-login-status)))
+            status (keyword (get response "status"))]
+        (refresh-user user)))))
 
 (defn sign-in [user]
   (.login js/FB #(refresh-user user)))
