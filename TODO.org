@@ -11,6 +11,8 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
 * Now            [0%]
 + [ ] General        [0%]
   - [ ] implement authentication?
+  - [ ] implement identity management
+  - [ ] add config environments
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas
