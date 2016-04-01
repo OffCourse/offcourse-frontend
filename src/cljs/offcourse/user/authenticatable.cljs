@@ -8,11 +8,8 @@
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
 
-(defn init-data []
-  (.init js/FB (clj->js {:appId "1729934507285439"
-                         :cookie     true
-                         :xfbml      true
-                         :version    "v2.5"})))
+(defn init-data [config]
+  (.init js/FB (clj->js config)))
 
 (defn get-login-status []
   (let [c (chan)]
@@ -30,8 +27,8 @@
           user-name (keyword (get profile "name"))]
       (ri/respond user :refreshed-user :user {:name user-name}))))
 
-(defn init [user]
-  (init-data)
+(defn init [{:keys [auth-config] :as user}]
+  (init-data auth-config)
   (go
     (let [response (js->clj (<! (get-login-status)))
           status (keyword (get response "status"))]

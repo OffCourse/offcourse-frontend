@@ -15,10 +15,11 @@
   Lifecycle
   (start [user]
     (go
-      (ac-impl/init user)
+      (ac/init user)
       (ri/listen user)))
   (stop [user] (ri/mute user))
   Authenticable
+  (-init [user] (ac-impl/init user))
   (-sign-in [user] (ac-impl/sign-in user))
   (-sign-out [user] (ac-impl/sign-out user))
   Responsive

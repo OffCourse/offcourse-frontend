@@ -11,6 +11,8 @@
                  [weasel                        "0.7.0"          :scope "test"]
                  [hashobject/boot-s3            "0.1.2-SNAPSHOT" :scope "test"]
                  [crisptrutski/boot-cljs-test   "0.2.2-SNAPSHOT" :scope "test"]
+                 [boot-environ                  "1.0.2"          :scope "test"]
+                 [environ                       "1.0.2"]
                  [org.martinklepsch/boot-garden "1.3.0-0"]
                  [metosin/ring-http-response  "0.6.5"]
                  [com.stuartsierra/component  "0.3.1"]
@@ -45,6 +47,7 @@
  '[adzerk.boot-reload    :refer [reload]]
  '[crisptrutski.boot-cljs-test :refer [test-cljs]]
  '[org.martinklepsch.boot-garden :refer [garden]]
+ '[environ.boot :refer [environ]]
  '[pandeiro.boot-http    :refer [serve]]
  '[hashobject.boot-s3    :refer :all])
 

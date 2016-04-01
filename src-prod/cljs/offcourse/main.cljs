@@ -13,6 +13,11 @@
   #_(assoc doc :_id (str (:base-id doc)))
   (assoc doc :_id  "56886142-cce5-4a40-ba61-d1ff9c34cf9f"))
 
+(def auth-config {:appId "1729964960615727"
+                  :cookie     true
+                  :xfbml      true
+                  :version    "v2.5"})
+
 (def sample-route-request
   {:type    :requested-route
    :payload {:type            :collection-view
@@ -24,5 +29,5 @@
         bootstrap-doc   (clj->js (add-db-id bd))]
     (do
       (enable-console-print!)
-      (reset! app (core/app [bootstrap-doc]))
+      (reset! app (core/app [bootstrap-doc] auth-config))
       (reset! app (component/start @app)))))
