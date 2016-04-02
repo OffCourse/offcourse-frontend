@@ -8,11 +8,22 @@
             [schema.core :as schema])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
+(def CognitoConstructor (.-CognitoIdentityCredentials js/AWS))
+(def S3Constructor (.-S3 js/AWS))
+
+(defn init-aws [identity-config]
+  (let [region (get identity-config "region")
+        identity-pool-id (select-keys identity-config ["IdentityPoolId"])
+        credentials (CognitoConstructor. (clj->js identity-pool-id))
+        config (clj->js {"region" region
+                         "credentials" credentials})]
+    (.update js/AWS.config config)
+    (.listObjects (S3Constructor.) (clj->js {"Bucket" "offcourse-staging"}) #(println %2))))
 
 (defn init-data [config]
   (.init js/FB (clj->js config)))
 
-(defn get-login-status []
+(defn get-status []
   (let [c (chan)]
     (.getLoginStatus js/FB #(go (>! c %)))
     c))
@@ -28,20 +39,14 @@
           user-name (keyword (str/slugify (get profile "name")))]
       (ri/respond user :refreshed-user :user {:name user-name}))))
 
-(def CognitoConstructor (.-CognitoIdentityCredentials js/AWS))
-(def S3Constructor (.-S3 js/AWS))
-(def ConfigConstructor (.-Config js/AWS))
-
 (defn init [{:keys [auth-config identity-config] :as user}]
-
-  (let [credentials (CognitoConstructor.
-                      "{\"IdentityPoolId\": \"eu-west-1:8ec6381f-02fc-4167-a272-2dd785d8aee2\"}")]
-    (println credentials)
-    (init-data auth-config)
-    (go
-      (let [response (js->clj (<! (get-login-status)))
-            status (keyword (get response "status"))]
-        (refresh-user user)))))
+  (init-aws identity-config)
+  (init-data auth-config)
+  (go
+    (let [response (js->clj (<! (get-status)))
+          status (keyword (get response "status"))]
+      (ri/respond user :refreshed-bla response)
+      (refresh-user user))))
 
 (defn sign-in [user]
   (.login js/FB #(refresh-user user)))
