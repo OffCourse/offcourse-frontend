@@ -5,7 +5,8 @@
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
             [FB]
             [cuerdas.core :as str]
-            [schema.core :as schema])
+            [schema.core :as schema]
+            [offcourse.protocols.queryable :as qa])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
 (def CognitoConstructor (.-CognitoIdentityCredentials js/AWS))
@@ -33,23 +34,21 @@
     (.api js/FB "/me" #(go (>! c %)))
     c))
 
-(defn refresh-user [user]
-  (go
-    (let [profile (js->clj (<! (get-profile)))
-          user-name (keyword (str/slugify (get profile "name")))]
-      (ri/respond user :refreshed-user :user {:name user-name}))))
-
 (defn init [{:keys [auth-config identity-config] :as user}]
   (init-aws identity-config)
   (init-data auth-config)
   (go
     (let [response (js->clj (<! (get-status)))
           status (keyword (get response "status"))]
-      (ri/respond user :refreshed-bla response)
-      (refresh-user user))))
+      (case status
+        :connected (let [profile (js->clj (<! (get-profile)))]
+                     (qa/refresh user profile))
+        (qa/refresh user nil)))))
 
 (defn sign-in [user]
-  (.login js/FB #(refresh-user user)))
+  (go
+    (let [profile (js->clj (<! (get-profile)))]
+      (.login js/FB #(qa/refresh user profile)))))
 
 (defn sign-out [user]
-  (.logout js/FB #(refresh-user user)))
+  (.logout js/FB #(qa/refresh user nil)))

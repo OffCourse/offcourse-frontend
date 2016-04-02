@@ -7,7 +7,7 @@
   (-remove  [this query])
   (-check   [this] [this query])
   (-fetch   [this query])
-  (-refresh [this doc]))
+  (-refresh [this] [this doc]))
 
 (def payloads
   {:collection-names    :collection-type
@@ -37,6 +37,7 @@
   (-fetch this query))
 
 (defn refresh
+  ([this] (-refresh this))
   ([this query] (-refresh this query))
   ([this type data] (-refresh this {:type           type
                                     (type payloads) data})))

@@ -1,18 +1,27 @@
 (ns offcourse.user.index
-  (:require [cljs.core.async :refer [<! chan close! >!]]
+  (:require cljsjs.aws-sdk-js
             [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.user.authenticatable :as ac-impl]
-            [cljsjs.aws-sdk-js]
-            [schema.core :as schema])
-  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
+            [schema.core :as schema]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [cuerdas.core :as str])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
+
+(defn refresh [user profile]
+  (go
+    (if-let [user-name (keyword (str/slugify (get profile "name")))]
+      (ri/respond user :refreshed-user :user {:name user-name})
+      (ri/respond user :refreshed-user :user {:name nil}))))
 
 (schema/defrecord User
     [component-name :- schema/Keyword
      channels       :- {}
      actions        :- []
      reactions      :- {}]
+  Queryable
+  (-refresh [user query] (refresh user query))
   Lifecycle
   (start [user]
     (go
