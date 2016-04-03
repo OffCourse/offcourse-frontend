@@ -9,46 +9,24 @@
             [offcourse.protocols.queryable :as qa])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
-(def CognitoConstructor (.-CognitoIdentityCredentials js/AWS))
-(def S3Constructor (.-S3 js/AWS))
-
-(defn init-aws [identity-config]
-  (let [region (get identity-config "region")
-        identity-pool-id (select-keys identity-config ["IdentityPoolId"])
-        credentials (CognitoConstructor. (clj->js identity-pool-id))
-        config (clj->js {"region" region
-                         "credentials" credentials})]
-    (.update js/AWS.config config)
-    (.listObjects (S3Constructor.) (clj->js {"Bucket" "offcourse-staging"}) #(println %2))))
-
-(defn init-data [config]
-  (.init js/FB (clj->js config)))
-
 (defn get-status []
   (let [c (chan)]
-    (.getLoginStatus js/FB #(go (>! c %)))
+    (.getLoginStatus js/FB #(go (>! c (js->clj % :keywordize-keys true))))
     c))
 
 (defn get-profile []
   (let [c (chan)]
-    (.api js/FB "/me" #(go (>! c %)))
+    (.api js/FB "/me" #(go (>! c (js->clj % :keywordize-keys true))))
     c))
 
 (defn init [{:keys [auth-config identity-config] :as user}]
-  (init-aws identity-config)
-  (init-data auth-config)
   (go
-    (let [response (js->clj (<! (get-status)))
-          status (keyword (get response "status"))]
-      (case status
-        :connected (let [profile (js->clj (<! (get-profile)))]
-                     (qa/refresh user profile))
-        (qa/refresh user nil)))))
+    (.init js/FB (clj->js auth-config))
+    (let [response (<! (get-status))]
+      response)))
 
 (defn sign-in [user]
-  (go
-    (let [profile (js->clj (<! (get-profile)))]
-      (.login js/FB #(qa/refresh user profile)))))
+  (.login js/FB #(go (qa/refresh user :profile (<! (get-profile))))))
 
 (defn sign-out [user]
   (.logout js/FB #(qa/refresh user nil)))

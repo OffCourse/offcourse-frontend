@@ -25,6 +25,7 @@
    :update-curator      :curator
    :goal                :goal
    :resources           :resources
+   :profile             :profile
    :tag                 :tag
    :resource            :resource})
 
