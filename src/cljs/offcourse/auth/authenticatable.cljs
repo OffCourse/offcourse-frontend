@@ -30,4 +30,5 @@
 (defn sign-out [auth]
   (go
     (let [response (<! (-sign-out))]
-      (ri/respond auth :signed-out-user {}))))
+      (ri/respond auth :signed-out-user {:type :token
+                                         :token nil}))))

@@ -5,9 +5,7 @@
 
 (defmulti refresh (fn [user {:keys [type]}] type))
 
-(defmethod refresh :token [user {:keys [token]}]
-  (when token
-    (ri/respond user :refreshed-user :user {:name :yeehaa})))
-
-(defmethod refresh :default [user _]
-  (ri/respond user :refreshed-user :user {:name nil}))
+(defmethod refresh :authenticated? [user {:keys [authenticated?]}]
+  (if authenticated?
+    (ri/respond user :refreshed-user :user {:name :yeehaa})
+    (ri/respond user :refreshed-user :user {:name nil})))

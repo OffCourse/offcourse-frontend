@@ -14,6 +14,7 @@
                :checked-state
                :not-found-data]
    :auth      [:fetched-profile]
+   :cloud     [:refreshed-credentials]
    :user      [:refreshed-user]
    :ui        [:rendered-view
                :requested-sign-in]})
@@ -28,9 +29,12 @@
               :found-data       qa/refresh
               :not-found-data   qa/check
               :refreshed-user   qa/refresh}
-   :auth     {:requested-sign-in ac/sign-in
+   :auth     {:requested-sign-in  ac/sign-in
               :requested-sign-out ac/sign-out}
-   :user     {:signed-in-user  qa/refresh
+   :user     {:signed-in-user        qa/refresh
+              :refreshed-credentials qa/refresh
+              :signed-out-user       qa/refresh}
+   :cloud    {:signed-in-user  qa/refresh
               :signed-out-user qa/refresh}
    :ui       {:refreshed-state rr/render
               :checked-state   rr/render

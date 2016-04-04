@@ -23,8 +23,14 @@
   (let [channels plumbing/channels]
     (component/system-map
      :cloud-config           cloud-config
+     :cloud-actions          (:cloud actions)
+     :cloud-reactions        (:cloud reactions)
+     :cloud-channels         (:cloud channels)
      :cloud                  (component/using (cloud/new)
-                                              {:initial-config :cloud-config})
+                                              {:initial-config :cloud-config
+                                               :channels     :cloud-channels
+                                               :actions      :cloud-actions
+                                               :reactions    :cloud-reactions})
      :routes                 routes/table
      :route-responses        routes/responses
      :url-helpers            routes/url-helpers

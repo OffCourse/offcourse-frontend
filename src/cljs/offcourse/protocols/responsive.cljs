@@ -23,6 +23,7 @@
    :view                :view-data
    :user                :user
    :profile             :profile
+   :authenticated?      :authenticated?
    :resources           :resources
    :resource            :resource})
 
@@ -33,7 +34,7 @@
 (def counter (atom 0))
 
 (defn debug-helper [component-name status payload]
-  (when (= component-name :auth)
+  (when (= component-name :cloud)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
@@ -57,7 +58,7 @@
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
       (when #_true (= component-name :user)
-        #_(debug-helper source type payload))
+         #_(debug-helper source type payload))
       (when reaction
         (if (= reaction :forward)
           (respond this type payload)
