@@ -25,8 +25,7 @@
           token (:accessToken authResponse)]
       (when (= status "connected")
         (ri/respond auth :signed-in-user {:type :token
-                                          :token token}))
-      #_(qa/fetch auth :profile response))))
+                                          :token token})))))
 
 (defn sign-out [auth]
   (go

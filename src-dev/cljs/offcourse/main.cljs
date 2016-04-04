@@ -19,8 +19,8 @@
                   "xfbml"      true
                   "version"    "v2.5"})
 
-(def identity-config {"region" "eu-west-1"
-                      "IdentityPoolId" "eu-west-1:8ec6381f-02fc-4167-a272-2dd785d8aee2"})
+(def identity-config {:region "eu-west-1"
+                      :IdentityPoolId "eu-west-1:8ec6381f-02fc-4167-a272-2dd785d8aee2"})
 
 (defn init []
   (let [bd              (fake-data/generate-course)

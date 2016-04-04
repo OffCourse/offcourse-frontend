@@ -5,6 +5,7 @@
             [offcourse.router.index :as router]
             [offcourse.auth.index :as auth]
             [offcourse.user.index :as user]
+            [offcourse.cloud.index :as cloud]
             [offcourse.api.index :as api]
             [offcourse.ui.index :as ui]
             [offcourse.models.appstate.index :as appstate-model]
@@ -18,9 +19,12 @@
             [offcourse.system.views :refer [views]]))
 
 
-(defn system [site-title repositories auth-config identity-config]
+(defn system [site-title repositories auth-config cloud-config]
   (let [channels plumbing/channels]
     (component/system-map
+     :cloud-config           cloud-config
+     :cloud                  (component/using (cloud/new)
+                                              {:initial-config :cloud-config})
      :routes                 routes/table
      :route-responses        routes/responses
      :url-helpers            routes/url-helpers
@@ -51,10 +55,8 @@
      :user-actions            (:user actions)
      :user-reactions          (:user reactions)
      :user-channels           (:user channels)
-     :user-config             identity-config
      :user                    (component/using (user/new)
                                                {:channels     :user-channels
-                                                :user-config  :user-config
                                                 :actions      :user-actions
                                                 :reactions    :user-reactions})
      :router-actions         (:router actions)

@@ -26,6 +26,7 @@
    :goal                :goal
    :resources           :resources
    :profile             :token
+   :config              :config
    :tag                 :tag
    :resource            :resource})
 

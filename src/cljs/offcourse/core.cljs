@@ -1,9 +1,11 @@
 (ns offcourse.core
   (:require [offcourse.system.index :refer [system]]
             [offcourse.adapters.pouchdb.index :as pouchdb]
+            cljsjs.aws-sdk-js
             [offcourse.adapters.fakedb.index :as fakedb]))
 
-(defn app [bootstrap-docs auth-config identity-config]
+
+(defn app [bootstrap-docs auth-config cloud-config]
   (system "Offcourse_"
           [{:adapter           fakedb/new-db
                          :supported-types [:collection-names :collection
@@ -13,4 +15,4 @@
                          :supported-types [:resource :resources]
                          :name            :resources-repo}]
           auth-config
-          identity-config))
+          cloud-config))
