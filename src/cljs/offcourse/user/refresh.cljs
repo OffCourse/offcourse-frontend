@@ -5,7 +5,9 @@
 
 (defmulti refresh (fn [user {:keys [type]}] type))
 
-(defmethod refresh :profile [user {:keys [profile]}]
-  (if-let [user-name (keyword (str/slugify (:name profile)))]
-    (ri/respond user :refreshed-user :user {:name user-name})
-    (ri/respond user :refreshed-user :user {:name nil})))
+(defmethod refresh :token [user {:keys [token]}]
+  (when token
+    (ri/respond user :refreshed-user :user {:name :yeehaa})))
+
+(defmethod refresh :default [user _]
+  (ri/respond user :refreshed-user :user {:name nil}))

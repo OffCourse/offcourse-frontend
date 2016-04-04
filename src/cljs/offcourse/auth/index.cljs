@@ -2,8 +2,8 @@
   (:require [cljs.core.async :refer [<!]]
             [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.auth.authenticatable :as ac-impl]
-            [offcourse.auth.get :as get-impl]
             [offcourse.auth.fetch :as fetch-impl]
+            [offcourse.auth.get :as get-impl]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
@@ -23,9 +23,11 @@
   (start [auth]
     (ac/init auth)
     (go
-      (let [{:keys [status authResponse]} (<! (qa/check auth {:type :status}))]
+      (let [{:keys [status authResponse]} (<! (qa/check auth {:type :status}))
+            token (:accessToken authResponse)]
         (when (= status "connected")
-          (qa/fetch auth :profile (:accessToken authResponse)))
+          (ri/respond auth :signed-in-user {:type :token
+                                            :token token}))
         (ri/listen auth))))
   (stop [auth] (ri/mute auth))
   Authenticable

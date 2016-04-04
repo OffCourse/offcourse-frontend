@@ -1,6 +1,7 @@
 (ns offcourse.auth.authenticatable
   (:require [cljs.core.async :refer [<! >! chan]]
             [FB]
+            [offcourse.protocols.responsive :as ri]
             [offcourse.protocols.queryable :as qa])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
@@ -9,7 +10,8 @@
 
 (defn -sign-in []
   (let [c (chan)]
-    (.login js/FB #(go (>! c %)))
+    (.login js/FB (fn [response]
+                    (go (>! c (js->clj response :keywordize-keys true)))))
     c))
 
 (defn -sign-out []
@@ -19,10 +21,14 @@
 
 (defn sign-in [auth]
   (go
-    (let [response (<! (-sign-in))]
-      (qa/fetch auth :profile {}))))
+    (let [{:keys [status authResponse] :as res} (<! (-sign-in))
+          token (:accessToken authResponse)]
+      (when (= status "connected")
+        (ri/respond auth :signed-in-user {:type :token
+                                          :token token}))
+      #_(qa/fetch auth :profile response))))
 
 (defn sign-out [auth]
   (go
     (let [response (<! (-sign-out))]
-      (qa/fetch auth :profile {}))))
+      (ri/respond auth :signed-out-user {}))))

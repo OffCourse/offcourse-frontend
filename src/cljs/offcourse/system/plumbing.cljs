@@ -8,17 +8,21 @@
         appstate-output (chan)
         api-output      (chan)
         ui-output       (chan)
+        auth-output     (chan)
+        user-output    (chan)
         ui-mult         (mult ui-output)
         api-mult        (mult api-output)
-        auth-output     (chan)
+        auth-mult       (mult auth-output)
+        user-mult       (mult user-output)
         appstate-mult   (mult appstate-output)
         appstate-input  (merge [router-output
-                                auth-output
+                                (tap user-mult (chan))
                                 (tap ui-mult (chan))
                                 (tap api-mult (chan))])
         api-input       (tap appstate-mult (chan))
         router-input    (tap appstate-mult (chan))
         auth-input      (tap ui-mult (chan))
+        user-input      (tap auth-mult (chan))
         ui-input        #_logger-output (tap appstate-mult (chan))]
 
     {:api      {:input  api-input
@@ -32,6 +36,9 @@
      :auth     {:input  auth-input
                 :log    auth-input
                 :output auth-output}
+     :user     {:input  user-input
+                :log    user-input
+                :output user-output}
      :appstate {:input  appstate-input
                 :log    logger-input
                 :output appstate-output}

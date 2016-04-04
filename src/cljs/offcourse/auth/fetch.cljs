@@ -7,7 +7,6 @@
 
 (defmulti fetch (fn [user {:keys [type]}] type))
 
-(defmethod fetch :profile [auth {:keys [token]}]
+(defmethod fetch :token [auth {:keys [token]}]
   (go
-    (let [profile (<! (qa/get auth {:type :profile}))]
-      (ri/respond auth :fetched-profile :profile (assoc profile :token token)))))
+    (ri/respond auth :signed-in-user ::token token)))

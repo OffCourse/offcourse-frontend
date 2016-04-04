@@ -45,7 +45,7 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel    (or log-channel (:log channels))
          response       (action/new status component-name payload)]
-     (debug-helper component-name status payload)
+     #_(debug-helper component-name status payload)
      (go
        (swap! counter inc)
        (>! output-channel response)
@@ -56,8 +56,8 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      #_(when true #_(= component-name :user)
-        (debug-helper source type payload))
+      (when #_true (= component-name :user)
+        #_(debug-helper source type payload))
       (when reaction
         (if (= reaction :forward)
           (respond this type payload)
