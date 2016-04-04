@@ -25,7 +25,7 @@
    :update-curator      :curator
    :goal                :goal
    :resources           :resources
-   :profile             :profile
+   :profile             :token
    :tag                 :tag
    :resource            :resource})
 
@@ -34,8 +34,10 @@
   ([this type data] (get this {:type           type
                                (type payloads) data})))
 
-(defn fetch [this query]
-  (-fetch this query))
+(defn fetch
+  ([this query] (-fetch this query))
+  ([this type data] (-fetch this {:type           type
+                                 (type payloads) data})))
 
 (defn refresh
   ([this] (-refresh this))

@@ -13,7 +13,7 @@
    :appstate  [:refreshed-state
                :checked-state
                :not-found-data]
-   :user      [:refreshed-user]
+   :auth      [:refreshed-auth=data]
    :ui        [:rendered-view
                :requested-sign-in]})
 
@@ -27,7 +27,7 @@
               :found-data       qa/refresh
               :not-found-data   qa/check
               :refreshed-user   qa/refresh}
-   :user     {:requested-sign-in ac/sign-in
+   :auth     {:requested-sign-in ac/sign-in
               :requested-sign-out ac/sign-out}
    :ui       {:refreshed-state rr/render
               :checked-state   rr/render

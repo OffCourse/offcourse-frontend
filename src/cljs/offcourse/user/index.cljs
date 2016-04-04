@@ -1,21 +1,14 @@
 (ns offcourse.user.index
-  (:require [cljsjs.aws-sdk-js]
-            [cljs.core.async :refer [<! chan close! >!]]
+  (:require [cljs.core.async :refer [<! >! chan]]
+            cljsjs.aws-sdk-js
             [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]
+            [offcourse.user.refresh :as refresh-impl]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.user.authenticatable :as ac-impl]
-            [schema.core :as schema]
-            [cljs.pprint :as pp]
-            [FB]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [cuerdas.core :as str])
+            [schema.core :as schema])
   (:require-macros [cljs.core.async.macros :refer [go]]))
-
-(defn refresh [user {:keys [profile] :as query}]
-  (if-let [user-name (keyword (str/slugify (:name profile)))]
-    (ri/respond user :refreshed-user :user {:name user-name})
-    (ri/respond user :refreshed-user :user {:name nil})))
 
 (def CognitoConstructor (.-CognitoIdentityCredentials js/AWS))
 (def S3Constructor (.-S3 js/AWS))
@@ -49,7 +42,7 @@
      actions        :- []
      reactions      :- {}]
   Queryable
-  (-refresh [user query] (refresh user query))
+  (-refresh [user query] (refresh-impl/refresh user query))
   Lifecycle
   (start [user]
     (go

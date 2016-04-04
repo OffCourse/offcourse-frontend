@@ -3,7 +3,7 @@
             [offcourse.appstate.index :as appstate]
             [offcourse.logger.index :as logger]
             [offcourse.router.index :as router]
-            [offcourse.user.index :as user]
+            [offcourse.auth.index :as auth]
             [offcourse.api.index :as api]
             [offcourse.ui.index :as ui]
             [offcourse.models.appstate.index :as appstate-model]
@@ -38,17 +38,15 @@
                                                :fetchables   :fetchables
                                                :reactions    :api-reactions
                                                :repositories :repositories})
-     :user-actions            (:user actions)
-     :user-reactions          (:user reactions)
-     :user-channels           (:user channels)
+     :auth-actions            (:auth actions)
+     :auth-reactions          (:auth reactions)
+     :auth-channels           (:auth channels)
      :auth-config             auth-config
-     :identity-config         identity-config
-     :user                    (component/using (user/new)
-                                              {:channels     :user-channels
+     :auth                    (component/using (auth/new)
+                                              {:channels     :auth-channels
                                                :auth-config  :auth-config
-                                               :identity-config  :identity-config
-                                               :actions      :user-actions
-                                               :reactions    :user-reactions})
+                                               :actions      :auth-actions
+                                               :reactions    :auth-reactions})
      :router-actions         (:router actions)
      :router-reactions       (:router reactions)
      :router-channels        (:router channels)
