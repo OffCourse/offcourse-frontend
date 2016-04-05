@@ -22,7 +22,7 @@
   (-refresh [cloud query] (refresh-impl/refresh cloud query))
   Lifecycle
   (start [cloud]
-    (init cloud)
+    (qa/refresh cloud {:type :initialize})
     (ri/listen cloud))
   (stop [cloud] (ri/mute cloud))
   Responsive
