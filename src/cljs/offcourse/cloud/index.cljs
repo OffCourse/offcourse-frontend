@@ -12,7 +12,7 @@
   (let [credentials (CognitoConstructor. (clj->js initial-config))
         config (merge initial-config {:credentials credentials})]
     (.update js/AWS.config (clj->js config))
-    (reset! (:config cloud) config)))
+    (reset! (:config cloud) js/AWS.config)))
 
 (schema/defrecord Cloud
     [component-name :- schema/Keyword
@@ -22,7 +22,7 @@
   (-refresh [cloud query] (refresh-impl/refresh cloud query))
   Lifecycle
   (start [cloud]
-    (qa/refresh cloud {:type :initialize})
+    (init cloud)
     (ri/listen cloud))
   (stop [cloud] (ri/mute cloud))
   Responsive
