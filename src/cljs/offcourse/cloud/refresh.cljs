@@ -7,8 +7,16 @@
 (def CognitoConstructor (.-CognitoIdentityCredentials js/AWS))
 (def LambdaConstructor (.-Lambda js/AWS))
 
-(defn -refresh-credentials [credentials]
-  (let [c (chan)]
+(defn- refresh-params [params token]
+  (assoc params :Logins {"graph.facebook.com" token}))
+
+(defn- refresh-credentials [{:keys [credentials]} token]
+  (let [params (-> (.-params credentials)
+                   js->clj
+                   (refresh-params token))
+        c (chan)]
+    (set! (.-expired credentials) true)
+    (set! (.-params credentials) (clj->js params))
     (.refresh credentials #(go (>! c true)))
     c))
 
@@ -18,20 +26,13 @@
   (go
     (if token
       (do
-        (.clearCachedId (.. @config -credentials))
-        (let [config (merge initial-config (:Logins {:graph.facebook.com token}))
-              credentials (CognitoConstructor. (clj->js config))
-              config (merge initial-config {:credentials credentials
-                                            :expired true})]
-          (.update js/AWS.config (clj->js config))
-          (.makeRequest (LambdaConstructor.) "invoke"
-                        (clj->js {:FunctionName "hello-world"})
-                        #(println %1))
-          (reset! (:config cloud) js/AWS.config)))
+        (<! (refresh-credentials @config token))
+        (.makeRequest (LambdaConstructor.) "invoke" (clj->js {:FunctionName "hello-world"}) #(println %2))
+        (swap! config (fn [config] (assoc config :credentials (.. js/AWS.config -credentials)))))
       (do
-        (.clearCachedId (.. @config -credentials))
+        (.clearCachedId (:credentials @config))
         (let [credentials (CognitoConstructor. (clj->js initial-config))
               config (merge initial-config {:credentials credentials})]
           (.update js/AWS.config (clj->js config))
-          (reset! (:config cloud) js/AWS.config))))
+          (reset! (:config cloud) config))))
     (ri/respond cloud :refreshed-credentials :authenticated? (boolean token))))

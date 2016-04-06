@@ -12,7 +12,7 @@
   (let [credentials (CognitoConstructor. (clj->js initial-config))
         config (merge initial-config {:credentials credentials})]
     (.update js/AWS.config (clj->js config))
-    (reset! (:config cloud) js/AWS.config)))
+    (reset! (:config cloud) config)))
 
 (schema/defrecord Cloud
     [component-name :- schema/Keyword

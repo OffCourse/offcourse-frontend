@@ -18,8 +18,8 @@
                   "xfbml"      true
                   "version"    "v2.5"})
 
-(def identity-config {"region" "eu-west-1"
-                      "IdentityPoolId" "eu-west-1:e5c18acd-0597-4ec5-b94e-a2648d264402"})
+(def identity-config {:region "eu-west-1"
+                      :IdentityPoolId "eu-west-1:e5c18acd-0597-4ec5-b94e-a2648d264402"})
 
 (def sample-route-request
   {:type    :requested-route
