@@ -1,6 +1,5 @@
 (ns offcourse.auth.get
-  (:require [cljs.core.async :refer [>! chan]]
-            cljsjs.aws-sdk-js)
+  (:require [cljs.core.async :refer [>! chan]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn get-status []

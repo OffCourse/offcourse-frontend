@@ -1,7 +1,6 @@
 (ns offcourse.core
   (:require [offcourse.system.index :refer [system]]
             [offcourse.adapters.pouchdb.index :as pouchdb]
-            cljsjs.aws-sdk-js
             [offcourse.adapters.fakedb.index :as fakedb]))
 
 

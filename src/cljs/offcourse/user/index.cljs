@@ -1,6 +1,5 @@
 (ns offcourse.user.index
-  (:require cljsjs.aws-sdk-js
-            [com.stuartsierra.component :refer [Lifecycle]]
+  (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.user.refresh :as refresh-impl]
