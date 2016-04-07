@@ -25,6 +25,7 @@
       (derive :new-course-view   :viewmodel)
       (derive :loading-view      :viewmodel)
 
+
       (derive :courses           :data)
       (derive :resources         :data)))
 
@@ -81,3 +82,4 @@
 
 (defmethod refresh :default [{:keys [store] :as as} query]
   {:type :error :error :query-not-supported})
+

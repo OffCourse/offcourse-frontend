@@ -15,7 +15,6 @@
            {:type :error :error :query-not-supported})))
 
   (testing "when query type is user"
-
     (let [query {:type :user
                  :user {:name fx/user-name}}
           state (qa/refresh (sut/new) query)]

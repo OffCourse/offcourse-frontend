@@ -27,6 +27,7 @@
    :resources           :resources
    :profile             :token
    :config              :config
+   :user                :user
    :tag                 :tag
    :resource            :resource})
 

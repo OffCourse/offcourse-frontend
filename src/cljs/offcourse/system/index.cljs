@@ -4,7 +4,6 @@
             [offcourse.logger.index :as logger]
             [offcourse.router.index :as router]
             [offcourse.auth.index :as auth]
-            [offcourse.user.index :as user]
             [offcourse.cloud.index :as cloud]
             [offcourse.api.index :as api]
             [offcourse.ui.index :as ui]
@@ -58,13 +57,6 @@
                                                :auth-config  :auth-config
                                                :actions      :auth-actions
                                                :reactions    :auth-reactions})
-     :user-actions            (:user actions)
-     :user-reactions          (:user reactions)
-     :user-channels           (:user channels)
-     :user                    (component/using (user/new)
-                                               {:channels     :user-channels
-                                                :actions      :user-actions
-                                                :reactions    :user-reactions})
      :router-actions         (:router actions)
      :router-reactions       (:router reactions)
      :router-channels        (:router channels)

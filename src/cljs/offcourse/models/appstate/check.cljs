@@ -45,4 +45,3 @@
 (defmethod check :default [_ _]
   {:type :error
    :error :query-not-supported})
-

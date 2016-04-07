@@ -9,6 +9,11 @@
 (defmethod refresh :queries  [{:keys [state] :as as}]
   (swap! state #(assoc % :queries #{})))
 
+(defmethod refresh :authenticated? [{:keys [state] :as as} {:keys [authenticated?] :as query}]
+  (if authenticated?
+    (respond as :requested-user-profile {})
+    (qa/refresh as :user {:name nil})))
+
 (defmethod refresh :default [{:keys [state] :as as} query]
   (let [old-state @state]
     (swap! state #(qa/refresh % query))

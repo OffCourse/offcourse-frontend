@@ -8,5 +8,4 @@
 (defmulti fetch (fn [user {:keys [type]}] type))
 
 (defmethod fetch :token [auth {:keys [token]}]
-  (go
-    (ri/respond auth :signed-in-user :token token)))
+  (ri/respond auth :signed-in-user :token token))
