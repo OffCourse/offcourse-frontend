@@ -18,7 +18,6 @@
   [[v/cards (merge (:row-component templates)
                    (:recycled-paper templates)
                    {:padding          (:full units)
-                    :overflow-x       :hidden
                     :column-gap       (:column-gap units)})
     [v/container {:display :inline-block
                   :width (:column units)}]]

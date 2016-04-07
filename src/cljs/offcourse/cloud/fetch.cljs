@@ -28,5 +28,5 @@
 (defn fetch [cloud query]
   (go
     (let [user (<! (invoke-lambda "hello-world" {}))]
-      (ri/respond cloud :refreshed-user {:type :user
-                                         :user user}))))
+      (ri/respond cloud :fetched-user-profile
+                  {:type :user :user user}))))

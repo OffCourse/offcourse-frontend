@@ -28,7 +28,7 @@
               :requested-save        qa/add
               :found-data            qa/refresh
               :not-found-data        qa/check
-              :refreshed-user        qa/refresh}
+              :fetched-user-profile  qa/refresh}
    :auth     {:requested-sign-in  ac/sign-in
               :requested-sign-out ac/sign-out}
    :cloud    {:signed-in-user         qa/refresh
