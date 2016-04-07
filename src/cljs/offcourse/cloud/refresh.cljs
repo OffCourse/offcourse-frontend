@@ -1,11 +1,19 @@
 (ns offcourse.cloud.refresh
   (:require [cljs.core.async :refer [<! chan >!]]
-            cljsjs.aws-sdk-js
+            [AWS]
             [offcourse.protocols.responsive :as ri])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (def AWS js/AWS)
 (def region "eu-west-1")
+
+(defn invoke-lambda [function-name payload]
+  (let [c (chan)]
+    (.makeRequest (AWS.Lambda.) "invoke"
+                  (clj->js {:FunctionName function-name
+                            :Payload payload})
+                  #(go (>! c %2)))
+  c))
 
 (defn new-credentials [{:keys [initial-config]}]
   (new AWS.CognitoIdentityCredentials

@@ -5,6 +5,6 @@
                     :language-out :ecmascript5
                     :foreign-libs [{:file "src/js/facebook.js"
                                     :provides ["FB"]}
-                                   {:file "src/js/aws-sdk-2.3.1.js"
+                                   {:file "src/js/aws-custom.js"
                                     :provides ["AWS"]}]
-                    :externs ["facebook.ext.js", "aws.ext.js"]}}
+                    :externs ["facebook.ext.js", "aws-custom.ext.js"]}}

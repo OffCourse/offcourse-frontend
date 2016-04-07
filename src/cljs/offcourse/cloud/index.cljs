@@ -4,7 +4,6 @@
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.cloud.refresh :as refresh-impl]
             [offcourse.cloud.fetch :as fetch-impl]
-            cljsjs.aws-sdk-js
             [schema.core :as schema]))
 
 (defn invoke-lambda [function-name payload]
