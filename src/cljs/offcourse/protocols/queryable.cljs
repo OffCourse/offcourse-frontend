@@ -1,12 +1,14 @@
 (ns offcourse.protocols.queryable
-  (:refer-clojure :exclude [get remove]))
+  (:refer-clojure :exclude [get -reset remove]))
 
 (defprotocol Queryable
   (-get     [this query])
   (-add     [this query])
   (-remove  [this query])
+  (-reset   [this])
   (-check   [this] [this query])
   (-fetch   [this query])
+  (-sync    [this])
   (-refresh [this] [this doc]))
 
 (def payloads
@@ -62,3 +64,9 @@
   ([this query] (-check this query))
   ([this type data] (-check this {:type type
                                   (type payloads) data})))
+
+(defn reset
+  ([this] (-reset this)))
+
+(defn sync
+  ([this] (-sync this)))

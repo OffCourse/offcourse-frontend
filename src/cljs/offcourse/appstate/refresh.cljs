@@ -11,7 +11,7 @@
 
 (defmethod refresh :authenticated? [{:keys [state] :as as} {:keys [authenticated?] :as query}]
   (if authenticated?
-    (respond as :requested-user-profile {})
+    (respond as :requested-profile {:type :profile})
     (qa/refresh as :user {:name nil})))
 
 (defmethod refresh :default [{:keys [state] :as as} query]

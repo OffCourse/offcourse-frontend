@@ -28,12 +28,12 @@
               :requested-save        qa/add
               :found-data            qa/refresh
               :not-found-data        qa/check
-              :fetched-user-profile  qa/refresh}
-   :auth     {:requested-sign-in  ac/sign-in
-              :requested-sign-out ac/sign-out}
-   :cloud    {:signed-in-user         qa/refresh
-              :signed-out-user        qa/refresh
-              :requested-user-profile qa/fetch}
+              :found-profile  qa/refresh}
+   :auth     {:requested-sign-in     ac/sign-in
+              :requested-sign-out    ac/sign-out}
+   :cloud    {:signed-in-user        qa/refresh
+              :signed-out-user       qa/reset
+              :requested-profile qa/get}
    :ui       {:refreshed-state rr/render
               :checked-state   rr/render
               :updated-logs    rr/render}})

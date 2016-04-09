@@ -3,14 +3,13 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.cloud.refresh :as refresh-impl]
-            [offcourse.cloud.fetch :as fetch-impl]
-            [schema.core :as schema]))
+            [offcourse.cloud.reset :as reset-impl]
+            [offcourse.cloud.sync :as sync-impl]
+            [offcourse.cloud.get :as get-impl]
+            [cljs.core.async :refer [<! chan >!]]
+            [schema.core :as schema])
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn invoke-lambda [function-name payload]
-  (.makeRequest (AWS.Lambda.) "invoke"
-                (clj->js {:FunctionName function-name
-                          :Payload (.stringify js/JSON (clj->js payload))})
-                #(println %2)))
 
 (schema/defrecord Cloud
     [component-name :- schema/Keyword
@@ -18,16 +17,19 @@
      config]
   Lifecycle
   (start [cloud]
-    (qa/refresh cloud :init {})
+    (qa/reset cloud)
     (ri/listen cloud))
   (stop [cloud] (ri/mute cloud))
   Queryable
+  (-get [cloud query] (get-impl/get cloud query))
   (-refresh [cloud query] (refresh-impl/refresh cloud query))
-  (-fetch [cloud query] (fetch-impl/fetch cloud query))
+  (-reset [cloud] (reset-impl/reset cloud))
+  (-sync [cloud] (sync-impl/sync cloud))
   Responsive
   (-respond [user status payload] (ri/respond user status payload))
   (-respond [user status type result] (ri/respond user status type result))
   (-mute [user] (ri/mute user))
   (-listen  [user] (ri/listen user)))
 
-(defn new [] (map->Cloud {:component-name :cloud}))
+(defn new [] (map->Cloud {:component-name :cloud
+                          :profile-data (atom nil)}))
