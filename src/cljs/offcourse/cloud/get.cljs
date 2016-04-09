@@ -18,7 +18,7 @@
   (let [c (chan)]
     (.get profile-data "profile" #(go (if %2
                                         (>! c %2)
-                                        (println %1))))
+                                        (>! c false))))
     c))
 
 (defmulti get (fn [_ {:keys [type]}] type))
@@ -31,7 +31,7 @@
 (defmethod get :dataset [cloud query]
   (let [c (chan)]
     (.openOrCreateDataset (AWS.CognitoSyncManager.)
-                          "user-data"
+                          "profile-data"
                           #(go
                              (reset! (:profile-data cloud) %2)
                              (>! c %2)))
@@ -39,7 +39,7 @@
 
 (defmethod get :profile [{:keys [profile-data] :as cloud} query]
   (go
-    (let [profile-json (<! (get-profile @profile-data))
-          profile (parse-json profile-json)]
+    (if-let [profile (<! (get-profile @profile-data))]
       (ri/respond cloud :found-profile
-                  {:type :user :user profile}))))
+                  {:type :user :user (parse-json profile)})
+      (ri/respond cloud :not-found-profile {:type :profile}))))

@@ -13,7 +13,7 @@
    :appstate  [:refreshed-state
                :checked-state
                :not-found-data]
-   :auth      [:fetched-profile]
+   :auth      [:found-profile]
    :cloud     [:refreshed-credentials]
    :ui        [:rendered-view
                :requested-sign-in]})
@@ -28,7 +28,8 @@
               :requested-save        qa/add
               :found-data            qa/refresh
               :not-found-data        qa/check
-              :found-profile  qa/refresh}
+              :found-profile         qa/refresh
+              :not-found-profile     #(println %2)}
    :auth     {:requested-sign-in     ac/sign-in
               :requested-sign-out    ac/sign-out}
    :cloud    {:signed-in-user        qa/refresh

@@ -21,5 +21,6 @@
   (go
     (<! (qa/get cloud :credentials {}))
     (<! (qa/get cloud :dataset {}))
-    (<! (qa/sync cloud))
+    (let [r (<! (qa/sync cloud))]
+      (println r))
     (ri/respond cloud :refreshed-credentials :authenticated? true)))

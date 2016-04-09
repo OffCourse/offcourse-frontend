@@ -5,6 +5,6 @@
 (defn sync [{:keys [profile-data]}]
   (let [c (chan)]
     (.synchronize @profile-data (clj->js {:onSuccess #(go (>! c "success"))
-                                          :onFailure #(go (>! c %1))
+                                          :onFailure #(go (>! c "fail"))
                                           :onConflict #(go (>! c "conflict"))}))
     c))
