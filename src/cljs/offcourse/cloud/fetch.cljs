@@ -39,6 +39,11 @@
                                    (println %1))))
     c))
 
+(defn get-credentials []
+  (let [c (chan)]
+    (.get (.. js/AWS.config -credentials) #(go (>! c true)))
+    c))
+
 (defn sync [dataset]
   (.synchronize dataset (clj->js {:onSuccess #(println "success")
                                   :onFailure #(println %1)
@@ -47,8 +52,7 @@
 
 (defn fetch [cloud query]
   (go
-    ;; this is (obviously) a hack, probably beta problem...
-    (<! (invoke-lambda "hello-world" {}))
+    (<! (get-credentials))
     (let [dataset (sync (<! (open-or-create-dataset)))
           profile-json (<! (get-profile dataset))
           profile (parse-json profile-json)]
