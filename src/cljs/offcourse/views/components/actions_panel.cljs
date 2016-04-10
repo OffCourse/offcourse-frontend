@@ -9,7 +9,6 @@
       str/titleize))
 
 (defn url-button [action-name url]
-
   [:li.button
    {:key [action-name]
     :data-button-type "textbar"}

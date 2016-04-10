@@ -21,6 +21,9 @@
    :update-goal (fn [responder] #(request-update responder {:type :update-goal
                                                             :goal (-> % .-target .-value)}))
 
+   :update-user-name (fn [responder] #(request-update responder {:type :update-user-name
+                                                                 :user-name (-> % .-target .-value)}))
+
    :add-checkpoint (fn [responder] #(request-update responder {:type :add-checkpoint
                                                                :checkpoint %}))
 

@@ -5,7 +5,7 @@
             [offcourse.models.appstate.paths :as paths]))
 
 (defmulti missing-data
-  (fn [{:keys [viewmodel]} {:keys [type]}]
+  (fn [{:keys [viewmodel]} {:keys [type] :as query}]
     (or type (:type viewmodel))))
 
 (defmethod missing-data :collection-view [{:keys [viewmodel collection] :as as}]
@@ -29,6 +29,9 @@
         (when-not (or (qa/check as query) (empty? urls)) query))
       {:type :course
        :course (:course dependencies)})))
+
+(defmethod missing-data :new-user-view [as data-type]
+  false)
 
 (defmethod missing-data :new-course-view [{:keys [resources] :as as} data-type]
   (when (< (count resources) 5) {:type :resources
@@ -70,4 +73,3 @@
   (when-not (= (:type viewmodel) :loading-view)
     {:type :error
      :error :appstate-empty}))
-

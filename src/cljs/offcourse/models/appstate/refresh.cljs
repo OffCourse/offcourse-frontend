@@ -19,12 +19,13 @@
       (derive :reset-checkpoint  :dependencies)
       (derive :reset-tag         :dependencies)
       (derive :add-tag           :dependencies)
+      (derive :update-user-name  :dependencies)
 
       (derive :collection-view   :viewmodel)
       (derive :checkpoint-view   :viewmodel)
       (derive :new-course-view   :viewmodel)
+      (derive :new-user-view     :viewmodel)
       (derive :loading-view      :viewmodel)
-
 
       (derive :courses           :data)
       (derive :resources         :data)))
@@ -34,6 +35,11 @@
 
 (defmethod refresh :dependencies [state query]
   (update-in state [:viewmodel :dependencies] #(qa/refresh % query)))
+
+(defmethod refresh :profile [state {:keys [profile] :as query}]
+  (if profile
+    (println profile)
+    (qa/refresh state :new-user-view {})))
 
 (defmethod refresh :viewmodel [{:keys [user] :as state} query]
   (-> state
@@ -82,4 +88,3 @@
 
 (defmethod refresh :default [{:keys [store] :as as} query]
   {:type :error :error :query-not-supported})
-

@@ -36,3 +36,6 @@
 
 (defmethod refresh :add-tag [dependencies {:keys [tag] :as q}]
   (update-in dependencies [:checkpoint] #(qa/add % :tag tag)))
+
+(defmethod refresh :update-user-name [dependencies {:keys [user-name] :as q}]
+  (update-in dependencies [:profile] #(qa/refresh % :user-name user-name)))

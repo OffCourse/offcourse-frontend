@@ -2,6 +2,7 @@
   (:require [offcourse.models.collection :as cl]
             [offcourse.models.course.index :as co]
             [offcourse.models.viewmodel.index :as vm]
+            [offcourse.models.profile.index :as pf]
             [cuerdas.core :as str]
             [offcourse.models.checkpoint.index :as cp]))
 
@@ -50,6 +51,8 @@
                                   :url             url
                                   :tags            #{buzzword}}))
 
+(def profile             (pf/new {:user-name user-name}))
+
 (def course              (co/new {:course-id   id
                                   :base-id     id
                                   :revision    0
@@ -73,3 +76,4 @@
 
 (def collection-vm       (vm/new {:type       :collection-view
                                   :collection collection}))
+

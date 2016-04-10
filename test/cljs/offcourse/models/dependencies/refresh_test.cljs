@@ -5,6 +5,7 @@
             [offcourse.models.dependencies.index :as sut]
             [offcourse.models.fixtures :as fx]
             [offcourse.protocols.queryable :as qa]
+            [offcourse.models.profile.index :as pf]
             [offcourse.models.checkpoint.index :as cp]))
 
 (deftest models-dependencies-refresh
@@ -81,4 +82,10 @@
   (testing "when action type is reset-tag"
     (let [action       {:type :reset-tag}
           dependencies (qa/refresh (sut/new {:tag "hii"}) action)]
-      (is (= (-> dependencies :tag) nil)))))
+      (is (= (-> dependencies :tag) nil))))
+
+  (testing "when action type is update-user-name"
+    (let [action       {:type :update-user-name
+                        :user-name fx/other-user-name}
+          dependencies (qa/refresh (sut/new {:profile (pf/new {:user-name fx/user-name})}) action)]
+      (is (= (-> dependencies :profile :user-name) fx/other-user-name)))))

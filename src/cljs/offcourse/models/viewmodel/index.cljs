@@ -1,6 +1,7 @@
 (ns offcourse.models.viewmodel.index
   (:require [offcourse.models.course.index :as co]
             [offcourse.models.checkpoint.index :as cp]
+            [offcourse.models.profile.index :as pf]
             [offcourse.models.dependencies.index :as deps]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [schema.core :as schema]))
@@ -37,3 +38,7 @@
 (defmethod new :loading-view [{:keys [type]}]
   (map->Viewmodel {:type type
                    :dependencies (deps/new)}))
+
+(defmethod new :new-user-view [{:keys [type]}]
+  (map->Viewmodel {:type type
+                   :dependencies (deps/new {:profile (pf/new {})})}))

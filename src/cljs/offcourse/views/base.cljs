@@ -9,7 +9,7 @@
    :view-data     (fnk [appstate] (-> appstate :viewmodel :dependencies))
    :view-name     (fnk [appstate view-data] (:type view-data))
    :base-actions  (fnk [] {})
-   :actions      (fnk [] {})
+   :actions       (fnk [] {})
    :menubar       (fnk [user-name
                         base-actions
                         actions

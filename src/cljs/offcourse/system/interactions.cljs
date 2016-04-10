@@ -29,7 +29,7 @@
               :found-data            qa/refresh
               :not-found-data        qa/check
               :found-profile         qa/refresh
-              :not-found-profile     #(println %2)}
+              :not-found-profile     qa/refresh}
    :auth     {:requested-sign-in     ac/sign-in
               :requested-sign-out    ac/sign-out}
    :cloud    {:signed-in-user        qa/refresh

@@ -5,6 +5,7 @@
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.components.viewer :refer [viewer]]
             [offcourse.views.components.course-form :refer [course-form]]
+            [offcourse.views.components.user-form :refer [user-form]]
             [offcourse.views.components.strips :refer [strips]]
             [offcourse.views.components.card :refer [card]]
             [offcourse.views.components.actions-panel :refer [actions-panel]]
@@ -20,5 +21,6 @@
    :actions-panel actions-panel
    :strips strips
    :course-form course-form
+   :user-form user-form
    :dashboard dashboard
    :menubar menubar})

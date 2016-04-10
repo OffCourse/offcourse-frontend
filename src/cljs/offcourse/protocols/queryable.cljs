@@ -30,6 +30,7 @@
    :profile             :token
    :config              :config
    :user                :user
+   :user-name           :user-name
    :tag                 :tag
    :resource            :resource})
 
