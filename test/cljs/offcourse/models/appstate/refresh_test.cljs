@@ -16,7 +16,7 @@
 
   (testing "when query type is user"
     (let [query {:type :user
-                 :user {:name fx/user-name}}
+                 :user {:user-name fx/user-name}}
           state (qa/refresh (sut/new) query)]
       (is (= fx/user-name (get-in state [:user :name])))))
 

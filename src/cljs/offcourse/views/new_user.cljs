@@ -12,7 +12,8 @@
     (-> profile (with-meta {:valid? valid?}))))
 
 (def graph
-  {:profile     (fnk [appstate] (some-> (:viewmodel appstate)
+  {:user-name  (fnk [[:appstate user]] (or (:name user) :new))
+   :profile     (fnk [appstate] (some-> (:viewmodel appstate)
                                         (qa/get :profile {})
                                         augment-profile))
    :main        (fnk [] nil)
