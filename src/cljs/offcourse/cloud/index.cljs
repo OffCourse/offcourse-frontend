@@ -18,8 +18,11 @@
      config]
   Lifecycle
   (start [cloud]
-    (qa/reset cloud)
-    (ri/listen cloud))
+    (go
+      (qa/reset cloud)
+      (<! (qa/get cloud {:type :dataset}))
+      (<! (qa/sync cloud))
+      (ri/listen cloud)))
   (stop [cloud] (ri/mute cloud))
   Queryable
   (-get [cloud query] (get-impl/get cloud query))

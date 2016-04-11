@@ -24,9 +24,3 @@
       (<! (add-profile cloud profile-json))
       (qa/sync cloud)
       (qa/get cloud query))))
-
-
-
-
-
-
