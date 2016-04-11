@@ -1,6 +1,7 @@
 (ns offcourse.models.viewmodel.index
   (:require [offcourse.models.course.index :as co]
             [offcourse.models.checkpoint.index :as cp]
+            [offcourse.models.viewmodel.get :as get-impl]
             [offcourse.models.profile.index :as pf]
             [offcourse.models.dependencies.index :as deps]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
@@ -10,7 +11,7 @@
     [type :- schema/Keyword
      dependencies :- {schema/Keyword schema/Any}]
   Queryable
-  (-get [vm query] (get-in vm [:dependencies :course])))
+  (-get [vm query] (get-impl/get vm query)))
 
 (def defaults
   {:dependencies (deps/new)})

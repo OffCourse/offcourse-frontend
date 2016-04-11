@@ -34,4 +34,9 @@
    :save-tag    (fn [responder] (fn [event]
                                   (.preventDefault event)
                                   (responder :requested-save {:type :tag})))
+
+   :save-profile    (fn [responder] (fn [event]
+                                  (.preventDefault event)
+                                   (responder :requested-save {:type :profile})))
+
    :save-course (fn [responder] #(responder :requested-save {:type :course}))})

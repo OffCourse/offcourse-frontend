@@ -30,10 +30,11 @@
               :not-found-data        qa/check
               :found-profile         qa/refresh
               :not-found-profile     qa/refresh}
-   :auth     {:requested-sign-in     ac/sign-in
-              :requested-sign-out    ac/sign-out}
-   :cloud    {:signed-in-user        qa/refresh
-              :signed-out-user       qa/reset
+   :auth     {:requested-sign-in  ac/sign-in
+              :requested-sign-out ac/sign-out}
+   :cloud    {:signed-in-user    qa/refresh
+              :signed-out-user   qa/reset
+              :requested-save    qa/add
               :requested-profile qa/get}
    :ui       {:refreshed-state rr/render
               :checked-state   rr/render

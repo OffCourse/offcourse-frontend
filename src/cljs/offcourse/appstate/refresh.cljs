@@ -3,6 +3,18 @@
             [offcourse.protocols.responsive :refer [respond]]
             [offcourse.protocols.validatable :as va]))
 
+(defn refresh-appstate [{:keys [state] :as as} query]
+  (let [old-state @state]
+    (swap! state #(qa/refresh % query))
+    (when-not (= old-state @state)
+      (if (va/valid? as)
+        (do
+          (qa/refresh as {:type :queries})
+          (respond as :refreshed-state))
+        (when-let [missing-data (va/missing-data @state)]
+          (qa/add as :query missing-data)
+          (respond as :not-found-data missing-data))))))
+
 (defmulti refresh
   (fn [_ {:keys [type]}] type))
 
@@ -14,14 +26,11 @@
     (respond as :requested-profile {:type :profile})
     (qa/refresh as :user {:name nil})))
 
-(defmethod refresh :default [{:keys [state] :as as} query]
-  (let [old-state @state]
-    (swap! state #(qa/refresh % query))
-    (when-not (= old-state @state)
-      (if (va/valid? as)
-        (do
-          (qa/refresh as {:type :queries})
-          (respond as :refreshed-state))
-        (when-let [missing-data (va/missing-data @state)]
-          (qa/add as :query missing-data)
-          (respond as :not-found-data missing-data))))))
+(defmethod refresh :profile [as {:keys [profile] :as query}]
+  (if profile
+    (respond as :requested-save {:type :profile
+                                 :profile profile})
+    (refresh-appstate as query)))
+
+(defmethod refresh :default [as query]
+  (refresh-appstate as query))

@@ -12,9 +12,9 @@
     (-> profile (with-meta {:valid? valid?}))))
 
 (def graph
-  {:user-name   (fnk [appstate] :new)
-   :profile     (fnk [appstate] (-> (get-in appstate [:viewmodel :dependencies :profile])
-                                    augment-profile))
+  {:profile     (fnk [appstate] (some-> (:viewmodel appstate)
+                                        (qa/get :profile {})
+                                        augment-profile))
    :main        (fnk [] nil)
    :actions     (fnk [] nil)
    :dashboard   (fnk [profile [:components dashboard user-form] handlers]

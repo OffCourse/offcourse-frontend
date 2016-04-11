@@ -38,7 +38,7 @@
 
 (defmethod refresh :profile [state {:keys [profile] :as query}]
   (if profile
-    (println profile)
+    (qa/refresh state :user {:name (:user-name profile)})
     (qa/refresh state :new-user-view {})))
 
 (defmethod refresh :viewmodel [{:keys [user] :as state} query]
@@ -48,8 +48,8 @@
 
 (defmethod refresh :user [state {:keys [user]}]
   (-> state
-      (assoc :user user)
-      (qa/refresh :update-curator (:name user))))
+      (assoc :user {:name (:user-name user)})
+      (qa/refresh :update-curator (:name (:user-name user)))))
 
 (defn query [type name id]
   {:collection-type type

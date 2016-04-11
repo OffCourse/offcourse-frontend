@@ -27,7 +27,7 @@
    :update-curator      :curator
    :goal                :goal
    :resources           :resources
-   :profile             :token
+   :profile             :profile
    :config              :config
    :user                :user
    :user-name           :user-name

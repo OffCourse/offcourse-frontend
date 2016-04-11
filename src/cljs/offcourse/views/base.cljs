@@ -5,7 +5,7 @@
 
 (def graph
   {:container     (fnk [[:components app]] app)
-   :user-name     (fnk [[:appstate user]] (:name user))
+   :user-name     (fnk [[:appstate user]] (or (:name user) :new))
    :view-data     (fnk [appstate] (-> appstate :viewmodel :dependencies))
    :view-name     (fnk [appstate view-data] (:type view-data))
    :base-actions  (fnk [] {})

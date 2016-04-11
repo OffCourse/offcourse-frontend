@@ -3,6 +3,7 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.cloud.refresh :as refresh-impl]
+            [offcourse.cloud.add :as add-impl]
             [offcourse.cloud.reset :as reset-impl]
             [offcourse.cloud.sync :as sync-impl]
             [offcourse.cloud.get :as get-impl]
@@ -22,6 +23,7 @@
   (stop [cloud] (ri/mute cloud))
   Queryable
   (-get [cloud query] (get-impl/get cloud query))
+  (-add [cloud query] (add-impl/add cloud query))
   (-refresh [cloud query] (refresh-impl/refresh cloud query))
   (-reset [cloud] (reset-impl/reset cloud))
   (-sync [cloud] (sync-impl/sync cloud))

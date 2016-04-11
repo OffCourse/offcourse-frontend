@@ -9,7 +9,7 @@
       str/titleize))
 
 (rum/defc user-form  [{:keys [user-name] :as profile}
-                      {:keys [update-user-name] :as handlers}]
+                      {:keys [update-user-name save-profile] :as handlers}]
   (let [dirty?   (not (:saved? (meta profile)))
         enabled? (and (:valid? (meta profile)))]
     [:.container
@@ -23,5 +23,5 @@
         (when dirty?
           [:button.button {:key :save-course
                            :data-button-type :textbar
-                           :on-click #_save-user nil
-                           :disabled (not enabled?)} "Save User"])]]]]))
+                           :on-click save-profile
+                           :disabled (not enabled?)} "Save"])]]]]))

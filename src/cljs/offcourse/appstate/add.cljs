@@ -5,7 +5,8 @@
             [offcourse.models.resource.index :as rs]
             [cuerdas.core :as str]))
 
-(defmulti add (fn [_ {:keys [type] :as query}] type))
+(defmulti add (fn [_ {:keys [type] :as query}]
+                type))
 
 (defmethod add :query [{:keys [state] :as as}
                        {:keys [missing-data] :as query}]
@@ -36,4 +37,11 @@
                    co/complete)]
     (if (va/valid? course)
       (qa/refresh as :course course)
+      (.alert js/window "not saved..."))))
+
+(defmethod add :profile [{:keys [state] :as as} query]
+  (let [profile (-> (:viewmodel @state)
+                    (qa/get query))]
+    (if (va/valid? profile)
+      (qa/refresh as :profile profile)
       (.alert js/window "not saved..."))))
