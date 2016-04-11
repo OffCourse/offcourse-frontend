@@ -8,7 +8,6 @@
 
 (defn augment-profile [profile]
   (let [valid? (va/valid? profile)]
-    (println valid?)
     (-> profile (with-meta {:valid? valid?}))))
 
 (def graph

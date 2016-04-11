@@ -40,6 +40,6 @@
 (defmethod get :profile [{:keys [profile-data] :as cloud} query]
   (go
     (if-let [profile (<! (get-profile @profile-data))]
-      (ri/respond cloud :found-profile
-                  {:type :user :user (parse-json profile)})
+      (ri/respond cloud :found-profile {:type :user
+                                        :user (parse-json profile)})
       (ri/respond cloud :not-found-profile {:type :profile}))))

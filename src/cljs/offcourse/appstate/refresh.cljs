@@ -1,6 +1,7 @@
 (ns offcourse.appstate.refresh
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.responsive :refer [respond]]
+            [offcourse.views.helpers :as vh]
             [offcourse.protocols.validatable :as va]))
 
 (defn refresh-appstate [{:keys [state] :as as} query]
@@ -21,10 +22,20 @@
 (defmethod refresh :queries  [{:keys [state] :as as}]
   (swap! state #(assoc % :queries #{})))
 
+
+(defmethod refresh :user [{:keys [state] :as as} {:keys [user] :as query}]
+  (when (and (= (get-in @state [:viewmodel :type]) :new-user-view) (:user-name user))
+    (refresh-appstate as (vh/collection-view {:collection-type :flags
+                                              :collection-name :featured})))
+  (refresh-appstate as query))
+
 (defmethod refresh :authenticated? [{:keys [state] :as as} {:keys [authenticated?] :as query}]
   (if authenticated?
     (respond as :requested-profile {:type :profile})
-    (qa/refresh as :user {:name nil})))
+    (do
+      (refresh-appstate as (vh/collection-view {:collection-type :flags
+                                                :collection-name :featured}))
+      (qa/refresh as :user {:name nil}))))
 
 (defmethod refresh :profile [as {:keys [profile] :as query}]
   (if profile
