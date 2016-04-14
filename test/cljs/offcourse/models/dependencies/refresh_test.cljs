@@ -86,6 +86,6 @@
 
   (testing "when action type is update-user-name"
     (let [action       {:type :update-user-name
-                        :user-name fx/other-user-name}
+                        :user-name (name fx/other-user-name)}
           dependencies (qa/refresh (sut/new {:profile (pf/new {:user-name fx/user-name})}) action)]
       (is (= (-> dependencies :profile :user-name) fx/other-user-name)))))
