@@ -45,6 +45,7 @@
 (defmethod add :profile [{:keys [state] :as as} query]
   (let [profile (-> (:viewmodel @state)
                     (qa/get query))]
+    (println profile)
     (if (va/valid? profile)
       (qa/refresh as :profile profile)
       (.alert js/window "not saved..."))))

@@ -39,7 +39,7 @@
 
 (def defaults {:site-title "BLABLA"
                :viewmodel (vm/new {:type :loading-view})
-               :user {:name nil}
+               :user {:user-name nil}
                :collections []
                :courses []
                :resources []

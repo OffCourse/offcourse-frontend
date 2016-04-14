@@ -1,7 +1,8 @@
 (ns offcourse.models.profile.index
   (:require [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [schema.core :as schema :include-macros true]))
+            [schema.core :as schema :include-macros true]
+            [cuerdas.core :as str]))
 
 (schema/defrecord Profile
     [user-name :- schema/Keyword]
@@ -11,6 +12,6 @@
   Queryable
   (-check [profile] (schema/check Profile profile))
   (-refresh [profile {:keys [user-name] :as query}]
-    (assoc profile :user-name (keyword user-name))))
+    (assoc profile :user-name (keyword (str/slugify user-name)))))
 
 (defn new [overrides] (map->Profile overrides))

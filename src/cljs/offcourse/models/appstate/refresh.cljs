@@ -49,7 +49,7 @@
 (defmethod refresh :user [state {:keys [user]}]
   (-> state
       (assoc :user {:name (:user-name user)})
-      (qa/refresh :update-curator (:name (:user-name user)))))
+      (qa/refresh :update-curator (:user-name user))))
 
 (defn query [type name id]
   {:collection-type type
