@@ -19,7 +19,7 @@
                   "version"    "v2.5"})
 
 (def identity-config {:region "eu-west-1"
-                      :IdentityPoolId "eu-west-1:e5c18acd-0597-4ec5-b94e-a2648d264402"})
+                      :IdentityPoolId "eu-west-1:a2cc5db6-028e-412c-953e-11658f0b1eb5"})
 
 (def sample-route-request
   {:type    :requested-route
