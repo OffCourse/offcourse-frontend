@@ -21,7 +21,6 @@
     (go
       (qa/reset cloud)
       (<! (qa/get cloud {:type :dataset}))
-      (<! (qa/sync cloud))
       (ri/listen cloud)))
   (stop [cloud] (ri/mute cloud))
   Queryable

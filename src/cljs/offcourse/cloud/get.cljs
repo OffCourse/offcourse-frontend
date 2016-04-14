@@ -3,7 +3,8 @@
   (:require [cljs.core.async :refer [<! chan >!]]
             [AWS]
             [medley.core :as medley]
-            [offcourse.protocols.responsive :as ri])
+            [offcourse.protocols.responsive :as ri]
+            [offcourse.protocols.queryable :as qa])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (def AWS js/AWS)
@@ -40,6 +41,8 @@
 (defmethod get :profile [{:keys [profile-data] :as cloud} query]
   (go
     (if-let [profile (<! (get-profile @profile-data))]
-      (ri/respond cloud :found-profile {:type :user
-                                        :user (parse-json profile)})
+      (do
+        (qa/sync cloud)
+        (ri/respond cloud :found-profile {:type :user
+                                          :user (parse-json profile)}))
       (ri/respond cloud :not-found-profile {:type :profile}))))

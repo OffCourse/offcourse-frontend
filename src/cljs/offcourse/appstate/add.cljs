@@ -3,7 +3,8 @@
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]
             [offcourse.models.resource.index :as rs]
-            [cuerdas.core :as str]))
+            [cuerdas.core :as str]
+            [offcourse.protocols.responsive :as ri]))
 
 (defmulti add (fn [_ {:keys [type] :as query}]
                 type))
@@ -36,7 +37,9 @@
                    (qa/get query)
                    co/complete)]
     (if (va/valid? course)
-      (qa/refresh as :course course)
+      (do
+        (qa/refresh as :course course)
+        (ri/respond as :requested-save (assoc query :course course)))
       (.alert js/window "not saved..."))))
 
 (defmethod add :profile [{:keys [state] :as as} query]

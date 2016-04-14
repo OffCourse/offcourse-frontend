@@ -20,7 +20,7 @@
                   "version"    "v2.5"})
 
 (def identity-config {:region "eu-west-1"
-                      :IdentityPoolId "eu-west-1:b0f336e7-41d7-4057-97a9-3c6764775955"})
+                      :IdentityPoolId "eu-west-1:c897bdeb-03e7-449a-ac28-f00c6876dbd8"})
 
 (defn init []
   (let [bd              (fake-data/generate-course)
