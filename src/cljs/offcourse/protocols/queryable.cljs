@@ -30,6 +30,7 @@
    :profile             :profile
    :config              :config
    :user                :user
+   :state               :state
    :user-name           :user-name
    :tag                 :tag
    :resource            :resource})

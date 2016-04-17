@@ -2,14 +2,19 @@
   (:require [offcourse.models.course.index :as co]
             [offcourse.models.checkpoint.index :as cp]
             [offcourse.models.viewmodel.get :as get-impl]
+            [offcourse.models.viewmodel.convertible :as cv-impl]
             [offcourse.models.profile.index :as pf]
             [offcourse.models.dependencies.index :as deps]
+            [offcourse.protocols.convertible :as cv :refer [Convertible]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [schema.core :as schema]))
+            [schema.core :as schema]
+            [bidi.bidi :as bidi]))
 
 (schema/defrecord Viewmodel
     [type :- schema/Keyword
      dependencies :- {schema/Keyword schema/Any}]
+  Convertible
+  (to-url [vm routes] (cv-impl/to-url vm routes))
   Queryable
   (-get [vm query] (get-impl/get vm query)))
 

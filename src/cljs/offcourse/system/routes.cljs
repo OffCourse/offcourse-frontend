@@ -5,6 +5,7 @@
 
 (def home-route        [[keyword :collection-name]])
 (def curator-routes    [[keyword :curator]])
+(def new-user-route    "signup")
 (def new-course-routes (conj curator-routes "/new"))
 (def course-routes     (conj curator-routes "/courses/" :course-slug))
 (def collection-routes [[keyword :collection-type] "/" [keyword :collection-name]])
@@ -12,6 +13,7 @@
 
 (def table ["/" {home-route        :home-view
                  checkpoint-routes :checkpoint-view
+                 new-user-route    :new-user-view
                  new-course-routes :new-course-view
                  course-routes     :checkpoint-view
                  collection-routes :collection-view

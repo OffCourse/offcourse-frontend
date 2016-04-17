@@ -4,7 +4,6 @@
 
 (rum/defc todo-list-item [{:keys [task checkpoint-slug order] :as checkpoint}
                           {:keys [checkpoint-url]}]
-
   (let [{:keys [selected]} (meta checkpoint)
         url (checkpoint-url checkpoint-slug)]
     [:li.list--item {:data-selected selected

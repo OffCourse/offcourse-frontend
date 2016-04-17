@@ -3,7 +3,7 @@
             [offcourse.protocols.responsive :as ri]
             [pushy.core :as pushy]))
 
-(defn handle-request [{:keys [responses] :as rt} {:keys [handler route-params]}]
+(defn handle-request [{:keys [responses history] :as rt} {:keys [handler route-params]}]
   (ri/respond rt :requested-view ((handler responses) route-params)))
 
 (defn restart [{:keys [history] :as rt}]

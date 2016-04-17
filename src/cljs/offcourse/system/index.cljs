@@ -88,7 +88,6 @@
      :ui                     (component/using (ui/new)
                                               {:channels    :ui-channels
                                                :actions     :ui-actions
-                                               :appstate    :appstate-state
                                                :url-helpers :url-helpers
                                                :handlers    :view-handlers
                                                :routes      :routes

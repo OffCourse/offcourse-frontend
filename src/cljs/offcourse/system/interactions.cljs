@@ -21,7 +21,7 @@
 (def reactions
   {:api      {:not-found-data qa/fetch}
    :logger   {:logged-action println}
-   :router   {}
+   :router   {:refreshed-state       qa/refresh}
    :appstate {:requested-view        qa/refresh
               :requested-update      qa/refresh
               :refreshed-credentials qa/refresh

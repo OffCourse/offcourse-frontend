@@ -22,6 +22,7 @@
    :checkpoint          :checkpoint
    :view                :view-data
    :user                :user
+   :state               :state
    :profile             :profile
    :authenticated?      :authenticated?
    :resources           :resources
@@ -34,7 +35,7 @@
 (def counter (atom 0))
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= component-name :appstate)
+  (when true #_(= component-name :cloud)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
@@ -57,7 +58,7 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      #_(when #_true (= component-name :appstate)
+      #_(when #_true (= component-name :router)
          (debug-helper source type payload))
       (when reaction
         (if (= reaction :forward)

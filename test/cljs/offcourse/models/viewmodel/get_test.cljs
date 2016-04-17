@@ -5,7 +5,6 @@
             [offcourse.protocols.queryable :as qa]
             [offcourse.models.profile.index :as pf]))
 
-
 (deftest models-viewmodel-get
   (let [viewmodel (sut/new {:type :new-user-view})]
 

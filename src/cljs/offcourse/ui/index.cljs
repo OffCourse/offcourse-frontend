@@ -26,10 +26,11 @@
   (start [rd] (ri/listen rd))
   (stop [rd] (ri/mute rd))
   Renderable
-  (-render [{:keys [views url-helpers appstate components handlers] :as rd} _]
+  (-render [{:keys [views url-helpers components handlers] :as rd}
+            {:keys [state] :as query}]
     (let [responder (partial ri/respond rd)
           handlers (medley/map-vals #(% responder) handlers)
-          view     (view/new @appstate components url-helpers handlers)]
+          view     (view/new state components url-helpers handlers)]
       (-> view
           (ca/compose views)
           (rr/render)

@@ -2,7 +2,9 @@
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.router.responsive :as ri-impl]
-            [schema.core :as schema]))
+            [offcourse.router.refresh :as refresh-impl]
+            [schema.core :as schema]
+            [offcourse.protocols.queryable :as qa :refer [Queryable]]))
 
 (schema/defrecord Router
     [component-name :- schema/Keyword
@@ -14,6 +16,8 @@
   Lifecycle
   (start [rt] (ri/-listen rt))
   (stop [rt] (ri/mute rt))
+  Queryable
+  (-refresh [rt query] (refresh-impl/refresh rt query))
   Responsive
   (-listen [rt] (ri-impl/listen rt))
   (-mute [rt] (ri-impl/mute rt))

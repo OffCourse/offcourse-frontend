@@ -4,6 +4,7 @@
 
 (defprotocol Convertible
   (to-js [this])
+  (to-url [this routes])
   (to-json [this])
   (to-collection [this])
   (to-resource [this])

@@ -69,9 +69,11 @@
 (def loading-vm          (vm/new {:type :loading-view}))
 
 (def checkpoint-vm       (vm/new {:type   :checkpoint-view
-                                  :course course}))
+                                  :course course
+                                  :checkpoint {:checkpoint-slug slug}}))
 
 (def new-course-vm       (vm/new {:type :new-course-view
+                                  :user-name user-name
                                   :course course}))
 
 (def collection-vm       (vm/new {:type       :collection-view
