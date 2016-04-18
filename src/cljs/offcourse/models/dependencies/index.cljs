@@ -4,7 +4,8 @@
             [schema.core :as schema]))
 
 (schema/defrecord Dependencies
-    [course :- schema/Any]
+    [course :- schema/Any
+     profile :- schema/Any]
   Queryable
   (-refresh [dependencies query] (refresh-impl/refresh dependencies query)))
 

@@ -1,7 +1,9 @@
 (ns offcourse.models.dependencies.refresh
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.models.checkpoint.index :as cp]
-            [cuerdas.core :as str]))
+            [cuerdas.core :as str]
+            [offcourse.models.profile.index :as pf]
+            [offcourse.protocols.validatable :as va]))
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
@@ -37,5 +39,8 @@
 (defmethod refresh :add-tag [dependencies {:keys [tag] :as q}]
   (update-in dependencies [:checkpoint] #(qa/add % :tag tag)))
 
-(defmethod refresh :update-user-name [dependencies {:keys [user-name] :as q}]
-  (update-in dependencies [:profile] #(qa/refresh % :user-name user-name)))
+(defmethod refresh :update-user-name [{:keys [profile] :as dependencies} {:keys [user-name] :as q}]
+  (if profile
+    (update-in dependencies [:profile] #(qa/refresh % :user-name user-name))
+    (assoc dependencies :profile (pf/new {:user-name user-name}))))
+

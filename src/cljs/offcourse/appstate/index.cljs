@@ -4,6 +4,7 @@
             [offcourse.appstate.check :as check-impl]
             [offcourse.appstate.refresh :as refresh-impl]
             [offcourse.appstate.validatable :as va-impl]
+            [offcourse.models.appstate.index :as model]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
@@ -29,4 +30,6 @@
   (-mute [as] (ri/mute as))
   (-listen [as] (ri/listen as)))
 
-(defn new [] (map->Appstate {:component-name :appstate}))
+(defn new [] (map->Appstate {:component-name :appstate
+                             :state         (atom (model/new {:site-title "Offcourse_"}))
+                             :proposal      (atom (model/new {:site-title "Offcourse_"}))}))

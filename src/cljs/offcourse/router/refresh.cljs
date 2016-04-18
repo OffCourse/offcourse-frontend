@@ -11,6 +11,6 @@
   (let [{:keys [type dependencies] :as viewmodel} (-> state :viewmodel)
         old-url (pushy/get-token history)
         new-url (viewmodel->url viewmodel routes)]
-    (println old-url new-url)
+    #_(println old-url new-url)
     (when-not (= old-url new-url)
       (pushy/replace-token! history new-url))))

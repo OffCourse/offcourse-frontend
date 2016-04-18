@@ -46,5 +46,6 @@
                    :dependencies (deps/new)}))
 
 (defmethod new :new-user-view [{:keys [type]}]
+  (println "TYPE " type)
   (map->Viewmodel {:type type
                    :dependencies (deps/new {:profile (pf/new {})})}))

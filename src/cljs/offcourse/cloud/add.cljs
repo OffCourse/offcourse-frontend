@@ -37,5 +37,4 @@
                          (.stringify js/JSON))]
     (go
       (<! (add-profile cloud profile-json))
-      (ri/respond cloud :requested-view (vh/collection-view (cl/new :flags :featured)))
       (qa/get cloud query))))

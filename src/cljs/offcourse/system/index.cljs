@@ -33,7 +33,6 @@
      :routes                 routes/table
      :route-responses        routes/responses
      :url-helpers            routes/url-helpers
-     :appstate-state         (atom (appstate-model/new {:site-title "Offcourse_"}))
      :repositories           repositories
      :views                  views
      :view-components        ui-components
@@ -79,7 +78,6 @@
      :appstate-channels      (:appstate channels)
      :appstate               (component/using (appstate/new)
                                               {:channels  :appstate-channels
-                                               :state     :appstate-state
                                                :actions   :appstate-actions
                                                :reactions :appstate-reactions})
      :ui-actions             (:ui actions)
