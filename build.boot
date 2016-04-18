@@ -96,14 +96,14 @@
 (deftask production []
   (set-env! :source-paths #(conj % "src-prod/cljs"))
   (task-options! target {:dir #{"target/prod"}}
-                 cljs   {:optimizations :advanced})
+                 cljs   {:optimizations :advanced
+                         :source-map true})
   identity)
 
  (deftask development []
    (set-env! :source-paths #(conj % "src-dev/cljs" "src-dev/clj"))
    (task-options! target {:dir #{"target/dev"}}
-                  cljs   {:optimizations :none
-                          :source-map true}
+                  cljs   {:optimizations :none}
                   reload {:on-jsload 'offcourse.main/reload})
    identity)
 

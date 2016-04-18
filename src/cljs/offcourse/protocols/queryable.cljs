@@ -32,7 +32,10 @@
    :user                :user
    :state               :state
    :user-name           :user-name
+   :proposal            :proposal
+   :permissions         :proposal
    :tag                 :tag
+   :appstate            :transaction
    :resource            :resource})
 
 (defn get

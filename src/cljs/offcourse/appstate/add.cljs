@@ -9,9 +9,11 @@
 (defmulti add (fn [_ {:keys [type] :as query}]
                 type))
 
-(defmethod add :query [{:keys [state] :as as}
-                       {:keys [missing-data] :as query}]
-  (swap! state (fn [state] (update state :queries #(conj % (hash missing-data))))))
+(defmethod add :query [{:keys [state proposal] :as as}
+                       query]
+  (when-let [missing-data (va/missing-data @proposal)]
+    (swap! state (fn [state] (update state :queries #(conj % (hash missing-data)))))
+    (ri/respond as :not-found-data missing-data)))
 
 (defmethod add :checkpoint [{:keys [state] :as as} query]
   (let [checkpoint (get-in @state [:viewmodel :dependencies :checkpoint])]

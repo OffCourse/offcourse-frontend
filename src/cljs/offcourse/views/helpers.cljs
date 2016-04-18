@@ -1,5 +1,10 @@
 (ns offcourse.views.helpers)
 
+(defn home-view []
+  {:type    :collection-view
+   :collection {:collection-type :flags
+                :collection-name :featured}})
+
 (defn collection-view [collection]
   {:type    :collection-view
    :collection collection})

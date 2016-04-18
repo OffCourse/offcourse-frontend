@@ -4,67 +4,51 @@
             [offcourse.views.helpers :as vh]
             [offcourse.protocols.validatable :as va]))
 
-(defn viewmodel-type [state]
-  (-> state :viewmodel :type))
-
-(defn check-permissions [state proposal]
-  (let [old-type (viewmodel-type state)
-        new-type(viewmodel-type proposal)
-        user-name (-> proposal :user :name)]
-    (cond
-      (and (= old-type :new-user-view) (= new-type :new-user-view)) true
-      (and (= old-type :new-user-view) user-name) true
-      (= old-type :new-user-view) false
-      :default true)))
-
-(defn refresh-appstate [{:keys [state proposal] :as as} query]
-  (when (check-permissions @state (qa/refresh @proposal query))
-    (swap! proposal #(qa/refresh % query))
-    (if (va/valid? as)
-      (do
-        (reset! state @proposal)
-        (qa/refresh as {:type :queries})
-        (respond as :refreshed-state :state @state))
-      (when-let [missing-data (va/missing-data @proposal)]
-        (qa/add as :query missing-data)
-        (respond as :not-found-data missing-data)))))
-
 (defmulti refresh
-  (fn [_ {:keys [type] :as q}]
-    type))
+  (fn [_ {:keys [type]}] type))
+
+(defmethod refresh :appstate [{:keys [state proposal] :as as} {:keys [transaction] :as query}]
+  (do
+    (qa/refresh as :proposal transaction)
+    (if (va/valid? as)
+      (qa/refresh as :state {})
+      (qa/add as :query query))))
 
 (defmethod refresh :queries  [{:keys [state] :as as}]
   (swap! state #(assoc % :queries #{})))
 
+(defmethod refresh :proposal  [{:keys [state proposal] :as as} query]
+  ;; this should be done with a validator
+  (when (qa/check as :permissions (qa/refresh @proposal (:proposal query)))
+    (swap! proposal #(qa/refresh % (:proposal query)))))
+
+(defmethod refresh :state  [{:keys [state proposal] :as as} _]
+  (do
+    (reset! state (assoc @proposal :queries #{}))
+    (respond as :refreshed-state :state @state)))
 
 (defmethod refresh :course [{:keys [state] :as as} {:keys [course] :as query}]
   (do
-    (refresh-appstate as query)
-    (refresh-appstate as (vh/collection-view {:collection-type :flags
-                                              :collection-name :featured}))))
+    (qa/refresh as :appstate query)
+    (qa/refresh as :appstate (vh/home-view))))
 
 (defmethod refresh :user [{:keys [state] :as as} {:keys [user] :as query}]
   (do
-    (refresh-appstate as query)
+    (qa/refresh as :appstate query)
     (when (and (= (get-in @state [:viewmodel :type]) :new-user-view) (:user-name user))
-      (refresh-appstate as (vh/collection-view {:collection-type :flags
-                                                :collection-name :featured})))))
+      (qa/refresh as :appstate (vh/home-view)))))
 
 (defmethod refresh :authenticated? [{:keys [state] :as as} {:keys [authenticated?] :as query}]
   (if authenticated?
+    (respond as :requested-profile :profile {})
     (do
-      (respond as :requested-profile {:type :profile}))
-    (do
-      (refresh-appstate as (vh/collection-view {:collection-type :flags
-                                                :collection-name :featured}))
+      (qa/refresh as :appstate (vh/home-view))
       (qa/refresh as :user {:name nil}))))
 
 (defmethod refresh :profile [as {:keys [profile] :as query}]
   (if profile
-    (do
-     (respond as :requested-save {:type :profile
-                                 :profile profile}))
-    (refresh-appstate as {:type :new-user-view})))
+    (respond as :requested-save :profile profile)
+    (qa/refresh as :appstate {:type :new-user-view})))
 
 (defmethod refresh :default [as query]
-  (refresh-appstate as query))
+  (qa/refresh as :appstate query))

@@ -2,4 +2,4 @@
   (:require [offcourse.protocols.validatable :as va]))
 
 (defn valid? [{:keys [state proposal]}]
-  (va/valid? @proposal))
+  (and (va/valid? @proposal) (not (= @state @proposal))))
