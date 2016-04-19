@@ -35,12 +35,12 @@
   (->> (conj body (str "# " title))
        (str/join "\n\n")))
 
-(def urls ["facebook.com"
-           "google.com"
-           "lifely.nl"
-           "yahoo.com"
-           "pinterest.com"
-           "offcourse.io"])
+(def urls ["http://facebook.com"
+           "https://google.com/bla"
+           "http://lifely.nl"
+           "http://yahoo.com"
+           "http://pinterest.com"
+           "http://offcourse.io/curators/yeehaa"])
 
 (def users ["yeehaa" "greg" "r2j2" "reika" "charlotte" "marijn"])
 

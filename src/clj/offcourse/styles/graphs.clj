@@ -80,13 +80,14 @@
                               :margin         0})
    :column-component (fnk [component] component)
    :row-component    (fnk [component] (merge component {:flex-direction :row}))
-   :textbar          (fnk [units component logo negative]
+   :buttonless       (fnk [units] {:outline          :none
+                                   :padding          [[0 (:third units)]]
+                                   :border           :none})
+   :textbar          (fnk [units component buttonless logo negative]
                           (merge logo
                                  negative
                                  component
-                                 {:outline          :none
-                                  :padding          [[0 (:third units)]]
-                                  :border           :none}))})
+                                 buttonless))})
 
 (def config-graph
   {:colors      (fnk [raw-colors base-color]

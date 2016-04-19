@@ -21,9 +21,10 @@
                                          augment-course)]
                        course
                        course-data))
-
    :checkpoint      (fnk [view-data]
-                         (:checkpoint view-data))
+                         (let [checkpoint (:checkpoint view-data)
+                               valid? (va/valid? checkpoint)]
+                           (with-meta checkpoint {:valid? valid?})))
    :tag      (fnk [view-data]
                   (:tag view-data))
    :user        (fnk [appstate] (:user appstate))

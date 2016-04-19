@@ -10,16 +10,19 @@
     [v/disabled {:background-color (:medium colors)
                  :color (:day colors)}]]
 
-   [v/icon-button {:font-size        (:full units)
-                   :font-weight      700
-                   :display :flex
-                   :justify-content :center
-                   :align-items     :center
-                   :height           (:one-and-half units)
-                   :width           (:one-and-half units)
-                   :margin-right     0
-                   :color  (:day colors)
-                   :background-color (:night colors)}
+   [v/icon-button (merge (:buttonless templates)
+                         {:font-size        (:full units)
+                          :font-weight      700
+                          :display :flex
+                          :justify-content :center
+                          :align-items     :center
+                          :height           (:one-and-half units)
+                          :width           (:one-and-half units)
+                          :margin-right     0
+                          :color  (:day colors)
+                          :background-color (:night colors)})
+    [v/disabled {:background-color (:medium colors)
+                 :color (:day colors)}]
     [v/hovered {:background-color (:primary colors)}]]
 
    [v/checkbox-button (merge (:component templates)

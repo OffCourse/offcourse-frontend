@@ -8,5 +8,6 @@
     course
     (let [checkpoint (-> checkpoint
                          (assoc :checkpoint-id (-> course :checkpoints count)
+                                :completed? false
                                 :checkpoint-slug (str/slugify (:task checkpoint))))]
       (update course :checkpoints #(conj % (cp/map->Checkpoint checkpoint))))))

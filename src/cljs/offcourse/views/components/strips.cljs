@@ -10,11 +10,13 @@
                                    save-tag
                                    update-tag
                                    save-checkpoint] :as handlers}]
+  (println (:valid? (meta checkpoint)))
   [:.container
    [:div.strip
     [:.strip--section
-     [:.button {:key :add-button
+     [:button.button {:key :add-button
                 :data-button-type (name :icon)
+                :disabled (not (:valid? (meta checkpoint)))
                 :on-click save-checkpoint} "+"]]
     [:.strip--section
      [:input.title {:key :title
@@ -37,10 +39,10 @@
   [:.container
    [:div.strip {:data-form true}
     [:.strip--section
-     [:.button {:data-button-type (name :icon)
-                :on-click #(add-checkpoint {:url  url
-                                            :task (first tasks)
-                                            :tags tags})} "+"]]
+     [:button.button {:data-button-type (name :icon)
+                      :on-click #(add-checkpoint {:url  url
+                                                  :task (first tasks)
+                                                  :tags tags})} "+"]]
     [:.strip--section
      [:h1.title (first tasks)]]
     [:.strip--section
