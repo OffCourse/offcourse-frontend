@@ -20,4 +20,9 @@
   (-add [checkpoint query] (add-impl/add checkpoint query))
   (-refresh [checkpoint query] (refresh-impl/refresh checkpoint query)))
 
-(defn new [overrides] (map->Checkpoint overrides))
+(def defaults {:tags #{}
+                :completed? false})
+
+(defn new
+  ([] (map->Checkpoint defaults))
+  ([overrides] (map->Checkpoint (merge defaults overrides))))

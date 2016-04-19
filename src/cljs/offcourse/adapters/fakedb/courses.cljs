@@ -4,10 +4,13 @@
             [cuerdas.core :as str]
             [offcourse.fake-data.courses :refer [raw-courses]]))
 
+(defn completed-val []
+  (rand-nth [((fn [] false)) ((fn [] (.now js/Date)))]))
+
 (defn- index-checkpoint [index {:keys [task completed]} urls]
   {:checkpoint-id index
    :checkpoint-slug (str/slugify task)
-   :completed? false
+   :completed? (completed-val)
    :task task
    :url (rand-nth urls)
    :tags (h/set-of-buzzwords 0 5)})

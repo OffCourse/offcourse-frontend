@@ -70,14 +70,13 @@
   (testing "when action type is add-tag"
     (let [action       {:type :add-tag
                         :tag  fx/other-buzzword}
-          dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
+          dependencies (qa/refresh (sut/new {:checkpoint (cp/new)}) action)]
       (is (contains? (-> dependencies :checkpoint :tags) fx/other-buzzword))))
 
   (testing "when action type is reset-checkpoint"
     (let [action       {:type :reset-checkpoint}
           dependencies (qa/refresh (sut/new {:checkpoint (cp/new {:task "hii"})}) action)]
-      (is (= (-> dependencies :checkpoint) (cp/new {:tags #{}
-                                                    :completed? false})))))
+      (is (= (-> dependencies :checkpoint) (cp/new)))))
 
   (testing "when action type is reset-tag"
     (let [action       {:type :reset-tag}

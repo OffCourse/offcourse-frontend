@@ -34,8 +34,7 @@
                    co/new)]
     (map->Viewmodel {:type type
                      :dependencies (deps/new {:course course
-                                              :checkpoint (cp/new {:completed? false
-                                                                   :tags #{}})})})))
+                                              :checkpoint (cp/new)})})))
 
 (defmethod new :checkpoint-view [{:keys [type course checkpoint]}]
   (map->Viewmodel {:type type
