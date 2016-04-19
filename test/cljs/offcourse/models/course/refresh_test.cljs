@@ -24,7 +24,7 @@
   (testing "query contains goal"
     (let [course (qa/refresh fx/course {:type :goal
                                         :goal fx/other-goal})]
-      (is (= (-> course :goal) fx/other-goal))
+      (is (= (-> course :goal) (str/titleize fx/other-goal)))
       (is (= (-> course :course-slug) (str/slugify fx/other-goal)))))
 
   (testing "query contains curator"

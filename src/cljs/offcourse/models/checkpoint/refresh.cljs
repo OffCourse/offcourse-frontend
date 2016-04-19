@@ -8,5 +8,5 @@
 
 (defmethod refresh :task [checkpoint {:keys [task]}]
   (assoc checkpoint
-         :task task
+         :task (str/titleize task)
          :checkpoint-slug (str/slugify task)))

@@ -8,7 +8,7 @@
   (testing "query contains task"
     (let [checkpoint (qa/refresh fx/checkpoint {:type :task
                                             :task fx/other-goal})]
-      (is (= (-> checkpoint :task) fx/other-goal))
+      (is (= (-> checkpoint :task) (str/titleize fx/other-goal)))
       (is (= (-> checkpoint :checkpoint-slug) (str/slugify fx/other-goal)))))
 
   (testing "query contains url"

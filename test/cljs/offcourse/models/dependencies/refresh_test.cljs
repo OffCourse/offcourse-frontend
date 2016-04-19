@@ -27,7 +27,7 @@
                         :goal fx/other-goal}
           dependencies (qa/refresh (sut/new {:course fx/course}) action)]
       (are [field value] (= (-> dependencies :course field) value)
-        :goal        fx/other-goal
+        :goal        (str/titleize fx/other-goal)
         :course-slug fx/other-slug)))
 
   (testing "when action type is update-curator"
@@ -48,12 +48,11 @@
       (is (= (-> dependencies :course :curator) fx/user-name))))
 
   (testing "when action type is update-task"
-
     (let [action       {:type :update-task
                         :task  fx/other-goal}
           dependencies (qa/refresh (sut/new {:checkpoint (cp/new {})}) action)]
       (are [field value] (= (-> dependencies :checkpoint field) value)
-        :task        fx/other-goal
+        :task        (str/titleize fx/other-goal)
         :checkpoint-slug fx/other-slug)))
 
   (testing "when action type is update-url"
@@ -77,7 +76,8 @@
   (testing "when action type is reset-checkpoint"
     (let [action       {:type :reset-checkpoint}
           dependencies (qa/refresh (sut/new {:checkpoint (cp/new {:task "hii"})}) action)]
-      (is (= (-> dependencies :checkpoint) (cp/new {:tags #{}})))))
+      (is (= (-> dependencies :checkpoint) (cp/new {:tags #{}
+                                                    :completed? false})))))
 
   (testing "when action type is reset-tag"
     (let [action       {:type :reset-tag}

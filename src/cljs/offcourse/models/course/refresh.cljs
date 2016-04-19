@@ -10,10 +10,11 @@
                                                                                        false
                                                                                        (.now js/Date)) course)))
 
+
 (defmethod refresh :curator [course {:keys [curator]}]
   (assoc course :curator curator))
 
 (defmethod refresh :goal [course {:keys [goal]}]
   (assoc course
-         :goal goal
+         :goal (str/titleize goal)
          :course-slug (str/slugify goal)))
