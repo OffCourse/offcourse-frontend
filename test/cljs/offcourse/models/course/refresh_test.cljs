@@ -6,6 +6,21 @@
             [cuerdas.core :as str]))
 
 (deftest models-course-refresh
+  (testing "query is toggle-checkpoint"
+    (let [query {:type :toggle-checkpoint
+           :checkpoint (assoc fx/checkpoint :course-id fx/id)}
+          course (qa/refresh fx/course query)
+          checkpoint (qa/get course :checkpoint fx/checkpoint)]
+      (is (:completed? checkpoint)))
+
+    (let [query {:type :toggle-checkpoint
+                 :checkpoint (assoc fx/checkpoint :course-id fx/id)}
+          course (-> fx/course
+                     (qa/refresh query)
+                     (qa/refresh query))
+          checkpoint (qa/get course :checkpoint fx/checkpoint)]
+      (is (not (:completed? checkpoint)))))
+
   (testing "query contains goal"
     (let [course (qa/refresh fx/course {:type :goal
                                         :goal fx/other-goal})]

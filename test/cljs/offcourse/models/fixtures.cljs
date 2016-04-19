@@ -48,6 +48,7 @@
 (def checkpoint          (cp/new {:checkpoint-id   1
                                   :task            goal
                                   :checkpoint-slug slug
+                                  :completed?      false
                                   :url             url
                                   :tags            #{buzzword}}))
 

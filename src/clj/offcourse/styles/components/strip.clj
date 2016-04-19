@@ -12,6 +12,7 @@
 
   [v/strips (merge (:column-component templates)
                    {:padding-top (:full units)
+                    :display :block
                     :flex             1
                     :background-color (:light colors)
                     :padding-right    (:full units)})

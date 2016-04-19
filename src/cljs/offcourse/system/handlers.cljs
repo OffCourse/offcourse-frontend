@@ -35,6 +35,12 @@
                                   (.preventDefault event)
                                   (responder :requested-save {:type :tag})))
 
+   :toggle-checkpoint    (fn [responder] (fn [course-id checkpoint event]
+                                           (.preventDefault event)
+                                           (request-update responder {:type :toggle-checkpoint
+                                                                      :course {:course-id course-id}
+                                                                      :checkpoint checkpoint})))
+
    :save-profile    (fn [responder] (fn [event]
                                   (.preventDefault event)
                                    (responder :requested-save {:type :profile})))

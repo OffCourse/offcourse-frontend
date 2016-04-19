@@ -22,6 +22,7 @@
    :view                :view-data
    :url                 :url
    :checkpoint-url      :checkpoint-slug
+   :toggle-checkpoint   :checkpoint
    :task                :task
    :curator             :curator
    :update-curator      :curator

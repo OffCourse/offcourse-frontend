@@ -21,6 +21,8 @@
       (derive :add-tag           :dependencies)
       (derive :update-user-name  :dependencies)
 
+      (derive :toggle-checkpoint :course)
+
       (derive :collection-view   :viewmodel)
       (derive :checkpoint-view   :viewmodel)
       (derive :new-course-view   :viewmodel)
@@ -66,15 +68,14 @@
 
 (defmethod refresh :collection [store {:keys [collection] :as query}]
   (if (qa/get store query)
-    (transform (paths/collection collection)
-               #(qa/refresh % query)
-               store)
+    (transform (paths/collection collection) #(qa/refresh % query) store)
     (qa/add store query)))
 
-(defmethod refresh :course [store query]
-  (if-let [missing-query (va/missing-data store query)]
-    (qa/add store query)
-    store))
+(defmethod refresh :course [store {:keys [course checkpoint] :as query}]
+  (let [course (or course {:course-id (:course-id checkpoint)})]
+    (if (qa/get store :course course)
+      (transform (paths/course course) #(qa/refresh % query) store)
+      (qa/add store query))))
 
 (defmethod refresh :resource [store query]
   (if-let [missing-query (va/missing-data store query)]

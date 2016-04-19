@@ -22,7 +22,7 @@
   (reduce add-course store courses))
 
 (defmethod add :course [{:keys [user] :as store} {:keys [course] :as query}]
-  (if (va/valid? course)
+  (if (and (va/missing-data store {:type :course :course course}) (va/valid? course))
     (-> store
         (update-in [:viewmodel :dependencies :course] #(with-meta % {:saved? true}))
         (update :courses #(conj % course))

@@ -84,10 +84,17 @@
         (let [course (assoc fx/course :course-id fx/other-id)
               store  (sut/new {:courses (courses [fx/id])})
               ids    (map :course-id (:courses (qa/refresh store :course course)))]
-          #_(are [value actual] (= (h/contains-val? ids value) actual)
+
+          (are [value actual] (= (h/contains-val? ids value) actual)
             fx/id         true
             fx/other-id   true
             fx/missing-id false)))
+
+      (testing "updates  a course that is already in store"
+        (let [store  (-> (sut/new {:courses [fx/course]})
+                         (qa/refresh :toggle-checkpoint (assoc fx/checkpoint :course-id fx/id)))
+              checkpoint (qa/get store :checkpoint (assoc fx/checkpoint :course-id fx/id))]
+          (is (:completed? checkpoint))))
 
       (testing "does not add a course that is already in store"
         (let [course {:course-id fx/id}

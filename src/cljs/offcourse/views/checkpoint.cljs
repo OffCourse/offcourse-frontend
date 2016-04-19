@@ -42,5 +42,5 @@
    :actions   (fnk [user-name [:url-helpers home-url new-course-url]]
                    {:add-course (when user-name (new-course-url user-name))})
    :main          (fnk [resource [:components viewer]] (viewer resource))
-   :dashboard     (fnk [url-helpers course [:components card dashboard]]
-                       (dashboard {:main (card course url-helpers)}))})
+   :dashboard     (fnk [url-helpers course handlers [:components card dashboard]]
+                       (dashboard {:main (card course url-helpers handlers)}))})

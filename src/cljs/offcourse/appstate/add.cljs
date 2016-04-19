@@ -28,7 +28,7 @@
 
 (defmethod add :tag [{:keys [state] :as as} query]
   (let [tag (get-in @state [:viewmodel :dependencies :tag])]
-    (when (> (count tag) 2)
+    (when (>= (count tag) 2)
       (do
         (qa/refresh as {:type :add-tag
                         :tag (-> tag str/slugify keyword)})

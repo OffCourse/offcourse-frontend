@@ -7,6 +7,7 @@
 (defn- index-checkpoint [index {:keys [task completed]} urls]
   {:checkpoint-id index
    :checkpoint-slug (str/slugify task)
+   :completed? false
    :task task
    :url (rand-nth urls)
    :tags (h/set-of-buzzwords 0 5)})

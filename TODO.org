@@ -8,11 +8,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [0%]
-+ [-] General        [66%]
+* Now            [100%]
++ [X] General        [100%]
   - [X] implement authentication?
-  - [ ] implement identity management
+  - [X] implement identity management
   - [X] add config environments
+  - [X] add toggle checkpoint
+  - [X] save courses to s3 (through lambda)
++ [X] Viewmodels     [100%]
+  - [X] add to-url converters
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas

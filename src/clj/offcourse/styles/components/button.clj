@@ -27,7 +27,9 @@
                              {:display          :flex
                               :margin-right     (:two-third units)
                               :width            (:two-third units)
-                              :height           (:two-third units)})]
+                              :height           (:two-third units)})
+    [v/selected {:background-color (:primary colors)
+                 :border [[(:fifteenth units) :solid (:day colors)]]}]]
 
    [v/understated-button {:color       (:medium colors)
                           :user-select :none}

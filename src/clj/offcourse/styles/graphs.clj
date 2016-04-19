@@ -35,6 +35,7 @@
    :third                (fnk [full] (/ full 3))
    :sixth                (fnk [full] (/ full 6))
    :tenth                (fnk [full] (/ full 10))
+   :fifteenth            (fnk [full] (/ full 15))
    :atom                 (fnk [full] (/ full 30))})
 
 (def templates-graph
@@ -84,7 +85,6 @@
                                  negative
                                  component
                                  {:outline          :none
-                                  :heigth           (:full units)
                                   :padding          [[0 (:third units)]]
                                   :border           :none}))})
 
