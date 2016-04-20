@@ -95,6 +95,7 @@
                       :dark    (:dark-gray   raw-colors)
                       :medium  (:medium-gray raw-colors)
                       :light   (:light-gray  raw-colors)
+                      :very-light (:very-light-gray raw-colors)
                       :day     (:white raw-colors)
                       :primary (base-color raw-colors)})
    :breakpoints (fnk [raw-breakpoints]

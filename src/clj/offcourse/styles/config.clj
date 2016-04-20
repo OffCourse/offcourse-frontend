@@ -11,6 +11,7 @@
                     :dark-gray   "#3d3d3d"
                     :medium-gray "#e0e4e1"
                     :light-gray  "#f4f6f4"
+                    :very-light-gray  "#f8f9f8"
                     :yellow      "#E5CF39"
                     :green       "#19A196"
                     :green-dark  "#3A676E"

@@ -12,7 +12,8 @@
      [:a.title {:href (checkpoint-url curator course-slug "index")} goal]]
     [:.card--section (item-list :todo checkpoints
                                 {:checkpoint-url (partial checkpoint-url curator course-slug)}
-                                {:toggle-checkpoint (partial toggle-checkpoint course-id)})]
+                                {:toggle-checkpoint (partial toggle-checkpoint course-id)}
+                                (:trackable? (meta course)))]
     [:.card--section (labels (:tags (meta course)) helpers)]]])
 
 (rum/defc cards [items helpers handlers]

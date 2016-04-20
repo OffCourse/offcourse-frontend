@@ -43,7 +43,6 @@
 (s/defclass form--input)
 
 (s/defclass button)
-(def understated-button (button (s/attr :data-button-type := :understated)))
 (def textbar-button (button (s/attr :data-button-type := :textbar)))
 (def icon-button (button (s/attr :data-button-type := :icon)))
 (def checkbox-button (button (s/attr :data-button-type := :checkbox)))

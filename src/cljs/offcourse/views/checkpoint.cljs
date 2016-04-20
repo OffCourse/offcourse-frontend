@@ -10,22 +10,23 @@
       (with-meta checkpoint {:selected true})
       checkpoint)))
 
-(defn augment-course [{:keys [checkpoints checkpoint-slug] :as course}]
+(defn augment-course [{:keys [checkpoints curator checkpoint-slug] :as course} user-name]
   (let [tags (-> (qa/get course :tags {})
                  (lb/collection->labels checkpoint-slug))]
     (some-> course
             (assoc :checkpoints (select-checkpoint checkpoints checkpoint-slug))
-            (with-meta {:tags tags}))))
+            (with-meta {:tags tags
+                        :trackable? (= user-name curator)}))))
 
 (def graph
   {:checkpoint-slug (fnk [view-data]
                          (-> view-data :checkpoint :checkpoint-slug))
    :course-data   (fnk [view-data] (:course view-data))
-   :course        (fnk [appstate course-data checkpoint-slug]
+   :course        (fnk [appstate course-data checkpoint-slug user-name]
                        (if-let [course (-> appstate
                                            (qa/get :course course-data)
                                            (assoc :checkpoint-slug checkpoint-slug)
-                                           augment-course)]
+                                           (augment-course user-name))]
                          course
                          course-data))
    :url           (fnk [course checkpoint-slug]
