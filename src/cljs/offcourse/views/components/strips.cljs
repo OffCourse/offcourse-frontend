@@ -10,7 +10,6 @@
                                    save-tag
                                    update-tag
                                    save-checkpoint] :as handlers}]
-  (println (:valid? (meta checkpoint)))
   [:.container
    [:div.strip
     [:.strip--section

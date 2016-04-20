@@ -8,7 +8,7 @@
 (schema/defrecord Checkpoint
     [checkpoint-slug :- schema/Str
      completed?      :- (schema/cond-pre schema/Bool schema/Num)
-     url             :- #"https?://.*"
+     url             :- #"https?://.+\..+"
      task            :- schema/Str
      tags            :- #{schema/Keyword}]
   {(schema/optional-key :checkpoint-id) schema/Int}
