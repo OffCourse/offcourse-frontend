@@ -9,10 +9,14 @@
   {:type    :collection-view
    :collection collection})
 
-(defn checkpoint-view [{:keys [checkpoint-id] :as data}]
+(defn checkpoint-view [data]
   {:type :checkpoint-view
    :course     (select-keys data [:curator :course-slug])
    :checkpoint (select-keys data [:checkpoint-slug :checkpoint-id])})
+
+(defn course-view [data]
+  {:type :course-view
+   :course     (select-keys data [:curator :course-slug])})
 
 (defn new-course-view [{:keys [curator]}]
   {:type :new-course-view

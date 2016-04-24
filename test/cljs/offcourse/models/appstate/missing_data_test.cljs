@@ -65,7 +65,14 @@
                            :resources [fx/resource])]
           (is (= (va/missing-data store) nil))))))
 
-  (testing "course-view"
+  #_(testing "course-view"
+    (testing "missing resources in course-view"
+      (is (= (va/missing-data (sut/new {:viewmodel fx/course-vm
+                                        :courses   [fx/course]}))
+             {:type :resources
+              :tags [:featured]}))))
+
+  (testing "new-course-view"
     (testing "missing resources in course-view"
       (is (= (va/missing-data (sut/new {:viewmodel fx/new-course-vm
                                         :courses   [fx/course]}))

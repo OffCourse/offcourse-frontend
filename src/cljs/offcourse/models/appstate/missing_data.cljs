@@ -19,6 +19,12 @@
       {:type :collection
        :collection (:collection dependencies)})))
 
+(defmethod missing-data :course-view [{:keys [viewmodel] :as as}]
+  (let [{:keys [dependencies]} viewmodel]
+    (when-not (qa/check as :course (:course dependencies))
+      {:type :course
+       :course (:course dependencies)})))
+
 (defmethod missing-data :checkpoint-view [{:keys [viewmodel] :as as}]
   (let [{:keys [dependencies]} viewmodel]
     (if-let [data-present? (qa/check as :course (:course dependencies))]

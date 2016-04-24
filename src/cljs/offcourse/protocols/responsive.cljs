@@ -35,11 +35,11 @@
 (def counter (atom 0))
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= component-name :appstate)
+  (when true #_(= component-name :appstate)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
-    #_(println "PAYLOAD" payload)))
+    (println "PAYLOAD" payload)))
 
 (defn respond
   ([this status] (respond this status nil))

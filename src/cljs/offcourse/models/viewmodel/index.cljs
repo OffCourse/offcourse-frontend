@@ -36,6 +36,10 @@
                      :dependencies (deps/new {:course course
                                               :checkpoint (cp/new)})})))
 
+(defmethod new :course-view [{:keys [type course]}]
+  (map->Viewmodel {:type type
+                   :dependencies (deps/new {:course course})}))
+
 (defmethod new :checkpoint-view [{:keys [type course checkpoint]}]
   (map->Viewmodel {:type type
                    :dependencies (deps/new {:course course

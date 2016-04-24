@@ -5,15 +5,6 @@
             [offcourse.protocols.validatable :as va]
             [plumbing.core :refer-macros [fnk]]))
 
-(defn augment-course [{:keys [checkpoints] :as course}]
-  (let [tags (-> (qa/get course :tags {})
-                 (lb/collection->labels 0))
-        valid? (va/valid? (co/complete course))
-        saved? (:saved? (meta course))]
-    (-> course (with-meta {:tags tags
-                           :valid? valid?
-                           :saved? saved?}))))
-
 (def graph
   {:course-data (fnk [view-data] (:course view-data))
    :course      (fnk [appstate course-data]

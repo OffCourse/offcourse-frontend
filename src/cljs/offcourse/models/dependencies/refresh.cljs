@@ -43,4 +43,3 @@
   (if profile
     (update-in dependencies [:profile] #(qa/refresh % :user-name user-name))
     (assoc dependencies :profile (pf/new {:user-name user-name}))))
-
