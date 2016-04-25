@@ -5,7 +5,8 @@
             [offcourse.protocols.validatable :as va]))
 
 (defmulti refresh
-  (fn [_ {:keys [type]}] type))
+  (fn [_ {:keys [type]}]
+    type))
 
 (defmethod refresh :appstate [{:keys [state proposal] :as as} {:keys [transaction] :as query}]
   (do
@@ -51,4 +52,4 @@
     (qa/refresh as :appstate {:type :new-user-view})))
 
 (defmethod refresh :default [as query]
-  (qa/refresh as :appstate query))
+   (qa/refresh as :appstate query))

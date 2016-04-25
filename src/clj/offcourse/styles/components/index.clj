@@ -4,6 +4,7 @@
              [dashboard :refer [dashboard]]
              [button :refer [button]]
              [strip :refer [strip]]
+             [sheet :refer [sheet]]
              [label :refer [label-component]]
              [form :refer [form]]
              [list :refer [list-component]]
@@ -14,7 +15,7 @@
   [[:.navigation-panel (merge (:component templates) {})]])
 
 (defn components [config]
-  (let [components [list-component form strip
+  (let [components [list-component sheet form strip
                     button dashboard menubar navigation-panel
                     viewer label-component cards]]
     (for [component components] (component config))))

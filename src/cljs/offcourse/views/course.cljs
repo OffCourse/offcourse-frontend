@@ -17,7 +17,8 @@
                        {:add-course (when user-name (new-course-url user-name))})
    :checkpoints   (fnk [appstate course]
                        (map #(dc/decorate % appstate) (:checkpoints course)))
-   :main          (fnk [checkpoints [:components snippets]]
-                       (snippets checkpoints))
+   :main          (fnk [course checkpoints [:components sheets] [:url-helpers checkpoint-url]]
+                       (let [checkpoint-url (partial checkpoint-url (:curator course) (:course-slug course))]
+                         (sheets checkpoints {:checkpoint-url checkpoint-url})))
    :dashboard     (fnk [url-helpers course handlers [:components card dashboard]]
                        (dashboard {:main (card course url-helpers handlers)}))})

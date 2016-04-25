@@ -21,13 +21,18 @@
 
 (defmethod missing-data :course-view [{:keys [viewmodel] :as as}]
   (let [{:keys [dependencies]} viewmodel]
-    (when-not (qa/check as :course (:course dependencies))
+    (if (qa/check as :course (:course dependencies))
+      (let [course (qa/get as :course (:course dependencies))
+            urls   (qa/get course :urls {})
+            query  {:type :resources
+                    :urls urls}]
+        (when-not (or (qa/check as query) (empty? urls)) query))
       {:type :course
        :course (:course dependencies)})))
 
 (defmethod missing-data :checkpoint-view [{:keys [viewmodel] :as as}]
   (let [{:keys [dependencies]} viewmodel]
-    (if-let [data-present? (qa/check as :course (:course dependencies))]
+    (if (qa/check as :course (:course dependencies))
       (let [course (qa/get as :course (:course dependencies))
             urls   (qa/get course :urls {})
             query  {:type :resources

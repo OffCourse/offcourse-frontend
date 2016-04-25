@@ -15,6 +15,10 @@
 (def edit-list (list (s/attr :data-list-type := :edit)))
 (s/defclass list--item)
 
+(s/defclass sheets)
+(s/defclass sheet)
+(s/defclass sheet--section)
+
 (s/defclass strips)
 (s/defclass strip)
 (s/defclass strip--section)
@@ -49,6 +53,7 @@
 
 (s/defclass title)
 (s/defclass subtitle)
+(s/defclass content)
 
 ;; MODIFIERS
 (s/defpseudoclass hover)

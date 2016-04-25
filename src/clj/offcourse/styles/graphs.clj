@@ -83,6 +83,14 @@
    :buttonless       (fnk [units] {:outline          :none
                                    :padding          [[0 (:third units)]]
                                    :border           :none})
+
+   :list-item         (fnk [row-component recycled-paper title units]
+                           (merge row-component recycled-paper title
+                                  {:margin-bottom   (:sixth units)
+                                   :align-items     :center
+                                   :font-size       (:subtitle-font units)
+                                   :padding         (:half units)
+                                   :height          (:one-and-half units)}))
    :textbar          (fnk [units component buttonless logo negative]
                           (merge logo
                                  negative

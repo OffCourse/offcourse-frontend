@@ -25,7 +25,7 @@
 
       (derive :collection-view   :viewmodel)
       (derive :checkpoint-view   :viewmodel)
-      (derive :course-view   :viewmodel)
+      (derive :course-view       :viewmodel)
       (derive :new-course-view   :viewmodel)
       (derive :new-user-view     :viewmodel)
       (derive :loading-view      :viewmodel)

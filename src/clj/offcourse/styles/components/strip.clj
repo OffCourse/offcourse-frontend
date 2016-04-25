@@ -1,12 +1,7 @@
 (ns offcourse.styles.components.strip
   (:refer-clojure :exclude [rem + - * /])
-  (:require [offcourse.styles.vocabulary :as v]
-            [garden
-             [arithmetic :refer [* + /]]
-             [units :as u :refer [percent px rem]]]
-            [plumbing
-             [core :refer [fnk]]
-             [graph :as graph]]))
+  (:require [garden.arithmetic :refer [*]]
+            [offcourse.styles.vocabulary :as v]))
 
 (defn strip [{:keys [templates borders colors fonts units]}]
 

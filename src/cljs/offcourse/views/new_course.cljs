@@ -3,13 +3,14 @@
             [offcourse.models.label :as lb]
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]
-            [plumbing.core :refer-macros [fnk]]))
+            [plumbing.core :refer-macros [fnk]]
+            [offcourse.protocols.decoratable :as dc]))
 
 (def graph
   {:course-data (fnk [view-data] (:course view-data))
    :course      (fnk [appstate course-data]
                      (if-let [course (-> course-data
-                                         augment-course)]
+                                         dc/decorate)]
                        course
                        course-data))
    :checkpoint      (fnk [view-data]
