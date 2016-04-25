@@ -25,7 +25,7 @@
       (let [course (qa/get as :course (:course dependencies))
             urls   (qa/get course :urls {})
             query  {:type :resources
-                    :urls urls}]
+                    :resources (map (fn [url] {:url url}) urls)}]
         (when-not (or (qa/check as query) (empty? urls)) query))
       {:type :course
        :course (:course dependencies)})))

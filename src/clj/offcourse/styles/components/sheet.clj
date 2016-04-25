@@ -21,7 +21,8 @@
     [v/hovered (:highlighted borders)]
     [v/content
      [:h1 (merge (:title templates)
-                  {:padding 0})]]]
+                 {:padding 0
+                  :padding-bottom (:two-third units)})]]]
 
    [v/sheet--section (merge (:column-component templates)
                             {:flex 2

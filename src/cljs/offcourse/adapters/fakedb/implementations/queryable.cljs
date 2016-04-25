@@ -6,7 +6,7 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defonce courses   (cs/courses))
-(defonce resources (r/resources courses))
+(defonce all-resources (r/resources courses))
 (defonce collections (cl/collections courses))
 
 (defmulti fetch (fn [_ {:keys [type]}] type))
@@ -31,10 +31,11 @@
       {:error :not-found-data})))
 
 (defmethod fetch :resource [_ {:keys [url]}]
-  (go (r/select-resource url resources)))
+  (go (r/select-resource url all-resources)))
 
-(defmethod fetch :resources [_ {:keys [urls tags]}]
-  (go
-    (if tags
-      resources
-      (r/select-resources urls resources))))
+(defmethod fetch :resources [_ {:keys [resources urls tags]}]
+  (let [urls (map :url resources)]
+    (go
+      (if tags
+        all-resources
+        (r/select-resources urls all-resources)))))
