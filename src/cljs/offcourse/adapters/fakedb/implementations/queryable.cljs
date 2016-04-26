@@ -4,7 +4,7 @@
             [offcourse.adapters.fakedb.courses :as cs]
             [cljs.core.async :refer [<! chan close! >!]]
             [clojure.walk :as walk]
-            [ajax.core :refer [GET POST]]
+            [ajax.core :refer [GET]]
             [offcourse.adapters.fakedb.resources :as r])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
