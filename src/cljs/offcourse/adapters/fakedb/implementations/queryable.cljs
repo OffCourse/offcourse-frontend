@@ -5,7 +5,9 @@
             [cljs.core.async :refer [<! chan close! >!]]
             [clojure.walk :as walk]
             [ajax.core :refer [GET]]
-            [offcourse.adapters.fakedb.resources :as r])
+            [offcourse.adapters.fakedb.resources :as r]
+            [clojure.string :as str]
+            [medley.core :as medley])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defonce courses   (cs/courses))
@@ -37,18 +39,23 @@
   (go (r/select-resource url all-resources)))
 
 (defn parse-response [res]
-  (:title (select-keys (walk/keywordize-keys (js->clj res)) [:title :content :description])))
+  (let [resources-data (map (fn [resource-data] (as-> resource-data rd
+                                                  (js->clj rd :keywordize-keys true)
+                                                  (select-keys rd [:content :description :title])))
+                              (clj->js res))]
+    resources-data))
 
-(defn get-resource [url]
+(defn get-resource [urls]
   (let [c (chan)]
-    (GET (str "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&url=" url "&maxwidth=500")
+    (GET (str "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls=" urls "&maxwidth=500")
         {:handler #(go (>! c %))})
     c))
 
 (defmethod fetch :resources [_ {:keys [resources tags]}]
-  (let [urls (map :url resources)]
+  (let [urls (str/join "," (map :url resources))]
     (go
-      (println (parse-response (<! (get-resource (rand-nth urls)))))
       (if tags
         all-resources
-        (r/select-resources urls all-resources)))))
+        (->> (parse-response (<! (get-resource urls)))
+             (map (fn [{:keys [description] :as resource}]
+                    (merge (rand-nth all-resources) resource))))))))

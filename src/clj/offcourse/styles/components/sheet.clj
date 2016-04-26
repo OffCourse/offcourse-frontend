@@ -19,8 +19,8 @@
                     :justify-content  :center
                     :align-items      :flex-start})
     [v/hovered (:highlighted borders)]
-    [v/content
-     [:h1 (merge (:title templates)
+    [v/content (:text templates)
+     [v/title (merge (:title templates)
                  {:padding 0
                   :padding-bottom (:two-third units)})]]]
 

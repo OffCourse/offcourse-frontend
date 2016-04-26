@@ -9,6 +9,7 @@
      checkpoint-count :- schema/Num
      tags             :- #{schema/Keyword}]
   {(schema/optional-key :type) schema/Keyword
+   (schema/optional-key :description) schema/Str
    (schema/optional-key :title) schema/Str
    (schema/optional-key :authors) [schema/Str]
    (schema/optional-key :content) schema/Any}

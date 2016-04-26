@@ -17,5 +17,6 @@
   PersistentHashMap
   (to-collection [this] (cv/to-collection this))
   (to-course [this] (cv/to-course this))
+  (to-resource [this] (cv/to-resource this))
   Course
   (to-js [this] (clj->js this)))

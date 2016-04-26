@@ -8,27 +8,26 @@
                  {:keys [checkpoint-url] :as url-helpers}
                  {:keys [toggle-checkpoint]}
                  trackable?]
-  (let [content (-> (:content resource)
-                    (str/slice 0 1000)
-                    (str/prune 20))]
-    [:.sheet {:key checkpoint-id}
-     [:.sheet--section {:key :meta}
-      [:.list {:key :list}
-       [:.list--item {:data-item-type :todo
-                      :key :task}
-        (when trackable? [:button.button {:key :checkbox
-                                          :data-button-type :checkbox
-                                          :on-click #(toggle-checkpoint checkpoint %1)
-                                          :disabled (not trackable?)
-                                          :data-selected (boolean completed?)} nil])
-        [:a {:key :title
-             :href (checkpoint-url checkpoint-slug)}
-         [:span task]]]
-       [:.list--item {:key :url} url]]
-      [:div {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]]
-     [:a.sheet--section {:key :content
-                         :href (checkpoint-url checkpoint-slug)}
-      [:article.content {:dangerouslySetInnerHTML {:__html (md->html content)}}]]]))
+  [:.sheet {:key checkpoint-id}
+   [:.sheet--section {:key :meta}
+    [:.list {:key :list}
+     [:.list--item {:data-item-type :todo
+                    :key :task}
+      (when trackable? [:button.button {:key :checkbox
+                                        :data-button-type :checkbox
+                                        :on-click #(toggle-checkpoint checkpoint %1)
+                                        :disabled (not trackable?)
+                                        :data-selected (boolean completed?)} nil])
+      [:a {:key :title
+           :href (checkpoint-url checkpoint-slug)}
+       [:span task]]]
+     [:.list--item {:key :url} url]]
+    [:div {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]]
+   [:a.sheet--section {:key :content
+                       :href (checkpoint-url checkpoint-slug)}
+    [:article.content {}
+     [:h1.title (:title resource)]
+     [:p (:description resource)]]]])
 
 (rum/defc sheet-container [checkpoint url-helpers handlers trackable?]
   [:.container (sheet checkpoint url-helpers handlers trackable?)])
