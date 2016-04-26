@@ -2,6 +2,9 @@
   (:require [com.rpl.specter :refer [ALL select select-first]]
             [offcourse.adapters.fakedb.collections :as cl]
             [offcourse.adapters.fakedb.courses :as cs]
+            [cljs.core.async :refer [<! chan close! >!]]
+            [clojure.walk :as walk]
+            [ajax.core :refer [GET POST]]
             [offcourse.adapters.fakedb.resources :as r])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
@@ -33,9 +36,19 @@
 (defmethod fetch :resource [_ {:keys [url]}]
   (go (r/select-resource url all-resources)))
 
-(defmethod fetch :resources [_ {:keys [resources urls tags]}]
+(defn parse-response [res]
+  (:title (select-keys (walk/keywordize-keys (js->clj res)) [:title :content :description])))
+
+(defn get-resource [url]
+  (let [c (chan)]
+    (GET (str "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&url=" url "&maxwidth=500")
+        {:handler #(go (>! c %))})
+    c))
+
+(defmethod fetch :resources [_ {:keys [resources tags]}]
   (let [urls (map :url resources)]
     (go
+      (println (parse-response (<! (get-resource (rand-nth urls)))))
       (if tags
         all-resources
         (r/select-resources urls all-resources)))))

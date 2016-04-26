@@ -29,11 +29,18 @@
                              :padding (:full units)
                              :justify-content :center})
     [v/first {:flex [[0 0 (:column units)]]}
-     [v/list {:padding [[0 0 (:two-third units) 0]]}
+     [v/list
       [v/list--item {:background-color (:day colors)
+                     :padding-top 0
+                     :line-height (:base-line-height units)
+                     :height (percent 100)
+                     :padding-bottom 0
+                     :margin-bottom (:full units)
+                     :font-size (:tag-font units)
                      :font-family (:base fonts)}
        [v/hovered {:color (:primary colors)}]
-       [v/first (:list-item templates)
+       [v/first (merge (:list-item templates)
+                       {:margin-bottom (:full units)})
         [v/hovered (:selected templates)]]]]]
     [v/second {:padding-left 0}]]])
 

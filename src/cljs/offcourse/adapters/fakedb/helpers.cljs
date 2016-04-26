@@ -35,12 +35,12 @@
   (->> (conj body (str "# " title))
        (str/join "\n\n")))
 
-(def urls ["http://facebook.com"
-           "https://google.com/bla"
-           "http://lifely.nl"
-           "http://yahoo.com"
-           "http://pinterest.com"
-           "http://offcourse.io/curators/yeehaa"])
+(def urls ["https://scotch.io/tutorials/learning-react-getting-started-and-concepts"
+           "https://blog.risingstack.com/the-react-way-getting-started-tutorial/"
+           "https://egghead.io/series/react-fundamentals"
+           "http://teropa.info/blog/2015/09/10/full-stack-redux-tutorial.html"
+           "http://tutorialzine.com/2014/07/5-practical-examples-for-learning-facebooks-react-framework/"
+           "https://stormpath.com/blog/build-a-react-app-with-user-authentication/"])
 
 (def users ["yeehaa" "greg" "r2j2" "reika" "charlotte" "marijn"])
 
