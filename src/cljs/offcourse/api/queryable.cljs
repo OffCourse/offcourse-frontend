@@ -19,7 +19,7 @@
     (let [result (remove nil? (<! (qa/fetch repository query)))]
       (if (or (:error result) (empty? result))
         (ri/respond api :not-found-data query)
-        (let [converted (map converter result)]
+        (when-let [converted (keep converter result)]
           (ri/respond api :found-data type converted))))))
 
 (defn fetch [{:keys [repositories fetchables] :as api} {:keys [type] :as query}]

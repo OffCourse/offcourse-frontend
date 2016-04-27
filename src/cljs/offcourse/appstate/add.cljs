@@ -21,8 +21,6 @@
       (do
         (qa/refresh as {:type :add-checkpoint
                         :checkpoint checkpoint})
-        (qa/refresh as {:type :resource
-                        :resource (rs/new checkpoint)})
         (qa/refresh as {:type :reset-checkpoint})))))
 
 

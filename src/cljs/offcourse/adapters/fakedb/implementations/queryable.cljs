@@ -38,10 +38,15 @@
 (defmethod fetch :resource [_ {:keys [url]}]
   (go (r/select-resource url all-resources)))
 
+(defn add-defaults [{:keys [url description title]}]
+  {:url url
+   :title (or title "Couldn't Extract Title")
+   :description (or description "No Description")})
+
 (defn parse-response [res]
   (let [resources-data (map (fn [resource-data] (as-> resource-data rd
                                                   (walk/keywordize-keys rd)
-                                                  (select-keys rd [#_:content  :url :description :title])))
+                                                  (add-defaults rd)))
                             res)]
     resources-data))
 
@@ -58,5 +63,4 @@
         all-resources
         (when-not (empty? resources)
           (->> (parse-response (<! (get-resource urls)))
-               (map (fn [{:keys [description] :as resource}]
-                      (merge (rand-nth all-resources) resource)))))))))
+               (map #(merge (rand-nth all-resources) %))))))))
