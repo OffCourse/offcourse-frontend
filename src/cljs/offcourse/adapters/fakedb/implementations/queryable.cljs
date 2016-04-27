@@ -40,9 +40,9 @@
 
 (defn parse-response [res]
   (let [resources-data (map (fn [resource-data] (as-> resource-data rd
-                                                  (js->clj rd :keywordize-keys true)
-                                                  (select-keys rd [:content :description :title])))
-                              (clj->js res))]
+                                                  (walk/keywordize-keys rd)
+                                                  (select-keys rd [#_:content  :url :description :title])))
+                            res)]
     resources-data))
 
 (defn get-resource [urls]
@@ -56,6 +56,7 @@
     (go
       (if tags
         all-resources
-        (->> (parse-response (<! (get-resource urls)))
-             (map (fn [{:keys [description] :as resource}]
-                    (merge (rand-nth all-resources) resource))))))))
+        (when-not (empty? resources)
+          (->> (parse-response (<! (get-resource urls)))
+               (map (fn [{:keys [description] :as resource}]
+                      (merge (rand-nth all-resources) resource)))))))))

@@ -28,6 +28,15 @@
     (reset! state (assoc @proposal :queries #{}))
     (respond as :refreshed-state :state @state)))
 
+(defmethod refresh :course-view [{:keys [state] :as as} {:keys [course] :as query}]
+  (do
+    (qa/refresh as :appstate query)
+    (let [urls (some-> (qa/get @state :course course)
+                       (qa/get :urls {}))
+          resources (map (fn [url] {:url url}) urls)]
+      (when-not (qa/check @state :resources resources)
+        (respond as :not-found-data :resources resources)))))
+
 (defmethod refresh :course [{:keys [state] :as as} {:keys [course] :as query}]
   (do
     (qa/refresh as :appstate query)

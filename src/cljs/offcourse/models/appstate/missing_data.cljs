@@ -21,12 +21,7 @@
 
 (defmethod missing-data :course-view [{:keys [viewmodel] :as as}]
   (let [{:keys [dependencies]} viewmodel]
-    (if (qa/check as :course (:course dependencies))
-      (let [course (qa/get as :course (:course dependencies))
-            urls   (qa/get course :urls {})
-            query  {:type :resources
-                    :resources (map (fn [url] {:url url}) urls)}]
-        (when-not (or (qa/check as query) (empty? urls)) query))
+    (when-not (qa/check as :course (:course dependencies))
       {:type :course
        :course (:course dependencies)})))
 
