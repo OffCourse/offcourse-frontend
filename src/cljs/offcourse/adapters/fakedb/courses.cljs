@@ -20,7 +20,7 @@
        (map-indexed #(index-checkpoint %1 %2 urls))))
 
 (defn add-ids [{:keys [goal curator] :as course}]
-  (let [base-id (hash course)]
+  (let [base-id (str (name curator) "::" (hash course))]
     (merge course {:base-id base-id
                    :course-id base-id})))
 

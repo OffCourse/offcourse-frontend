@@ -6,11 +6,13 @@
             [cuerdas.core :as str]
             [offcourse.models.checkpoint.index :as cp]))
 
-(def id                     123)
-(def other-id               129)
 (def yet-another-id         443)
 (def missing-id             223)
 (def user-name              :yeehaa)
+(def id                     (str (name user-name) "::" 123))
+(def other-id               (str (name user-name) "::" 129))
+(def yet-another-id         (str (name user-name) "::" 445))
+(def missing-id             (str (name user-name) "::" 42))
 (def other-user-name        :greg)
 (def buzzword               :agile)
 (def other-buzzword         :netiquette)

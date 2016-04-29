@@ -11,7 +11,7 @@
 (schema/defrecord Collection
     [collection-type  :- schema/Keyword
      collection-name  :- schema/Keyword
-     course-ids       :- #{schema/Num}]
+     course-ids       :- #{schema/Str}]
   Queryable
   (-refresh [this {:keys [collection]}]
     (update this :course-ids #(set/union % (:course-ids collection)))))

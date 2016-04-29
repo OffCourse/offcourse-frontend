@@ -10,8 +10,8 @@
             [offcourse.models.course.refresh :as refresh-impl]))
 
 (schema/defrecord Course
-    [course-id    :- schema/Num
-     base-id      :- schema/Num
+    [course-id    :- schema/Str
+     base-id      :- schema/Str
      course-slug  :- schema/Str
      timestamp    :- schema/Int
      version      :- [schema/Num]
@@ -33,8 +33,8 @@
     (if (and (empty? (qa/check course)) (>= (count checkpoints) 1))
       true false)))
 
-(defn complete [{:keys [goal] :as course}]
-  (let [base-id (hash course)]
+(defn complete [{:keys [curator goal] :as course}]
+  (let [base-id (str (name curator) "::" (hash course))]
     (assoc course
            :base-id base-id
            :course-id base-id
