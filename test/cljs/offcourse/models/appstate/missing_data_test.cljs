@@ -73,11 +73,12 @@
               :tags [:featured]}))))
 
   (testing "new-course-view"
-    (testing "missing resources in course-view"
+    (testing "missing resources in new-course-view"
       (is (= (va/missing-data (sut/new {:viewmodel fx/new-course-vm
                                         :courses   [fx/course]}))
-             {:type :resources
-              :tags [:featured]}))))
+             {:type :collection
+              :collection {:collection-type :flags
+                           :collection-name :featured}}))))
 
   (testing "collection-view"
     (let [collection (assoc fx/collection :course-ids #{fx/id})

@@ -21,11 +21,12 @@
                   (:tag view-data))
    :user        (fnk [appstate] (:user appstate))
    :main        (fnk [appstate checkpoint tag handlers [:components strips] url-helpers]
-                     (strips (:resources appstate)
+                     (let [checkpoints (mapcat :checkpoints (:courses appstate))]
+                     (strips checkpoints
                                     checkpoint
                                     tag
                                     url-helpers
-                                    handlers))
+                                    handlers)))
    :actions   (fnk [user-name [:url-helpers home-url new-course-url]]
                    {:add-course (when user-name (new-course-url user-name))})
    :dashboard   (fnk [course user handlers [:components dashboard course-form] url-helpers]

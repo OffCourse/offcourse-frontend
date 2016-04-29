@@ -39,9 +39,10 @@
 (defmethod missing-data :new-user-view [as data-type]
   false)
 
-(defmethod missing-data :new-course-view [{:keys [resources] :as as} data-type]
-  (when (< (count resources) 5) {:type :resources
-                                 :tags [:featured]}))
+(defmethod missing-data :new-course-view [{:keys [courses] :as as} data-type]
+  (when (< (count courses) 2) {:type :collection
+                               :collection {:collection-type :flags
+                                            :collection-name :featured}}))
 
 (defmethod missing-data :courses [store {:keys [courses] :as query}]
   (let [store-ids (into #{} (map :course-id (:courses store)))

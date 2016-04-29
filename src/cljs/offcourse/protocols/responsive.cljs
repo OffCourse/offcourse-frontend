@@ -35,11 +35,11 @@
 (def counter (atom 0))
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= status :found-data)
+  (when #_true (= status :not-found-data)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
-    (println "PAYLOAD" (count payload))))
+    (println "PAYLOAD" payload)))
 
 (defn respond
   ([this status] (respond this status nil))
@@ -47,7 +47,7 @@
    (let [output-channel (or output-channel (:output channels))
          log-channel    (or log-channel (:log channels))
          response       (action/new status component-name payload)]
-     #_(debug-helper component-name status payload)
+     (debug-helper component-name status payload)
      (go
        (swap! counter inc)
        (>! output-channel response)

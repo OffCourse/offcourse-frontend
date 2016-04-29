@@ -32,7 +32,7 @@
       (labels (map (fn [tag] {:label-name tag}) tags) url-helpers))
       (label-form tag handlers)]]])
 
-(rum/defc strip-base [{:keys [title checkpoint-count tags url tasks] :as resource}
+(rum/defc strip-base [{:keys [title tags url task] :as checkpoint}
                               url-helpers
                               {:keys [add-checkpoint]}]
   [:.container
@@ -40,17 +40,17 @@
     [:.strip--section
      [:button.button {:data-button-type (name :icon)
                       :on-click #(add-checkpoint {:url  url
-                                                  :task (first tasks)
+                                                  :task task
                                                   :tags tags})} "+"]]
     [:.strip--section
-     [:h1.title (first tasks)]]
+     [:h1.title task]]
     [:.strip--section
      [:p.subtitle url]]
     [:.strip--section (labels (map (fn [tag] {:label-name tag}) tags)
                     url-helpers)]]])
 
-(rum/defc strips [resources checkpoint tag url-helpers handlers]
+(rum/defc strips [checkpoints checkpoint tag url-helpers handlers]
   [:div.strips
    (strip-form checkpoint tag url-helpers handlers)
-   (map #(rum/with-key (strip-base % url-helpers handlers) (:url %))
-        resources)])
+   (map-indexed #(rum/with-key (strip-base %2 url-helpers handlers) %1)
+        checkpoints)])
