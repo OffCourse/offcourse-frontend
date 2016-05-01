@@ -35,11 +35,11 @@
 (def counter (atom 0))
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= status :not-found-data)
+  (when true #_(= status :found-data)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
-    (println "PAYLOAD" payload)))
+    #_(println "PAYLOAD" payload)))
 
 (defn respond
   ([this status] (respond this status nil))
@@ -58,7 +58,7 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      #_(when #_true (= component-name :appstate)
+     #_(when #_true (= component-name :api)
          (debug-helper source type payload))
       (when reaction
         (if (= reaction :forward)

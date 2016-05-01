@@ -19,7 +19,7 @@
 (defn add-course [course]
   (let [c (chan)
         payload  (.stringify js/JSON (clj->js course))]
-    (.makeRequest (AWS.Lambda.) "invoke" (clj->js {:FunctionName "yaml-s3-development"
+    (.makeRequest (AWS.Lambda.) "invoke" (clj->js {:FunctionName "course-dynamo-development"
                                                    :Payload payload})
                   #(go (>! c %2)))
     c))
@@ -28,7 +28,7 @@
 
 (defmethod add :course [cloud query]
   (go
-    (<! (add-course query))
+    (println (<! (add-course query)))
     (ri/respond cloud :requested-view (vh/collection-view (cl/new :flags :featured)))))
 
 (defmethod add :profile [cloud {:keys [profile] :as query}]
