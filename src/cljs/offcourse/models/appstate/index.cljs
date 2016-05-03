@@ -26,9 +26,11 @@
      queries        :- (schema/maybe #{schema/Num})]
   Validatable
   (-valid? [as]
-    (and (empty? (schema/check Appstate as))
-         (not (va/missing-data as))))
-  (-missing-data [as] (md-impl/missing-data as))
+    (do
+      (and (empty? (schema/check Appstate as))
+           (not (va/missing-data as)))))
+  (-missing-data [as]
+    (md-impl/missing-data as))
   (-missing-data [as query]
     (md-impl/missing-data as query))
   Queryable

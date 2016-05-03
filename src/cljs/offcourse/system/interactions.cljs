@@ -35,6 +35,7 @@
    :cloud    {:signed-in-user    qa/refresh
               :signed-out-user   qa/reset
               :requested-save    qa/add
+              :not-found-data    qa/fetch
               :requested-profile qa/get}
    :ui       {:refreshed-state rr/render
               :checked-state   rr/render

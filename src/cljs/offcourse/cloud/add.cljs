@@ -28,7 +28,7 @@
 
 (defmethod add :course [cloud query]
   (go
-    (println (<! (add-course query)))
+    (<! (add-course query))
     (ri/respond cloud :requested-view (vh/collection-view (cl/new :flags :featured)))))
 
 (defmethod add :profile [cloud {:keys [profile] :as query}]

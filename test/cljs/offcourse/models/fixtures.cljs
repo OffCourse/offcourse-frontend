@@ -6,8 +6,6 @@
             [cuerdas.core :as str]
             [offcourse.models.checkpoint.index :as cp]))
 
-(def yet-another-id         443)
-(def missing-id             223)
 (def user-name              :yeehaa)
 (def id                     (str (name user-name) "::" 123))
 (def other-id               (str (name user-name) "::" 129))
