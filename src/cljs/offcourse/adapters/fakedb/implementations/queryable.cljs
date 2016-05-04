@@ -1,13 +1,11 @@
 (ns offcourse.adapters.fakedb.implementations.queryable
-  (:require [com.rpl.specter :refer [ALL select select-first]]
+  (:require [ajax.core :refer [GET]]
+            [cljs.core.async :refer [<! >! chan]]
+            [clojure.string :as str]
+            [clojure.walk :as walk]
             [offcourse.adapters.fakedb.collections :as cl]
             [offcourse.adapters.fakedb.courses :as cs]
-            [cljs.core.async :refer [<! chan close! >!]]
-            [clojure.walk :as walk]
-            [ajax.core :refer [GET]]
-            [offcourse.adapters.fakedb.resources :as r]
-            [clojure.string :as str]
-            [medley.core :as medley])
+            [offcourse.adapters.fakedb.resources :as r])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defonce courses   (cs/courses))
@@ -50,7 +48,7 @@
                             res)]
     resources-data))
 
-(defn get-resource [urls]
+(defn get-resources [urls]
   (let [c (chan)]
     (GET (str "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls=" urls "&maxwidth=500")
         {:handler #(go (>! c %))})
@@ -62,5 +60,5 @@
       (if tags
         all-resources
         (when-not (empty? resources)
-          (->> (parse-response (<! (get-resource urls)))
+          (->> (parse-response (<! (get-resources urls)))
                (map #(merge (rand-nth all-resources) %))))))))

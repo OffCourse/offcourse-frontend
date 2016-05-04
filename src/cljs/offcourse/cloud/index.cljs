@@ -4,11 +4,12 @@
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [AWS]
             [offcourse.cloud.refresh :as refresh-impl]
+            [offcourse.cloud.queryable :as qa-impl]
             [offcourse.cloud.add :as add-impl]
             [offcourse.cloud.reset :as reset-impl]
             [offcourse.cloud.sync :as sync-impl]
             [offcourse.cloud.get :as get-impl]
-            [ajax.core :refer [GET]]
+            [ajax.core :refer [GET POST]]
             [cljs.core.async :refer [<! chan >!]]
             [schema.core :as schema]
             [clojure.walk :as walk]
@@ -28,9 +29,11 @@
 
 (defn fetch-course [query]
   (let [c (chan)]
-    (GET (str "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/staging/courses")
+    (POST (str "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/staging/courses")
         {:headers {}
-         :handler #(response->courses c %)})
+         :params (clj->js query)
+         :format :json
+         :handler #(go (>! c %)) #_(response->courses c %)})
   c))
 
 (schema/defrecord Cloud
@@ -48,8 +51,7 @@
   (-get [cloud query] (get-impl/get cloud query))
   (-add [cloud query] (add-impl/add cloud query))
   (-refresh [cloud query] (refresh-impl/refresh cloud query))
-  (-fetch [cloud query] (go
-                          (ri/respond cloud :found-data :courses (<! (fetch-course query)))))
+  (-fetch [cloud query] (qa-impl/fetch cloud query))
   (-reset [cloud] (reset-impl/reset cloud))
   (-sync [cloud] (sync-impl/sync cloud))
   Responsive

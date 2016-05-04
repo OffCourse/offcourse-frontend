@@ -35,7 +35,7 @@
 (def counter (atom 0))
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= status :found-data)
+  (when true #_(= component-name :p)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)

@@ -55,7 +55,7 @@
       (testing "missing course"
         (is (= (-> store va/missing-data :course :course-id) fx/id)))
 
-      (testing "missing resources "
+      #_(testing "missing resources "
         (let [store (assoc store :courses [fx/course])]
           (is (= (va/missing-data store) {:type :resources
                                           :urls  #{fx/url} }))))

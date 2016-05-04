@@ -32,6 +32,7 @@
                  [compojure                   "1.4.0"]
                  [hiccup                      "1.0.5"]
                  [rum                         "0.6.0"]
+
                  [sablono                     "0.5.3"]
                  [bidi                        "1.25.0"]
                  [funcool/cuerdas             "0.7.0"]

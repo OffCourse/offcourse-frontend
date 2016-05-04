@@ -28,6 +28,7 @@
      :cloud                  (component/using (cloud/new)
                                               {:initial-config :cloud-config
                                                :channels     :cloud-channels
+                                               :fetchables   :fetchables
                                                :actions      :cloud-actions
                                                :reactions    :cloud-reactions})
      :routes                 routes/table
