@@ -36,9 +36,10 @@
 (defmethod fetch :resource [_ {:keys [url]}]
   (go (r/select-resource url all-resources)))
 
-(defn add-defaults [{:keys [url description title]}]
+(defn add-defaults [{:keys [url content description title]}]
   {:url url
    :title (or title "Couldn't Extract Title")
+   :content (or content "Couldn't Extract Content")
    :description (or description "No Description")})
 
 (defn parse-response [res]

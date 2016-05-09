@@ -3,8 +3,11 @@
             [rum.core :as rum]))
 
 (rum/defc viewer [{:keys [resource]}]
-  (let [{:keys [content]} resource]
+  (let [{:keys [title content]} resource]
     [:.viewer
      (if content
-       [:article.viewer--content {:dangerouslySetInnerHTML {:__html (md->html content)}}]
+       [:.viewer--content
+        [:h1.title {:key :title} title]
+        [:article {:key :content
+                   :dangerouslySetInnerHTML {:__html (md->html content)}}]]
        [:.loading "Waiting"])]))
