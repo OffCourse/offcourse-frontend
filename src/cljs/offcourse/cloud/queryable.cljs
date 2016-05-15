@@ -8,6 +8,7 @@
 (defn handle-response [response]
   (let [{:keys [type error] :as response} (-> response
                                         walk/keywordize-keys)]
+    (println response)
     (if-not error
       ((keyword type) response)
       {:error :not-found})))
@@ -37,7 +38,8 @@
           (ri/respond cloud :found-data type converted))))))
 
 (defn fetch [{:keys [fetchables] :as cloud} {:keys [type] :as query}]
-  (when (or (= type :courses) (= type :collection))
+  (when-not (= type :resources)
+    (println query)
     (if-let [[converter field] (type fetchables)]
       (if field
         (fetch-m cloud query converter field)

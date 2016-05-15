@@ -10,10 +10,12 @@
                 type))
 
 (defmethod add :query [{:keys [state proposal] :as as}
-                       query]
-  (when-let [missing-data (va/missing-data @proposal)]
-    (swap! state (fn [state] (update state :queries #(conj % (hash missing-data)))))
-    (ri/respond as :not-found-data missing-data)))
+                       {:keys [query]}]
+  (let [missing-data (va/missing-data @proposal)
+        missing-data-hash (hash missing-data)]
+    (when-not (contains? (:queries @state) missing-data-hash)
+      (swap! state (fn [state] (update state :queries #(conj % (hash missing-data-hash)))))
+      (ri/respond as :not-found-data missing-data))))
 
 (defmethod add :checkpoint [{:keys [state] :as as} query]
   (let [checkpoint (get-in @state [:viewmodel :dependencies :checkpoint])]
@@ -25,6 +27,7 @@
 
 
 (defmethod add :tag [{:keys [state] :as as} query]
+  (println query)
   (let [tag (get-in @state [:viewmodel :dependencies :tag])]
     (when (>= (count tag) 2)
       (do

@@ -22,5 +22,5 @@
 
 (defmethod check :default [{:keys [queries state] :as as} query]
   (if (set/subset? queries #{(hash query)})
-    (qa/refresh as (vh/home-view))
+    true
     (respond as :not-found-data query)))

@@ -29,6 +29,7 @@
    :goal                :goal
    :resources           :resources
    :profile             :profile
+   :query               :query
    :config              :config
    :user                :user
    :state               :state

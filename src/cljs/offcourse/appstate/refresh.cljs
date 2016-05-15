@@ -37,23 +37,19 @@
       (when-not (qa/check @state :resources resources)
         (respond as :not-found-data :resources resources)))))
 
-(defmethod refresh :course [{:keys [state] :as as} {:keys [course] :as query}]
-  (do
-    (qa/refresh as :appstate query)
-    (qa/refresh as :appstate (vh/home-view))))
-
 (defmethod refresh :user [{:keys [state] :as as} {:keys [user] :as query}]
   (do
     (qa/refresh as :appstate query)
-    (when (and (= (get-in @state [:viewmodel :type]) :new-user-view) (:user-name user))
+    (if (and (= (get-in @state [:viewmodel :type]) :new-user-view) (:user-name user))
       (qa/refresh as :appstate (vh/home-view)))))
 
-(defmethod refresh :authenticated? [{:keys [state] :as as} {:keys [authenticated?] :as query}]
+(defmethod refresh :authenticated? [{:keys [state proposal] :as as} {:keys [authenticated?] :as query}]
   (if authenticated?
     (respond as :requested-profile :profile {})
     (do
-      (qa/refresh as :appstate (vh/home-view))
-      (qa/refresh as :user {:name nil}))))
+      (let [{:keys [type dependencies]} (:viewmodel @proposal)]
+        (qa/refresh as :appstate (assoc dependencies :type type))
+        (qa/refresh as :user {:name nil})))))
 
 (defmethod refresh :profile [as {:keys [profile] :as query}]
   (if profile

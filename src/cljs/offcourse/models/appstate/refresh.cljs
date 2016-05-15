@@ -49,7 +49,7 @@
       (assoc :viewmodel (vm/new query))
       (qa/refresh :update-curator (:name user))))
 
-(defmethod refresh :user [state {:keys [user]}]
+(defmethod refresh :user [state {:keys [user] :as query}]
   (-> state
       (assoc :user {:name (:user-name user)})
       (qa/refresh :update-curator (:user-name user))))
