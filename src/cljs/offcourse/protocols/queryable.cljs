@@ -38,7 +38,10 @@
    :permissions         :proposal
    :tag                 :tag
    :appstate            :transaction
-   :resource            :resource})
+   :resource            :resource
+
+   :data               :data
+   :viewmodel          :viewmodel})
 
 (defn get
   ([this query] (-get this query))

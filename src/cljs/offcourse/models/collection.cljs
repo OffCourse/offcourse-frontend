@@ -10,8 +10,7 @@
 
 (schema/defrecord Collection
     [collection-type  :- schema/Keyword
-     collection-name  :- schema/Keyword
-     course-ids       :- #{schema/Str}]
+     collection-name  :- schema/Keyword]
   Queryable
   (-refresh [this {:keys [collection]}]
     (update this :course-ids #(set/union % (:course-ids collection)))))
@@ -19,4 +18,4 @@
 (defn new
   ([collection-data] (map->Collection collection-data))
   ([collection-type collection-name]
-  (->Collection collection-type collection-name nil)))
+  (->Collection collection-type collection-name)))

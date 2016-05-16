@@ -22,14 +22,15 @@
   {:api      {:not-found-data qa/fetch}
    :logger   {:logged-action println}
    :router   {:refreshed-state       qa/refresh}
-   :appstate {:requested-view        qa/refresh
-              :requested-update      qa/refresh
-              :refreshed-credentials qa/refresh
-              :requested-save        qa/add
-              :found-data            qa/refresh
-              :not-found-data        qa/check
-              :found-profile         qa/refresh
-              :not-found-profile     qa/refresh}
+   :appstate {:requested-view qa/refresh}
+   #_{:requested-view        qa/refresh
+      :requested-update      qa/refresh
+      :refreshed-credentials qa/refresh
+      :requested-save        qa/add
+      :found-data            qa/refresh
+      :not-found-data        qa/check
+      :found-profile         qa/refresh
+      :not-found-profile     qa/refresh}
    :auth     {:requested-sign-in  ac/sign-in
               :requested-sign-out ac/sign-out}
    :cloud    {:signed-in-user    qa/refresh
@@ -37,6 +38,4 @@
               :requested-save    qa/add
               :not-found-data    qa/fetch
               :requested-profile qa/get}
-   :ui       {:refreshed-state rr/render
-              :checked-state   rr/render
-              :updated-logs    rr/render}})
+   :ui       {:refreshed-state rr/render}})

@@ -12,6 +12,7 @@
 
 (extend-protocol Convertible
   PersistentArrayMap
+  (to-url [this routes] (cv/to-url this routes))
   (to-collection [this] (cv/to-collection this))
   (to-resource [this] (cv/to-resource this))
   PersistentHashMap

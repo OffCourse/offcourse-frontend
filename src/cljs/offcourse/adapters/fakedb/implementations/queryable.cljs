@@ -15,10 +15,10 @@
 (defmulti fetch (fn [_ {:keys [type]}] type))
 
 (defmethod fetch :collection [_ {:keys [collection]}]
-  (when-let [{:keys [collection-name collection-type]} collection]
-    (go {:collection-name collection-name
-         :collection-type collection-type
-         :course-ids (get-in collections [collection-type collection-name])})))
+  (go
+    (let [{:keys [collection-name collection-type]} collection
+          course-ids (get-in collections [collection-type collection-name])]
+      (cs/courses-by-id course-ids courses))))
 
 (defmethod fetch :course [_ {:keys [course]}]
   (go

@@ -69,6 +69,9 @@
 (defn listen [{:keys [channels component-name reactions] :as this}]
   (assoc this :listener (-listener this)))
 
+(defn listen2 [this]
+  (-listen this))
+
 (defn mute [{:keys [channels] :as this}]
   (close! (:input channels))
   (-> this

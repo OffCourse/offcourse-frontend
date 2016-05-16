@@ -7,9 +7,9 @@
             [offcourse.views.collection :as clv]))
 
 (def views
-  {:loading-view    bv/graph
+  {:loading    bv/graph
    :new-user-view   (merge bv/graph nuv/graph)
    :new-course-view (merge bv/graph ncv/graph)
    :course-view     (merge bv/graph cov/graph)
-   :collection-view (merge bv/graph clv/graph)
+   :collection (merge bv/graph clv/graph)
    :checkpoint-view (merge bv/graph cpv/graph)})

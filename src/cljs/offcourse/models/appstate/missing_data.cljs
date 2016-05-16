@@ -8,37 +8,6 @@
   (fn [{:keys [viewmodel]} {:keys [type] :as query}]
     (or type (:type viewmodel))))
 
-(defmethod missing-data :collection-view [{:keys [viewmodel collection] :as as}]
-  (let [{:keys [dependencies]} viewmodel]
-    (if-let [data-present? (qa/check as :collection (:collection dependencies))]
-      (let [collection (qa/get as :collection (:collection dependencies))
-            course-ids (:course-ids collection)
-            query {:type :courses
-                   :course-ids course-ids}]
-        (when-not (qa/check as query) query))
-      {:type :collection
-       :collection (:collection dependencies)})))
-
-(defmethod missing-data :course-view [{:keys [viewmodel] :as as}]
-  (let [{:keys [dependencies]} viewmodel]
-    (when-not (qa/check as :course (:course dependencies))
-      {:type :course
-       :course (:course dependencies)})))
-
-(defmethod missing-data :checkpoint-view [{:keys [viewmodel] :as as}]
-  (let [{:keys [dependencies]} viewmodel]
-    (when-not (qa/check as :course (:course dependencies))
-      {:type :course
-       :course (:course dependencies)})))
-
-(defmethod missing-data :new-user-view [as data-type]
-  false)
-
-(defmethod missing-data :new-course-view [{:keys [courses] :as as} data-type]
-  (when (< (count courses) 2) {:type :collection
-                               :collection {:collection-type :flags
-                                            :collection-name :featured}}))
-
 (defmethod missing-data :courses [store {:keys [courses] :as query}]
   (let [store-ids (into #{} (map :course-id (:courses store)))
         query-ids (into #{} (map :course-id (:courses query)))

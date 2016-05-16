@@ -25,10 +25,7 @@
      resources      :- (schema/maybe [Resource])
      queries        :- (schema/maybe #{schema/Num})]
   Validatable
-  (-valid? [as]
-    (do
-      (and (empty? (schema/check Appstate as))
-           (not (va/missing-data as)))))
+  (-valid? [as] (empty? (schema/check Appstate as)))
   (-missing-data [as]
     (md-impl/missing-data as))
   (-missing-data [as query]
@@ -40,8 +37,8 @@
   (-get [as query] (get-impl/get as query)))
 
 (def defaults {:site-title "BLABLA"
-               :viewmodel (vm/new {:type :loading-view})
-               :user {:user-name nil}
+               :viewmodel {:type :loading}
+               :user {:name nil}
                :collections []
                :courses []
                :resources []
