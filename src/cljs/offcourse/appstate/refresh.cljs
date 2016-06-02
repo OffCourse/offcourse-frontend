@@ -10,10 +10,11 @@
 
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :viewmodel payload)]
-    (when (and (qa/check as :permissions proposal) (va/valid? proposal))
+    (when (and (qa/check as :permissions proposal) )
       (reset! state (assoc proposal :queries #{}))
       (ri/respond as :not-found-data payload)
-      (ri/respond as :refreshed-state :state @state))))
+      (when (va/valid? @state)
+        (ri/respond as :refreshed-state :state @state)))))
 
 (defmethod refresh :found-data [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :data payload)]

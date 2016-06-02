@@ -43,3 +43,11 @@
           (ri/respond api :not-found-data query)
           (when-let [converted (keep ci/to-course result)]
             (ri/respond api :found-data :courses converted)))))))
+
+(defmethod fetch :course [{:keys [repositories fetchables] :as api} {:keys [type] :as query}]
+  (doseq [repository repositories]
+    (go
+      (let [result (<! (qa/fetch repository query))]
+        (if (:error result)
+          (ri/respond api :not-found-data query)
+          (ri/respond api :found-data type (ci/to-course result)))))))

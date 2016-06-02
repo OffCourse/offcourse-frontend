@@ -25,7 +25,9 @@
      resources      :- (schema/maybe [Resource])
      queries        :- (schema/maybe #{schema/Num})]
   Validatable
-  (-valid? [as] (empty? (schema/check Appstate as)))
+  (-valid? [as]
+    (and (= (-> as :viewmodel :type) :collection)
+         (empty? (schema/check Appstate as))))
   (-missing-data [as]
     (md-impl/missing-data as))
   (-missing-data [as query]

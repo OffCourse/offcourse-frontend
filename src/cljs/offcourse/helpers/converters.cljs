@@ -96,7 +96,7 @@
   (let [{:keys [course-slug curator] :as course} (:course dependencies)]
     (bidi/path-for routes type :curator curator)))
 
-(defmethod to-url :course-view [{:keys [type dependencies] :as vm} routes]
+(defmethod to-url :course [{:keys [type dependencies] :as vm} routes]
   (let [{:keys [course-slug curator] :as course} (:course dependencies)]
     (bidi/path-for routes type :curator curator :course-slug course-slug)))
 
