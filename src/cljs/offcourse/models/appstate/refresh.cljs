@@ -33,61 +33,15 @@
       (derive :courses           :data)
       (derive :resources         :data)))
 
-(defmulti refresh (fn [_ {:keys [type] :as query}]
-                    type)
+(defmulti refresh (fn [_ {:keys [type]}] type)
   :hierarchy #'data-hierarchy)
-
-#_(defmethod refresh :dependencies [state query]
-  (update-in state [:viewmodel :dependencies] #(qa/refresh % query)))
-
-#_(defmethod refresh :profile [state {:keys [profile] :as query}]
-  (if profile
-    (qa/refresh state :user {:name (:user-name profile)})
-    (qa/refresh state :new-user-view {})))
 
 (defmethod refresh :viewmodel [{:keys [user] :as state} {:keys [viewmodel] :as query}]
   (-> state
-      (assoc :viewmodel viewmodel)
-      #_(qa/refresh :update-curator (:name user))))
-
-#_(defmethod refresh :user [state {:keys [user] :as query}]
-  (-> state
-      (assoc :user {:name (:user-name user)})
-      (qa/refresh :update-curator (:user-name user))))
-
-#_(defn query [type name id]
-  {:collection-type type
-   :collection-name name
-   :course-ids #{id}})
-
-#_(defmethod refresh :collections [store {:keys [course]}]
-  (let [course-id (:course-id course)
-        curator-query [(query :curators (:curator course) course-id)]
-        flag-queries (map #(query :flags % course-id) (:flags course))
-        tag-queries (map #(query :tags % course-id) (qa/get course :tags {}))
-        queries [curator-query flag-queries tag-queries]]
-    (reduce #(qa/refresh %1 :collection %2) store (flatten queries))))
-
-#_(defmethod refresh :collection [store {:keys [collection] :as query}]
-  (if (qa/get store query)
-    (transform (paths/collection collection) #(qa/refresh % query) store)
-    (qa/add store query)))
-
-#_(defmethod refresh :course [store {:keys [course checkpoint] :as query}]
-  (let [course (or course {:course-id (:course-id checkpoint)})]
-    (if (qa/get store :course course)
-      (transform (paths/course course) #(qa/refresh % query) store)
-      (qa/add store query))))
-
-#_(defmethod refresh :resource [store query]
-  (if-let [missing-query (va/missing-data store query)]
-    (qa/add store query)
-    store))
+      (assoc :viewmodel viewmodel)))
 
 (defmethod refresh :data [store {:keys [data] :as query}]
-  (if-let [missing-query (va/missing-data store data)]
-    (qa/add store missing-query)
-    store))
+  (qa/add store data))
 
 (defmethod refresh :default [{:keys [store] :as as} query]
   {:type :error :error :query-not-supported})

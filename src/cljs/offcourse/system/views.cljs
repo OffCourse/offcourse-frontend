@@ -10,6 +10,6 @@
   {:loading    bv/graph
    :new-user-view   (merge bv/graph nuv/graph)
    :new-course-view (merge bv/graph ncv/graph)
-   :course-view     (merge bv/graph cov/graph)
+   :course     (merge bv/graph cov/graph)
    :collection (merge bv/graph clv/graph)
    :checkpoint-view (merge bv/graph cpv/graph)})

@@ -8,7 +8,9 @@
             [offcourse.models.checkpoint.index :as cp]))
 
 (defn add-course [store course]
-  (update-in store [:courses] #(conj % course)))
+  (if-not (qa/get store :course course)
+    (update-in store [:courses] #(conj % course))
+    store))
 
 (defn add-resource [store resource]
   (update-in store [:resources] #(conj % resource)))
@@ -18,18 +20,13 @@
 (defmethod add :collection [store {:keys [collection] :as q}]
   (transform [:collections] #(conj % (cl/new collection)) store))
 
-(defmethod add :courses [store {:keys [courses] :as q}]
+(defmethod add :courses [store {:keys [courses]}]
   (reduce add-course store courses))
 
 (defmethod add :course [{:keys [user] :as store} {:keys [course] :as query}]
-  (if (and (va/missing-data store {:type :course :course course}) (va/valid? course))
-    (-> store
-        (update-in [:viewmodel :dependencies :course] #(with-meta % {:saved? true}))
-        (update :courses #(conj % course))
-        (qa/refresh :collections course))
-    store))
+  (add-course store course))
 
-  (defmethod add :resources [store {:keys [resources]}]
+(defmethod add :resources [store {:keys [resources]}]
   (reduce add-resource store resources))
 
 (defmethod add :resource [store {:keys [resource]}]

@@ -18,6 +18,7 @@
 
 (defmethod refresh :found-data [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :data payload)]
-    (when (va/valid? proposal)
-      (reset! state (assoc proposal :queries #{}))
-      (ri/respond as :refreshed-state :state @state))))
+    (if (va/valid? proposal)
+      (do
+        (reset! state (assoc proposal :queries #{}))
+        (ri/respond as :refreshed-state :state @state)))))

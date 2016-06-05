@@ -48,6 +48,5 @@
   (doseq [repository repositories]
     (go
       (let [result (<! (qa/fetch repository query))]
-        (if (:error result)
-          (ri/respond api :not-found-data query)
-          (ri/respond api :found-data type (ci/to-course result)))))))
+        (when-not (:error result)
+          (ri/respond api :found-data :course (ci/to-course result)))))))

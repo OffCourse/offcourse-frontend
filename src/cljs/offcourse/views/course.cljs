@@ -6,7 +6,7 @@
             [offcourse.protocols.decoratable :as dc]))
 
 (def graph
-  {:course-data   (fnk [view-data] (:course view-data))
+  {:course-data   (fnk [appstate] (-> appstate :viewmodel :course))
    :course        (fnk [appstate course-data user-name]
                        (if-let [course (-> appstate
                                            (qa/get :course course-data)
