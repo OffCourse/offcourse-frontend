@@ -8,11 +8,9 @@
 (def graph
   {:course-data   (fnk [appstate] (-> appstate :viewmodel :course))
    :course        (fnk [appstate course-data user-name]
-                       (if-let [course (-> appstate
-                                           (qa/get :course course-data)
-                                           (dc/decorate user-name nil))]
-                         course
-                         course-data))
+                       (-> appstate
+                           (qa/get :course course-data)
+                           (dc/decorate user-name nil)))
    :actions       (fnk [user-name [:url-helpers home-url new-course-url]]
                        {:add-course (when user-name (new-course-url user-name))})
    :checkpoints   (fnk [appstate course]

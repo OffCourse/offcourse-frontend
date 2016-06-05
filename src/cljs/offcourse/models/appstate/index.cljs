@@ -3,7 +3,6 @@
             [offcourse.models.appstate.check :as check-impl]
             [offcourse.models.appstate.get :as get-impl]
             [offcourse.models.appstate.valid :as valid-impl]
-            [offcourse.models.appstate.missing-data :as md-impl]
             [offcourse.models.appstate.refresh :as refresh-impl]
             [offcourse.models.collection :refer [Collection]]
             [offcourse.models.course.index :as co :refer [Course]]
@@ -27,8 +26,6 @@
      queries        :- (schema/maybe #{schema/Num})]
   Validatable
   (-valid? [as] (valid-impl/valid? as Appstate))
-  (-missing-data [as] (md-impl/missing-data as))
-  (-missing-data [as query] (md-impl/missing-data as query))
   Queryable
   (-refresh [as query] (refresh-impl/refresh as query))
   (-check [as query] (check-impl/check as query))

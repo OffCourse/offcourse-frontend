@@ -1,12 +1,9 @@
 (ns offcourse.api.queryable
   (:require [cljs.core.async :refer [<!]]
-            [clojure.set :as set]
-            [offcourse.protocols.queryable :as qa]
-            [cljs.core.match :refer-macros [match]]
-            [offcourse.helpers.string :as sh]
             [offcourse.protocols.convertible :as ci]
+            [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.responsive :as ri])
-(:require-macros [cljs.core.async.macros :refer [go]]))
+  (:require-macros [cljs.core.async.macros :refer [go]]))
 
 #_(defn fetch-1 [api repository {:keys [type] :as query} converter]
   (go
@@ -44,9 +41,9 @@
           (when-let [converted (keep ci/to-course result)]
             (ri/respond api :found-data :courses converted)))))))
 
-(defmethod fetch :course [{:keys [repositories fetchables] :as api} {:keys [type] :as query}]
+(defmethod fetch :course [{:keys [repositories fetchables] :as api} {:keys [course] :as query}]
   (doseq [repository repositories]
     (go
-      (let [result (<! (qa/fetch repository query))]
+      (let [result (<! (qa/fetch repository :course course))]
         (when-not (:error result)
           (ri/respond api :found-data :course (ci/to-course result)))))))

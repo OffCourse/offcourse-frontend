@@ -19,8 +19,3 @@
       (and (= old-type :new-user-view) (= new-type :new-user-view)) true
       (and (= old-type :new-user-view) (not user-name)) false
       :default true)))
-
-(defmethod check :default [{:keys [queries state] :as as} query]
-  (if (set/subset? queries #{(hash query)})
-    true
-    (respond as :not-found-data query)))

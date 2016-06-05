@@ -19,7 +19,7 @@
     courses))
 
 (def graph
-  {:collection (fnk [view-data] (:collection view-data))
+  {:collection (fnk [viewmodel] (:collection viewmodel))
    :courses         (fnk [appstate user-name collection]
                          (filter-courses (:courses appstate) collection))
    :actions   (fnk [user-name [:url-helpers home-url new-course-url]]

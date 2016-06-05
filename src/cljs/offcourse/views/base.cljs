@@ -6,8 +6,6 @@
 (def graph
   {:container     (fnk [[:components app]] app)
    :user-name     (fnk [[:appstate user]] (:name user))
-   :view-data     (fnk [appstate] (-> appstate :viewmodel :dependencies))
-   :view-name     (fnk [appstate view-data] (:type view-data))
    :base-actions  (fnk [] {})
    :actions       (fnk [] {})
    :menubar       (fnk [user-name
@@ -23,6 +21,3 @@
                                                                sign-in
                                                                sign-out
                                                                profile-url)}))})
-
-
-

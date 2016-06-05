@@ -11,5 +11,9 @@
   (when (empty? (schema/check as-schema as))
     (qa/check as :course (-> as :viewmodel :course))))
 
+(defmethod valid? :checkpoint [as as-schema]
+  (when (empty? (schema/check as-schema as))
+    (qa/check as :course (-> as :viewmodel :course))))
+
 (defmethod valid? :default [as as-schema]
   (println (-> as :viewmodel)))

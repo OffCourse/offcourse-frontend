@@ -1,6 +1,5 @@
 (ns offcourse.appstate.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
-            [offcourse.appstate.add :as add-impl]
             [offcourse.appstate.check :as check-impl]
             [offcourse.appstate.refresh :as refresh-impl]
             [offcourse.models.appstate.index :as model]
@@ -34,7 +33,6 @@
   (stop    [as] (ri/mute as))
   Queryable
   (-check   [as query] (check-impl/check as query))
-  (-add  [as query] (add-impl/add as query))
   (-refresh [as query] (refresh-impl/refresh as query))
   Responsive
   (-respond [as status payload] (ri/respond as status payload))
@@ -42,5 +40,4 @@
   (-listen [as] (assoc as :listener (-listener as))))
 
 (defn new [] (map->Appstate {:component-name :appstate
-                             :state         (atom (model/new {:site-title "Offcourse_"}))
-                             :proposal      (atom (model/new {:site-title "Offcourse_"}))}))
+                             :state         (atom (model/new {:site-title "Offcourse_"}))}))
