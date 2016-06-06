@@ -43,6 +43,6 @@
     (if-let [profile (<! (get-profile @profile-data))]
       (do
         (qa/sync cloud)
-        (ri/respond cloud :found-profile {:type :user
+        (ri/respond cloud :found-profile {:type :profile
                                           :user (parse-json profile)}))
       (ri/respond cloud :not-found-profile {:type :profile}))))

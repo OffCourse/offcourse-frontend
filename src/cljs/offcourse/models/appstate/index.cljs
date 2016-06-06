@@ -19,7 +19,8 @@
 (schema/defrecord Appstate
     [site-title     :- schema/Str
      viewmodel      :- schema/Any
-     user           :- {:name (schema/maybe schema/Keyword)}
+     user           :- {:user-name (schema/maybe schema/Keyword)}
+     auth-token     :- (schema/maybe schema/Str)
      collections    :- [Collection]
      courses        :- [Course]
      resources      :- (schema/maybe [Resource])
@@ -34,7 +35,7 @@
 
 (def defaults {:site-title "BLABLA"
                :viewmodel {:type :loading}
-               :user {:name nil}
+               :user {:user-name nil}
                :collections []
                :courses []
                :resources []

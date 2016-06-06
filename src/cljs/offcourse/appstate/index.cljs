@@ -13,7 +13,12 @@
 
 (def actions {:requested-view        qa/refresh
               :found-data            qa/refresh
-              :refreshed-credentials identity
+              :signed-in-user        qa/refresh
+              :signed-out-user       qa/refresh
+              :refreshed-credentials qa/refresh
+              :found-profile         qa/refresh
+              :requested-sign-in     identity
+              :requested-sign-out    identity
               :rendered-view         identity})
 
 (defn -listener [{:keys [channels component-name reactions] :as as}]

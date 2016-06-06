@@ -17,13 +17,13 @@
         appstate-mult   (mult appstate-output)
         appstate-input  (merge [router-output
                                 (tap cloud-mult (chan))
+                                (tap auth-mult (chan))
                                 (tap ui-mult (chan))
                                 (tap api-mult (chan))])
         api-input       (tap appstate-mult (chan))
         router-input    (tap appstate-mult (chan))
         auth-input      (tap ui-mult (chan))
-        cloud-input     (merge [(tap auth-mult (chan))
-                                (tap appstate-mult (chan))])
+        cloud-input     (merge [(tap appstate-mult (chan))])
         ui-input        #_logger-output (tap appstate-mult (chan))]
 
     {:api      {:input  api-input

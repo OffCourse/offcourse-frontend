@@ -8,7 +8,6 @@
 (defn handle-response [response]
   (let [{:keys [type error] :as response} (-> response
                                         walk/keywordize-keys)]
-    (println response)
     (if-not error
       ((keyword type) response)
       {:error :not-found})))
