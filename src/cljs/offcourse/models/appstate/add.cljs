@@ -7,18 +7,15 @@
             [offcourse.protocols.validatable :as va]
             [offcourse.models.checkpoint.index :as cp]))
 
-(defn add-course [store course]
+(defn- add-course [store course]
   (if-not (qa/get store :course course)
     (update-in store [:courses] #(conj % course))
     store))
 
-(defn add-resource [store resource]
+(defn- add-resource [store resource]
   (update-in store [:resources] #(conj % resource)))
 
 (defmulti add (fn [_ {:keys [type]}] type))
-
-(defmethod add :collection [store {:keys [collection] :as q}]
-  (transform [:collections] #(conj % (cl/new collection)) store))
 
 (defmethod add :courses [store {:keys [courses]}]
   (reduce add-course store courses))

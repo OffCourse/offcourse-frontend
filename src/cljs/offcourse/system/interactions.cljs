@@ -19,8 +19,7 @@
                :requested-sign-in]})
 
 (def reactions
-  {:api      {:not-found-data     qa/fetch}
-   :logger   {:logged-action      println}
+  {:logger   {:logged-action      println}
    :router   {:refreshed-state    qa/refresh}
    :auth     {:requested-sign-in  ac/sign-in
               :requested-sign-out ac/sign-out}

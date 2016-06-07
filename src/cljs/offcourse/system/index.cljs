@@ -12,7 +12,6 @@
             [offcourse.system.routes :as routes]
             [offcourse.system.handlers :refer [handlers]]
             [offcourse.system.plumbing :as plumbing]
-            [offcourse.system.fetchables :refer [fetchables]]
             [offcourse.system.ui-components :refer [ui-components]]
             [offcourse.system.handlers :refer [handlers]]
             [offcourse.system.views :refer [views]]))
@@ -28,7 +27,6 @@
      :cloud                  (component/using (cloud/new)
                                               {:initial-config :cloud-config
                                                :channels     :cloud-channels
-                                               :fetchables   :fetchables
                                                :actions      :cloud-actions
                                                :reactions    :cloud-reactions})
      :routes                 routes/table
@@ -38,15 +36,9 @@
      :views                  views
      :view-components        ui-components
      :view-handlers          handlers
-     :fetchables             fetchables
-     :api-actions            (:api actions)
-     :api-reactions          (:api reactions)
      :api-channels           (:api channels)
      :api                    (component/using (api/new)
                                               {:channels     :api-channels
-                                               :actions      :api-actions
-                                               :fetchables   :fetchables
-                                               :reactions    :api-reactions
                                                :repositories :repositories})
      :auth-actions            (:auth actions)
      :auth-reactions          (:auth reactions)
@@ -74,13 +66,9 @@
                                                :actions   :logger-actions
                                                :reactions :logger-reactions})
 
-     :appstate-actions       (:appstate actions)
-     :appstate-reactions     (:appstate reactions)
      :appstate-channels      (:appstate channels)
      :appstate               (component/using (appstate/new)
-                                              {:channels  :appstate-channels
-                                               :actions   :appstate-actions
-                                               :reactions :appstate-reactions})
+                                              {:channels  :appstate-channels})
      :ui-actions             (:ui actions)
      :ui-reactions           (:ui reactions)
      :ui-channels            (:ui channels)

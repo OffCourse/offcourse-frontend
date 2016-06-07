@@ -16,23 +16,18 @@
               :signed-in-user        qa/refresh
               :signed-out-user       qa/refresh
               :refreshed-credentials qa/refresh
-              :found-profile         qa/refresh
-              :requested-sign-in     identity
-              :requested-sign-out    identity
-              :rendered-view         identity})
+              :found-profile         qa/refresh})
 
 (defn -listener [{:keys [channels component-name reactions] :as as}]
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))]
-      ((type actions) as action)
+      (when (type actions) ((type actions) as action))
       (recur))))
 
 (schema/defrecord Appstate
     [component-name :- schema/Keyword
      channels       :- {}
-     state          :- schema/Any
-     actions        :- []
-     reactions      :- {}]
+     state          :- schema/Any]
   Lifecycle
   (start   [as] (ri/listen2 as))
   (stop    [as] (ri/mute as))

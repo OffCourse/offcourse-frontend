@@ -4,7 +4,16 @@
             [com.stuartsierra.component :as lc]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [schema.core :as schema]))
+            [schema.core :as schema])
+  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
+
+(def actions {:not-found-data qa/fetch})
+
+(defn -listener [{:keys [channels component-name reactions] :as api}]
+  (go-loop []
+    (let [{:keys [type source payload] :as action} (<! (:input channels))]
+      (when (type actions) ((type actions) api payload))
+      (recur))))
 
 (defn connect-to-repository [{:keys [adapter name fetchables supported-types]}]
   (lc/start (adapter name supported-types)))
@@ -17,7 +26,7 @@
      reactions      :- {}
      fetchables     :- {}]
   Lifecycle
-  (start [api] (ri/listen (update api :repositories #(map connect-to-repository %))))
+  (start [api] (ri/listen2 (update api :repositories #(map connect-to-repository %))))
   (stop [api] (ri/mute api))
   Queryable
   (-fetch [api query] (qa-impl/fetch api query))
@@ -25,6 +34,6 @@
   (-respond [api status payload] (ri/respond api status payload))
   (-respond [api status type result] (ri/respond api status type result))
   (-mute [api] (ri/mute api))
-  (-listen  [api] (ri/listen api)))
+  (-listen [api] (assoc api :listener (-listener api))))
 
 (defn new [] (map->API {:component-name :api}))

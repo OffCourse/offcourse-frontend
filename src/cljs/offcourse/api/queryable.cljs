@@ -1,34 +1,27 @@
 (ns offcourse.api.queryable
-  (:require [cljs.core.async :refer [<!]]
+  (:require [cljs.core.async :refer [<! chan]]
+            [ajax.core :refer [POST]]
             [offcourse.protocols.convertible :as ci]
+            [clojure.walk :as walk]
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.responsive :as ri])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-#_(defn fetch-1 [api repository {:keys [type] :as query} converter]
-  (go
-    (let [result (<! (qa/fetch repository query))]
-      (if (:error result)
-        (ri/respond api :not-found-data query)
-        (ri/respond api :found-data type (converter result))))))
+(defn handle-response [response]
+  (let [{:keys [type error] :as response} (-> response
+                                              walk/keywordize-keys)]
+    (if-not error
+      ((keyword type) response)
+      {:error :not-found})))
 
-(defn fetch-m [api repository {:keys [type] :as query} converter field]
-  (go
-    (let [result (remove nil? (<! (qa/fetch repository query)))]
-      (if (or (:error result) (empty? result))
-        (ri/respond api :not-found-data query)
-        (when-let [converted (keep converter result)]
-          (ri/respond api :found-data type converted))))))
-
-#_(defn fetch [{:keys [repositories fetchables] :as api} {:keys [type] :as query}]
-  (when true #_(= type :resources)
-    (if-let [[converter field] (type fetchables)]
-      (doseq [{:keys [supported-types] :as repository} repositories]
-        (when (some #{type} supported-types)
-          (if field
-            (fetch-m api repository query converter field)
-            (fetch-1 api repository query converter))))
-      (ri/respond api :query-not-supported query))))
+(defn fetch-data [query]
+  (let [c (chan)]
+    (POST (str "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/staging/courses")
+        {:headers {}
+         :params (clj->js query)
+         :format :json
+         :handler #(go (>! c (handle-response %)))})
+    c))
 
 (defmulti fetch (fn [_ {:keys [type]}] type))
 
@@ -42,6 +35,7 @@
             (ri/respond api :found-data :courses converted)))))))
 
 (defmethod fetch :course [{:keys [repositories fetchables] :as api} {:keys [course] :as query}]
+  (println query)
   (doseq [repository repositories]
     (go
       (let [result (<! (qa/fetch repository :course course))]

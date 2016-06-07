@@ -37,6 +37,7 @@
           (ri/respond cloud :found-data type converted))))))
 
 (defn fetch [{:keys [fetchables] :as cloud} {:keys [type] :as query}]
+  (println query)
   (when-not true #_(= type :resources)
     (if-let [[converter field] (type fetchables)]
       (if field
