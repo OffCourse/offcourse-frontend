@@ -6,13 +6,10 @@
 
 (defrecord FakeDB [name supported-types connection]
   Lifecycle
-  (start [db] (assoc db :connection "test/test.com"))
-  (stop  [db] (dissoc db :connection))
+  (start [db] db)
+  (stop  [db] db)
   Queryable
-  (-fetch   [db query] (fetch db query))
-  Responsive
-  (-respond [db status] (ri/respond db status nil)))
+  (-fetch   [db query] (fetch db query)))
 
 (defn new-db [name supported-types]
-  (map->FakeDB {:name name
-                :supported-types supported-types}))
+  (map->FakeDB {:name name}))

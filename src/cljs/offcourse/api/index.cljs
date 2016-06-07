@@ -15,8 +15,9 @@
       (when (type actions) ((type actions) api payload))
       (recur))))
 
-(defn connect-to-repository [{:keys [adapter name fetchables supported-types]}]
-  (lc/start (adapter name supported-types)))
+(defn connect-to-repository [{:keys [adapter name endpoint]}]
+  (println endpoint)
+  (lc/start (adapter name endpoint)))
 
 (schema/defrecord API
     [component-name :- schema/Keyword

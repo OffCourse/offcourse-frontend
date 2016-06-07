@@ -49,6 +49,7 @@
                             res)]
     resources-data))
 
+
 (defn get-resources [urls]
   (let [c (chan)]
     (GET (str "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls=" urls "&maxwidth=500")
