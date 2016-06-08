@@ -11,7 +11,7 @@
        (apply set/union)
        (into #{})))
 
-(defn filter-courses [courses {:keys [collection-name collection-type]}]
+(defn filter-courses [{:keys [collection-name collection-type]} courses]
   (case (keyword collection-type)
     :curators (filter (fn [course] (= collection-name (:curator course))) courses)
     :flags (filter (fn [course] (set/superset? (into #{} (:flags course)) #{collection-name})) courses)
@@ -21,7 +21,9 @@
 (def graph
   {:collection (fnk [viewmodel] (:collection viewmodel))
    :courses         (fnk [appstate user-name collection]
-                         (filter-courses (:courses appstate) collection))
+                         (->> (:courses appstate)
+                              (map #(dc/decorate %1 user-name nil))
+                              (filter-courses collection)))
    :actions   (fnk [user-name [:url-helpers home-url new-course-url]]
                    {:add-course (when user-name (new-course-url user-name))})
    :main            (fnk [courses url-helpers handlers [:components cards]]

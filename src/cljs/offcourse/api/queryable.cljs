@@ -7,7 +7,7 @@
 
 (defmulti fetch (fn [_ {:keys [type]}] type))
 
-(defmethod fetch :collection [{:keys [repositories fetchables] :as api} {:keys [type] :as query}]
+(defmethod fetch :collection [{:keys [repositories] :as api} query]
   (doseq [repository repositories]
     (go
       (let [result (remove nil? (<! (qa/fetch repository query)))]

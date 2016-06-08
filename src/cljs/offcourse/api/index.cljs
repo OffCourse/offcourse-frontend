@@ -16,7 +16,6 @@
       (recur))))
 
 (defn connect-to-repository [{:keys [adapter name endpoint]}]
-  (println endpoint)
   (lc/start (adapter name endpoint)))
 
 (schema/defrecord API
