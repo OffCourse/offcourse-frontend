@@ -8,21 +8,15 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
  Link: file:~/Documents/offcourse/src/cljs/offcourse/data_service/index.cljs
 ** TODO  Better use of core/async      <2016-01-20 Wed 23:43>
  Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/pouchdb/index.cljs
-* Now            [100%]
-+ [X] General        [100%]
-  - [X] implement authentication?
-  - [X] implement identity management
-  - [X] add config environments
-  - [X] add toggle checkpoint
-  - [X] save courses to s3 (through lambda)
-+ [X] Viewmodels     [100%]
-  - [X] add to-url converters
+* Now            [0%]
++ [ ] Appstate       [0%]
+  - [ ] add tests
+    - [ ] refresh
+    - [ ] add
 * Next             [0%]
 + [ ] General        [0%]
   - [ ] refactor schemas
   - [ ] add 'course view'
-+ [ ] Appstate       [0%]
-  - [ ] add tests
 + [ ] Protocols      [0%]
   - [ ] queryable
     - [ ] make payloads external
@@ -81,6 +75,11 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
   - [X] add 'delete checkpoint'
   - [X] refactor
   - [X] add 'add resource' workflow
+  - [X] implement authentication?
+  - [X] implement identity management
+  - [X] add config environments
+  - [X] add toggle checkpoint
+  - [X] save courses to s3 (through lambda)
 + [X] Tests          [100%]
   + [X] refactor
 + [X] System         [100%]
@@ -142,6 +141,7 @@ Link: file:~/Documents/offcourse/src/cljs/offcourse/adapters/fakedb/implementati
     + [X] write tests
     + [X] make dependencies separate record
     + [X] refactor
+    + [X] add to-url converters
 + [X] Protocols      [100%]
   - [X] Queryable
     + [X] add get

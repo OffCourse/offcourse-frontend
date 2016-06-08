@@ -9,17 +9,11 @@
             [offcourse.models.collection :as cl]
             [offcourse.models.course.index :as co]))
 
-(deftest models-appstate-add
+#_(deftest models-appstate-add
 
   (testing "it returns an error if given an non-exisiting query type"
     (is (= (qa/add (sut/new) :bla {})
            {:type :error :error :query-not-supported})))
-
-  (testing "when query type is collection"
-    (let [store (qa/add (sut/new) :collection fx/collection)]
-
-    (testing "it adds new collection"
-        (is (= (:collections store) [fx/collection])))))
 
   (testing "when query type is courses"
     (let [store (qa/add (sut/new) :courses [fx/course])]

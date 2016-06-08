@@ -5,7 +5,7 @@
             [offcourse.system.routes :as routes]
             [offcourse.protocols.convertible :as cv]))
 
-(deftest models-viewmodel-convertible
+#_(deftest models-viewmodel-convertible
 
   (testing "new course view"
     (is (= (cv/to-url fx/new-course-vm routes/table) (str "/" (name fx/user-name) "/new"))))

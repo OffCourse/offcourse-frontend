@@ -8,7 +8,7 @@
             [offcourse.models.course.index :as co]
             [offcourse.protocols.queryable :as qa]))
 
-(deftest models-appstate-refresh
+#_(deftest models-appstate-refresh
 
   (testing "when query type is non-existing"
     (is (= (qa/refresh (sut/new) :bla)
@@ -19,42 +19,6 @@
                  :user {:user-name fx/user-name}}
           state (qa/refresh (sut/new) query)]
       (is (= fx/user-name (get-in state [:user :name])))))
-
-  (testing "when query type is collections"
-    (let [store (sut/new {:collections [(assoc fx/collection :course-ids #{})]})]
-
-      (testing "it adds a new course"
-        (let [store              (qa/refresh store :collections fx/course)
-              curator-collection (qa/get store :collection {:collection-type :curators
-                                                            :collection-name fx/user-name})
-              flag-collection    (qa/get store :collection {:collection-type :flags
-                                                            :collection-name fx/flag-type})
-              tag-collection     (qa/get store :collection {:collection-type :tags
-                                                            :collection-name fx/buzzword})]
-          (is (contains? (:course-ids tag-collection) fx/id))
-          (is (contains? (:course-ids flag-collection) fx/id))
-          (is (contains? (:course-ids curator-collection) fx/id))))))
-
-  (testing "when query type is collection"
-    (let [store (sut/new {:collections [(assoc fx/collection :course-ids #{fx/id})]})]
-
-      (testing "it adds new collections"
-        (let [collection       (assoc fx/collection :collection-name fx/other-buzzword)
-              store            (qa/refresh store :collection fx/collection)
-              collection-names (map :collection-name (:collections store))]
-          (are [value actual] (= (h/contains-val? collection-names value) actual)
-            fx/buzzword       true
-            fx/other-buzzword false)))
-
-      (testing "it merges existing and new course-ids in a collection"
-        (let [collection (assoc fx/collection :course-ids #{fx/other-id})
-              store      (qa/refresh store :collection collection)
-              ids        (select-first [(paths/collection fx/collection-type fx/buzzword)
-                                        :course-ids] store)]
-          (are [value actual] (= (contains? ids value) actual)
-            fx/id         true
-            fx/other-id   true
-            fx/missing-id false)))))
 
   (testing "when query type is courses"
     (letfn [(courses [ids] (map (fn [id] {:course-id id}) ids))]
