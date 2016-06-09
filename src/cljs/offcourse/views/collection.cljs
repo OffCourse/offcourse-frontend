@@ -12,14 +12,14 @@
        (into #{})))
 
 (defn filter-courses [{:keys [collection-name collection-type]} courses]
-  (case (keyword collection-type)
+  (case collection-type
     :curators (filter (fn [course] (= collection-name (:curator course))) courses)
     :flags (filter (fn [course] (set/superset? (into #{} (:flags course)) #{collection-name})) courses)
     :tags (filter (fn [course] (set/superset? (course-tags course) #{collection-name})) courses)
     courses))
 
 (def graph
-  {:collection (fnk [viewmodel] (:collection viewmodel))
+  {:collection (fnk [appstate] (get-in appstate [:viewmodel :collection]))
    :courses         (fnk [appstate user-name collection]
                          (->> (:courses appstate)
                               (map #(dc/decorate %1 user-name nil))
