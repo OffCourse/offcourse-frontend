@@ -6,6 +6,9 @@
 
 (defmulti respond (fn [as {:keys [type]}] type))
 
+(defmethod respond :new-course [as query]
+  (println query))
+
 (defmethod respond :checkpoint [as {:keys [course] :as query}]
   (ri/respond as :not-found-data {:type :course
                                   :course course}))
@@ -13,9 +16,7 @@
 (defmethod respond :default [as query]
   (ri/respond as :not-found-data query))
 
-(defmulti refresh
-  (fn [_ {:keys [type]}]
-    type))
+(defmulti refresh (fn [_ {:keys [type]}] type))
 
 (defmethod refresh :signed-in-user [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state payload)]
@@ -29,6 +30,12 @@
     (when (and (qa/check as :permissions proposal) )
       (reset! state (assoc proposal :queries #{}))
       (ri/respond as :refreshed-state :state @state))))
+
+(defmethod refresh :requested-update [{:keys [state] :as as} {:keys [payload] :as query}]
+    (let [proposal (qa/refresh @state payload)]
+      (when (and (qa/check as :permissions proposal) )
+        (reset! state (assoc proposal :queries #{}))
+        (ri/respond as :refreshed-state :state @state))))
 
 (defmethod refresh :refreshed-credentials [as {:keys [payload] :as query}]
   (when (:authenticated? payload)
