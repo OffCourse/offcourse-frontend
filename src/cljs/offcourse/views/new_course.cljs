@@ -7,18 +7,14 @@
             [offcourse.protocols.decoratable :as dc]))
 
 (def graph
-  {:course-data (fnk [view-data] (:course view-data))
-   :course      (fnk [appstate course-data]
-                     (if-let [course (-> course-data
-                                         dc/decorate)]
-                       course
-                       course-data))
-   :checkpoint      (fnk [view-data]
-                         (let [checkpoint (:checkpoint view-data)
+  {:course      (fnk [appstate]
+                     (-> appstate :viewmodel :new-course))
+   :checkpoint      (fnk [appstate]
+                         #_(let [checkpoint (:checkpoint view-data)
                                valid? (va/valid? checkpoint)]
                            (with-meta checkpoint {:valid? valid?})))
-   :tag      (fnk [view-data]
-                  (:tag view-data))
+   :tag      (fnk [appstate]
+                  #_(:tag view-data))
    :user        (fnk [appstate] (:user appstate))
    :main        (fnk [appstate checkpoint tag handlers [:components strips] url-helpers]
                      (let [checkpoints (mapcat :checkpoints (:courses appstate))]

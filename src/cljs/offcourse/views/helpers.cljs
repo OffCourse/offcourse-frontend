@@ -1,4 +1,5 @@
-(ns offcourse.views.helpers)
+(ns offcourse.views.helpers
+  (:require [offcourse.models.course.index :as co]))
 
 (defn home-view []
   {:type    :collection
@@ -20,5 +21,4 @@
 
 (defn new-course-view [{:keys [curator]}]
   {:type :new-course
-   :dependencies {:course     {:course-id :new
-                               :curator curator}}})
+   :new-course     (co/new {:curator curator})})

@@ -7,7 +7,7 @@
 (defmulti respond (fn [as {:keys [type]}] type))
 
 (defmethod respond :new-course [as query]
-  (println query))
+  nil)
 
 (defmethod respond :checkpoint [as {:keys [course] :as query}]
   (ri/respond as :not-found-data {:type :course
@@ -21,21 +21,21 @@
 (defmethod refresh :signed-in-user [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state payload)]
     (when (and (qa/check as :permissions proposal) )
-      (reset! state (assoc proposal :queries #{}))
+      (reset! state proposal)
       (ri/respond as :refreshed-token {:type :token
                                        :token (:auth-token @state)}))))
 
 (defmethod refresh :signed-out-user [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state payload)]
     (when (and (qa/check as :permissions proposal) )
-      (reset! state (assoc proposal :queries #{}))
+      (reset! state proposal)
       (ri/respond as :refreshed-state :state @state))))
 
 (defmethod refresh :requested-update [{:keys [state] :as as} {:keys [payload] :as query}]
-    (let [proposal (qa/refresh @state payload)]
-      (when (and (qa/check as :permissions proposal) )
-        (reset! state (assoc proposal :queries #{}))
-        (ri/respond as :refreshed-state :state @state))))
+  (let [proposal (qa/refresh @state payload)]
+    (when (qa/check as :permissions proposal)
+      (reset! state proposal)
+      (ri/respond as :refreshed-state :state @state))))
 
 (defmethod refresh :refreshed-credentials [as {:keys [payload] :as query}]
   (when (:authenticated? payload)
@@ -44,14 +44,14 @@
 (defmethod refresh :found-profile [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state payload)]
     (when (and (qa/check as :permissions proposal) )
-      (reset! state (assoc proposal :queries #{}))
+      (reset! state proposal)
       (when (va/valid? @state)
         (ri/respond as :refreshed-state :state @state)))))
 
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :viewmodel payload)]
     (when (and (qa/check as :permissions proposal) )
-      (reset! state (assoc proposal :queries #{}))
+      (reset! state proposal)
       (respond as payload)
       (when (va/valid? @state)
         (ri/respond as :refreshed-state :state @state)))))
@@ -59,5 +59,5 @@
 (defmethod refresh :found-data [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :data payload)]
     (when (va/valid? proposal)
-      (reset! state (assoc proposal :queries #{}))
+      (reset! state proposal)
       (ri/respond as :refreshed-state :state @state))))

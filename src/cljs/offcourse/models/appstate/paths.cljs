@@ -19,6 +19,9 @@
                         (= (:curator %) curator))]
     [:courses ALL #(= (:course-id %) (or course-id course))]))
 
+(defn new-course []
+  [:viewmodel :new-course])
+
 (defn checkpoints [course-id]
   [(course course-id) :checkpoints])
 

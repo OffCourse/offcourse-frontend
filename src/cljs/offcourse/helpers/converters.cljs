@@ -92,22 +92,21 @@
 (defmethod to-url :new-user-view [{:keys [type dependencies] :as vm} routes]
   (bidi/path-for routes type))
 
-(defmethod to-url :new-course-view [{:keys [type dependencies] :as vm} routes]
-  (let [{:keys [course-slug curator] :as course} (:course dependencies)]
-    (bidi/path-for routes type :curator curator)))
+(defmethod to-url :new-course [{:keys [type new-course] :as vm} routes]
+  (bidi/path-for routes :new-course-view :curator (:curator new-course)))
 
-(defmethod to-url :course [{:keys [type dependencies] :as vm} routes]
-  (let [{:keys [course-slug curator] :as course} (:course dependencies)]
-    (bidi/path-for routes type :curator curator :course-slug course-slug)))
+(defmethod to-url :course [{:keys [type course] :as vm} routes]
+  (let [{:keys [course-slug curator]} course]
+    (bidi/path-for routes :course-view :curator curator :course-slug course-slug)))
 
-(defmethod to-url :checkpoint [{:keys [type dependencies] :as vm} routes]
-  (let [{:keys [course-slug curator]} (:course dependencies)
-        {:keys [checkpoint-slug]} (:checkpoint dependencies)]
-    (bidi/path-for routes type :curator curator :course-slug course-slug :checkpoint-slug checkpoint-slug)))
+(defmethod to-url :checkpoint [{:keys [type course checkpoint] :as vm} routes]
+  (let [{:keys [course-slug curator]} course
+        {:keys [checkpoint-slug]} checkpoint]
+    (bidi/path-for routes :checkpoint :curator curator :course-slug course-slug :checkpoint-slug checkpoint-slug)))
 
 (defmethod to-url :collection [{:keys [type collection] :as vm} routes]
   (let [{:keys [collection-type collection-name]} collection]
-    (bidi/path-for routes type :collection-type collection-type :collection-name collection-name)))
+    (bidi/path-for routes :collection :collection-type collection-type :collection-name collection-name)))
 
 (defmethod to-url :loading [{:keys [type dependencies] :as vm} routes]
   (bidi/path-for routes type))
