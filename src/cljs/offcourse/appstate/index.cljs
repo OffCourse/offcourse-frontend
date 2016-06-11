@@ -17,6 +17,7 @@
               :signed-out-user       qa/refresh
               :refreshed-credentials qa/refresh
               :requested-update      qa/refresh
+              :requested-save        #(println %2)
               :found-profile         qa/refresh})
 
 (defn -listener [{:keys [channels component-name reactions] :as as}]

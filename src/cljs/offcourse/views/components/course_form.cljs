@@ -5,7 +5,7 @@
             [rum.core :as rum]))
 
 (rum/defc course-form  [{:keys [goal checkpoints] :as course}
-                        {:keys [name]}
+                        {:keys [user-name]}
                         {:keys [checkpoint-url] :as helpers}
                         {:keys [update-goal
                                 save-course] :as handlers}]

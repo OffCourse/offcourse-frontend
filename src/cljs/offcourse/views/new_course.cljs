@@ -7,10 +7,9 @@
             [offcourse.protocols.decoratable :as dc]))
 
 (def graph
-  {:course      (fnk [appstate]
-                     (-> appstate :viewmodel :new-course))
+  {:course      (fnk [appstate] (-> appstate :viewmodel :new-course dc/decorate))
    :checkpoint      (fnk [appstate]
-                         #_(let [checkpoint (:checkpoint view-data)
+                         (let [checkpoint (-> appstate :viewmodel :new-checkpoint)
                                valid? (va/valid? checkpoint)]
                            (with-meta checkpoint {:valid? valid?})))
    :tag      (fnk [appstate]

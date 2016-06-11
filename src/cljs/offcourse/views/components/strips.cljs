@@ -9,14 +9,14 @@
                                    update-task
                                    save-tag
                                    update-tag
-                                   save-checkpoint] :as handlers}]
+                                   add-new-checkpoint] :as handlers}]
   [:.container
    [:div.strip
     [:.strip--section
      [:button.button {:key :add-button
                 :data-button-type (name :icon)
                 :disabled (not (:valid? (meta checkpoint)))
-                :on-click save-checkpoint} "+"]]
+                :on-click add-new-checkpoint} "+"]]
     [:.strip--section
      [:input.title {:key :title
                     :placeholder "Task"

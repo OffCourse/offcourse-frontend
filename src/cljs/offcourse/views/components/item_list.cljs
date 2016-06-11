@@ -18,12 +18,12 @@
           :href url} [:span task]]]))
 
 (rum/defc list-item [{:keys [task] :as checkpoint}
-                     {:keys [delete-checkpoint]}]
+                     {:keys [remove-checkpoint]}]
   [:li.list--item
    [:span {:key :title} task]
    [:button.button {:key :add-button
                     :data-button-type (name :icon)
-                    :on-click #(delete-checkpoint checkpoint)} "X"]])
+                    :on-click #(remove-checkpoint checkpoint)} "X"]])
 
 (rum/defc item-list [list-type checkpoints url-helpers handlers trackable?]
   [:ul.list {:data-list-type (name list-type)}

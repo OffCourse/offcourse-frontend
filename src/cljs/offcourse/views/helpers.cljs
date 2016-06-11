@@ -1,5 +1,6 @@
 (ns offcourse.views.helpers
-  (:require [offcourse.models.course.index :as co]))
+  (:require [offcourse.models.course.index :as co]
+            [offcourse.models.checkpoint.index :as cp]))
 
 (defn home-view []
   {:type    :collection
@@ -21,4 +22,5 @@
 
 (defn new-course-view [{:keys [curator]}]
   {:type :new-course
-   :new-course     (co/new {:curator curator})})
+   :new-course     (co/new {:curator curator})
+   :new-checkpoint (cp/new {})})

@@ -27,9 +27,9 @@
    :add-checkpoint (fn [responder] #(request-update responder {:type :add-checkpoint
                                                                :checkpoint %}))
 
-   :save-checkpoint (fn [responder] #(responder :requested-save {:type :checkpoint}))
+   :add-new-checkpoint (fn [responder] #(request-update responder {:type :add-new-checkpoint}))
 
-   :delete-checkpoint (fn [responder] #(request-update responder {:type :delete-checkpoint
+   :remove-checkpoint (fn [responder] #(request-update responder {:type :remove-checkpoint
                                                                   :checkpoint %}))
    :save-tag    (fn [responder] (fn [event]
                                   (.preventDefault event)
