@@ -2,7 +2,8 @@
   (:require [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.responsive :as ri]
             [offcourse.views.helpers :as vh]
-            [offcourse.protocols.validatable :as va]))
+            [offcourse.protocols.validatable :as va]
+            [offcourse.models.course.index :as co]))
 
 (defmulti respond (fn [as {:keys [type]}] type))
 
@@ -37,6 +38,15 @@
       (reset! state proposal)
       (ri/respond as :refreshed-state :state @state))))
 
+(defmethod refresh :requested-save [{:keys [state] :as as} {:keys [payload] :as query}]
+  (let [course (-> @state :viewmodel :new-course co/complete)
+        proposal (qa/add @state :course course)]
+    (when (qa/check as :permissions proposal)
+      (reset! state proposal)
+      (qa/refresh as {:type :requested-view
+                      :payload {:type  :course
+                                :course course}}))))
+
 (defmethod refresh :refreshed-credentials [as {:keys [payload] :as query}]
   (when (:authenticated? payload)
     (ri/respond as :requested-profile {:type :profile})))
@@ -49,6 +59,7 @@
         (ri/respond as :refreshed-state :state @state)))))
 
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
+  (println query)
   (let [proposal (qa/refresh @state :viewmodel payload)]
     (when (and (qa/check as :permissions proposal) )
       (reset! state proposal)
