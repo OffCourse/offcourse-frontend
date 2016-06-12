@@ -23,6 +23,8 @@
 
 (defn new-checkpoint [] [:viewmodel :new-checkpoint])
 
+(defn new-tag [] [:viewmodel :new-tag])
+
 (defn checkpoints [course-id]
   [(course course-id) :checkpoints])
 

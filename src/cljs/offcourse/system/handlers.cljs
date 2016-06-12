@@ -31,9 +31,9 @@
 
    :remove-checkpoint (fn [responder] #(request-update responder {:type :remove-checkpoint
                                                                   :checkpoint %}))
-   :save-tag    (fn [responder] (fn [event]
-                                  (.preventDefault event)
-                                  (responder :requested-save {:type :tag})))
+   :add-tag    (fn [responder] (fn [event]
+                                 (.preventDefault event)
+                                 (request-update responder {:type :add-tag})))
 
    :toggle-checkpoint    (fn [responder] (fn [course-id checkpoint event]
                                            (.preventDefault event)
@@ -45,4 +45,6 @@
                                   (.preventDefault event)
                                    (responder :requested-save {:type :profile})))
 
-   :save-course (fn [responder] #(responder :requested-save {:type :new-course}))})
+   :save-course (fn [responder] (fn [event]
+                                  (.preventDefault event)
+                                  (responder :requested-save {:type :new-course})))})

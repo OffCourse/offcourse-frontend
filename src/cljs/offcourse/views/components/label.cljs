@@ -16,12 +16,13 @@
      [:a {:href (collection-url label-name)} (str title " ")]]))
 
 (rum/defc labels [labels {:keys [collection-url] :as helpers}]
+  ;; change here
   (let [helpers (assoc helpers :collection-url (partial collection-url :tags))]
     [:.labels (map #(rum/with-key (label % helpers)
                       (:label-name %)) labels)]))
 
-(rum/defc label-form [tag {:keys [save-tag update-tag]}]
-  [:form.form {:on-submit save-tag}
+(rum/defc label-form [tag {:keys [add-tag update-tag]}]
+  [:form.form {:on-submit add-tag}
    [:input.form--input {:placeholder "Tag"
                         :value tag
                         :on-change update-tag

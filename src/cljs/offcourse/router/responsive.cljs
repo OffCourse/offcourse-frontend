@@ -16,7 +16,6 @@
     (pushy/start! history)
     (ri/listen rt)))
 
-
 (defn mute [{:keys [history listeners] :as rt}]
   (pushy/stop! history)
   (dissoc rt :listeners))

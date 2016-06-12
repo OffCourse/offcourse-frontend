@@ -1,6 +1,6 @@
 (ns offcourse.models.appstate.refresh
   (:require [offcourse.protocols.queryable :as qa]
-            [com.rpl.specter :refer [select-first transform]]
+            [com.rpl.specter :refer [select-first transform setval]]
             [offcourse.models.appstate.paths :as paths]
             [offcourse.models.checkpoint.index :as cp]))
 
@@ -28,6 +28,13 @@
 
 (defmethod refresh :add-checkpoint [{:keys [viewmodel] :as state} {:keys [checkpoint] :as query}]
   (->> state (transform (paths/new-course) #(qa/add % :checkpoint checkpoint))))
+
+(defmethod refresh :update-tag [{:keys [viewmodel] :as state} {:keys [tag] :as query}]
+  (->> state (setval (paths/new-tag) tag)))
+
+(defmethod refresh :add-tag [{:keys [viewmodel] :as state} _]
+  (let [tag (->> state (select-first (paths/new-tag)))]
+    (->> state (transform (paths/new-checkpoint) #(qa/add % :tag tag)))))
 
 (defmethod refresh :add-new-checkpoint [{:keys [viewmodel] :as state} _]
   (let [checkpoint (select-first (paths/new-checkpoint) state)]

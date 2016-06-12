@@ -47,7 +47,7 @@
     [:.strip--section
      [:p.subtitle url]]
     [:.strip--section (labels (map (fn [tag] {:label-name tag}) tags)
-                    url-helpers)]]])
+                              url-helpers)]]])
 
 (rum/defc strips [checkpoints checkpoint tag url-helpers handlers]
   [:div.strips
