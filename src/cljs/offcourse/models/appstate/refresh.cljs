@@ -34,7 +34,9 @@
 
 (defmethod refresh :add-tag [{:keys [viewmodel] :as state} _]
   (let [tag (->> state (select-first (paths/new-tag)))]
-    (->> state (transform (paths/new-checkpoint) #(qa/add % :tag tag)))))
+    (->> state
+         (transform (paths/new-checkpoint) #(qa/add % :tag tag))
+         (setval (paths/new-tag) nil))))
 
 (defmethod refresh :add-new-checkpoint [{:keys [viewmodel] :as state} _]
   (let [checkpoint (select-first (paths/new-checkpoint) state)]

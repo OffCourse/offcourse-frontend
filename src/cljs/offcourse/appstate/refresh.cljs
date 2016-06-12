@@ -59,7 +59,6 @@
         (ri/respond as :refreshed-state :state @state)))))
 
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
-  (println query)
   (let [proposal (qa/refresh @state :viewmodel payload)]
     (when (and (qa/check as :permissions proposal) )
       (reset! state proposal)
