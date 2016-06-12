@@ -8,12 +8,10 @@
   (empty? (schema/check as-schema as)))
 
 (defmethod valid? :course [as as-schema]
-  (when (empty? (schema/check as-schema as))
-    (qa/check as :course (-> as :viewmodel :course))))
+  (empty? (schema/check as-schema as)))
 
 (defmethod valid? :checkpoint [as as-schema]
-  (when (empty? (schema/check as-schema as))
-    (qa/check as :course (-> as :viewmodel :course))))
+  (empty? (schema/check as-schema as)))
 
 (defmethod valid? :new-course [as as-schema]
   true)

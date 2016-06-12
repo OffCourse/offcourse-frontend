@@ -8,9 +8,10 @@
 (def graph
   {:course-data   (fnk [appstate] (-> appstate :viewmodel :course))
    :course        (fnk [appstate course-data user-name]
-                       (-> appstate
-                           (qa/get :course course-data)
-                           (dc/decorate user-name nil)))
+                       (if-let [course (-> appstate
+                                           (qa/get :course course-data))]
+                         (dc/decorate course user-name nil)
+                         nil))
    :actions       (fnk [user-name [:url-helpers home-url new-course-url]]
                        {:add-course (when user-name (new-course-url user-name))})
    :checkpoints   (fnk [appstate course]
@@ -21,4 +22,4 @@
                              handlers {:toggle-checkpoint (partial toggle-checkpoint (:course-id course))}]
                          (sheets checkpoints url-helpers handlers (:trackable? (meta course)))))
    :dashboard     (fnk [url-helpers course handlers [:components card dashboard]]
-                       (dashboard {:main (card course url-helpers handlers)}))})
+                       (dashboard {:main (when course (card course url-helpers handlers))}))})

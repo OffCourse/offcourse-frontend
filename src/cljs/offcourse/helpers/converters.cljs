@@ -1,17 +1,14 @@
 (ns offcourse.helpers.converters
-  (:require [schema.core :as schema :include-macros true]
-            [schema.coerce :as coerce]
-            [bidi.bidi :as bidi]
-            [schema.spec.core :as spec]
-            [schema.utils :as s-utils]
-            [cljs.core.match :refer-macros [match]]
+  (:require [bidi.bidi :as bidi]
             [cljs-uuid-utils.core :as uuid]
-            [offcourse.models.course.index :as co :refer [Course]]
-            [offcourse.models.resource.index :as rs :refer [Resource]]
+            [cljs.core.match :refer-macros [match]]
             [offcourse.models.checkpoint.index :as cp :refer [Checkpoint]]
             [offcourse.models.collection :as cl :refer [Collection]]
-            [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.protocols.queryable :as qa :refer [Queryable]]))
+            [offcourse.models.course.index :as co :refer [Course]]
+            [offcourse.models.resource.index :as rs :refer [Resource]]
+            [schema.coerce :as coerce]
+            [schema.core :as schema :include-macros true]
+            [schema.utils :as s-utils]))
 
 (defn remove-db-data [course-map]
   (match [course-map]
@@ -86,11 +83,10 @@
 (defn to-collection [{:keys [course-ids] :as obj}]
   (coerce-and-validate (dissoc obj :course-ids) Collection collection-walker))
 
-(defmulti to-url (fn [{:keys [type] :as query} _]
-                   type))
+(defmulti to-url (fn [{:keys [type] :as query} _] type))
 
-(defmethod to-url :new-user-view [{:keys [type dependencies] :as vm} routes]
-  (bidi/path-for routes type))
+(defmethod to-url :new-user [{:keys [type dependencies] :as vm} routes]
+  (bidi/path-for routes :new-user-view))
 
 (defmethod to-url :new-course [{:keys [type new-course] :as vm} routes]
   (bidi/path-for routes :new-course-view :curator (:curator new-course)))
@@ -102,11 +98,11 @@
 (defmethod to-url :checkpoint [{:keys [type course checkpoint] :as vm} routes]
   (let [{:keys [course-slug curator]} course
         {:keys [checkpoint-slug]} checkpoint]
-    (bidi/path-for routes :checkpoint :curator curator :course-slug course-slug :checkpoint-slug checkpoint-slug)))
+    (bidi/path-for routes :checkpoint-view :curator curator :course-slug course-slug :checkpoint-slug checkpoint-slug)))
 
 (defmethod to-url :collection [{:keys [type collection] :as vm} routes]
   (let [{:keys [collection-type collection-name]} collection]
-    (bidi/path-for routes :collection :collection-type collection-type :collection-name collection-name)))
+    (bidi/path-for routes :collection-view :collection-type collection-type :collection-name collection-name)))
 
 (defmethod to-url :loading [{:keys [type dependencies] :as vm} routes]
   (bidi/path-for routes type))

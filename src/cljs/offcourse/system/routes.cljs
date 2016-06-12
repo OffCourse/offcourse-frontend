@@ -23,7 +23,7 @@
   {:home-view       (fn [] (vh/collection-view (cl/new :flags :featured)))
    :new-course-view (fn [data] (vh/new-course-view data))
    :collection-view (fn [data] (vh/collection-view data))
-   :course-view (fn [data] (vh/course-view data))
+   :course-view     (fn [data] (vh/course-view data))
    :checkpoint-view (fn [data] (vh/checkpoint-view data))})
 
 (def url-helpers

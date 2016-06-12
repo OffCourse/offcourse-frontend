@@ -44,8 +44,7 @@
     (when (qa/check as :permissions proposal)
       (reset! state proposal)
       (qa/refresh as {:type :requested-view
-                      :payload {:type  :course
-                                :course course}}))))
+                      :payload (vh/course-view course)}))))
 
 (defmethod refresh :refreshed-credentials [as {:keys [payload] :as query}]
   (when (:authenticated? payload)
@@ -60,11 +59,14 @@
 
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :viewmodel payload)]
-    (when (and (qa/check as :permissions proposal) )
-      (reset! state proposal)
-      (respond as payload)
-      (when (va/valid? @state)
-        (ri/respond as :refreshed-state :state @state)))))
+    (if (qa/check as :permissions proposal)
+      (do
+        (reset! state proposal)
+        (respond as payload)
+        (when (va/valid? @state)
+          (ri/respond as :refreshed-state :state @state)))
+      (qa/refresh as {:type :requested-view
+                      :payload (vh/home-view)}))))
 
 (defmethod refresh :found-data [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :data payload)]

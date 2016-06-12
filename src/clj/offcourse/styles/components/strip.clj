@@ -42,8 +42,7 @@
               :margin-right (:full units)}]
     [v/third {:height (:one-and-half units)
               :margin-right (:full units)}]
-    [v/last {:flex 4
-             :margin-right 0
+    [v/last {:margin-right 0
              :justify-content :space-between}]
     [v/labels {:justify-content :flex-end
                :margin-bottom (:half units)}]]])

@@ -23,7 +23,9 @@
   Checkpoint
   (-decorate [{:keys [url] :as checkpoint} appstate]
     (let [resource (qa/get appstate :resource {:url url})]
-      (assoc checkpoint :resource resource)))
+      (-> checkpoint
+          (assoc :resource resource)
+          (with-meta {:selected true}))))
   Course
   (-decorate
     ([{:keys [checkpoints] :as course}]
