@@ -1,5 +1,5 @@
 (ns offcourse.protocols.responsive
-  (:require [cljs.core.async :refer [<! close! >!]]
+  (:require [cljs.core.async :refer [<! >! close!]]
             [offcourse.models.action :as action])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
@@ -14,10 +14,6 @@
    :collection          :collection
    :courses             :courses
    :course              :course
-   :course-view         :dependencies
-   :new-course-view     :dependencies
-   :collection-view     :dependencies
-   :checkpoint-view     :dependencies
    :add-checkpoint      :checkpoint
    :checkpoint          :checkpoint
    :view                :view-data
@@ -32,10 +28,8 @@
   {:type type
    (type payloads) result})
 
-(def counter (atom 0))
-
 (defn debug-helper [component-name status payload]
-  (when true #_(= component-name :ui)
+  (when #_true (= component-name :cloud)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
@@ -43,15 +37,12 @@
 
 (defn respond
   ([this status] (respond this status nil))
-  ([{:keys [output-channel log-channel channels component-name]} status payload]
+  ([{:keys [output-channel channels component-name]} status payload]
    (let [output-channel (or output-channel (:output channels))
-         log-channel    (or log-channel (:log channels))
          response       (action/new status component-name payload)]
-     #_(debug-helper component-name status payload)
+     (debug-helper component-name status payload)
      (go
-       (swap! counter inc)
-       (>! output-channel response)
-       (when log-channel (>! log-channel response)))))
+       (>! output-channel response))))
   ([this status type result](-respond this status (payload type result))))
 
 (defn -listener [{:keys [channels component-name reactions] :as this}]
@@ -61,16 +52,11 @@
       (when true #_(= component-name :cloud)
             #_(debug-helper source type payload))
       (when reaction
-        (if (= reaction :forward)
-          (respond this type payload)
-        (reaction this payload)))
+        (reaction this action))
       (recur))))
 
 (defn listen [{:keys [channels component-name reactions] :as this}]
   (assoc this :listener (-listener this)))
-
-(defn listen2 [this]
-  (-listen this))
 
 (defn mute [{:keys [channels] :as this}]
   (close! (:input channels))

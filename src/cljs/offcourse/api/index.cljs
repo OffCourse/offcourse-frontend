@@ -1,19 +1,9 @@
 (ns offcourse.api.index
-  (:require [com.stuartsierra.component :refer [Lifecycle]]
+  (:require [com.stuartsierra.component :as lc :refer [Lifecycle]]
             [offcourse.api.queryable :as qa-impl]
-            [com.stuartsierra.component :as lc]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [schema.core :as schema])
-  (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
-
-(def actions {:not-found-data qa/fetch})
-
-(defn -listener [{:keys [channels component-name reactions] :as api}]
-  (go-loop []
-    (let [{:keys [type source payload] :as action} (<! (:input channels))]
-      (when (type actions) ((type actions) api payload))
-      (recur))))
+            [schema.core :as schema]))
 
 (defn connect-to-repository [{:keys [adapter] :as config}]
   (lc/start (adapter (select-keys config [:name :endpoint :resources]))))
@@ -22,18 +12,21 @@
     [component-name :- schema/Keyword
      repositories   :- [schema/Any]
      channels       :- {}
-     actions        :- []
-     reactions      :- {}
-     fetchables     :- {}]
+     reactions      :- {}]
   Lifecycle
-  (start [api] (ri/listen2 (update api :repositories #(map connect-to-repository %))))
+  (start [api]
+    (-> api
+        (update :repositories #(map connect-to-repository %))
+        ri/listen))
   (stop [api] (ri/mute api))
   Queryable
-  (-fetch [api query] (qa-impl/fetch api query))
+  (-fetch [api {:keys [payload]}] (qa-impl/fetch api payload))
   Responsive
   (-respond [api status payload] (ri/respond api status payload))
   (-respond [api status type result] (ri/respond api status type result))
   (-mute [api] (ri/mute api))
-  (-listen [api] (assoc api :listener (-listener api))))
+  (-listen [api] (ri/listen api)))
 
-(defn new [] (map->API {:component-name :api}))
+(defn new []
+  (map->API {:component-name :api
+             :reactions {:not-found-data qa/fetch}}))
