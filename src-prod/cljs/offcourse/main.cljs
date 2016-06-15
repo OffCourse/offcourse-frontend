@@ -1,6 +1,7 @@
 (ns offcourse.main
   (:require [com.stuartsierra.component :as component]
             [offcourse.adapters.aws.index :as aws]
+            [offcourse.adapters.embedly.index :as embedly]
             [offcourse.core :as core]
             [offcourse.adapters.fakedb.index :as fakedb]))
 
@@ -16,11 +17,18 @@
 (def identity-config {:region "eu-west-1"
                       :IdentityPoolId "eu-west-1:a2cc5db6-028e-412c-953e-11658f0b1eb5"})
 
+
 (def adapters
   [#_{:adapter           fakedb/new-db}
+   {:adapter           embedly/new-db
+    :name              "embedly"
+    :resources         #{:resources}
+    :endpoint          "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls="}
    {:adapter           aws/new-db
-    :name              "aws"
+    :name              "courses-repo"
+    :resources         #{:course :collection}
     :endpoint          "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/v1/query"}])
+
 
 (defn init []
   (do

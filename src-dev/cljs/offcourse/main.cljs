@@ -20,7 +20,7 @@
   [#_{:adapter           fakedb/new-db}
    {:adapter           embedly/new-db
     :name              "embedly"
-    :resources         #{:resource :resources}
+    :resources         #{:resource}
     :endpoint          "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls="}
   {:adapter           aws/new-db
    :name              "courses-repo"

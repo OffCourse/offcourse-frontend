@@ -12,6 +12,7 @@
 
 (defmethod respond :collection [as query]
   (ri/respond as :not-found-data query))
+
 (defmethod respond :course [as {:keys [course] :as query}]
   (if (:checkpoints course)
     (ri/respond as :not-found-data {:type :resources
