@@ -8,17 +8,30 @@
 (defmulti fetch (fn [_ {:keys [type]}] type))
 
 (defmethod fetch :collection [{:keys [repositories] :as api} query]
-  (doseq [repository repositories]
-    (go
-      (let [result (remove nil? (<! (qa/fetch repository query)))]
-        (if (or (:error result) (empty? result))
-          (ri/respond api :not-found-data query)
-          (when-let [converted (keep ci/to-course result)]
-            (ri/respond api :found-data :courses converted)))))))
+  (doseq [{:keys [resources] :as repository} repositories]
+    (when (contains? resources :collection)
+      (go
+        (let [result (remove nil? (<! (qa/fetch repository query)))]
+          (if (or (:error result) (empty? result))
+            (ri/respond api :not-found-data query)
+            (when-let [converted (keep ci/to-course result)]
+              (ri/respond api :found-data :courses converted))))))))
 
-(defmethod fetch :course [{:keys [repositories fetchables] :as api} {:keys [course] :as query}]
-  (doseq [repository repositories]
-    (go
-      (let [result (<! (qa/fetch repository query))]
-        (when-not (:error result)
-          (ri/respond api :found-data :course (ci/to-course result)))))))
+(defmethod fetch :course [{:keys [repositories] :as api} {:keys [course] :as query}]
+  (doseq [{:keys [resources] :as repository} repositories]
+    (when (contains? resources :course)
+      (go
+        (let [result (<! (qa/fetch repository query))]
+          (when-not (:error result)
+            (ri/respond api :found-data :course (ci/to-course result))))))))
+
+(defmethod fetch :resources [{:keys [repositories] :as api} query]
+  (doseq [{:keys [resources] :as repository} repositories]
+    (when (contains? resources :resources)
+      (go
+        (let [result (remove nil? (<! (qa/fetch repository query)))]
+          (if (or (:error result) (empty? result))
+            (ri/respond api :not-found-data query)
+            (when-let [converted (keep identity result)]
+              (println converted)
+              (ri/respond api :found-data :resources converted))))))))

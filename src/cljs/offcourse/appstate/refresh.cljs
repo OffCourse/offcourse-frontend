@@ -10,6 +10,13 @@
 (defmethod respond :new-course [as query]
   nil)
 
+(defmethod respond :course [as {:keys [course] :as query}]
+  (if (:checkpoints course)
+    (ri/respond as :not-found-data {:type :resources
+                                    :resources (map (fn [url] {:url url}) (qa/get course :urls {}))})
+    (ri/respond as :not-found-data {:type :course
+                                    :course course})))
+
 (defmethod respond :checkpoint [as {:keys [course] :as query}]
   (ri/respond as :not-found-data {:type :course
                                   :course course}))
@@ -72,4 +79,5 @@
   (let [proposal (qa/refresh @state :data payload)]
     (when (va/valid? proposal)
       (reset! state proposal)
+      (respond as payload)
       (ri/respond as :refreshed-state :state @state))))

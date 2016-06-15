@@ -15,8 +15,8 @@
       (when (type actions) ((type actions) api payload))
       (recur))))
 
-(defn connect-to-repository [{:keys [adapter name endpoint]}]
-  (lc/start (adapter name endpoint)))
+(defn connect-to-repository [{:keys [adapter] :as config}]
+  (lc/start (adapter (select-keys config [:name :endpoint :resources]))))
 
 (schema/defrecord API
     [component-name :- schema/Keyword
