@@ -13,7 +13,9 @@
     store))
 
 (defn- add-resource [store resource]
-  (update-in store [:resources] #(conj % resource)))
+  (if-not (qa/get store :resource resource)
+    (update-in store [:resources] #(conj % resource))
+    store))
 
 (defmulti add (fn [_ {:keys [type]}] type))
 

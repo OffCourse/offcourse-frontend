@@ -11,7 +11,8 @@
                          course
                          nil))
    :checkpoint      (fnk [appstate course checkpoint-slug]
-                         (when course (qa/get course :checkpoint {:checkpoint-slug checkpoint-slug})))
+                         (when course (-> (qa/get course :checkpoint {:checkpoint-slug checkpoint-slug})
+                                          (dc/decorate appstate))))
    :actions         (fnk [user-name [:url-helpers home-url new-course-url]]
                          {:add-course (when user-name (new-course-url user-name))})
    :main            (fnk [checkpoint [:components viewer]]

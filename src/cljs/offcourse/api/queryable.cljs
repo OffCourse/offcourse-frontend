@@ -32,6 +32,5 @@
         (let [result (remove nil? (<! (qa/fetch repository query)))]
           (if (or (:error result) (empty? result))
             (ri/respond api :not-found-data query)
-            (when-let [converted (keep identity result)]
-              (println converted)
+            (when-let [converted (keep ci/to-resource result)]
               (ri/respond api :found-data :resources converted))))))))

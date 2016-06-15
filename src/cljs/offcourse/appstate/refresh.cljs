@@ -10,6 +10,8 @@
 (defmethod respond :new-course [as query]
   nil)
 
+(defmethod respond :collection [as query]
+  (ri/respond as :not-found-data query))
 (defmethod respond :course [as {:keys [course] :as query}]
   (if (:checkpoints course)
     (ri/respond as :not-found-data {:type :resources
@@ -22,7 +24,7 @@
                                   :course course}))
 
 (defmethod respond :default [as query]
-  (ri/respond as :not-found-data query))
+  nil)
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 

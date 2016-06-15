@@ -6,7 +6,6 @@
 (schema/defrecord Resource
     [url              :- schema/Str
      tasks            :- #{schema/Str}
-     checkpoint-count :- schema/Num
      tags             :- #{schema/Keyword}]
   {(schema/optional-key :type) schema/Keyword
    (schema/optional-key :description) schema/Str
