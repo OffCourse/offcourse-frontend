@@ -7,10 +7,15 @@
 
 (defonce app (atom nil))
 
-(def auth-config {"appId" "1730376537241236"
+#_(def auth-config {"appId" "1730376537241236"
                   "cookie"     true
                   "xfbml"      true
                   "version"    "v2.5"})
+
+(def auth-config {:domain "yeehaa.eu.auth0.com"
+                  :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"
+                  :callbackURL  "http://localhost:3000/*"
+                  :callbackOnLocationHash true})
 
 (def identity-config {:region "eu-west-1"
                       :IdentityPoolId "eu-west-1:c897bdeb-03e7-449a-ac28-f00c6876dbd8"})

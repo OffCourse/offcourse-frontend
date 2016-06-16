@@ -1,29 +1,33 @@
 (ns offcourse.auth.authenticatable
   (:require [cljs.core.async :refer [<! >! chan]]
-            [FB]
+            [cljsjs.auth0]
             [offcourse.protocols.responsive :as ri]
             [offcourse.protocols.queryable :as qa])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn init [{:keys [auth-config identity-config] :as auth}]
-  (.init js/FB (clj->js auth-config)))
+(defn init [{:keys [config] :as auth}]
+  (assoc auth :provider (js/Auth0. (clj->js config))))
 
-(defn -sign-in []
+(defn -sign-in [provider]
   (let [c (chan)]
-    (.login js/FB (fn [response]
-                    (go (>! c (js->clj response :keywordize-keys true)))))
+    (.login provider
+            (clj->js {:popup true
+                      :connection "github"})
+            (fn [error response]
+              (go (>! c response))))
     c))
 
 (defn -sign-out []
-  (let [c (chan)]
+  (println "signing out...")
+  #_(let [c (chan)]
     (.logout js/FB #(go (>! c %)))
     c))
 
-(defn sign-in [auth]
+(defn sign-in [{:keys [config provider] :as auth}]
   (go
-    (let [{:keys [status authResponse] :as res} (<! (-sign-in))
-          token (:accessToken authResponse)]
-      (when (= status "connected")
+    (let [res (<! (-sign-in provider))]
+      (println res)
+      #_(when (= status "connected")
         (ri/respond auth :signed-in-user {:type :token
                                           :token token})))))
 

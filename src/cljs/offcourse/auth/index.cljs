@@ -20,10 +20,10 @@
   (-fetch [auth query] (fetch-impl/fetch auth query))
   Lifecycle
   (start [auth]
-    (ac/init auth)
-    (ac/sign-in auth)
-    (ri/listen (assoc auth :reactions {:requested-sign-in  ac/sign-in
-                                       :requested-sign-out ac/sign-out})))
+    (-> auth
+        ac/init
+        ri/listen
+        ac/sign-in))
   (stop [auth] (ri/mute auth))
   Authenticable
   (-init [auth] (ac-impl/init auth))
@@ -35,4 +35,6 @@
   (-mute [auth] (ri/mute auth))
   (-listen [auth] (ri/listen auth)))
 
-(defn new [] (map->Auth {:component-name :auth}))
+(defn new [] (map->Auth {:component-name :auth
+                         :reactions {:requested-sign-in  ac/sign-in
+                                     :requested-sign-out ac/sign-out}}))

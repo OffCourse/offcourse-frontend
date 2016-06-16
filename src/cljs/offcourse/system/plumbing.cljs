@@ -19,7 +19,6 @@
         router-input    (tap appstate-mult (chan))
         auth-input      (tap ui-mult (chan))
         ui-input        (tap appstate-mult (chan))]
-
     {:api      {:input  api-input
                 :output api-output}
      :router   {:output router-output

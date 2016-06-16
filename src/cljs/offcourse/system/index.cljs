@@ -23,7 +23,7 @@
      :auth-config             auth-config
      :auth                    (component/using (auth/new)
                                               {:channels     :auth-channels
-                                               :auth-config  :auth-config})
+                                               :config  :auth-config})
 
      :routes                 routes/table
      :route-responses        routes/responses

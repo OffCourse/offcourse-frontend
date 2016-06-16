@@ -1,8 +1,8 @@
 (ns offcourse.models.appstate.refresh
-  (:require [offcourse.protocols.queryable :as qa]
-            [com.rpl.specter :refer [select-first transform setval]]
+  (:require [com.rpl.specter :refer [select-first setval transform]]
             [offcourse.models.appstate.paths :as paths]
-            [offcourse.models.checkpoint.index :as cp]))
+            [offcourse.models.checkpoint.index :as cp]
+            [offcourse.protocols.queryable :as qa]))
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
