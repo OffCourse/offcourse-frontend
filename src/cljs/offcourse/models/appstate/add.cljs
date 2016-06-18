@@ -31,6 +31,9 @@
 (defmethod add :resource [store {:keys [resource]}]
   (add-resource store resource))
 
+(defmethod add :user-profile [store {:keys [user-profile]}]
+  (assoc store :user user-profile))
+
 (defmethod add :default [_ _]
   {:type :error
    :error :query-not-supported})

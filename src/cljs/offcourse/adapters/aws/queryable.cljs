@@ -11,7 +11,8 @@
       ((keyword type) response)
       {:error :not-found})))
 
-(defn fetch [{:keys [endpoint]} query]
+(defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]
+  (println auth-token)
   (let [c (chan)]
     (POST endpoint
         {:headers {}

@@ -27,6 +27,7 @@
                              :reactions {:requested-view        qa/refresh
                                          :found-data            qa/refresh
                                          :fetched-auth-token    qa/refresh
+                                         :removed-auth-token    qa/refresh
                                          :requested-update      qa/refresh
                                          :requested-save        qa/refresh
                                          :found-profile         qa/refresh}}))

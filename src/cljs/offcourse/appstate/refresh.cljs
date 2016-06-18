@@ -48,8 +48,16 @@
                                      :auth-token (:auth-token payload)})]
     (when (and (qa/check as :permissions proposal) )
       (reset! state proposal)
-      (ri/respond as :refreshed-auth-token {:type :auth-token
-                                            :auth-token (:auth-token @state)}))))
+      (ri/respond as :not-found-data {:type :user-profile
+                                      :auth-token (:auth-token @state)}))))
+
+(defmethod refresh :removed-auth-token [{:keys [state] :as as} _]
+  (let [proposal (-> @state
+                     (qa/refresh {:type :auth-token
+                                  :auth-token (:auth-token nil)}))]
+    (when (and (qa/check as :permissions proposal) )
+      (reset! state proposal)
+      (ri/respond as :refreshed-state :state @state))))
 
 (defmethod refresh :found-profile [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state payload)]

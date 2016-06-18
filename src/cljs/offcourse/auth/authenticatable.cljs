@@ -13,10 +13,7 @@
     c))
 
 (defn -sign-out []
-  (println "signing out...")
-  #_(let [c (chan)]
-    (.logout js/FB #(go (>! c %)))
-    c))
+  (.removeItem js/localStorage "auth-token"))
 
 (defn sign-in [{:keys [config provider] :as auth}]
   (go
@@ -26,6 +23,6 @@
 
 (defn sign-out [auth]
   (go
-    (let [response (<! (-sign-out))]
-      (ri/respond auth :signed-out-user {:type :token
-                                         :token nil}))))
+    (-sign-out)
+    (ri/respond auth :removed-auth-token {:type :token
+                                          :token nil})))

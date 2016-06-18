@@ -27,10 +27,15 @@
     :name              "embedly"
     :resources         #{:resource}
     :endpoint          "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls="}
+   {:adapter           aws/new-db
+    :name              "users-db"
+    :resources         #{:user-profile}
+    :endpoint          "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/development/query"}
   {:adapter           aws/new-db
    :name              "courses-repo"
    :resources         #{:course :collection}
    :endpoint          "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/development/query"}])
+
 
 (defn init []
   (do

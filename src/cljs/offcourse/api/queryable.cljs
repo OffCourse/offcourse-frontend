@@ -7,6 +7,17 @@
 
 (defmulti fetch (fn [_ {:keys [type]}] type))
 
+
+(defmethod fetch :user-profile [{:keys [repositories] :as api} query]
+  (doseq [{:keys [resources] :as repository} repositories]
+    (when (contains? resources :user-profile)
+      (ri/respond api :found-data {:type :user-profile
+                                   :user-profile {:user-name :yeehaa}})
+      #_(go
+        (let [result (<! (qa/fetch repository query))]
+          (when-not (:error result)
+            (ri/respond api :found-data :user-profile result)))))))
+
 (defmethod fetch :collection [{:keys [repositories] :as api} query]
   (doseq [{:keys [resources] :as repository} repositories]
     (when (contains? resources :collection)
