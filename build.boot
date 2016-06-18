@@ -36,6 +36,7 @@
                  [funcool/cuerdas             "0.7.0"]
                  [kibu/pushy                  "0.3.6"]
                  [cljsjs/auth0                "6.3.0-0"]
+                 [cljsjs/auth0-lock           "9.2.1-0"]
                  [cljsjs/react                "0.14.3-0"]
                  [cljsjs/react-dom            "0.14.3-1"]
                  [cljsjs/react-dom-server     "0.14.3-0"]

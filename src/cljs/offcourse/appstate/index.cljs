@@ -26,9 +26,7 @@
                              :state         (atom (model/new {:site-title "Offcourse_"}))
                              :reactions {:requested-view        qa/refresh
                                          :found-data            qa/refresh
-                                         :signed-in-user        qa/refresh
-                                         :signed-out-user       qa/refresh
-                                         :refreshed-credentials qa/refresh
+                                         :fetched-auth-token    qa/refresh
                                          :requested-update      qa/refresh
                                          :requested-save        qa/refresh
                                          :found-profile         qa/refresh}}))

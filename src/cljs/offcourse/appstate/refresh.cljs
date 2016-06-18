@@ -29,19 +29,6 @@
 
 (defmulti refresh (fn [_ {:keys [type]}] type))
 
-(defmethod refresh :signed-in-user [{:keys [state] :as as} {:keys [payload] :as query}]
-  (let [proposal (qa/refresh @state payload)]
-    (when (and (qa/check as :permissions proposal) )
-      (reset! state proposal)
-      (ri/respond as :refreshed-token {:type :token
-                                       :token (:auth-token @state)}))))
-
-(defmethod refresh :signed-out-user [{:keys [state] :as as} {:keys [payload] :as query}]
-  (let [proposal (qa/refresh @state payload)]
-    (when (and (qa/check as :permissions proposal) )
-      (reset! state proposal)
-      (ri/respond as :refreshed-state :state @state))))
-
 (defmethod refresh :requested-update [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state payload)]
     (when (qa/check as :permissions proposal)
@@ -56,9 +43,13 @@
       (qa/refresh as {:type :requested-view
                       :payload (vh/course-view course)}))))
 
-(defmethod refresh :refreshed-credentials [as {:keys [payload] :as query}]
-  (when (:authenticated? payload)
-    (ri/respond as :requested-profile {:type :profile})))
+(defmethod refresh :fetched-auth-token [{:keys [state] :as as} {:keys [payload] :as query}]
+  (let [proposal (qa/refresh @state {:type :auth-token
+                                     :auth-token (:auth-token payload)})]
+    (when (and (qa/check as :permissions proposal) )
+      (reset! state proposal)
+      (ri/respond as :refreshed-auth-token {:type :auth-token
+                                            :auth-token (:auth-token @state)}))))
 
 (defmethod refresh :found-profile [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state payload)]

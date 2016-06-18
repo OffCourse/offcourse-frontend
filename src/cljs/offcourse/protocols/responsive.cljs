@@ -29,11 +29,11 @@
    (type payloads) result})
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= component-name :cloud)
+  (when #_true (= status :refreshed-auth-token)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
-    #_(println "PAYLOAD" payload)))
+    (println "PAYLOAD" payload)))
 
 (defn respond
   ([this status] (respond this status nil))
@@ -49,7 +49,8 @@
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      (when true #_(= component-name :cloud)
+      (when #_true (= component-name :appstate)
+            #_(when (= type :authenticated-user) (println reaction))
             #_(debug-helper source type payload))
       (when reaction
         (reaction this action))

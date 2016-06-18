@@ -3,11 +3,15 @@
             [offcourse.auth.authenticatable :as ac-impl]
             [offcourse.auth.fetch :as fetch-impl]
             [offcourse.auth.get :as get-impl]
+            [cljsjs.auth0-lock]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [schema.core :as schema])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
+
+(defn init [{:keys [config] :as auth}]
+  (assoc auth :provider (js/Auth0Lock. (:clientID config) (:domain config))))
 
 (schema/defrecord Auth
     [component-name :- schema/Keyword
@@ -15,18 +19,17 @@
      actions        :- []
      reactions      :- {}]
   Queryable
-  (-check [auth query] (get-impl/get-status))
-  (-get [auth query] (get-impl/get-profile))
-  (-fetch [auth query] (fetch-impl/fetch auth query))
+  (-get [auth query] (get-impl/get auth query))
   Lifecycle
   (start [auth]
-    (-> auth
-        ac/init
-        ri/listen
-        ac/sign-in))
+    (let [auth-token (qa/get auth {:type :auth-token})]
+      (when auth-token
+        (ri/respond auth :fetched-auth-token {:auth-token auth-token}))
+      (-> auth
+          init
+          ri/listen)))
   (stop [auth] (ri/mute auth))
   Authenticable
-  (-init [auth] (ac-impl/init auth))
   (-sign-in [auth] (ac-impl/sign-in auth))
   (-sign-out [auth] (ac-impl/sign-out auth))
   Responsive

@@ -1,14 +1,10 @@
 (ns offcourse.auth.get
+  (:refer-clojure :exclude [get])
   (:require [cljs.core.async :refer [>! chan]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn get-status []
-  (let [c (chan)]
-    (.getLoginStatus js/FB #(go (>! c (js->clj % :keywordize-keys true))))
-    c))
+(defmulti get (fn [_ {:keys [type]}] type))
 
-(defn get-profile []
-  (let [c (chan)]
-    (.api js/FB "/me" #(go (>! c (js->clj % :keywordize-keys true))))
-    c))
+(defmethod get :auth-token [_ _]
+  (.getItem js/localStorage "auth-token"))
 

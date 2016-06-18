@@ -12,9 +12,9 @@
 (defmethod refresh :data [state {:keys [data]}]
   (qa/add state data))
 
-(defmethod refresh :token [state {:keys [token]}]
+(defmethod refresh :auth-token [state {:keys [auth-token] :as q}]
   (-> state
-      (assoc :auth-token token)
+      (assoc :auth-token auth-token)
       (assoc :user {:user-name nil})))
 
 (defmethod refresh :profile [state {:keys [user]}]

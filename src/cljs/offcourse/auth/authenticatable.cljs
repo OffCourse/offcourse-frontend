@@ -1,20 +1,15 @@
 (ns offcourse.auth.authenticatable
   (:require [cljs.core.async :refer [<! >! chan]]
-            [cljsjs.auth0]
             [offcourse.protocols.responsive :as ri]
             [offcourse.protocols.queryable :as qa])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn init [{:keys [config] :as auth}]
-  (assoc auth :provider (js/Auth0. (clj->js config))))
-
 (defn -sign-in [provider]
   (let [c (chan)]
-    (.login provider
-            (clj->js {:popup true
-                      :connection "github"})
-            (fn [error response]
-              (go (>! c response))))
+    (.show provider (fn [error response token]
+                      (go (>! c {:error error
+                                 :response response
+                                 :token token}))))
     c))
 
 (defn -sign-out []
@@ -25,11 +20,9 @@
 
 (defn sign-in [{:keys [config provider] :as auth}]
   (go
-    (let [res (<! (-sign-in provider))]
-      (println res)
-      #_(when (= status "connected")
-        (ri/respond auth :signed-in-user {:type :token
-                                          :token token})))))
+    (let [{:keys [token]} (<! (-sign-in provider))]
+      (.setItem js/localStorage "auth-token" token)
+      (ri/respond auth :fetched-auth-token {:auth-token token}))))
 
 (defn sign-out [auth]
   (go
