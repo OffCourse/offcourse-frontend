@@ -12,10 +12,9 @@
       {:error :not-found})))
 
 (defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]
-  (println auth-token)
   (let [c (chan)]
     (POST endpoint
-        {:headers {}
+        {:headers {:Authorization (str "Bearer " auth-token)}
          :params (clj->js query)
          :format :json
          :handler #(go (>! c (handle-response %)))})
