@@ -59,13 +59,6 @@
       (reset! state proposal)
       (ri/respond as :refreshed-state :state @state))))
 
-(defmethod refresh :found-profile [{:keys [state] :as as} {:keys [payload] :as query}]
-  (let [proposal (qa/refresh @state payload)]
-    (when (and (qa/check as :permissions proposal) )
-      (reset! state proposal)
-      (when (va/valid? @state)
-        (ri/respond as :refreshed-state :state @state)))))
-
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :viewmodel payload)]
     (if (qa/check as :permissions proposal)

@@ -17,9 +17,6 @@
       (assoc :auth-token auth-token)
       (assoc :user {:user-name nil})))
 
-(defmethod refresh :profile [state {:keys [user]}]
-  (-> state (assoc :user user)))
-
 (defmethod refresh :toggle-checkpoint [state {:keys [course] :as query}]
   (->> state (transform (paths/course course) #(qa/refresh % query))))
 

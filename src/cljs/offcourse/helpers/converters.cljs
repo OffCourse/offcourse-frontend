@@ -77,7 +77,7 @@
   (coerce/first-matcher [collection-matcher coerce/json-coercion-matcher]))
 
 (defn to-user-profile [obj]
-  (coerce-and-validate obj Profile user-profile-walker))
+  (coerce-and-validate (dissoc obj :user-id) Profile user-profile-walker))
 
 (defn to-course [obj]
   (coerce-and-validate obj Course course-walker))
