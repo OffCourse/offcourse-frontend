@@ -26,7 +26,7 @@
     :endpoint          "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls="}
    {:adapter           aws/new-db
     :name              "courses-repo"
-    :resources         #{:course :collection}
+    :resources         #{:user-profile :course :collection}
     :endpoint          "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/v1/query"}])
 
 
