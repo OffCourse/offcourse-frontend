@@ -14,15 +14,14 @@
                       :IdentityPoolId "eu-west-1:c897bdeb-03e7-449a-ac28-f00c6876dbd8"})
 
 (def adapters
-  [#_{:adapter           fakedb/new-db}
-   {:adapter           embedly/new-db
+  [{:adapter           embedly/new-db
     :name              "embedly"
     :resources         #{:resources}
     :endpoint          "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls="}
-  {:adapter           aws/new-db
-   :name              "courses-repo"
-   :resources         #{:user-profile :course :collection}
-   :endpoint          "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/development/query"}])
+   {:adapter           aws/new-db
+    :name              "courses-repo"
+    :resources         #{:user-profile :course :collection}
+    :endpoint          "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/development/query"}])
 
 
 (defn init []
