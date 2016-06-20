@@ -9,16 +9,12 @@
 
 
 (defmethod fetch :user-profile [{:keys [repositories] :as api} query]
-  (println (:auth-token query))
   (doseq [{:keys [resources] :as repository} repositories]
     (when (contains? resources :user-profile)
-      (ri/respond api :found-data {:type :user-profile
-                                   :user-profile {:user-name :yeehaa}})
       (go
         (let [result (<! (qa/fetch repository query))]
-          (println result)
           (when-not (:error result)
-            (ri/respond api :found-data :user-profile result)))))))
+            (ri/respond api :found-data :user-profile (ci/to-user-profile result))))))))
 
 (defmethod fetch :collection [{:keys [repositories] :as api} query]
   (doseq [{:keys [resources] :as repository} repositories]

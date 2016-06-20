@@ -8,25 +8,9 @@
   (-mute [this])
   (-respond [this status] [this status payload] [this status type result]))
 
-(def payloads
-  {:collection-names    :collection-type
-   :query               :missing-data
-   :collection          :collection
-   :courses             :courses
-   :course              :course
-   :add-checkpoint      :checkpoint
-   :checkpoint          :checkpoint
-   :view                :view-data
-   :user                :user
-   :state               :state
-   :profile             :profile
-   :authenticated?      :authenticated?
-   :resources           :resources
-   :resource            :resource})
-
 (defn payload [type result]
   {:type type
-   (type payloads) result})
+   type result})
 
 (defn debug-helper [component-name status payload]
   (when #_true (= status :refreshed-auth-token)

@@ -4,18 +4,12 @@
             [cljs.core.match :refer-macros [match]]
             [offcourse.models.checkpoint.index :as cp :refer [Checkpoint]]
             [offcourse.models.collection :as cl :refer [Collection]]
+            [offcourse.models.profile.index :as pf :refer [Profile]]
             [offcourse.models.course.index :as co :refer [Course]]
             [offcourse.models.resource.index :as rs :refer [Resource]]
             [schema.coerce :as coerce]
             [schema.core :as schema :include-macros true]
             [schema.utils :as s-utils]))
-
-(defn remove-db-data [course-map]
-  (match [course-map]
-         [{:_id _ :_rev _}] (dissoc course-map :_id :_rev)
-         [{:_id _}] (dissoc course-map :_id)
-         [{:_rev _ }] (dissoc course-map :_rev)
-         :else course-map))
 
 (defn coerce-and-validate [data schema matcher]
   (let [coercer (coerce/coercer schema matcher)
@@ -30,7 +24,6 @@
     (coerce/safe
      (fn [data]
        (->> data
-            remove-db-data
             co/map->Course)))))
 
 (defn resource-matcher [schema]
@@ -38,8 +31,14 @@
     (coerce/safe
      (fn [data]
        (->> data
-            remove-db-data
             rs/map->Resource)))))
+
+(defn user-profile-matcher [schema]
+  (when (= Profile schema)
+    (coerce/safe
+     (fn [data]
+       (->> data
+            pf/map->Profile)))))
 
 (defn collection-matcher [schema]
   (when (= Collection schema)
@@ -65,6 +64,9 @@
                          checkpoint-matcher
                          uuid-matcher
                          coerce/json-coercion-matcher]))
+(def user-profile-walker
+  (coerce/first-matcher [user-profile-matcher
+                         coerce/json-coercion-matcher]))
 
 (def resource-walker
   (coerce/first-matcher [resource-matcher
@@ -73,6 +75,9 @@
 
 (def collection-walker
   (coerce/first-matcher [collection-matcher coerce/json-coercion-matcher]))
+
+(defn to-user-profile [obj]
+  (coerce-and-validate obj Profile user-profile-walker))
 
 (defn to-course [obj]
   (coerce-and-validate obj Course course-walker))
