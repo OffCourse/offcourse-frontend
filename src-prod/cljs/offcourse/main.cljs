@@ -9,10 +9,10 @@
 
 (defonce app (atom nil))
 
-(def auth-config {"appId" "1729964960615727"
-                  "cookie"     true
-                  "xfbml"      true
-                  "version"    "v2.5"})
+(def auth-config {:domain "yeehaa.eu.auth0.com"
+                  :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"
+                  :callbackURL  "staging.offcourse.io"
+                  :callbackOnLocationHash true})
 
 (def identity-config {:region "eu-west-1"
                       :IdentityPoolId "eu-west-1:a2cc5db6-028e-412c-953e-11658f0b1eb5"})

@@ -7,11 +7,6 @@
 
 (defonce app (atom nil))
 
-#_(def auth-config {"appId" "1730376537241236"
-                  "cookie"     true
-                  "xfbml"      true
-                  "version"    "v2.5"})
-
 (def auth-config {:domain "yeehaa.eu.auth0.com"
                   :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"
                   :callbackURL  "http://localhost:3000/*"
