@@ -8,13 +8,10 @@
 (defonce app (atom nil))
 
 (def auth-config {:domain "yeehaa.eu.auth0.com"
-                  :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"
-                  :callbackURL  "http://localhost:3000/*"
-                  :callbackOnLocationHash true})
+                  :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
 
 (def identity-config {:region "eu-west-1"
                       :IdentityPoolId "eu-west-1:c897bdeb-03e7-449a-ac28-f00c6876dbd8"})
-
 
 (def adapters
   [#_{:adapter           fakedb/new-db}
