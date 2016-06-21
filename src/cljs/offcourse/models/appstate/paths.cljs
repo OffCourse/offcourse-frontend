@@ -25,6 +25,8 @@
 
 (defn new-tag [] [:viewmodel :new-tag])
 
+(defn new-user [] [:viewmodel :new-user])
+
 (defn checkpoints [course-id]
   [(course course-id) :checkpoints])
 

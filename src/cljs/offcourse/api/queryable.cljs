@@ -13,8 +13,9 @@
     (when (contains? resources :user-profile)
       (go
         (let [result (<! (qa/fetch repository query))]
-          (when-not (:error result)
-            (ri/respond api :found-data :user-profile (ci/to-user-profile result))))))))
+          (if-not (:error result)
+            (ri/respond api :found-data :user-profile (ci/to-user-profile result))
+            (ri/respond api :not-found-data {:type :user-profile})))))))
 
 (defmethod fetch :collection [{:keys [repositories] :as api} query]
   (doseq [{:keys [resources] :as repository} repositories]

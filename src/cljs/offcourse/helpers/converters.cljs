@@ -90,7 +90,7 @@
 
 (defmulti to-url (fn [{:keys [type] :as query} _] type))
 
-(defmethod to-url :new-user [{:keys [type dependencies] :as vm} routes]
+(defmethod to-url :signup [{:keys [type dependencies] :as vm} routes]
   (bidi/path-for routes :new-user-view))
 
 (defmethod to-url :new-course [{:keys [type new-course] :as vm} routes]

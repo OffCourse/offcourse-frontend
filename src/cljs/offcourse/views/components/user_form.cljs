@@ -16,7 +16,7 @@
      [:.card
       [:.card--section {:key :user-name}
        [:input.title {:placeholder "Your Name"
-                      :value (when user-name (button-title (keyword user-name)))
+                      :value (when user-name (button-title (name user-name)))
                       :on-change update-user-name}]]
       [:.card--section {:key :actions}
        [:.actions

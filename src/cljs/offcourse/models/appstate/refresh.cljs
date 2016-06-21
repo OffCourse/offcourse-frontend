@@ -23,6 +23,9 @@
 (defmethod refresh :update-goal [{:keys [viewmodel] :as state} {:keys [goal] :as query}]
   (->> state (transform (paths/new-course) #(qa/refresh % :goal goal))))
 
+(defmethod refresh :update-user-name [{:keys [viewmodel] :as state} {:keys [user-name] :as query}]
+  (->> state (transform (paths/new-user) #(qa/refresh % :user-name user-name))))
+
 (defmethod refresh :add-checkpoint [{:keys [viewmodel] :as state} {:keys [checkpoint] :as query}]
   (->> state (transform (paths/new-course) #(qa/add % :checkpoint checkpoint))))
 

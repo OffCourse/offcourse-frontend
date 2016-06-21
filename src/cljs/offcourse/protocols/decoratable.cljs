@@ -1,6 +1,7 @@
 (ns offcourse.protocols.decoratable
   (:require [offcourse.models.course.index :as co :refer [Course]]
             [offcourse.models.checkpoint.index :refer [Checkpoint]]
+            [offcourse.models.profile.index :refer [Profile]]
             [offcourse.models.label :as lb]
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]))
@@ -20,6 +21,10 @@
       checkpoint)))
 
 (extend-protocol Decoratable
+  Profile
+  (-decorate [profile]
+    (let [valid? (va/valid? profile)]
+      (-> profile (with-meta {:valid? valid?}))))
   Checkpoint
   (-decorate [{:keys [url] :as checkpoint} appstate]
     (let [resource (qa/get appstate :resource {:url url})]

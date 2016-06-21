@@ -14,9 +14,11 @@
 (defmethod check :permissions [{:keys [state] :as as} {:keys [proposal]}]
   (let [old-type (viewmodel-type @state)
         new-type(viewmodel-type proposal)
-        user-name (-> proposal :user :user-name)]
+        user-name (-> proposal :user :user-name)
+        auth-token (-> proposal :auth-token)]
+    #_(println old-type new-type)
     (cond
+      (and (= old-type :signup) (= new-type :signup)) true
       (and (= new-type :new-course) (not user-name)) false
-      (and (= old-type :new-user-view) (= new-type :new-user-view)) true
-      (and (= old-type :new-user-view) (not user-name)) false
+      (and (= old-type :signup) (and auth-token (not user-name))) false
       :default true)))

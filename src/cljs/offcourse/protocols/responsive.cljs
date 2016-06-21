@@ -13,7 +13,7 @@
    type result})
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= status :refreshed-auth-token)
+  (when #_true (= component-name :ui)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)

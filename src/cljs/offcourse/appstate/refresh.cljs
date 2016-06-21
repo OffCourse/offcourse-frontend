@@ -57,18 +57,22 @@
                                   :auth-token (:auth-token nil)}))]
     (when (and (qa/check as :permissions proposal) )
       (reset! state proposal)
-      (ri/respond as :refreshed-state :state @state))))
+      (qa/refresh as {:type :requested-view
+                      :payload (vh/home-view)}))))
 
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :viewmodel payload)]
-    (if (qa/check as :permissions proposal)
-      (do
-        (reset! state proposal)
-        (respond as payload)
-        (when (va/valid? @state)
-          (ri/respond as :refreshed-state :state @state)))
-      (qa/refresh as {:type :requested-view
-                      :payload (vh/home-view)}))))
+    (when (qa/check as :permissions proposal)
+      (reset! state proposal)
+      (respond as payload)
+      (if (va/valid? @state)
+        (ri/respond as :refreshed-state :state @state)
+        (qa/refresh as {:type :requested-view
+                        :payload (vh/home-view)})))))
+
+(defmethod refresh :not-found-data [{:keys [state] :as as} {:keys [payload] :as query}]
+  (qa/refresh as {:type :requested-view
+                  :payload (vh/signup-view)}))
 
 (defmethod refresh :found-data [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :data payload)]
