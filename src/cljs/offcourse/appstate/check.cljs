@@ -19,6 +19,7 @@
     #_(println old-type new-type)
     (cond
       (and (= old-type :signup) (= new-type :signup)) true
+      (and (= old-type :new-course) (= new-type :new-course)) true
       (and (= new-type :new-course) (not user-name)) false
       (and (= old-type :signup) (and auth-token (not user-name))) false
       :default true)))

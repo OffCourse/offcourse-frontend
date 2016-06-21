@@ -31,7 +31,7 @@
 (defmethod add :resource [store {:keys [resource]}]
   (add-resource store resource))
 
-(defmethod add :user-profile [store {:keys [user-profile]}]
+(defmethod add :user-profile [store {:keys [user-profile] :as query}]
   (assoc store :user user-profile))
 
 (defmethod add :default [_ _]

@@ -35,13 +35,22 @@
       (reset! state proposal)
       (ri/respond as :refreshed-state :state @state))))
 
-(defmethod refresh :requested-save [{:keys [state] :as as} {:keys [payload] :as query}]
+(defmethod refresh :requested-save-course [{:keys [state] :as as} _]
   (let [course (-> @state :viewmodel :new-course co/complete)
         proposal (qa/add @state :course course)]
     (when (qa/check as :permissions proposal)
       (reset! state proposal)
       (qa/refresh as {:type :requested-view
                       :payload (vh/course-view course)}))))
+
+(defmethod refresh :requested-save-user [{:keys [state] :as as} _]
+  (let [user (-> @state :viewmodel :new-user)
+        proposal (qa/add @state {:type :user-profile
+                                 :user-profile user})]
+    (when (qa/check as :permissions proposal)
+      (reset! state proposal)
+      (qa/refresh as {:type :requested-view
+                      :payload (vh/home-view)}))))
 
 (defmethod refresh :fetched-auth-token [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state {:type :auth-token
@@ -55,24 +64,29 @@
   (let [proposal (-> @state
                      (qa/refresh {:type :auth-token
                                   :auth-token (:auth-token nil)}))]
-    (when (and (qa/check as :permissions proposal) )
+    (when (qa/check as :permissions proposal)
       (reset! state proposal)
       (qa/refresh as {:type :requested-view
                       :payload (vh/home-view)}))))
 
 (defmethod refresh :requested-view [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :viewmodel payload)]
-    (when (qa/check as :permissions proposal)
-      (reset! state proposal)
-      (respond as payload)
-      (if (va/valid? @state)
-        (ri/respond as :refreshed-state :state @state)
+    (if (qa/check as :permissions proposal)
+      (do
+        (reset! state proposal)
+        (respond as payload)
+        (if (va/valid? @state)
+          (ri/respond as :refreshed-state :state @state)
+          (qa/refresh as {:type :requested-view
+                          :payload (vh/home-view)})))
+      (when (= (-> @state :viewmodel :type) :loading)
         (qa/refresh as {:type :requested-view
                         :payload (vh/home-view)})))))
 
 (defmethod refresh :not-found-data [{:keys [state] :as as} {:keys [payload] :as query}]
-  (qa/refresh as {:type :requested-view
-                  :payload (vh/signup-view)}))
+  (when-not (-> @state :user :user-name)
+    (qa/refresh as {:type :requested-view
+                    :payload (vh/signup-view)})))
 
 (defmethod refresh :found-data [{:keys [state] :as as} {:keys [payload] :as query}]
   (let [proposal (qa/refresh @state :data payload)]

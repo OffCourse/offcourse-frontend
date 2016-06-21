@@ -43,8 +43,8 @@
 
    :save-profile    (fn [responder] (fn [event]
                                   (.preventDefault event)
-                                   (responder :requested-save {:type :profile})))
+                                   (responder :requested-save-user {})))
 
    :save-course (fn [responder] (fn [event]
                                   (.preventDefault event)
-                                  (responder :requested-save {:type :new-course})))})
+                                  (responder :requested-save-course {})))})

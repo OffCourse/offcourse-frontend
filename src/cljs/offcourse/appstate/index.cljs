@@ -30,6 +30,7 @@
                                          :fetched-auth-token    qa/refresh
                                          :removed-auth-token    qa/refresh
                                          :requested-update      qa/refresh
-                                         :requested-save        qa/refresh
+                                         :requested-save-user   qa/refresh
+                                         :requested-save-course qa/refresh
                                          :found-profile         qa/refresh}}))
 
