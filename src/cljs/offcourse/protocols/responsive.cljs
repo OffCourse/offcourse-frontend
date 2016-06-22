@@ -13,7 +13,7 @@
    type result})
 
 (defn debug-helper [component-name status payload]
-  (when #_true (= component-name :ui)
+  (when true #_(= component-name :appstate)
     (println "--RESPONSE-----")
     (println "SENDER" component-name)
     (println "STATUS" status)
@@ -29,11 +29,12 @@
        (>! output-channel response))))
   ([this status type result](-respond this status (payload type result))))
 
+
 (defn -listener [{:keys [channels component-name reactions] :as this}]
   (go-loop []
     (let [{:keys [type source payload] :as action} (<! (:input channels))
           reaction (type reactions)]
-      (when #_true (= component-name :appstate)
+      (when #_true (= component-name :ui)
             #_(when (= type :authenticated-user) (println reaction))
             #_(debug-helper source type payload))
       (when reaction

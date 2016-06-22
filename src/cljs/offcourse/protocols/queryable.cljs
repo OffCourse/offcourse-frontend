@@ -39,7 +39,7 @@
    :tag                 :tag
    :appstate            :transaction
    :resource            :resource
-
+   :auth-token          :auth-token
    :data               :data
    :viewmodel          :viewmodel})
 

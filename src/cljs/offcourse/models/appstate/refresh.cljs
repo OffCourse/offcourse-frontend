@@ -54,4 +54,5 @@
   (->> state (transform (paths/new-checkpoint) #(qa/refresh % :url url))))
 
 (defmethod refresh :default [state query]
-  {:type :error :error :query-not-supported})
+  {:type :error
+   :error :query-not-supported})
