@@ -21,7 +21,7 @@
   ([{:keys [output-channel channels component-name] :as this} status payload]
    (let [output-channel (or output-channel (:output channels))
          response       (action/new this status payload)]
-     (when-not (= (type payload) Payload)
+     #_(when-not (= (type payload) Payload)
        (debug-helper component-name status payload))
      (go
        (>! output-channel response))))

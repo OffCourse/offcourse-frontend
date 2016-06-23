@@ -7,6 +7,10 @@
 
 (defmulti new (fn [type result] type))
 
+(defmethod new :permissions [type result]
+  (map->Payload {:type :permissions
+                 :proposal result}))
+
 (defmethod new :checkpoint-view [type result]
    (map->Payload {:type :checkpoint
                   :course     (select-keys result [:curator :course-slug])
@@ -35,5 +39,6 @@
                  :new-checkpoint (cp/new {})}))
 
 (defmethod new :default [type result]
+  (when (= type :data) (println result))
   (map->Payload {:type type
                  type result}))
