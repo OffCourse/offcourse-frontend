@@ -3,7 +3,6 @@
             [offcourse.appstate.check :as check-impl]
             [offcourse.appstate.redirect :as redirect-impl]
             [offcourse.appstate.refresh :as refresh-impl]
-            [offcourse.models.appstate.index :as model]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.redirectable :as rd :refer [Redirectable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
@@ -28,7 +27,6 @@
   (-listen [as] (ri/listen as)))
 
 (defn new [] (map->Appstate {:component-name :appstate
-                             :state          (atom (model/new {:site-title "Offcourse_"}))
                              :reactions      {:requested-view        qa/refresh
                                               :found-data            qa/refresh
                                               :not-found-data        qa/refresh

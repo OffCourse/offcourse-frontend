@@ -11,7 +11,7 @@
             [offcourse.system.views :refer [views]]
             [offcourse.ui.index :as ui]))
 
-(defn system [site-title repositories auth-config cloud-config]
+(defn system [appstate repositories auth-config]
   (let [channels plumbing/channels]
     (component/system-map
      :repositories           repositories
@@ -32,9 +32,11 @@
                                               {:channels  :router-channels
                                                :routes    :routes
                                                :responses :route-responses})
+     :appstate-atom          appstate
      :appstate-channels      (:appstate channels)
      :appstate               (component/using (appstate/new)
-                                              {:channels  :appstate-channels})
+                                              {:channels  :appstate-channels
+                                               :state     :appstate-atom})
 
      :views                  views
      :view-components        ui-components
