@@ -1,14 +1,13 @@
 (ns offcourse.appstate.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.appstate.check :as check-impl]
-            [offcourse.appstate.refresh :as refresh-impl]
             [offcourse.appstate.redirect :as redirect-impl]
+            [offcourse.appstate.refresh :as refresh-impl]
             [offcourse.models.appstate.index :as model]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.protocols.redirectable :as rd :refer [Redirectable]]
-            [schema.core :as schema]
-            [offcourse.views.helpers :as vh]))
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]
+            [schema.core :as schema]))
 
 (schema/defrecord Appstate
     [component-name :- schema/Keyword

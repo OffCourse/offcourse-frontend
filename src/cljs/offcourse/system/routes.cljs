@@ -1,7 +1,6 @@
 (ns offcourse.system.routes
-  (:require [offcourse.models.collection :as cl]
-            [bidi.bidi :refer [path-for]]
-            [offcourse.views.helpers :as vh]))
+  (:require [bidi.bidi :refer [path-for]]
+            [offcourse.models.payload :as payload]))
 
 (def home-route        [[keyword :collection-name]])
 (def curator-routes    [[keyword :curator]])
@@ -20,11 +19,11 @@
                  true              :home-view}])
 
 (def responses
-  {:home-view       (fn [] (vh/collection-view (cl/new :flags :featured)))
-   :new-course-view (fn [data] (vh/new-course-view data))
-   :collection-view (fn [data] (vh/collection-view data))
-   :course-view     (fn [data] (vh/course-view data))
-   :checkpoint-view (fn [data] (vh/checkpoint-view data))})
+  {:home-view       (fn []     (payload/new :home-view))
+   :new-course-view (fn [data] (payload/new :new-course-view data))
+   :collection-view (fn [data] (payload/new :collection-view data))
+   :course-view     (fn [data] (payload/new :course-view data))
+   :checkpoint-view (fn [data] (payload/new :checkpoint-view data))})
 
 (def url-helpers
   (let [create-url     (partial path-for table)

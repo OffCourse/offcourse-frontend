@@ -1,9 +1,4 @@
-(ns offcourse.appstate.check
-  (:require [clojure.set :as set]
-            [offcourse.protocols.queryable :as qa]
-            [offcourse.protocols.responsive :refer [respond]]
-            [offcourse.views.helpers :as vh]
-            [offcourse.protocols.validatable :as va]))
+(ns offcourse.appstate.check)
 
 (defn viewmodel-type [state]
   (-> state :viewmodel :type))

@@ -1,5 +1,6 @@
 (ns offcourse.protocols.convertible
   (:require [offcourse.helpers.converters :as cv]
+            [offcourse.models.payload :refer [Payload]]
             [offcourse.models.course.index :refer [Course]]))
 
 (defprotocol Convertible
@@ -12,6 +13,8 @@
   (to-course [this]))
 
 (extend-protocol Convertible
+  Payload
+  (to-url [this routes] (cv/to-url this routes))
   PersistentArrayMap
   (to-url [this routes] (cv/to-url this routes))
   (to-collection [this] (cv/to-collection this))

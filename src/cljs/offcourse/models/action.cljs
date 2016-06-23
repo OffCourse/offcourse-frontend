@@ -8,6 +8,6 @@
   Loggable
   (log [this] (log this)))
 
-(defn new [type source payload]
-  (->Action type source payload))
+(defn new [{:keys [component-name] :as source} type payload]
+  (->Action type component-name payload))
 

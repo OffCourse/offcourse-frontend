@@ -29,11 +29,12 @@
       (rd/redirect as :home))))
 
 (defmethod refresh :fetched-auth-token [{:keys [state] :as as} {:keys [payload] :as query}]
-  (let [proposal (qa/refresh @state :auth-token (:auth-token payload))]
+  (let [auth-token (:auth-token payload)
+        proposal (qa/refresh @state :auth-token auth-token)]
     (when (and (qa/check as :permissions proposal) )
       (reset! state proposal)
       (ri/respond as :not-found-data {:type :user-profile
-                                      :auth-token (:auth-token @state)}))))
+                                      :auth-token auth-token}))))
 
 (defmethod refresh :removed-auth-token [{:keys [state] :as as} _]
   (let [proposal (qa/refresh @state :auth-token (:auth-token nil))]

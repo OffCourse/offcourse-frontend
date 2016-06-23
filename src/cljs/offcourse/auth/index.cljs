@@ -1,7 +1,6 @@
 (ns offcourse.auth.index
   (:require [com.stuartsierra.component :refer [Lifecycle]]
             [offcourse.auth.authenticatable :as ac-impl]
-            [offcourse.auth.fetch :as fetch-impl]
             [offcourse.auth.get :as get-impl]
             [cljsjs.auth0-lock]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
@@ -24,7 +23,7 @@
   (start [auth]
     (let [auth-token (qa/get auth {:type :auth-token})]
       (when auth-token
-        (ri/respond auth :fetched-auth-token {:auth-token auth-token}))
+        (ri/respond auth :fetched-auth-token :auth-token auth-token))
       (-> auth
           init
           ri/listen)))
