@@ -60,7 +60,7 @@
     (rd/redirect as :signup)))
 
 (defmethod refresh :found-data [{:keys [state] :as as} {:keys [payload] :as query}]
-  (let [proposal (qa/refresh @state :data payload)]
+  (let [proposal (qa/add @state payload)]
     (when (va/valid? proposal)
       (reset! state proposal)
       (when-let [missing-data (va/missing-data @state payload)]

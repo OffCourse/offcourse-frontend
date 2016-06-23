@@ -1,6 +1,8 @@
 (ns offcourse.system.routes
   (:require [bidi.bidi :refer [path-for]]
-            [offcourse.models.payload :as payload]))
+            [offcourse.models.payload :as payload]
+            [offcourse.models.course.index :as co]
+            [offcourse.models.checkpoint.index :as cp]))
 
 (def home-route        [[keyword :collection-name]])
 (def curator-routes    [[keyword :curator]])
@@ -20,7 +22,9 @@
 
 (def responses
   {:home-view       (fn []     (payload/new :home-view))
-   :new-course-view (fn [data] (payload/new :new-course-view data))
+   :new-course-view (fn [data] (payload/new :new-course-view
+                                            {:new-course (co/new {:curator (:curator data)})
+                                             :new-checkpoint (cp/new {})}))
    :collection-view (fn [data] (payload/new :collection-view data))
    :course-view     (fn [data] (payload/new :course-view data))
    :checkpoint-view (fn [data] (payload/new :checkpoint-view data))})

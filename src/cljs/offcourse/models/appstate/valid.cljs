@@ -20,4 +20,4 @@
   (if auth-token true false))
 
 (defmethod valid? :default [as as-schema]
-  (println (-> as :viewmodel)))
+  false)
