@@ -10,4 +10,3 @@
 
 (defn new [{:keys [component-name] :as source} type payload]
   (->Action type component-name payload))
-

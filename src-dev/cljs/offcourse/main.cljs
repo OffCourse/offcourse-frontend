@@ -7,8 +7,7 @@
 
 (defonce app (atom nil))
 (defonce appstate (atom (model/new {:site-title "Offcourse_"})))
-
-(def auth-config {:domain "yeehaa.eu.auth0.com"
+(defonce auth-config {:domain "yeehaa.eu.auth0.com"
                   :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
 
 (def adapters
@@ -29,7 +28,9 @@
 
 (defn reload []
   (do
-    (enable-console-print!)))
+    (enable-console-print!)
+    (reset! app (core/app appstate adapters auth-config))
+    (reset! app (component/start @app))))
 
 (defn stop []
   (component/stop @app))
