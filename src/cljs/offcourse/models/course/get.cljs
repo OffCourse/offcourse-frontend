@@ -13,10 +13,6 @@
        (apply set/union)
        (into #{})))
 
-(defmethod get :checkpoint-url [{:keys [checkpoints]} {:keys [checkpoint-slug]}]
-  (when checkpoints
-    (select-first [ALL #(= (:checkpoint-slug %) checkpoint-slug) :url] checkpoints)))
-
 (defmethod get :checkpoint [course {:keys [checkpoint]}]
   (if-let [checkpoint-slug (or (:checkpoint-slug checkpoint) (str/slugify (:task checkpoint)))]
     (do

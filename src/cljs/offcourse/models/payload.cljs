@@ -1,7 +1,4 @@
-(ns offcourse.models.payload
-  (:require [offcourse.models.profile.index :as pf]
-            [offcourse.models.course.index :as co]
-            [offcourse.models.checkpoint.index :as cp]))
+(ns offcourse.models.payload)
 
 (defrecord Payload [type])
 
@@ -29,14 +26,14 @@
   (map->Payload {:type :course
                  :course     (select-keys data [:curator :course-slug])}))
 
-(defmethod new :signup-view []
+(defmethod new :signup-view [type user]
   (map->Payload {:type :signup
-                 :new-user (pf/new {})}))
+                 :new-user user}))
 
-(defmethod new :new-course-view [type {:keys [curator]}]
+(defmethod new :new-course-view [type {:keys [new-course new-checkpoint]}]
   (map->Payload {:type :new-course
-                 :new-course     (co/new {:curator curator})
-                 :new-checkpoint (cp/new {})}))
+                 :new-course     new-course
+                 :new-checkpoint new-checkpoint}))
 
 (defmethod new :default [type result]
   (when (= type :data) (println result))
