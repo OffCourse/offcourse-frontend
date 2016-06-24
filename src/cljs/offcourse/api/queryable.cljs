@@ -5,42 +5,17 @@
             [offcourse.protocols.responsive :as ri])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defmulti fetch (fn [_ {:keys [type]}] type))
+(def conversions
+  {:user-profile ci/to-user-profile
+   :course       ci/to-course
+   :courses      (partial keep ci/to-course)
+   :resources    (partial keep ci/to-resource)})
 
-
-(defmethod fetch :user-profile [{:keys [repositories] :as api} query]
+(defn fetch [{:keys [repositories] :as api} {:keys [type] :as query}]
   (doseq [{:keys [resources] :as repository} repositories]
-    (when (contains? resources :user-profile)
+    (when (contains? resources type)
       (go
-        (let [result (<! (qa/fetch repository query))]
-          (if-not (:error result)
-            (ri/respond api :found-data :user-profile (ci/to-user-profile result))
-            (ri/respond api :not-found-data {:type :user-profile})))))))
-
-(defmethod fetch :collection [{:keys [repositories] :as api} query]
-  (doseq [{:keys [resources] :as repository} repositories]
-    (when (contains? resources :collection)
-      (go
-        (let [result (remove nil? (<! (qa/fetch repository query)))]
-          (if (or (:error result) (empty? result))
-            (ri/respond api :not-found-data query)
-            (when-let [converted (keep ci/to-course result)]
-              (ri/respond api :found-data :courses converted))))))))
-
-(defmethod fetch :course [{:keys [repositories] :as api} {:keys [course] :as query}]
-  (doseq [{:keys [resources] :as repository} repositories]
-    (when (contains? resources :course)
-      (go
-        (let [result (<! (qa/fetch repository query))]
-          (when-not (:error result)
-            (ri/respond api :found-data :course (ci/to-course result))))))))
-
-(defmethod fetch :resources [{:keys [repositories] :as api} query]
-  (doseq [{:keys [resources] :as repository} repositories]
-    (when (contains? resources :resources)
-      (go
-        (let [result (remove nil? (<! (qa/fetch repository query)))]
-          (if (or (:error result) (empty? result))
-            (ri/respond api :not-found-data query)
-            (when-let [converted (keep ci/to-resource result)]
-              (ri/respond api :found-data :resources converted))))))))
+        (let [{:keys [type error] :as result} (<! (qa/fetch repository query))]
+          (if-not error
+            (ri/respond api :found-data type ((type conversions) (type result)))
+            (ri/respond api :not-found-data {:type type})))))))

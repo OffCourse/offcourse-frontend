@@ -11,5 +11,5 @@
   Queryable
   (-fetch   [db query] (fetch db query)))
 
-(defn new-db [name supported-types]
-  (map->FakeDB {:name name}))
+(defn new-db [config]
+  (map->FakeDB config))

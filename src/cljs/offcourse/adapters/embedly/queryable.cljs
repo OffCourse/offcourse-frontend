@@ -38,4 +38,5 @@
   (let [urls (str/join "," (map :url resources))]
     (go
       (when-not (empty? resources)
-        (->> (parse-response (<! (get-resources endpoint urls))))))))
+        {:type :resources
+         :resources (->> (parse-response (<! (get-resources endpoint urls))))}))))

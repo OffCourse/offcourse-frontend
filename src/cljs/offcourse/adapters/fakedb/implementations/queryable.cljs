@@ -14,53 +14,29 @@
 
 (defmulti fetch (fn [_ {:keys [type]}] type))
 
+(defmethod fetch :user-profile [_ _]
+  (go
+      {:type :user-profile
+       :user-profile {:user-name "yeehaa"}}))
+
 (defmethod fetch :collection [_ {:keys [collection]}]
   (go
     (let [{:keys [collection-name collection-type]} collection
           course-ids (get-in collections [collection-type collection-name])]
-      (cs/courses-by-id course-ids courses))))
+      {:type :courses
+       :courses (cs/courses-by-id course-ids courses)})))
 
 (defmethod fetch :course [_ {:keys [course]}]
   (go
     (if-let [course (or (cs/course-by-id course courses)
                         (cs/course-by-curator-and-slug course courses))]
-      course
+      {:type :course
+       :course course}
       {:error :not-found-data})))
 
 (defmethod fetch :courses [_ {:keys [course-ids]}]
   (go
     (if-let [courses (cs/courses-by-id course-ids courses)]
-      courses
+      {:type :courses
+       :courses courses}
       {:error :not-found-data})))
-
-(defmethod fetch :resource [_ {:keys [url]}]
-  (go (r/select-resource url all-resources)))
-
-(defn add-defaults [{:keys [url content description title]}]
-  {:url url
-   :title (or title "Couldn't Extract Title")
-   :content (or content "Couldn't Extract Content")
-   :description (or description "No Description")})
-
-(defn parse-response [res]
-  (let [resources-data (map (fn [resource-data] (as-> resource-data rd
-                                                  (walk/keywordize-keys rd)
-                                                  (add-defaults rd)))
-                            res)]
-    resources-data))
-
-
-(defn get-resources [urls]
-  (let [c (chan)]
-    (GET (str "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls=" urls "&maxwidth=500")
-        {:handler #(go (>! c %))})
-    c))
-
-(defmethod fetch :resources [_ {:keys [resources tags]}]
-  (let [urls (str/join "," (map :url resources))]
-    (go
-      (if tags
-        all-resources
-        (when-not (empty? resources)
-          (->> (parse-response (<! (get-resources urls)))
-               (map #(merge (rand-nth all-resources) %))))))))
