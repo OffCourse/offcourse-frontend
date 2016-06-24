@@ -12,7 +12,6 @@
       {:error :fetch-error})))
 
 (defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]
-  (println auth-token)
   (let [c (chan)]
     (POST endpoint
         {:headers {:Authorization (str "Bearer " auth-token)}
