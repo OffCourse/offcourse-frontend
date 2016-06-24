@@ -11,14 +11,14 @@
 (defonce auth-config {:domain "yeehaa.eu.auth0.com"
                   :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
 (def adapters
-  [{:adapter           fakedb/new-db
+  [#_{:adapter           fakedb/new-db
     :name             "fakedb"
     :resources         #{:user-profile :course :collection}}
    {:adapter           embedly/new-db
     :name              "embedly"
     :resources         #{:resources}
     :endpoint          "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls="}
-   #_{:adapter           aws/new-db
+   {:adapter           aws/new-db
     :name              "courses-repo"
     :resources         #{:user-profile :course :collection}
     :endpoint          "https://6fp04c7v5e.execute-api.eu-west-1.amazonaws.com/development/query"}])

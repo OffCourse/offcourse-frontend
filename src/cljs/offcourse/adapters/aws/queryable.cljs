@@ -5,13 +5,14 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn handle-response [response]
-  (let [{:keys [type error] :as response} (-> response
-                                              walk/keywordize-keys)]
-    (if ((keyword type) response)
-      ((keyword type) response)
-      {:error :not-found})))
+  (let [{:keys [errorMessage payload] :as response} (-> response
+                                           walk/keywordize-keys)]
+    (if-not errorMessage
+      (update-in payload [:type] #(keyword %))
+      {:error :fetch-error})))
 
 (defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]
+  (println auth-token)
   (let [c (chan)]
     (POST endpoint
         {:headers {:Authorization (str "Bearer " auth-token)}
