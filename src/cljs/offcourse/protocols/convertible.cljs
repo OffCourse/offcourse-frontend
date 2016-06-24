@@ -10,11 +10,16 @@
   (to-collection [this])
   (to-resource [this])
   (to-user-profile [this])
-  (to-course [this]))
+  (to-course [this])
+  (to-courses [this])
+  (to-resources [this]))
 
 (extend-protocol Convertible
   Payload
   (to-url [this routes] (cv/to-url this routes))
+  PersistentVector
+  (to-courses [this] (keep to-course this))
+  (to-resources [this] (keep to-resource this))
   PersistentArrayMap
   (to-url [this routes] (cv/to-url this routes))
   (to-collection [this] (cv/to-collection this))

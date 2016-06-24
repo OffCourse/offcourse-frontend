@@ -1,17 +1,19 @@
 (ns offcourse.adapters.aws.queryable
   (:require [ajax.core :refer [POST]]
             [cljs.core.async :refer [chan]]
+            [cljs.core.match :refer-macros [match]]
             [clojure.walk :as walk])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn handle-response [response]
-  (let [{:keys [type errorMessage payload] :as response} (-> response
-                                                             walk/keywordize-keys)]
-    (if-not errorMessage
-      (if (= (keyword type) :not-found-data)
-        {:error :not-found-data}
-        (update-in payload [:type] #(keyword %)))
-      {:error :fetch-error})))
+  (let [response (-> response
+                     walk/keywordize-keys
+                     (update-in [:type] #(keyword %))
+                     (update-in [:payload :type] #(keyword %)))]
+    (match response
+           {:errorMessage _} {:error :fetch-error}
+           {:type :found-data :payload payload} payload
+           {:type :not-found-data} {:error :not-found-data})))
 
 (defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]
   (let [c (chan)]
