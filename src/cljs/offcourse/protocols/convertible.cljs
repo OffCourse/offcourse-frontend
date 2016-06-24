@@ -17,6 +17,9 @@
 (extend-protocol Convertible
   Payload
   (to-url [this routes] (cv/to-url this routes))
+  LazySeq
+  (to-courses [this] (keep to-course this))
+  (to-resources [this] (keep to-resource this))
   PersistentVector
   (to-courses [this] (keep to-course this))
   (to-resources [this] (keep to-resource this))

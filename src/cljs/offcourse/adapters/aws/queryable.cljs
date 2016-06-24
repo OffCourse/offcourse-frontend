@@ -5,8 +5,8 @@
             [clojure.walk :as walk])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-(defn handle-response [response]
-  (let [response (-> response
+(defn handle-response [res]
+  (let [response (-> res
                      walk/keywordize-keys
                      (update-in [:type] #(keyword %))
                      (update-in [:payload :type] #(keyword %)))]
