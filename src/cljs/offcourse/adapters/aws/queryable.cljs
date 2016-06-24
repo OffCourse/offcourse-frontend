@@ -5,10 +5,12 @@
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn handle-response [response]
-  (let [{:keys [errorMessage payload] :as response} (-> response
-                                           walk/keywordize-keys)]
+  (let [{:keys [type errorMessage payload] :as response} (-> response
+                                                             walk/keywordize-keys)]
     (if-not errorMessage
-      (update-in payload [:type] #(keyword %))
+      (if (= (keyword type) :not-found-data)
+        {:error :not-found-data}
+        (update-in payload [:type] #(keyword %)))
       {:error :fetch-error})))
 
 (defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]
