@@ -36,6 +36,5 @@
                  :new-checkpoint new-checkpoint}))
 
 (defmethod new :default [type result]
-  (when (= type :data) (println "DATA" result))
   (map->Payload {:type type
                  type result}))

@@ -21,11 +21,9 @@
       {:error :not-found})))
 
 (defn parse-response [res]
-  (let [resources-data (map (fn [resource-data] (as-> resource-data rd
-                                                  (walk/keywordize-keys rd)
-                                                  (add-defaults rd)))
-                            res)]
-    resources-data))
+  (map (fn [resource-data] (as-> resource-data rd
+                             (walk/keywordize-keys rd)
+                             (add-defaults rd))) res))
 
 
 (defn get-resources [endpoint urls]
