@@ -1,7 +1,7 @@
 (ns offcourse.protocols.responsive
   (:require [cljs.core.async :refer [<! >! close!]]
             [offcourse.models.action :as action]
-            [offcourse.models.payload :as payload :refer [Payload]])
+            [offcourse.models.payload.index :as payload :refer [Payload]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
 (defprotocol Responsive

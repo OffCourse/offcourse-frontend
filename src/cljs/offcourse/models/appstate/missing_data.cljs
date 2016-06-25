@@ -1,5 +1,5 @@
 (ns offcourse.models.appstate.missing-data
-  (:require [offcourse.models.payload :as payload]
+  (:require [offcourse.models.payload.index :as payload]
             [offcourse.protocols.queryable :as qa]
             [offcourse.protocols.validatable :as va]
             [clojure.set :as set]))

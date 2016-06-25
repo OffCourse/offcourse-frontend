@@ -1,6 +1,6 @@
 (ns offcourse.system.routes
   (:require [bidi.bidi :refer [path-for]]
-            [offcourse.models.payload :as payload]
+            [offcourse.models.payload.index :as payload]
             [offcourse.models.course.index :as co]
             [offcourse.models.checkpoint.index :as cp]))
 

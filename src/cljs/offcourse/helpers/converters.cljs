@@ -9,7 +9,8 @@
             [offcourse.models.resource.index :as rs :refer [Resource]]
             [schema.coerce :as coerce]
             [schema.core :as schema :include-macros true]
-            [schema.utils :as s-utils]))
+            [schema.utils :as s-utils]
+            [offcourse.protocols.convertible :as ci]))
 
 (defn coerce-and-validate [data schema matcher]
   (let [coercer (coerce/coercer schema matcher)
@@ -81,6 +82,9 @@
 
 (defn to-course [obj]
   (coerce-and-validate obj Course course-walker))
+
+(defn to-courses [{:keys [courses] :as obj}]
+  (keep to-course courses))
 
 (defn to-resource [obj]
   (coerce-and-validate obj Resource resource-walker))

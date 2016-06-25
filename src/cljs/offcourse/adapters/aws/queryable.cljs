@@ -2,7 +2,8 @@
   (:require [ajax.core :refer [POST]]
             [cljs.core.async :refer [chan]]
             [cljs.core.match :refer-macros [match]]
-            [clojure.walk :as walk])
+            [clojure.walk :as walk]
+            [offcourse.models.payload.index :as pl])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn handle-response [res]
@@ -12,7 +13,7 @@
                      (update-in [:payload :type] #(keyword %)))]
     (match response
            {:errorMessage _} {:error :fetch-error}
-           {:type :found-data :payload payload} payload
+           {:type :found-data :payload payload} (pl/map->Payload payload)
            {:type :not-found-data} {:error :not-found-data})))
 
 (defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]

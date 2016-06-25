@@ -1,6 +1,6 @@
 (ns offcourse.appstate.redirect
   (:require [offcourse.models.action :as action]
-            [offcourse.models.payload :as payload]
+            [offcourse.models.payload.index :as payload]
             [offcourse.protocols.queryable :as qa]
             [offcourse.models.profile.index :as pf]))
 

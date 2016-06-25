@@ -13,7 +13,7 @@
    :resources    ci/to-resources})
 
 (defn handle-success [api {:keys [type] :as response}]
-  (let [converted-data ((type conversions) (type response))]
+  (let [converted-data ((type conversions) response)]
     (ri/respond api :found-data type converted-data)))
 
 (defn handle-error [api query]

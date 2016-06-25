@@ -1,6 +1,6 @@
 (ns offcourse.protocols.queryable
   (:refer-clojure :exclude [get -reset remove])
-  (:require [offcourse.models.payload :as payload]))
+  (:require [offcourse.models.payload.index :as payload]))
 
 (defprotocol Queryable
   (-get     [this query])
