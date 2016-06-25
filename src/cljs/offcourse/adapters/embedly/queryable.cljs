@@ -2,7 +2,8 @@
   (:require [ajax.core :refer [GET POST]]
             [cljs.core.async :refer [chan]]
             [clojure.walk :as walk]
-            [clojure.string :as str])
+            [clojure.string :as str]
+            [offcourse.models.response.index :as response])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn add-defaults [{:keys [url content description title]}]
@@ -33,8 +34,9 @@
     c))
 
 (defn fetch [{:keys [endpoint]} {:keys [resources]}]
-  (let [urls (str/join "," (map :url resources))]
-    (go
+  (go
       (when-not (empty? resources)
-        {:type :resources
-         :resources (->> (parse-response (<! (get-resources endpoint urls))))}))))
+        (let [urls (str/join "," (map :url resources))
+              resources (parse-response (<! (get-resources endpoint urls)))]
+          (response/new {:type :resources
+                         :resources resources})))))

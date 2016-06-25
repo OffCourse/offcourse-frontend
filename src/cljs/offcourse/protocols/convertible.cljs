@@ -5,4 +5,5 @@
   (to-user-profile [this])
   (to-courses [this])
   (to-course [this])
+  (to-payload [this])
   (to-resources [this]))

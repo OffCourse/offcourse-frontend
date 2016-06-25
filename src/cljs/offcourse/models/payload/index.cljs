@@ -5,8 +5,7 @@
 
 (defrecord Payload [type]
   Convertible
-  (to-url [this routes] (to-url this routes))
-  (to-courses [this] (println this)))
+  (to-url [this routes] (to-url this routes)))
 
 (defmulti new (fn [type result] type))
 
