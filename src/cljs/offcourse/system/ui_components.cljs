@@ -12,7 +12,6 @@
             [offcourse.views.components.actions-panel :refer [actions-panel]]
             [offcourse.views.containers.menubar :refer [menubar]]))
 
-
 (def ui-components
   {:logo logo
    :app app

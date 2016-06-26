@@ -2,7 +2,7 @@
 
 (defprotocol Validatable
   (-missing-data [this] [this query])
-  (errors [this])
+  (-errors [this])
   (-valid? [this]))
 
 (defn valid? [this] (-valid? this))
