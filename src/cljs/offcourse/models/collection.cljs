@@ -1,9 +1,6 @@
-(ns offcourse.models.collection
-  (:require [schema.core :as schema :include-macros true]))
+(ns offcourse.models.collection)
 
-(schema/defrecord Collection
-    [collection-type  :- schema/Keyword
-     collection-name  :- schema/Keyword])
+(defrecord Collection [collection-type collection-name])
 
 (defn new
   ([collection-data] (map->Collection collection-data))

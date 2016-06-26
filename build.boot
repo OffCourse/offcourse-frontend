@@ -1,9 +1,9 @@
 (set-env!
  :source-paths    #{"src/js" "src/cljs" "src/cljc"}
  :resource-paths  #{"resources"}
- :dependencies '[[adzerk/boot-cljs              "1.7.170-3"      :scope "test"]
-                 [adzerk/boot-cljs-repl         "0.3.0"          :scope "test"]
-                 [adzerk/boot-reload            "0.4.2"          :scope "test"]
+ :dependencies '[[adzerk/boot-cljs              "1.7.228-1"      :scope "test"]
+                 [adzerk/boot-cljs-repl         "0.3.2"          :scope "test"]
+                 [adzerk/boot-reload            "0.4.10"          :scope "test"]
                  [ring/ring-devel               "1.3.2"          :scope "test"]
                  [com.cemerick/piggieback       "0.2.1"          :scope "test"]
                  [org.clojure/tools.nrepl       "0.2.12"         :scope "test"]
@@ -16,7 +16,7 @@
                  [org.martinklepsch/boot-garden "1.3.0-0"]
                  [metosin/ring-http-response  "0.6.5"]
                  [com.stuartsierra/component  "0.3.1"]
-                 [org.clojure/clojurescript   "1.7.189"]
+                 [org.clojure/clojurescript   "1.9.89"]
                  [org.clojure/core.async      "0.2.374"]
                  [org.clojure/core.match      "0.3.0-alpha4"]
                  [prismatic/schema            "1.0.4"]
@@ -39,9 +39,7 @@
                  [cljsjs/auth0-lock           "9.2.1-0"]
                  [cljsjs/react                "0.14.3-0"]
                  [cljsjs/react-dom            "0.14.3-1"]
-                 [cljsjs/react-dom-server     "0.14.3-0"]
-                 [cljsjs/react-grid-layout    "0.8.5-0"]
-                 [cljsjs/fixed-data-table     "0.4.6-0"]])
+                 [cljsjs/react-dom-server     "0.14.3-0"]])
 
 (require
  '[adzerk.boot-cljs      :refer [cljs]]

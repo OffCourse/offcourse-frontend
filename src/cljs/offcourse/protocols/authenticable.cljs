@@ -9,6 +9,3 @@
 
 (defn sign-out [this]
   (-sign-out this))
-
-(defn init [this]
-  (-init this))

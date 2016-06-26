@@ -7,7 +7,9 @@
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [schema.core :as schema :include-macros true]
             [cuerdas.core :as str]
-            [offcourse.models.course.refresh :as refresh-impl]))
+            [offcourse.models.course.refresh :as refresh-impl]
+            [cljs.spec :as spec]
+            [offcourse.models.specs :as specs]))
 
 (schema/defrecord Course
     [course-id    :- schema/Str
@@ -29,9 +31,7 @@
   (-refresh [course query] (refresh-impl/refresh course query))
   (-add [course query] (add-impl/add course query))
   Validatable
-  (-valid? [{:keys [checkpoints] :as course}]
-    (if (and (empty? (qa/check course)) (>= (count checkpoints) 1))
-      true false)))
+  (-valid? [course] (spec/valid? ::specs/course course)))
 
 (defn complete [{:keys [curator goal] :as course}]
   (let [base-id (str (name curator) "::" (hash course))]
