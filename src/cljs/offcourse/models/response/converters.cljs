@@ -7,7 +7,9 @@
             [offcourse.models.resource.index :as rs :refer [Resource]]
             [schema.coerce :as coerce]
             [schema.core :as schema :include-macros true]
-            [schema.utils :as s-utils]))
+            [schema.utils :as s-utils]
+            [cljs.spec :as spec]
+            [offcourse.specs.resources :as resources]))
 
 (defn coerce-and-validate [data schema matcher]
   (let [coercer (coerce/coercer schema matcher)
@@ -23,13 +25,6 @@
      (fn [data]
        (->> data
             co/map->Course)))))
-
-(defn resource-matcher [schema]
-  (when (= Resource schema)
-    (coerce/safe
-     (fn [data]
-       (->> data
-            rs/map->Resource)))))
 
 (defn collection-matcher [schema]
   (when (= Collection schema)
@@ -54,11 +49,6 @@
   (coerce/first-matcher [course-matcher
                          checkpoint-matcher
                          coerce/json-coercion-matcher]))
-(def resource-walker
-  (coerce/first-matcher [resource-matcher
-                         uuid-matcher
-                         coerce/json-coercion-matcher]))
-
 (defn to-course [obj]
   (coerce-and-validate obj Course course-walker))
 
@@ -66,7 +56,9 @@
   (keep to-course obj))
 
 (defn to-resource [obj]
-  (coerce-and-validate obj Resource resource-walker))
+  (let [resource (rs/map->Resource obj) #_(coerce-and-validate obj Resource resource-walker)]
+    (println (spec/valid? ::resources/resource resource))
+    resource))
 
 (defn to-resources [obj]
   (keep to-resource obj))

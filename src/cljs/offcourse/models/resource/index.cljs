@@ -1,7 +1,9 @@
 (ns offcourse.models.resource.index
   (:require [schema.core :as schema]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [offcourse.protocols.queryable   :as qa :refer [Queryable]]))
+            [offcourse.protocols.queryable   :as qa :refer [Queryable]]
+            [cljs.spec :as spec]
+            [offcourse.specs.resources :as resources]))
 
 (schema/defrecord Resource
     [url              :- schema/Str
@@ -13,9 +15,11 @@
    (schema/optional-key :authors) [schema/Str]
    (schema/optional-key :content) schema/Any}
   Queryable
-  (-check [resource] (schema/check Resource resource))
+  (-check [resource]
+    (schema/check Resource resource))
   Validatable
-  (-valid? [resource] (if-not (qa/check resource) true false)))
+  (-valid? [resource]
+    (if-not (qa/check resource) true false)))
 
 (defn new [{:keys [url task tags]}] (map->Resource {:url url
                                                     :tasks #{task}
