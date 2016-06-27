@@ -5,7 +5,9 @@
 (defmulti to-payload (fn [{:keys [type]}] type))
 
 (defmethod to-payload :user-profile [{:keys [type user-profile]}]
-  (payload/new type (cv/to-user-profile user-profile)))
+  (payload/new type (-> user-profile
+                        (dissoc :user-id)
+                        (update-in [:user-name] #(keyword %)))))
 
 (defmethod to-payload :course [{:keys [type course]}]
   (payload/new type (cv/to-course course)))

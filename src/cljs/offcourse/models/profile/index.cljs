@@ -2,7 +2,7 @@
   (:require [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [cljs.spec :as spec]
-            [offcourse.models.specs :as specs]
+            [offcourse.specs.index :as specs]
             [cuerdas.core :as str]))
 
 (defrecord Profile [user-name]

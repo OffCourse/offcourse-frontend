@@ -11,7 +11,7 @@
   (let [proposal (qa/refresh @state payload)]
     (when (qa/check as :permissions proposal)
       (reset! state proposal)
-      (ri/respond as :refreshed-state :state @state))))
+      (ri/respond as :refreshed-state :appstate @state))))
 
 (defmethod refresh :requested-save-course [{:keys [state] :as as} _]
   (let [course (-> @state :viewmodel :new-course co/complete)
@@ -50,7 +50,7 @@
         (when-let [missing-data (va/missing-data @state payload)]
           (ri/respond as :not-found-data missing-data))
         (if (va/valid? @state)
-          (ri/respond as :refreshed-state :state @state)
+          (ri/respond as :refreshed-state :appstate @state)
           (rd/redirect as :home)))
       (when (= (-> @state :viewmodel :type) :loading)
         (rd/redirect as :home)))))
@@ -65,4 +65,4 @@
       (reset! state proposal)
       (when-let [missing-data (va/missing-data @state payload)]
         (ri/respond as :not-found-data missing-data))
-      (ri/respond as :refreshed-state :state @state))))
+      (ri/respond as :refreshed-state :appstate @state))))

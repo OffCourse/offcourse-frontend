@@ -5,7 +5,7 @@
             [offcourse.models.checkpoint.add :as add-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [cljs.spec :as spec]
-            [offcourse.models.specs :as specs]))
+            [offcourse.specs.index :as specs]))
 
 (schema/defrecord Checkpoint
     [checkpoint-slug :- schema/Str
@@ -15,11 +15,9 @@
      tags            :- #{schema/Keyword}]
   {(schema/optional-key :checkpoint-id) schema/Int}
   Validatable
-  (-valid? [{:keys [checkpoints] :as course}]
-    (not (qa/check course)))
+  (-valid? [checkpoint] (spec/valid? ::specs/checkpoint checkpoint))
   Queryable
-  (-check [checkpoint]
-    (schema/check Checkpoint checkpoint))
+  (-check [checkpoint] (spec/explain ::specs/checkpoint checkpoint))
   (-add [checkpoint query] (add-impl/add checkpoint query))
   (-refresh [checkpoint query] (refresh-impl/refresh checkpoint query)))
 

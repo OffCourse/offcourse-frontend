@@ -24,7 +24,7 @@
             {:keys [payload] :as query}]
     (let [responder (partial ri/respond rd)
           handlers (medley/map-vals #(% responder) handlers)
-          view     (view/new (:state payload) components url-helpers handlers)]
+          view     (view/new (:appstate payload) components url-helpers handlers)]
       (-> view
           (ca/compose views)
           (rr/render)

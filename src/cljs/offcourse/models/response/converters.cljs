@@ -31,13 +31,6 @@
        (->> data
             rs/map->Resource)))))
 
-(defn user-profile-matcher [schema]
-  (when (= Profile schema)
-    (coerce/safe
-     (fn [data]
-       (->> data
-            pf/map->Profile)))))
-
 (defn collection-matcher [schema]
   (when (= Collection schema)
     (coerce/safe
@@ -61,17 +54,10 @@
   (coerce/first-matcher [course-matcher
                          checkpoint-matcher
                          coerce/json-coercion-matcher]))
-(def user-profile-walker
-  (coerce/first-matcher [user-profile-matcher
-                         coerce/json-coercion-matcher]))
-
 (def resource-walker
   (coerce/first-matcher [resource-matcher
                          uuid-matcher
                          coerce/json-coercion-matcher]))
-
-(defn to-user-profile [obj]
-  (coerce-and-validate (dissoc obj :user-id) Profile user-profile-walker))
 
 (defn to-course [obj]
   (coerce-and-validate obj Course course-walker))

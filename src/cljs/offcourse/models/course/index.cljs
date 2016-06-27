@@ -9,7 +9,7 @@
             [cuerdas.core :as str]
             [offcourse.models.course.refresh :as refresh-impl]
             [cljs.spec :as spec]
-            [offcourse.models.specs :as specs]))
+            [offcourse.specs.index :as specs]))
 
 (schema/defrecord Course
     [course-id    :- schema/Str

@@ -1,7 +1,7 @@
 (ns offcourse.protocols.responsive
   (:require [cljs.core.async :refer [<! >! close!]]
             [offcourse.models.action :as action]
-            [offcourse.models.specs :as specs]
+            [offcourse.specs.action :as specs]
             [cljs.spec :as spec]
             [offcourse.models.payload.index :as payload :refer [Payload]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
@@ -23,7 +23,6 @@
   ([{:keys [output-channel channels component-name] :as this} status payload]
    (let [output-channel (or output-channel (:output channels))
          response       (action/new this status payload)]
-     (println (:type payload))
      (when-not (spec/valid? ::specs/action response)
        (println (spec/explain ::specs/action response)))
      #_(when-not (= (type payload) Payload)
