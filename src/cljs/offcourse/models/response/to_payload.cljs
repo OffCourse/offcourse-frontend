@@ -1,6 +1,13 @@
 (ns offcourse.models.response.to-payload
   (:require [offcourse.models.response.converters :as cv]
-            [offcourse.models.payload.index :as payload]))
+            [offcourse.models.payload.index :as payload]
+            [offcourse.specs.payload :as pl-spec]
+            [offcourse.specs.response :as rs-spec]
+            [cljs.spec :as spec]))
+
+(spec/fdef to-payload
+           :args (spec/* ::rs-spec/response)
+           :ret ::pl-spec/payload)
 
 (defmulti to-payload (fn [{:keys [type]}] type))
 
@@ -12,8 +19,10 @@
 (defmethod to-payload :course [{:keys [type course]}]
   (payload/new type (cv/to-course course)))
 
-(defmethod to-payload :courses [{:keys [type courses]}]
+(defmethod to-payload :courses [{:keys [type courses] :as response}]
   (payload/new type (cv/to-courses courses)))
 
 (defmethod to-payload :resources [{:keys [type resources]}]
   (payload/new type (cv/to-resources resources)))
+
+(spec/instrument #'to-payload)

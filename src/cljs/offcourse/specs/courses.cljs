@@ -26,4 +26,7 @@
                                        ::forked-from
                                        ::checkpoints/checkpoints]))
 
+(spec/def ::course-data (spec/keys :req-un [::course-slug
+                                            ::curator]))
+
 (spec/def ::courses (spec/* ::course))
