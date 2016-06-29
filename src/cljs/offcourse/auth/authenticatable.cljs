@@ -19,10 +19,9 @@
   (go
     (let [{:keys [token]} (<! (-sign-in provider))]
       (.setItem js/localStorage "auth-token" token)
-      (ri/respond auth :fetched-auth-token {:auth-token token}))))
+      (ri/respond auth :fetched-auth-token :auth-token token))))
 
 (defn sign-out [auth]
   (go
     (-sign-out)
-    (ri/respond auth :removed-auth-token {:type :token
-                                          :token nil})))
+    (ri/respond auth :removed-auth-token :auth-token nil)))

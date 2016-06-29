@@ -1,7 +1,14 @@
 (ns offcourse.models.payload.to-url
-  (:require [bidi.bidi :as bidi]))
+  (:require [bidi.bidi :as bidi]
+            [cljs.spec :as spec]
+            [offcourse.specs.payload :as pl-spec]))
 
-(defmulti to-url (fn [{:keys [type] :as query} _] type))
+(spec/fdef to-url
+           :args (spec/cat :payload ::pl-spec/payload
+                           :rest ::spec/any)
+           :ret string?)
+
+(defmulti to-url (fn [{:keys [type] :as payload} _] type))
 
 (defmethod to-url :signup [{:keys [type dependencies] :as vm} routes]
   (bidi/path-for routes :new-user-view))
@@ -24,3 +31,5 @@
 
 (defmethod to-url :loading [{:keys [type dependencies] :as vm} routes]
   (bidi/path-for routes type))
+
+#_(spec/instrument #'to-url)

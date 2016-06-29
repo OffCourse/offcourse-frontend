@@ -24,10 +24,7 @@
    (let [output-channel (or output-channel (:output channels))
          response       (action/new this status payload)]
      (if-not (spec/valid? ::specs/action response)
-       (println (spec/explain ::specs/action response))
-       #_(println (spec/conform ::specs/action response)))
-     #_(when-not (= (type payload) Payload)
-       (debug-helper component-name status payload))
+       (println (spec/explain ::specs/action response)))
      (go
        (>! output-channel response))))
   ([this status type result]

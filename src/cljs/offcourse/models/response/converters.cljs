@@ -56,8 +56,7 @@
   (keep to-course obj))
 
 (defn to-resource [obj]
-  (let [resource (rs/map->Resource obj) #_(coerce-and-validate obj Resource resource-walker)]
-    (println (spec/valid? ::resources/resource resource))
+  (let [resource (rs/map->Resource obj)]
     resource))
 
 (defn to-resources [obj]

@@ -6,23 +6,29 @@
             [offcourse.specs.collections :as collections]
             [offcourse.specs.resources :as resources]))
 
+(spec/def ::auth-token (spec/nilable ::base/auth-token))
+
+(spec/def ::course (spec/or :course ::courses/course
+                            :course-data ::courses/course-data))
+
 (defmulti payload (fn [{:keys [type]}] (or type :default)))
 
 (defmethod payload :user-profile [_]
   (spec/keys :req-un [::base/type]
              :opt-in [::base/user-profile ::base/auth-token]))
 
+(defmethod payload :auth-token [_]
+  (spec/keys :req-un [::base/type]
+             :opt-in [::base/auth-token]))
+
 (defmethod payload :appstate [_]
   (spec/keys :req-un [::base/type ::appstate/appstate]))
 
 (defmethod payload :auth-token [_]
-  (spec/keys :req-un [::base/type ::base/auth-token]))
+  (spec/keys :req-un [::base/type ::auth-token]))
 
 (defmethod payload :collection [_]
   (spec/keys :req-un [::base/type ::collections/collection]))
-
-(spec/def ::course (spec/or :course ::courses/course
-                            :course-data ::courses/course-data))
 
 (defmethod payload :course [_]
   (spec/keys :req-un [::base/type ::course]))
