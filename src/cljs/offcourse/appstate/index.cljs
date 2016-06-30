@@ -5,13 +5,9 @@
             [offcourse.appstate.refresh :as refresh-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.redirectable :as rd :refer [Redirectable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [schema.core :as schema]))
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]))
 
-(schema/defrecord Appstate
-    [component-name :- schema/Keyword
-     channels       :- {}
-     state          :- schema/Any]
+(defrecord Appstate []
   Redirectable
   (-redirect [as destination] (redirect-impl/redirect as destination))
   (-redirect [as destination payload] (redirect-impl/redirect as destination payload))

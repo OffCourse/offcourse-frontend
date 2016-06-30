@@ -1,9 +1,6 @@
-(ns offcourse.models.label
-  (:require [schema.core :as schema :include-macros true]
-            [medley.core :as medley]))
+(ns offcourse.models.label)
 
-(schema/defrecord Label
-    [label-name :- schema/Keyword])
+(defrecord Label [])
 
 (defn new [label-name selected]
   (map->Label {:label-name label-name}))

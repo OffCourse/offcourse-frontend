@@ -11,7 +11,7 @@
 (spec/def ::course (spec/or :course ::courses/course
                             :course-data ::courses/course-data))
 
-(defmulti payload (fn [{:keys [type]}] (or type :default)))
+(defmulti payload :type)
 
 (defmethod payload :user-profile [_]
   (spec/keys :req-un [::base/type]
@@ -41,7 +41,5 @@
 
 (defmethod payload :resources [_]
   (spec/keys :req-un [::base/type ::resources/resources]))
-
-(defmethod payload :default [_] nil?)
 
 (spec/def ::payload (spec/multi-spec payload :type))

@@ -9,7 +9,8 @@
     (match res
            {"errorMessage" _} {:error :fetch-error}
            {"type" "found-data" "payload" payload} (response/new payload)
-           {"type" "not-found-data"} {:error :not-found-data}))
+           {"type" "not-found-data" "payload" payload} {:error :not-found-data
+                                                        :payload payload}))
 
 (defn fetch [{:keys [endpoint]} {:keys [auth-token] :as query}]
   (let [c (chan)]

@@ -23,7 +23,8 @@
   ([{:keys [output-channel channels component-name] :as this} status payload]
    (let [output-channel (or output-channel (:output channels))
          response       (action/new this status payload)]
-     (if-not (spec/valid? ::specs/action response)
+     #_(if-not (spec/valid? ::specs/action response)
+       (println response)
        (println (spec/explain ::specs/action response)))
      (go
        (>! output-channel response))))

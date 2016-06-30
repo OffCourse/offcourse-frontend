@@ -5,18 +5,13 @@
             [cljsjs.auth0-lock]
             [offcourse.protocols.authenticable :as ac :refer [Authenticable]]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [schema.core :as schema])
+            [offcourse.protocols.responsive :as ri :refer [Responsive]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
 
 (defn init [{:keys [config] :as auth}]
   (assoc auth :provider (js/Auth0Lock. (:clientID config) (:domain config))))
 
-(schema/defrecord Auth
-    [component-name :- schema/Keyword
-     channels       :- {}
-     actions        :- []
-     reactions      :- {}]
+(defrecord Auth []
   Queryable
   (-get [auth query] (get-impl/get auth query))
   Lifecycle

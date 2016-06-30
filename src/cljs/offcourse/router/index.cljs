@@ -3,15 +3,9 @@
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [offcourse.router.refresh :as refresh-impl]
-            [offcourse.router.responsive :as ri-impl]
-            [schema.core :as schema]))
+            [offcourse.router.responsive :as ri-impl]))
 
-(schema/defrecord Router
-    [component-name :- schema/Keyword
-     routes         :- []
-     responses      :- {}
-     channels       :- {}
-     actions        :- []]
+(defrecord Router []
   Lifecycle
   (start [rt] (ri/-listen rt))
   (stop [rt] (ri/mute rt))

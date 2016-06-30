@@ -5,15 +5,9 @@
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [plumbing.graph :as graph]
             [rum.core :as rum]
-            [schema.core :as schema]
             [offcourse.protocols.queryable :as qa]))
 
-(schema/defrecord View
-    [type :- schema/Keyword
-     viewmodel :- {}
-     components :- {}
-     url-helpers :- {}
-     handlers :- {}]
+(defrecord View []
   Composable
   (-compose [view views]
     (assoc view :composition

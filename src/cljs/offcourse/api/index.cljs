@@ -2,17 +2,12 @@
   (:require [com.stuartsierra.component :as lc :refer [Lifecycle]]
             [offcourse.api.queryable :as qa-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
-            [offcourse.protocols.responsive :as ri :refer [Responsive]]
-            [schema.core :as schema]))
+            [offcourse.protocols.responsive :as ri :refer [Responsive]]))
 
 (defn connect-to-repository [{:keys [adapter] :as config}]
   (lc/start (adapter (select-keys config [:name :endpoint :resources]))))
 
-(schema/defrecord API
-    [component-name :- schema/Keyword
-     repositories   :- [schema/Any]
-     channels       :- {}
-     reactions      :- {}]
+(defrecord API []
   Lifecycle
   (start [api]
     (-> api

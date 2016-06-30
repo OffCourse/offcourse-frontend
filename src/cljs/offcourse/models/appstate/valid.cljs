@@ -1,17 +1,18 @@
 (ns offcourse.models.appstate.valid
-  (:require [schema.core :as schema]
-            [offcourse.protocols.queryable :as qa]))
+  (:require [offcourse.protocols.queryable :as qa]
+            [cljs.spec :as spec]
+            [offcourse.specs.appstate :as specs]))
 
-(defmulti valid? (fn [as _] (-> as :viewmodel :type)))
+(defmulti valid? (fn [as] (-> as :viewmodel :type)))
 
 (defmethod valid? :collection [as as-schema]
-  (empty? (schema/check as-schema as)))
+  (spec/valid? ::specs/appstate as))
 
 (defmethod valid? :course [as as-schema]
-  (empty? (schema/check as-schema as)))
+  (spec/valid? ::specs/appstate as))
 
 (defmethod valid? :checkpoint [as as-schema]
-  (empty? (schema/check as-schema as)))
+  (spec/valid? ::specs/appstate as))
 
 (defmethod valid? :new-course [as as-schema]
   true)

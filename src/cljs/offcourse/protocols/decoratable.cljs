@@ -4,7 +4,9 @@
             [offcourse.models.profile.index :refer [Profile]]
             [offcourse.models.label :as lb]
             [offcourse.protocols.queryable :as qa]
-            [offcourse.protocols.validatable :as va]))
+            [offcourse.protocols.validatable :as va]
+            [cljs.spec :as spec]
+            [offcourse.specs.courses :as courses]))
 
 (defprotocol Decoratable
   (-decorate [this] [this appstate] [this user-name slug]))
@@ -38,6 +40,8 @@
                     (lb/collection->labels 0))
            valid? (va/valid? (co/complete course))
            saved? (:saved? (meta course))]
+       (println course)
+       (println (spec/explain-data ::courses/course course))
        (-> course (with-meta {:tags tags
                               :valid? valid?
                               :saved? saved?}))))

@@ -5,27 +5,13 @@
             [offcourse.models.course.remove :as remove-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [offcourse.protocols.validatable :as va :refer [Validatable]]
-            [schema.core :as schema :include-macros true]
             [cuerdas.core :as str]
             [offcourse.models.course.refresh :as refresh-impl]
             [cljs.spec :as spec]
-            [offcourse.specs.index :as specs]))
+            [offcourse.specs.courses :as specs]))
 
-(schema/defrecord Course
-    [course-id    :- schema/Str
-     base-id      :- schema/Str
-     course-slug  :- schema/Str
-     timestamp    :- schema/Int
-     version      :- [schema/Num]
-     revision     :- schema/Num
-     curator      :- schema/Keyword
-     goal         :- schema/Any
-     flags        :- #{schema/Keyword}
-     forked-from  :- (schema/maybe schema/Num)
-     forks        :- #{schema/Num}
-     checkpoints  :- [Checkpoint]]
+(defrecord Course []
   Queryable
-  (-check [course] (schema/check Course course))
   (-get [course query] (get-impl/get course query))
   (-remove [course query] (remove-impl/remove course query))
   (-refresh [course query] (refresh-impl/refresh course query))

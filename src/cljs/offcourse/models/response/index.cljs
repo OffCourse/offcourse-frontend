@@ -1,8 +1,7 @@
 (ns offcourse.models.response.index
   (:require [offcourse.protocols.convertible :refer [Convertible]]
             [clojure.walk :as walk]
-            [offcourse.models.response.to-payload :refer [to-payload]]
-            [schema.core :as schema]))
+            [offcourse.models.response.to-payload :refer [to-payload]]))
 
 (defrecord Response [type]
   Convertible

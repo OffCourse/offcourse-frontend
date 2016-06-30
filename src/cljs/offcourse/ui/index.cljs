@@ -8,14 +8,7 @@
             [offcourse.protocols.responsive :as ri :refer [Responsive]]
             [schema.core :as schema]))
 
-(schema/defrecord UI
-    [component-name :- schema/Keyword
-     channels       :- {}
-     url-helpers    :- {}
-     handlers       :- {}
-     views          :- {}
-     viewmodels     :- {}
-     reactions      :- {}]
+(defrecord UI []
   Lifecycle
   (start [rd] (ri/listen rd))
   (stop [rd] (ri/mute rd))

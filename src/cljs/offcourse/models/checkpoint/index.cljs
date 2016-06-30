@@ -1,19 +1,12 @@
 (ns offcourse.models.checkpoint.index
-  (:require [schema.core :as schema :include-macros true]
-            [offcourse.protocols.validatable :as va :refer [Validatable]]
+  (:require [offcourse.protocols.validatable :as va :refer [Validatable]]
             [offcourse.models.checkpoint.refresh :as refresh-impl]
             [offcourse.models.checkpoint.add :as add-impl]
             [offcourse.protocols.queryable :as qa :refer [Queryable]]
             [cljs.spec :as spec]
-            [offcourse.specs.index :as specs]))
+            [offcourse.specs.checkpoints :as specs]))
 
-(schema/defrecord Checkpoint
-    [checkpoint-slug :- schema/Str
-     completed?      :- (schema/maybe (schema/cond-pre schema/Bool schema/Num))
-     url             :- #"https?://.*"
-     task            :- schema/Str
-     tags            :- #{schema/Keyword}]
-  {(schema/optional-key :checkpoint-id) schema/Int}
+(defrecord Checkpoint []
   Validatable
   (-valid? [checkpoint] (spec/valid? ::specs/checkpoint checkpoint))
   Queryable

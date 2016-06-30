@@ -16,7 +16,6 @@
                         (dissoc :user-id)
                         (update-in [:user-name] #(keyword %)))))
 
-
 (defmethod to-payload :course [{:keys [type course] :as response}]
   (let [{:keys [curator flags forks checkpoints]} course
         course (cv/to-course course)]

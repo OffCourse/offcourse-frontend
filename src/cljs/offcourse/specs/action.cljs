@@ -4,5 +4,6 @@
             [offcourse.specs.base :as base]))
 
 (spec/def ::source keyword?)
+
 (spec/def ::action (spec/keys :req-un [::base/type ::source]
                               :opt-un [::payload/payload]))

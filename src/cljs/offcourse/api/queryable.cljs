@@ -3,7 +3,10 @@
             [offcourse.protocols.convertible :as ci]
             [offcourse.protocols.queryable :as qa]
             [cljs.core.match :refer-macros [match]]
-            [offcourse.protocols.responsive :as ri])
+            [offcourse.protocols.responsive :as ri]
+            [cljs.spec :as spec]
+            [offcourse.specs.response :as response]
+            [offcourse.models.payload.index :as payload])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn fetch [{:keys [repositories] :as api} {:keys [type] :as query}]

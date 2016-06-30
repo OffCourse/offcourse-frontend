@@ -11,10 +11,6 @@
             [offcourse.protocols.validatable :as va :refer [Validatable]]
             [schema.core :as schema]))
 
-(defn query [[type data]]
-  {:type type
-   type data})
-
 (schema/defrecord Appstate
     [site-title     :- schema/Str
      viewmodel      :- schema/Any
@@ -24,7 +20,7 @@
      resources      :- (schema/maybe [Resource])
      queries        :- (schema/maybe #{schema/Num})]
   Validatable
-  (-valid? [as] (valid-impl/valid? as Appstate))
+  (-valid? [as] (valid-impl/valid? as))
   (-missing-data [as query] (md-impl/missing-data as query))
   Queryable
   (-refresh [as query] (refresh-impl/refresh as query))
