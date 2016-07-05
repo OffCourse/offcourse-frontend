@@ -6,7 +6,7 @@
             [cljs.spec :as spec]))
 
 (spec/fdef to-payload
-           :args (spec/* ::rs-spec/response)
+           :args (spec/* map? #_::rs-spec/response)
            :ret ::pl-spec/payload)
 
 (defmulti to-payload (fn [{:keys [type]}] type))

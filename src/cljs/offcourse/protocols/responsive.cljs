@@ -2,6 +2,7 @@
   (:require [cljs.core.async :refer [<! >! close!]]
             [offcourse.models.action :as action]
             [offcourse.specs.action :as specs]
+            [offcourse.specs.courses :as cs]
             [cljs.spec :as spec]
             [offcourse.models.payload.index :as payload :refer [Payload]])
   (:require-macros [cljs.core.async.macros :refer [go go-loop]]))
@@ -23,9 +24,9 @@
   ([{:keys [output-channel channels component-name] :as this} status payload]
    (let [output-channel (or output-channel (:output channels))
          response       (action/new this status payload)]
-     #_(if-not (spec/valid? ::specs/action response)
-       (println response)
-       (println (spec/explain ::specs/action response)))
+     (when-not (spec/valid? ::specs/action response)
+       (println (spec/explain-data ::cs/courses (-> response :payload :courses #_first)))
+       #_(println (spec/explain-data ::specs/action response)))
      (go
        (>! output-channel response))))
   ([this status type result]
