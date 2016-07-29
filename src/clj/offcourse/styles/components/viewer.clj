@@ -35,7 +35,6 @@
     [v/viewer-text           (merge  (:text               templates)
                                      {:padding          [[0 0 (:two-third units) 0]]})]
     [v/viewer-anchor         (merge  (:text               templates)
-                                     (:recycled-paper     templates)
                                      (:border-default     templates)
                                      {:cursor             :pointer
                                       :padding          [[0 (:sixth units) 0 (:sixth units)]]})
