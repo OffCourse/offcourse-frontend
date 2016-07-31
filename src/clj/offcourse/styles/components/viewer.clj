@@ -12,14 +12,16 @@
                                      {:overflow-y         :auto
                                       :flex               1})]
    [v/viewer--content                {:display            :block
-                                      :max-width         (:max-content-width   units)
-                                      :padding      (:full units)}
+                                      :padding           (:full units)
+                                      :max-width         (:max-content-width   units)}
+    
     (for [header v/viewer-headers]   
     [[header                 (merge  (:title              templates)
                                      {:padding          [[(:one-and-half units) 0 (:sixth units) 0]]})
       [v/first                       {:padding          [[0 0 (:sixth units) 0]]}]]
      (for [next-header v/viewer-headers]
      [(s/+ header next-header)       {:padding          [[0 0 (:sixth units) 0]]}])])
+
     [v/viewer-header-1       (merge  {:font-size         (* 2.2 (:base-font units))
                                       :line-height       (* 2.0 (:base-line-height units))})]
     [v/viewer-header-2       (merge  {:font-size         (* 1.8 (:base-font units))
@@ -37,7 +39,7 @@
     [v/viewer-anchor         (merge  (:text               templates)
                                      (:border-default     templates)
                                      {:cursor             :pointer
-                                      :padding          [[0 (:sixth units) 0 (:sixth units)]]})
+                                      :padding          [[0 0 0 0]]})
      [v/hovered              (merge  (:border-highlighted templates))]]
     [v/viewer-strong         (merge  (:subtitle           templates)
                                      {:padding          [[0 0 (:two-third units) 0]]})]
@@ -45,12 +47,13 @@
                                      {:margin           [[0 0 (:two-third units) 0]]})]
     [v/viewer-ul             (merge  (:text               templates)
                                      {:list-style       [[:square :outside]]
-                                      :padding          [[0 (:five units) 0 (:full units)]]})]
+                                      :padding          [[0 (:five units) (:two-third units) (:full units)]]})]
     [v/viewer-ol             (merge  (:text               templates)
                                      {:list-style       [[:decimal :outside]]
-                                      :padding          [[0 (:five units) 0 (:full units)]]})]
+                                      :padding          [[0 (:five units) (:two-third units) (:full units)]]})]
     [v/viewer-li             (merge  (:text               templates)
-                                     {:padding          [[0 0 (:two-third units) 0]]})]
+                                     {:padding          [[0 0 (:two-third units) 0]]})
+     [v/last                         {:padding          [[0 0 0 0]]}]]
     [v/viewer-image          (merge  {:display            :block
                                       :width             (percent 100)
                                       :padding          [[0 0 (:two-third units) 0]]})]
