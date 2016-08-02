@@ -3,7 +3,7 @@
  :resource-paths  #{"resources"}
  :dependencies '[[adzerk/boot-cljs              "1.7.228-1"      :scope "test"]
                  [adzerk/boot-cljs-repl         "0.3.2"          :scope "test"]
-                 [adzerk/boot-reload            "0.4.10"          :scope "test"]
+                 [adzerk/boot-reload            "0.4.10"         :scope "test"]
                  [ring/ring-devel               "1.3.2"          :scope "test"]
                  [com.cemerick/piggieback       "0.2.1"          :scope "test"]
                  [org.clojure/tools.nrepl       "0.2.12"         :scope "test"]
@@ -12,6 +12,7 @@
                  [hashobject/boot-s3            "0.1.2-SNAPSHOT" :scope "test"]
                  [crisptrutski/boot-cljs-test   "0.2.2-SNAPSHOT" :scope "test"]
                  [boot-environ                  "1.0.2"          :scope "test"]
+                 [boot-codox "0.9.5" :scope "test"]
                  [environ                       "1.0.2"]
                  [org.martinklepsch/boot-garden "1.3.0-0"]
                  [metosin/ring-http-response  "0.6.5"]
@@ -49,6 +50,7 @@
  '[org.martinklepsch.boot-garden :refer [garden]]
  '[environ.boot :refer [environ]]
  '[pandeiro.boot-http    :refer [serve]]
+ '[codox.boot :refer [codox]]
  '[hashobject.boot-s3    :refer :all])
 
 (deftask css []
