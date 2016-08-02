@@ -23,20 +23,29 @@
    :one-and-half         (fnk [full] (* full 1.5))
    :one-and-quarter      (fnk [full] (* full 1.25))
    :two-third            (fnk [third] (* third 2))
-   :subtitle-font        (fnk [atom] (* atom 22))
-   :subtitle-line-height (fnk [atom] (* atom 30))
-   :base-font            (fnk [atom] (* atom 16))
    :full                 (fnk [base-unit] (rem (/ base-unit 16)))
-   :tag-font             (fnk [atom] (* atom 18))
-   :base-line-height     (fnk [atom] (* atom 20))
-   :title-font           (fnk [atom] (* atom 32))
-   :title-line-height    (fnk [atom] (* atom 36))
    :half                 (fnk [full] (/ full 2))
    :third                (fnk [full] (/ full 3))
    :sixth                (fnk [full] (/ full 6))
    :tenth                (fnk [full] (/ full 10))
    :fifteenth            (fnk [full] (/ full 15))
-   :atom                 (fnk [full] (/ full 30))})
+   :atom                 (fnk [full] (/ full 30))
+
+   :banner-font                (fnk [base-font]         (* base-font          4))
+   :banner-line-height         (fnk [base-line-height]  (* base-line-height   4))
+   :large-font                 (fnk [base-font]         (* base-font          2.2))
+   :large-line-height          (fnk [base-line-height]  (* base-line-height   2.0))
+   :title-font                 (fnk [base-font]         (* base-font          1.5))
+   :title-line-height          (fnk [base-line-height]  (* base-line-height   1.5))
+   :subtitle-font              (fnk [base-font]         (* base-font          1))
+   :subtitle-line-height       (fnk [base-line-height]  (* base-line-height   1))
+   :base-font                  (fnk [atom]              (* atom 24))
+   :base-line-height           (fnk [atom]              (* atom 30))
+   :mono-font                  (fnk [atom]              (* atom 22))
+   :mono-line-height           (fnk [atom]              (* atom 30))
+   :label-font                 (fnk [base-font]         (* base-font          0.8))
+   :label-line-height          (fnk [base-line-height]  (* base-line-height   0.8))
+   })
 
 (def templates-graph
   {:highlighted      (fnk [colors] {:background-color (:primary colors)
@@ -49,31 +58,65 @@
                                                  {:border-bottom (:default borders)}))
    :negative         (fnk [colors] {:background-color (:night colors)
                                     :color            (:day colors)})
-
    :recycled-paper   (fnk [colors] {:background-color (:light colors)
                                     :color            (:night colors)})
-   :tiny-font        (fnk [units fonts] {:font-size   (:tag-font units)
-                                         :font-family (:base fonts)
-                                         :font-weight 300})
-   :banner      (fnk [units fonts] {:font-size     (* 2 (:title-font units))
-                                    :line-height   (* 1.8 (:title-line-height units))
-                                    :margin-bottom (:full units)
-                                    :font-family   (:title fonts)})
-   :title       (fnk [units fonts] {:font-family (:title fonts)
-                                    :font-size   (:title-font units)
-                                    :line-height (:title-line-height units)
-                                    :font-weight 500})
-   :logo        (fnk [fonts units] {:font-family (:logo fonts)
-                                    :font-size   (:title-font units)
-                                    :line-height (:title-line-height units)
-                                    :font-weight 500})
-   :subtitle    (fnk [units fonts] {:font-size   (:subtitle-font units)
-                                    :line-height (:subtitle-line-height units)
-                                    :font-family (:base fonts)
-                                    :font-weight 300})
-   :text    (fnk [units fonts]     {:font-size     (* 1.5 (:base-font units))
-                                    :line-height   (* 1.5 (:base-line-height units))
-                                    :margin-bottom (:full units)})
+   :darkend-paper    (fnk [colors] {:background-color (:dark colors)
+                                    :color            (:day colors)})
+
+   :banner              (fnk [units fonts]     {:font-family        (:logo fonts)
+                                                :font-size          (:banner-font units)
+                                                :line-height        (:banner-line-height units)
+                                                :font-weight         500})
+
+   :logo                (fnk [fonts units]     {:font-family        (:logo fonts)
+                                                :font-size          (:title-font units)
+                                                :line-height        (:title-line-height units)
+                                                :font-weight         500})
+
+   :title               (fnk [units fonts]     {:font-family        (:title fonts)
+                                                :font-size          (:title-font units)
+                                                :line-height        (:title-line-height units)
+                                                :font-weight         500})
+
+   :form                (fnk [units fonts]     {:font-family        (:base fonts)
+                                                :font-size          (:title-font units) 
+                                                :line-height        (:title-line-height units)
+                                                :font-weight         300})
+
+   :list                (fnk [units fonts]     {:font-family        (:title fonts)
+                                                :font-size          (:subtitle-font units)
+                                                :line-height        (:title-line-height units)
+                                                :font-weight         300})
+
+   :mono                (fnk [units fonts]     {:font-family        (:mono fonts)
+                                                :font-size          (:mono-font units)
+                                                :line-height        (:mono-line-height units)
+                                                :font-weight         300})   
+
+   :subtitle            (fnk [units fonts]     {:font-family        (:title fonts)
+                                                :font-size          (:subtitle-font units)
+                                                :line-height        (:subtitle-line-height units)
+                                                :font-weight         300})
+
+   :text                (fnk [units fonts]     {:font-family        (:base fonts)
+                                                :font-size          (:base-font units)
+                                                :line-height        (:base-line-height units)
+                                                :font-weight         300})
+
+   :label               (fnk [units fonts]     {:font-family        (:base fonts)
+                                                :font-size          (:label-font units)
+                                                :line-height        (:label-line-height units)
+                                                :font-weight         300})
+
+   ; old font
+   :tiny-font        (fnk [units fonts label] label)
+
+
+   :border-default      (fnk [units colors]    {:border-bottom      [[:solid (:sixth units) (:medium colors)]]})
+   :border-quotes       (fnk [units colors]    {:border-left        [[:solid (:sixth units) (:medium colors)]]})
+   :border-highlighted  (fnk [units colors]    {:border-color       [(:primary colors)]})
+
+
    :component        (fnk [] {:display        :flex
                               :flex-direction :column
                               :padding        0
@@ -113,10 +156,11 @@
                              :percent   (u/percent percent)
                              :column-count column-count})
                           raw-breakpoints))
-   :fonts       (fnk [raw-fonts base-font logo-font title-font]
+   :fonts       (fnk [raw-fonts base-font logo-font title-font mono-font]
                      {:base  base-font
                       :logo  logo-font
                       :title title-font
+                      :mono  mono-font
                       :raw   (vals raw-fonts)})
 
    :borders     (fnk [units colors]

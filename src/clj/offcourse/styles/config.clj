@@ -40,4 +40,5 @@
                              :raw-fonts       fonts
                              :base-font       :NittiGrotesk
                              :logo-font       :NittiBold
+                             :mono-font       :NittiNormal
                              :title-font      :NittiGroteskBold}))
