@@ -10,7 +10,8 @@
             [offcourse.views.components.sheets :refer [sheets sheet]]
             [offcourse.views.components.card :refer [card]]
             [offcourse.views.components.actions-panel :refer [actions-panel]]
-            [offcourse.views.containers.menubar :refer [menubar]]))
+            [offcourse.views.containers.menubar :refer [menubar]]
+            [offcourse.views.containers.checkpoint-container :refer [checkpoint-container]]))
 
 (def ui-components
   {:logo logo
@@ -25,4 +26,5 @@
    :course-form course-form
    :user-form user-form
    :dashboard dashboard
-   :menubar menubar})
+   :menubar menubar
+   :checkpoint-container checkpoint-container})
