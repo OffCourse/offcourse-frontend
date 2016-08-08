@@ -31,9 +31,4 @@
            :href (checkpoint-url checkpoint-slug)}
        [:span task]]]
      [:.list--item {:key :url} url]]
-    [:div {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]]
-   [:a.sheet--section {:key :content
-                       :href (checkpoint-url checkpoint-slug)}
-    [:article.content {}
-     [:h1.title "hi"]
-     [:p (:description resource)]]]])
+    [:div {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]]])
