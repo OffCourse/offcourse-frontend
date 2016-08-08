@@ -17,6 +17,8 @@
                        {:keys [checkpoint-url] :as url-helpers}
                        {:keys [toggle-checkpoint]}
                        trackable?]
+  ; (println "Logging:")
+  ; (println (keys checkpoint))
   [:.sheet {:key checkpoint-id}
    [:.sheet--section {:key :meta}
     [:.list {:key :list}
@@ -30,5 +32,9 @@
       [:a {:key :title
            :href (checkpoint-url checkpoint-slug)}
        [:span task]]]
-     [:.list--item {:key :url} url]]
-    [:div {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]]])
+     [:.list--item {:key :source} "Source: Smashing Magazine"]
+     [:.list--item {:key :author} "Author: John Doehingy"]
+     [:.list--item {:key :date} "Date: 05-08-2019"]]
+    [:div {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]]
+   [:.sheet--section {:key :button}
+    [:button.coolbutton {:key :source-button} "View on Source"]]])
