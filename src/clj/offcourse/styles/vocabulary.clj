@@ -28,6 +28,7 @@
 (s/defclass card--section)
 
 (s/defclass viewer)
+(s/defclass viewer--meta)
 (s/defclass viewer--content)
 (def viewer-headers      [:h1 :h2 :h3 :h4 :h5 :h6])
 (def viewer-header-1      :h1)

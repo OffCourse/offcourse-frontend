@@ -103,6 +103,11 @@
                                                 :line-height        (:base-line-height units)
                                                 :font-weight         300})
 
+   :smalltitle          (fnk [units fonts]     {:font-family        (:title fonts)
+                                                :font-size          (:label-font units)
+                                                :line-height        (:label-line-height units)
+                                                :font-weight         300})
+
    :label               (fnk [units fonts]     {:font-family        (:base fonts)
                                                 :font-size          (:label-font units)
                                                 :line-height        (:label-line-height units)

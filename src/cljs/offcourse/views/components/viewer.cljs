@@ -19,22 +19,14 @@
                        trackable?]
   ; (println "Logging:")
   ; (println (keys checkpoint))
-  [:.sheet {:key checkpoint-id}
-   [:.sheet--section {:key :meta}
-    [:.list {:key :list}
-     [:.list--item {:data-item-type :todo
-                    :key :task}
-      (when trackable? [:button.button {:key :checkbox
-                                        :data-button-type :checkbox
-                                        :on-click #(toggle-checkpoint checkpoint %1)
-                                        :disabled (not trackable?)
-                                        :data-selected (boolean completed?)} nil])
-      [:a {:key :title
-           :href (checkpoint-url checkpoint-slug)}
-       [:span task]]]
-     [:.list--item {:key :source} "Source: Smashing Magazine"]
-     [:.list--item {:key :author} "Author: John Doehingy"]
-     [:.list--item {:key :date} "Date: 05-08-2019"]]
-    [:div {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]]
-   [:.sheet--section {:key :button}
-    [:button.coolbutton {:key :source-button} "View on Source"]]])
+  [:.meta {:key checkpoint-id}
+   [:ul.meta--list {:key :meta}
+    [:li.meta--list-item {:data-item-type :todo
+                          :key :task}
+     [:a {:key :title
+          :href (checkpoint-url checkpoint-slug)}
+      [:span task]]]
+    [:li.meta--list-item {:key :source} "Source: Smashing Magazine"]
+    [:li.meta--list-item {:key :author} "Author: John Doehingy"]
+    [:li.meta--list-item {:key :date} "Date: 05-08-2019"]]
+   [:.meta--labels {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]])

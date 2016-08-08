@@ -11,6 +11,7 @@
                                      (:paper              templates)
                                      {:overflow-y         :auto
                                       :flex               1})]
+   [v/viewer--meta           (merge  ())]
    [v/viewer--content                {:display            :block
                                       :padding           (:full units)
                                       :max-width         (:max-content-width   units)}
