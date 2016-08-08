@@ -4,6 +4,7 @@
             [offcourse.views.components.card :refer [cards]]
             [offcourse.views.containers.dashboard :refer [dashboard]]
             [offcourse.views.components.viewer :refer [viewer]]
+            [offcourse.views.components.viewer :refer [viewer-meta]]
             [offcourse.views.components.course-form :refer [course-form]]
             [offcourse.views.components.user-form :refer [user-form]]
             [offcourse.views.components.strips :refer [strips]]
@@ -19,6 +20,7 @@
    :card card
    :cards cards
    :viewer viewer
+   :viewer-meta viewer-meta
    :actions-panel actions-panel
    :strips strips
    :sheets sheets
