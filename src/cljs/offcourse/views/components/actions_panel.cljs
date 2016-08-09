@@ -9,15 +9,12 @@
       str/titleize))
 
 (defn url-button [action-name url]
-  [:li.button
-   {:key [action-name]
-    :data-button-type "textbar"}
+  [:li.menubar--link  {:key [action-name]}
    [:a {:href url} (button-title action-name)]])
 
 (defn handler-button [action-name handler]
-  [:li.button {:data-button-type "textbar"
-               :key [action-name]
-               :on-click #(handler)} (button-title action-name)])
+  [:li.menubar--link {:key [action-name]
+        :on-click #(handler)} (button-title action-name)])
 
 (rum/defc actions-panel [actions user-name sign-in sign-out profile-url]
   [:ul.actions-panel
