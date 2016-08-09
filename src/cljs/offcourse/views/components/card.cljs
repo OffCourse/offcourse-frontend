@@ -9,7 +9,15 @@
   [:.container
    [:.card
     [:.card--section
+     [:.card--folded-corner]
      [:a.title {:href (course-url curator course-slug)} goal]]
+    [:.card--section
+     [:img.card--img {:src "http://lorempixel.com/400/400/cats"}]
+     [:.card--meta
+      [:h6.card--title "John Diddididoe"]
+      [:h6.card--title "Expert"]
+      [:h6.card--title "Posts: 10 Learners: 40 Forked: 5"]]
+    ]
     [:.card--section (item-list :todo checkpoints
                                 {:checkpoint-url (partial checkpoint-url curator course-slug)}
                                 {:toggle-checkpoint (partial toggle-checkpoint course-id)}

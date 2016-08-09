@@ -26,12 +26,27 @@
 
    [v/card (merge (:column-component templates)
                   (:sheet templates)
-                  {:padding [[0 (:full units)]]
+                  {:position :relative
+                   :padding [[0 (:full units)]]
                    :flex 1})
-    [v/hovered (:highlighted borders)]
+    [v/hovered (:highlighted borders)]]
 
-    [v/card--section (merge (:component templates)
-                            {:padding [[0 0 (:full units) 0]]})
-     [v/first {:padding-top    (:two-third units)
-               :padding-bottom (:two-third units)}]
-     [v/last {}]]]])
+   
+   [v/card--section             (merge (:row-component      templates)
+                                       (:border-default     templates)
+                                       {:padding          [[(:two-third units) 0]]})
+    [v/first                           {:padding-top        (:two-third units)
+                                        :padding-bottom     (:two-third units)}]
+    [v/last                            {:border :none}]]
+   [:.card--folded-corner       (merge {:position           :absolute
+                                        :right              0
+                                        :top                0 
+                                        :width              (:one-and-half units)
+                                        :height             (:one-and-half units)
+                                        :background         (str "linear-gradient(45deg, " (:primary colors) " 0%, " (:primary colors) " 50%," (:light colors) " 51%)")
+                                        :box-shadow       [[(* -1 (:sixth units)) (:sixth units) (:sixth units) 0 (:medium colors)]]})]
+   [:.card--img                        {:width              (:three units)
+                                        :height             (:three units)}]
+   [:.card--meta                       {:padding            (:third units)}]
+   [:.card--title                      (:smalltitle         templates)]
+   ])

@@ -5,8 +5,8 @@
 (defn list-component [{:keys [templates borders colors fonts units]}]
 
   [[v/list        (merge (:column-component templates))]
-   [v/list--item  (:list-item templates)
-    [v/hovered (:selected templates)]]
+   [v/list--item         (:list-item        templates)
+    [v/hovered           (:selected         templates)]]
 
    [v/edit-list
     [v/list--item (merge {:justify-content :space-between

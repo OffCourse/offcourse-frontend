@@ -6,7 +6,6 @@
                     {:flex-wrap :wrap})
    [v/label (merge (:column-component templates)
                    (:tiny-font templates)
-                   (:recycled-paper templates)
                    {:height       (:full units)
                     :flex-direction :column
                     :margin-bottom    (:sixth units)
