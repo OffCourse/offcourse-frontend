@@ -34,7 +34,7 @@
    :banner-font                (fnk [base-font]         (* base-font          4))
    :banner-line-height         (fnk [base-line-height]  (* base-line-height   4))
    :large-font                 (fnk [base-font]         (* base-font          2.2))
-   :large-line-height          (fnk [base-line-height]  (* base-line-height   2.0))
+   :large-line-height          (fnk [base-line-height]  (* base-line-height   1.8))
    :title-font                 (fnk [base-font]         (* base-font          1.5))
    :title-line-height          (fnk [base-line-height]  (* base-line-height   1.5))
    :subtitle-font              (fnk [base-font]         (* base-font          1))
@@ -44,7 +44,7 @@
    :mono-font                  (fnk [atom]              (* atom 22))
    :mono-line-height           (fnk [atom]              (* atom 30))
    :label-font                 (fnk [base-font]         (* base-font          0.8))
-   :label-line-height          (fnk [base-line-height]  (* base-line-height   0.8))
+   :label-line-height          (fnk [base-line-height]  (* base-line-height   0.5))
    })
 
 (def templates-graph

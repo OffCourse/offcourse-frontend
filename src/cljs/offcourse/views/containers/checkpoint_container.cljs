@@ -3,6 +3,5 @@
 
 (rum/defc checkpoint-container [{:keys [viewer-meta viewer]}]
   [:.checkpoint
-   [:.checkpoint--section viewer-meta]
-   [:.checkpoint--section viewer]])
-
+   [:.checkpoint--section viewer]
+   [:.checkpoint--section viewer-meta]])

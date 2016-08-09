@@ -5,17 +5,17 @@
             [offcourse.styles.vocabulary :as v]))
 
 (defn shame [{:keys [templates borders colors fonts units]}]
-  [[:.checkpoint           (merge (:paper              templates)
+  [[:.checkpoint           (merge (:row-component      templates)
                                   {:width             (percent 100)})]
-   [:.meta                 (merge (:column-component      templates)
-                                  (:paper              templates)
-                                  {:align-items        :flex-start
-                                   :padding         [[(:full units) (:full units) 0 (:full units)]]
+   [:.meta--container      (merge {:padding           [[(:full units) 0 0 0]]
                                    :max-width         (:max-content-width units)})]
+   [:.meta                 (merge (:column-component   templates)
+                                  {:justify-content    :flex-start
+                                   :padding         [[(:full units)]]})]
+   [:.meta--section        (merge (:column-component   templates))]
    [:.meta--list           (merge (:column-component   templates)       
-                                  (:recycled-paper     templates)
-                                  (:border-quotes      templates)
-                                  {:padding          [[(:full units) (:three units) (:full units) (:full units)]]})]
-   [:.meta--list-item      (merge (:smalltitle         templates)
-                                  {})]       
-   [:.meta--labels                {:padding          [[(:full units) 0 0 0]]}]])
+                                  {})]
+   [:.meta--list-item      (merge {:padding          [[0 0 (:third units) 0]]})]
+   [:.meta--title          (merge (:label              templates))]
+   [:.meta--field          (merge (:smalltitle         templates))]
+   [:.meta--labels         (merge (:column-component   templates))]])

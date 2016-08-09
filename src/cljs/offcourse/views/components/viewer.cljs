@@ -19,14 +19,22 @@
                        trackable?]
   ; (println "Logging:")
   ; (println (keys checkpoint))
-  [:.meta {:key checkpoint-id}
-   [:ul.meta--list {:key :meta}
-    [:li.meta--list-item {:data-item-type :todo
-                          :key :task}
-     [:a {:key :title
-          :href (checkpoint-url checkpoint-slug)}
-      [:span task]]]
-    [:li.meta--list-item {:key :source} "Source: Smashing Magazine"]
-    [:li.meta--list-item {:key :author} "Author: John Doehingy"]
-    [:li.meta--list-item {:key :date} "Date: 05-08-2019"]]
-   [:.meta--labels {:key :labels} (labels (map (fn [tag] {:label-name tag}) tags) url-helpers)]])
+  [:.meta--container
+   [:.meta
+    [:.meta--section
+     [:ul.meta--list
+      [:li.meta--list-item {:data-item-type :todo
+                            :key            :task}
+       [:a {:key   :title
+            :href (checkpoint-url checkpoint-slug)}
+        [:h6.meta--title "Task: "]
+        [:span.meta--field task]]]
+      [:li.meta--list-item
+       [:h6.meta--title "Source: "]
+       [:span.meta--field "Smashing Magazine"]]
+      [:li.meta--list-item 
+       [:h6.meta--title "Author: "]
+       [:span.meta--field "John Doehingy"]]
+      [:li.meta--list-item
+       [:h6.meta--title "Date: "]
+       [:span.meta--field "05-08-2019"]]]]]])

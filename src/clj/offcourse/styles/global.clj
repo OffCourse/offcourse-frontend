@@ -8,7 +8,6 @@
 (defn global [{:keys [templates breakpoints colors units fonts]}]
   [[:*     {:margin      0
             :padding     0
-            :user-select :none
             :box-sizing  :border-box}]
    [:ul {:list-style :none
          :margin-right :none}]
