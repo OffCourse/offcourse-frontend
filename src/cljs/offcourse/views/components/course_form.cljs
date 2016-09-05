@@ -15,7 +15,7 @@
      [:.card
       [:.card--section {:key :title}
        [:input.title {:placeholder "Goal"
-                      :value goal
+                      :value (or goal "")
                       :on-change update-goal}]]
       [:.card--section {:key :checkpoints}
        (item-list :edit checkpoints helpers handlers dirty?)]

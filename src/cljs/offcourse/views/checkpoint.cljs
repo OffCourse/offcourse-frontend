@@ -1,23 +1,39 @@
 (ns offcourse.views.checkpoint
-  (:require [offcourse.protocols.decoratable :as dc]
-            [offcourse.protocols.queryable :as qa]
-            [plumbing.core :refer-macros [fnk]]))
+  (:require [offcourse.views.components.card :refer [card]]
+            [offcourse.views.components.viewer :refer [viewer]]
+            [offcourse.views.containers.dashboard :refer [dashboard]]
+            [plumbing.core :refer-macros [fnk]]
+            [shared.protocols.decoratable :as dc]
+            [shared.protocols.queryable :as qa]))
 
 (def graph
-  {:checkpoint-slug (fnk [appstate] (-> appstate :viewmodel :checkpoint :checkpoint-slug))
-   :course-data     (fnk [appstate] (-> appstate :viewmodel :course))
-   :course        (fnk [appstate course-data user-name]
-                       (if-let [course (qa/get appstate :course course-data)]
-                         course
-                         nil))
-   :checkpoint      (fnk [appstate course checkpoint-slug]
-                         (when course (-> (qa/get course :checkpoint {:checkpoint-slug checkpoint-slug})
-                                          (dc/decorate appstate))))
-   :actions         (fnk [user-name [:url-helpers home-url new-course-url]]
-                         {:add-course (when user-name (new-course-url user-name))})
-   :main            (fnk [checkpoint [:components viewer]]
-                         (viewer checkpoint))
-   :dashboard       (fnk [url-helpers user-name course checkpoint-slug handlers [:components card dashboard]]
+  {:checkpoint-data (fnk [viewmodel] (or (-> viewmodel :checkpoint) {:checkpoint-slug nil}))
+   :course-data     (fnk [viewmodel] (-> viewmodel :course))
+   :course          (fnk [appstate
+                          course-data
+                          checkpoint-data
+                          routes
+                          user-name]
+                         (some-> appstate
+                                 (qa/get course-data)
+                                 (dc/decorate user-name checkpoint-data routes)))
+   :checkpoint      (fnk [appstate
+                          course
+                          checkpoint-data]
+                         (some-> course
+                                 (qa/get checkpoint-data)))
+   :resource        (fnk [appstate
+                          checkpoint]
+                         (when checkpoint
+                           #_(qa/get appstate {:url (:url checkpoint)})))
+   :actions         (fnk [base-actions]
+                         (->> base-actions
+                              (into #{})))
+   :main            (fnk [checkpoint
+                          resource]
+                         (viewer {:resource resource} nil nil))
+   :dashboard       (fnk [user-name
+                          course
+                          actions]
                          (when course
-                           (let [course (dc/decorate course user-name checkpoint-slug)]
-                             (dashboard {:main (card course url-helpers handlers)}))))})
+                           (dashboard {:main (card course)})))})

@@ -1,6 +1,7 @@
 (ns offcourse.views.components.logo
   (:require [rum.core :as rum]))
 
-(rum/defc logo [title url]
+(rum/defc logo [{:keys [site-title] :as data}
+                responder]
   [:.logo
-   [:a {:href url} title]])
+   [:a {:href "/"} site-title]])

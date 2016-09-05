@@ -20,12 +20,12 @@
     [:.strip--section
      [:input.title {:key :title
                     :placeholder "Task"
-                    :value task
+                    :value (or task "")
                     :on-change update-task}]]
      [:.strip--section
      [:input.subtitle {:key :url
                        :placeholder "URL"
-                       :value url
+                       :value (or url "")
                        :on-change update-url}]]
    [:.strip--section
     (when-not (empty? tags)

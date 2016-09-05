@@ -2,9 +2,4 @@
  :init-fns [offcourse.main/init]
  :compiler-options {:asset-path "/js/app.out"
                     :language-in  :ecmascript5
-                    :language-out :ecmascript5
-                    :foreign-libs [{:file "src/js/facebook.js"
-                                    :provides ["FB"]}
-                                   {:file "src/js/aws-custom.js"
-                                    :provides ["AWS"]}]
-                    :externs ["facebook.ext.js", "aws-custom.ext.js"]}}
+                    :language-out :ecmascript5}}

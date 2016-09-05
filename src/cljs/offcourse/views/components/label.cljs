@@ -24,7 +24,7 @@
 (rum/defc label-form [tag {:keys [add-tag update-tag]}]
   [:form.form {:on-submit add-tag}
    [:input.form--input {:placeholder "Tag"
-                        :value tag
+                        :value (or tag "")
                         :on-change update-tag
                         :name "tag"}]
    #_[:input.button {:type "submit"

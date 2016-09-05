@@ -1,17 +1,14 @@
-(ns offcourse.appstate.check)
+(ns offcourse.appstate.check
+  (:require [shared.protocols.validatable :as va]))
 
-(defn viewmodel-type [state]
-  (-> state :viewmodel :type))
+(defn viewmodel-type [{:keys [viewmodel] :as state}]
+  (when viewmodel (va/resolve-type viewmodel)))
 
-(defmulti check
-  (fn [_ {:keys [type]}]type))
-
-(defmethod check :permissions [{:keys [state] :as as} {:keys [proposal]}]
+(defn check [{:keys [state]} proposal]
   (let [old-type (viewmodel-type @state)
         new-type(viewmodel-type proposal)
-        user-name (-> proposal :user :user-name)
-        auth-token (-> proposal :auth-token)]
-    #_(println old-type new-type)
+        user-name (some-> proposal :user :user-name)
+        auth-token (some-> proposal :auth-token)]
     (cond
       (and (= old-type :signup) (= new-type :signup)) true
       (and (= old-type :new-course) (= new-type :new-course)) true

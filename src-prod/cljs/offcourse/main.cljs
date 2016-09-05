@@ -1,22 +1,27 @@
 (ns offcourse.main
   (:require [com.stuartsierra.component :as component]
             [offcourse.adapters.aws.index :as aws]
-            [offcourse.adapters.embedly.index :as embedly]
-            [offcourse.models.appstate.index :as model]
-            [offcourse.core :as core]))
+            [offcourse.adapters.github.index :as github]
+            [offcourse.core :as core]
+            [offcourse.models.appstate.index :as model]))
 
 (set! cljs.core/*print-fn* identity)
 
 (defonce appstate (atom (model/new {:site-title "Offcourse_"})))
+
 (defonce app (atom nil))
+
 (defonce auth-config {:domain "yeehaa.eu.auth0.com"
-                  :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
+                      :clientID "Z1J0CyMzZfIbOfBSVaMWJakoIrxm4Tfs"})
 
 (def adapters
-  [{:adapter           embedly/new-db
-    :name              "embedly"
-    :resources         #{:resources}
-    :endpoint          "http://api.embed.ly/1/extract?key=5406650948f64aeb9102b9ea2cb0955c&urls="}
+  [{:adapter           github/new-db
+    :name              "bootstrap"
+    :repo-name         "sample-content"
+    :organization      "offcourse"
+    :sha               "04871f3539e3ac197a04f5904823eff705691521"
+    :resources         #{:course :collection}
+    :endpoint          "https://api.github.com"}
    {:adapter           aws/new-db
     :name              "courses-repo"
     :resources         #{:user-profile :course :collection}

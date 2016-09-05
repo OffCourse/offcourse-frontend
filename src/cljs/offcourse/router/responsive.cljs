@@ -1,10 +1,11 @@
 (ns offcourse.router.responsive
   (:require [bidi.bidi :as bidi]
-            [offcourse.protocols.responsive :as ri]
-            [pushy.core :as pushy]))
+            [pushy.core :as pushy]
+            [shared.models.viewmodel.index :as viewmodel]
+            [shared.protocols.responsive :as ri]))
 
-(defn handle-request [{:keys [responses history] :as rt} {:keys [handler route-params]}]
-  (ri/respond rt :requested-view ((handler responses) route-params)))
+(defn handle-request [rt {:keys [handler route-params]}]
+  (ri/respond rt [:requested (viewmodel/create handler route-params)]))
 
 (defn restart [{:keys [history] :as rt}]
   (pushy/replace-token! history "/"))
@@ -19,5 +20,3 @@
 (defn mute [{:keys [history listeners] :as rt}]
   (pushy/stop! history)
   (dissoc rt :listeners))
-
-(defn respond [rt status payload] (ri/-respond rt status payload))
