@@ -3,7 +3,7 @@
             [offcourse.adapters.aws.index :as aws]
             [offcourse.adapters.github.index :as github]
             [offcourse.core :as core]
-            [offcourse.models.appstate.index :as model]))
+            [shared.models.appstate.index :as model]))
 
 (set! cljs.core/*print-fn* identity)
 

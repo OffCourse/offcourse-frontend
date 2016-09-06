@@ -52,7 +52,8 @@
  '[powerlaces.boot-cljs-devtools :refer [cljs-devtools]]
  '[org.martinklepsch.boot-garden :refer [garden]]
  '[crisptrutski.boot-cljs-test   :refer [exit! test-cljs]]
- '[pandeiro.boot-http            :refer [serve]])
+ '[pandeiro.boot-http            :refer [serve]]
+ '[hashobject.boot-s3            :refer :all])
 
 (deftask testing []
   (merge-env! :resource-paths #{"test"})
@@ -102,3 +103,32 @@
   (comp (cljs)
         (css)
         (target)))
+
+(deftask deploying []
+  (task-options! s3-sync {:source ""
+                          :access-key (get-sys-env "AWS_ACCESS_OFFCOURSE_KEY" :required)
+                          :secret-key (get-sys-env "AWS_SECRET_OFFCOURSE_KEY" :Required)})
+  identity)
+
+(deftask deploy-prod []
+  (set-env! :target-path "dist/")
+  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-production"))
+  (comp (deploying)
+        (build)
+        (s3-sync)))
+
+
+(deftask deploy-staging []
+  (set-env! :target-path "dist/")
+  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-staging"))
+  (comp (deploying)
+        (build)
+        (s3-sync)))
+
+
+(deftask deploy-dev-design []
+  (set-env! :target-path "dist/")
+  (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-dev-design"))
+  (comp (deploying)
+        (build)
+        (s3-sync)))
