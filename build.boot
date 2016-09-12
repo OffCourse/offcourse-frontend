@@ -105,13 +105,13 @@
         (target)))
 
 (deftask deploying []
+  (set-env! :target-path "dist/")
   (task-options! s3-sync {:source ""
                           :access-key (get-sys-env "AWS_ACCESS_OFFCOURSE_KEY" :required)
                           :secret-key (get-sys-env "AWS_SECRET_OFFCOURSE_KEY" :Required)})
   identity)
 
 (deftask deploy-prod []
-  (set-env! :target-path "dist/")
   (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-production"))
   (comp (deploying)
         (build)
@@ -119,7 +119,6 @@
 
 
 (deftask deploy-staging []
-  (set-env! :target-path "dist/")
   (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-staging"))
   (comp (deploying)
         (build)
@@ -127,7 +126,6 @@
 
 
 (deftask deploy-dev-design []
-  (set-env! :target-path "dist/")
   (task-options! s3-sync #(assoc % :bucket "offcourse-frontend-dev-design"))
   (comp (deploying)
         (build)
